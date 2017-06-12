@@ -8,6 +8,7 @@ public class Test_06_11 : MonoBehaviour
 
     private Mesh mesh;
     private Dictionary<Transform, List<int>> t_l = new Dictionary<Transform, List<int>>();
+    private Dictionary<Transform, Matrix4x4> t_m = new Dictionary<Transform, Matrix4x4>();
     private Dictionary<Transform, List<Vector3>> t_o = new Dictionary<Transform, List<Vector3>>();
     private Matrix4x4 world2localM;
     // Use this for initialization
@@ -21,17 +22,22 @@ public class Test_06_11 : MonoBehaviour
         foreach (var item in o.dic)
         {
             Transform t = GetChild(transform.parent, item.Key);
-            if(t != null)
+            if (t != null)
             {
                 t_l[t] = item.Value;
+
+                t_o[t] = new List<Vector3>();
+                for (int i = 0; i < item.Value.Count; i++)
+                {
+                    VAData.V v = o.offset[item.Key][i];
+                    t_o[t].Add(new Vector3(v.x, v.y, v.z));
+                }
+                t_m[t] = t.localToWorldMatrix;
             }
-            t_o[t] = new List<Vector3>();
-            for (int i = 0; i < item.Value.Count; i++)
+            else
             {
-                VAData.V v =  o.offset[item.Key][i];
-                t_o[t].Add(new Vector3(v.x, v.y, v.z));
+                Debug.LogError(item.Key);
             }
-       
         }
     }
     public Transform GetChild(Transform parent, string name)
@@ -60,14 +66,18 @@ public class Test_06_11 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Matrix4x4 transfrom_w2lm = transform.worldToLocalMatrix;
+        foreach (var item in t_l)
+        {
+           t_m[item.Key] = item.Key.localToWorldMatrix;
+        }
         foreach (var item in t_l)
         {
             for (int i = 0; i < item.Value.Count; i++)
             {
-                vertexs[item.Value[i]] = world2localM.MultiplyPoint(item.Key.localToWorldMatrix.MultiplyPoint(t_o[item.Key][i]));
+                vertexs[item.Value[i]] = transfrom_w2lm.MultiplyPoint(t_m[item.Key].MultiplyPoint(t_o[item.Key][i]));
             }
         }
-
         mesh.vertices = vertexs;
   //      mesh.RecalculateNormals();
     }
