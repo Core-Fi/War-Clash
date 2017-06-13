@@ -59,6 +59,7 @@
     <Compile Include="ObjectCollection.cs" />
     <Compile Include="PoolManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SceneManager.cs" />
     <Compile Include="Singleton.cs" />
     <Compile Include="Skill\Actions\CreateProjectileAction.cs" />
     <Compile Include="Skill\Actions\DamageAction.cs" />

@@ -97,7 +97,7 @@ namespace Logic.Skill.Actions
         {
             Projectile projectile = new Projectile();
             projectile.SetValue(this, sender, reciever, data);
-            LogicCore.SP.current_scene.CreateProjectile(projectile);
+            LogicCore.SP.sceneManager.currentScene.CreateProjectile(projectile);
             base.Execute(sender, reciever, data);
         }
     }

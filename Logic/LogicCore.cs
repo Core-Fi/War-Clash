@@ -9,18 +9,16 @@ namespace Logic
 {
     public class LogicCore : Singleton<LogicCore>
     {
-        public Scene current_scene;
+        public SceneManager sceneManager;
+        public EventGroup eventGroup;
         public void Init()
         {
-            current_scene = new Scene();
-            current_scene.Init();
-            current_scene.ListenEvents();
-            //so = new Character();
-            //so.Init();
+            sceneManager = new SceneManager();
+            eventGroup = new EventGroup();
         }
         public void Update(float deltaTime)
         {
-            current_scene.Update(deltaTime);
+            sceneManager.Update();
             EventManager.Update(deltaTime);
         }
     }

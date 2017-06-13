@@ -32,9 +32,9 @@ namespace Logic.LogicObject
         
         public bool SetTarget()
         {
-            List<Character> allPlayers = new List<Character>(LogicCore.SP.current_scene.Count<Character>());
+            List<Character> allPlayers = new List<Character>(LogicCore.SP.sceneManager.currentScene.Count<Character>());
 
-            LogicCore.SP.current_scene.ForEachDo<Character>((character) =>
+            LogicCore.SP.sceneManager.currentScene.ForEachDo<Character>((character) =>
             {
                 if (character != sender && !targets.Contains(character))
                 {
@@ -99,7 +99,7 @@ namespace Logic.LogicObject
             bool hasTarget = SetTarget();
             if (hitCount > projectileAction.hitCount || !hasTarget)
             {
-                LogicCore.SP.current_scene.RemoveSceneObject(this.ID);
+                LogicCore.SP.sceneManager.currentScene.RemoveSceneObject(this.ID);
             }
         }
 

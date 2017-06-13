@@ -1,51 +1,50 @@
 {
-  "$type": "Logic.Skill.Skill, Assembly-CSharp",
-  "Name": "1",
-  "ID": 1,
+  "$type": "Logic.Skill.Skill, Logic",
+  "Name": null,
+  "ID": 0,
   "TimeLines": {
-    "$type": "System.Collections.Generic.List`1[[Logic.Skill.TimeLine, Assembly-CSharp]], mscorlib",
+    "$type": "System.Collections.Generic.List`1[[Logic.Skill.TimeLine, Logic]], mscorlib",
     "$values": [
       {
-        "$type": "Logic.Skill.TimeLine, Assembly-CSharp",
+        "$type": "Logic.Skill.TimeLine, Logic",
         "Times": 1,
         "FrameCount": 0,
         "BaseActions": {
-          "$type": "System.Collections.Generic.List`1[[Logic.Skill.Actions.BaseAction, Assembly-CSharp]], mscorlib",
+          "$type": "System.Collections.Generic.List`1[[Logic.Skill.Actions.BaseAction, Logic]], mscorlib",
           "$values": [
             {
-              "$type": "Logic.Skill.Actions.DamageAction, Assembly-CSharp",
+              "$type": "Logic.Skill.Actions.DamageAction, Logic",
               "Damage": {
-                "$type": "Logic.Skill.Actions.DataBind`1[[System.Int32, mscorlib]], Assembly-CSharp",
+                "$type": "Logic.Skill.Actions.DataBind`1[[System.Int32, mscorlib]], Logic",
                 "value": 0,
                 "needDataBind": false,
                 "bindFrom": null
               },
               "range": 0,
-              "text": null,
               "r": 0,
               "ExecuteFrameIndex": 0
             }
           ]
         },
         "eventTriggers": {
-          "$type": "System.Collections.Generic.List`1[[Logic.Skill.EventTrigger, Assembly-CSharp]], mscorlib",
+          "$type": "System.Collections.Generic.List`1[[Logic.Skill.EventTrigger, Logic]], mscorlib",
           "$values": []
         }
       },
       {
-        "$type": "Logic.Skill.TimeLine, Assembly-CSharp",
+        "$type": "Logic.Skill.TimeLine, Logic",
         "Times": 1,
         "FrameCount": 0,
         "BaseActions": {
-          "$type": "System.Collections.Generic.List`1[[Logic.Skill.Actions.BaseAction, Assembly-CSharp]], mscorlib",
+          "$type": "System.Collections.Generic.List`1[[Logic.Skill.Actions.BaseAction, Logic]], mscorlib",
           "$values": []
         },
         "eventTriggers": {
-          "$type": "System.Collections.Generic.List`1[[Logic.Skill.EventTrigger, Assembly-CSharp]], mscorlib",
+          "$type": "System.Collections.Generic.List`1[[Logic.Skill.EventTrigger, Logic]], mscorlib",
           "$values": []
         }
       }
     ]
   },
-  "path": "1"
+  "path": null
 }

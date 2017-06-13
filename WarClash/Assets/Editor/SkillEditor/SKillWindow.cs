@@ -188,7 +188,7 @@ public class SKillWindow : EditorWindow
              var oi = Selection.activeGameObject.GetComponent<ObjectID>();
             if (oi)
             {
-                var so = LogicCore.SP.current_scene.GetObject<Character>(oi.ID);
+                var so = LogicCore.SP.sceneManager.currentScene.GetObject<Character>(oi.ID);
                 so.ReleaseSkill(editingFileInfo.name);
             }
         }
@@ -197,7 +197,7 @@ public class SKillWindow : EditorWindow
             var oi = Selection.activeGameObject.GetComponent<ObjectID>();
             if (oi)
             {
-                var so = LogicCore.SP.current_scene.GetObject<Character>(oi.ID);
+                var so = LogicCore.SP.sceneManager.currentScene.GetObject<Character>(oi.ID);
                 so.CancelSkill();
             }
         }

@@ -6,6 +6,7 @@ using System.Text;
 namespace Logic
 {
     public delegate void EventMsgHandler(object sender, EventMsg e);
+  
     public class EventMsg
     {
         public virtual void Clear()

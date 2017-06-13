@@ -13,8 +13,7 @@ namespace Logic.Skill.Actions
         public DataBind<int> Damage { get; private set; }
         [Display("选择范围", "范围类型", UIControlType.MutiSelection, typeof(Range))]
         public int range { get; private set; }
-        [Display("文本", "范围类型")]
-        public string text { get; private set; }
+    
         [Display("范围", "范围类型")]
         public Range r { get; private set; }
 

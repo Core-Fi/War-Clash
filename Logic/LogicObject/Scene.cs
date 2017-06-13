@@ -8,6 +8,10 @@ namespace Logic.LogicObject
 {
     public class Scene : ObjectCollection<int, SceneObject>
     {
+        public bool CanEnd()
+        {
+            return false;
+        }
         public enum SceneEvent
         {
             ADDSCENEOBJECT,
@@ -19,16 +23,13 @@ namespace Logic.LogicObject
         private VoidAction<SceneObject> updateAction = null;
         public Scene()
         {
+
         }
 
         public void Init()
         {
-            updateAction = delegate(SceneObject so) { so.Update(deltaTime); }; 
-        }
-        public void ListenEvents()
-        {
+            updateAction = delegate(SceneObject so) { so.Update(deltaTime); };
             EventGroup = new EventGroup();
-            
         }
         public void CreateProjectile(Projectile projectile)
         {
@@ -50,8 +51,8 @@ namespace Logic.LogicObject
         internal void AddSceneObject(int id, SceneObject so)
         {
             so.ID = id;
-            so.ListenEvents();
             so.Init();
+            so.ListenEvents();
             this.AddObject(id, so);
             EventGroup.FireEvent((int)SceneEvent.ADDSCENEOBJECT, this, EventGroup.NewArg<EventSingleArgs<SceneObject>, SceneObject>(so));
         }
@@ -59,6 +60,10 @@ namespace Logic.LogicObject
         {
             this.deltaTime = deltaTime;
             ForEachDo<SceneObject>(updateAction);
+        }
+        public void Destroy()
+        {
+
         }
     }
 }

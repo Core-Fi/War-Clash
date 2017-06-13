@@ -87,8 +87,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Main.cs" />
     <Compile Include="Assets\Scripts\ObjectID.cs" />
+    <Compile Include="Assets\Scripts\U3DProjectile.cs" />
+    <Compile Include="Assets\Scripts\U3DScene.cs" />
+    <Compile Include="Assets\Scripts\U3DSceneManager.cs" />
+    <Compile Include="Assets\Scripts\U3DSceneObject.cs" />
     <Compile Include="Assets\Test_06_11.cs" />
+    <Compile Include="Assets\Test_6_13.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Specular.shader" />
