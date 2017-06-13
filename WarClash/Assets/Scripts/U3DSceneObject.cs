@@ -16,9 +16,9 @@ public abstract class U3DSceneObject {
     }
     public virtual void OnInit()
     {
-        so.EventGroup.AddEvent((int)SceneObject.SceneObjectEvent.POSITIONCHANGE, OnPositionChange);
+        
     }
-    private void OnPositionChange(object sender, EventMsg e)
+    public virtual void ListenEvents()
     {
 
     }

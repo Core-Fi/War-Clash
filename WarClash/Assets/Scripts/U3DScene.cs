@@ -39,9 +39,13 @@ public class U3DScene : ObjectCollection<int, U3DSceneObject>
         if(msg.value is Projectile)
         {
             uso = new U3DProjectile();
+        }else if(msg.value is Npc)
+        {
+            uso = new U3DNpc();
         }
         AddObject(msg.value.ID, uso);
         uso.Init(msg.value);
+        uso.ListenEvents();
 
     }
 

@@ -52,6 +52,7 @@
     <Compile Include="EventGroup.cs" />
     <Compile Include="IDManager.cs" />
     <Compile Include="LogicCore.cs" />
+    <Compile Include="LogicObject\Npc.cs" />
     <Compile Include="LogicObject\Projectile.cs" />
     <Compile Include="LogicObject\Scene.cs" />
     <Compile Include="LogicObject\Character.cs" />

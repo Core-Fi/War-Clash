@@ -21,7 +21,7 @@ namespace Logic.LogicObject
         public EventGroup EventGroup { get; private set; }
         private float deltaTime = 0;
         private VoidAction<SceneObject> updateAction = null;
-        internal Scene()
+        public Scene()
         {
         }
 
@@ -29,18 +29,22 @@ namespace Logic.LogicObject
         {
             updateAction = delegate(SceneObject so) { so.Update(deltaTime); };
             EventGroup = new EventGroup();
+
+
         }
         internal void CreateProjectile(Projectile projectile)
         {
            AddSceneObject(IDManager.SP.GetID(), projectile);
-
         }
 
         internal void CreateCharacter(Character character)
         {
             AddSceneObject(IDManager.SP.GetID(), character);
         }
-
+        public void CreateNpc(Npc npc)
+        {
+            AddSceneObject(IDManager.SP.GetID(), npc);
+        }
         internal void RemoveSceneObject(int id)
         {
             this.RemoveObject(id);

@@ -18,32 +18,26 @@ namespace Logic.LogicObject
         public Vector3 Position
         {
             get { return _position; }
-            set
+            internal set
             {
                 _position = value;
-
-                //this.EventGroup.FireEvent((int)SceneObjectEvent.POSITIONCHANGE, this, EventGroup.NewArg<EventSingleArgs<Vector3>, Vector3>(value));
             }
         }
         private Vector3 _position;
-        internal void ListenEvents()
-        {
-            EventGroup = new EventGroup();
-            OnListenEvents();
-        }
-        internal virtual void OnListenEvents()
+        internal virtual void ListenEvents()
         {
 
         }
-        internal  void Init()
+        internal void Init()
         {
-           OnInit();
+            EventGroup = new EventGroup();
+            OnInit();
         }
         internal virtual void OnInit()
         {
             
         }
-        internal  void Update(float deltaTime)
+        internal void Update(float deltaTime)
         {
             OnUpdate(deltaTime);
         }

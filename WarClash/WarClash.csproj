@@ -89,6 +89,8 @@
   <ItemGroup>
     <Compile Include="Assets\Main.cs" />
     <Compile Include="Assets\Scripts\ObjectID.cs" />
+    <Compile Include="Assets\Scripts\U3DCharacter.cs" />
+    <Compile Include="Assets\Scripts\U3DNpc.cs" />
     <Compile Include="Assets\Scripts\U3DProjectile.cs" />
     <Compile Include="Assets\Scripts\U3DScene.cs" />
     <Compile Include="Assets\Scripts\U3DSceneManager.cs" />

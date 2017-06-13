@@ -22,25 +22,30 @@ namespace Logic.LogicObject
         {
             skillManager = new SkillManager(this);
         }
-        internal override void OnListenEvents()
+        internal override void ListenEvents()
         {
-            base.OnListenEvents();
+            base.ListenEvents();
         }
         public void ReleaseSkill(string path)
         {
-            if(!skillManager.IsRunningSkill)
+            if (!skillManager.IsRunningSkill)
+            {
                 skillManager.ReleaseSkill(path);
+            }
         }
-
+        
         public bool IsRunningSkill
         {
             get { return skillManager.IsRunningSkill; }
         }
-        public virtual void CancelSkill()
+        public void CancelSkill()
         {
-            if(IsRunningSkill)
+            if (IsRunningSkill)
+            {
                 this.skillManager.CancelSkill();
+            }
         }
+
         internal override void OnUpdate(float deltaTime)
         {
             skillManager.Update(deltaTime);
