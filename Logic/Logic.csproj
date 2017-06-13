@@ -51,6 +51,8 @@
     <Compile Include="EventArgs.cs" />
     <Compile Include="EventGroup.cs" />
     <Compile Include="IDManager.cs" />
+    <Compile Include="LockFrameCommand.cs" />
+    <Compile Include="LockFrameMgr.cs" />
     <Compile Include="LogicCore.cs" />
     <Compile Include="LogicObject\Npc.cs" />
     <Compile Include="LogicObject\Projectile.cs" />
@@ -79,6 +81,7 @@
     <Compile Include="Skill\SkillPath.cs" />
     <Compile Include="Skill\TimeLine.cs" />
     <Compile Include="Skill\TimeLineGroup.cs" />
+    <Compile Include="TcpConnect.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

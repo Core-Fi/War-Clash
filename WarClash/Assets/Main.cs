@@ -12,10 +12,16 @@ public class Main : MonoBehaviour {
         u3dSceneManager = new U3DSceneManager();
         Logic.LogicCore.SP.sceneManager.SwitchScene(new Scene());
         Logic.LogicCore.SP.sceneManager.currentScene.CreateNpc(new Npc());
-	}
+        Logic.LogicCore.SP.network.setupSocket();
+        Logic.LogicCore.SP.network.writeSocket("Hello");
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		
+        Logic.LogicCore.SP.Update(Time.deltaTime);
 	}
+    void FixedUpdate()
+    {
+        Logic.LogicCore.SP.FixedUpdate();
+    }
 }
