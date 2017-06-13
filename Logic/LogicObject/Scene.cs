@@ -19,25 +19,24 @@ namespace Logic.LogicObject
             ONCREATE
         }
         public EventGroup EventGroup { get; private set; }
-        public float deltaTime = 0;
+        private float deltaTime = 0;
         private VoidAction<SceneObject> updateAction = null;
-        public Scene()
+        internal Scene()
         {
-
         }
 
-        public void Init()
+        internal void Init()
         {
             updateAction = delegate(SceneObject so) { so.Update(deltaTime); };
             EventGroup = new EventGroup();
         }
-        public void CreateProjectile(Projectile projectile)
+        internal void CreateProjectile(Projectile projectile)
         {
            AddSceneObject(IDManager.SP.GetID(), projectile);
 
         }
 
-        public void CreateCharacter(Character character)
+        internal void CreateCharacter(Character character)
         {
             AddSceneObject(IDManager.SP.GetID(), character);
         }
@@ -56,12 +55,12 @@ namespace Logic.LogicObject
             this.AddObject(id, so);
             EventGroup.FireEvent((int)SceneEvent.ADDSCENEOBJECT, this, EventGroup.NewArg<EventSingleArgs<SceneObject>, SceneObject>(so));
         }
-        public void Update(float deltaTime)
+        internal void Update(float deltaTime)
         {
             this.deltaTime = deltaTime;
             ForEachDo<SceneObject>(updateAction);
         }
-        public void Destroy()
+        internal void Destroy()
         {
 
         }
