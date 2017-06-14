@@ -4,6 +4,14 @@ using System;
 
 namespace Lockstep
 {
+
+    public class LockstepAttribute : Attribute
+    {
+        public LockstepAttribute()
+        {
+           
+        }
+    }
     public class FixedNumberAttribute : Attribute
     {
         public bool Timescaled = false;

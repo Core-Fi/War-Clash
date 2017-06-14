@@ -1,0 +1,5 @@
+D:\War-Clash\WarClash\Assets\Plugins\Logic.dll
+D:\War-Clash\WarClash\Assets\Plugins\Logic.pdb
+D:\War-Clash\Logic\obj\Debug\Logic.csprojResolveAssemblyReference.cache
+D:\War-Clash\Logic\obj\Debug\Logic.dll
+D:\War-Clash\Logic\obj\Debug\Logic.pdb

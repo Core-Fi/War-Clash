@@ -50,27 +50,41 @@
   <ItemGroup>
     <Compile Include="EventArgs.cs" />
     <Compile Include="EventGroup.cs" />
+    <Compile Include="FastCollections-master\BiDictionary.cs" />
+    <Compile Include="FastCollections-master\FastBucket.cs" />
+    <Compile Include="FastCollections-master\FastDictionary.cs" />
+    <Compile Include="FastCollections-master\FastList.cs" />
+    <Compile Include="FastCollections-master\FastQueue.cs" />
+    <Compile Include="FastCollections-master\FastSorter.cs" />
+    <Compile Include="FastCollections-master\FastStack.cs" />
+    <Compile Include="FastCollections-master\LSEnumerable.cs" />
+    <Compile Include="FastCollections-master\Shortcuts.cs" />
+    <Compile Include="ICommandData.cs" />
     <Compile Include="IDManager.cs" />
-    <Compile Include="LockFrameCommand.cs" />
-    <Compile Include="LockFrameMgr.cs" />
+    <Compile Include="LockStep\LockFrameCommand.cs" />
+    <Compile Include="LockStep\LockFrameMgr.cs" />
     <Compile Include="LogicCore.cs" />
     <Compile Include="LogicObject\Npc.cs" />
     <Compile Include="LogicObject\Projectile.cs" />
     <Compile Include="LogicObject\Scene.cs" />
     <Compile Include="LogicObject\Character.cs" />
     <Compile Include="LogicObject\SceneObject.cs" />
-    <Compile Include="Math\Area.cs" />
-    <Compile Include="Math\Coordinate.cs" />
-    <Compile Include="Math\CustomAttributes.cs" />
-    <Compile Include="Math\FixedMath.cs" />
-    <Compile Include="Math\Pan-Line-Algorithm-master\FractionalLineAlgorithm.cs" />
-    <Compile Include="Math\Pan-Line-Algorithm-master\FractionalLineAlgorithmTest.cs" />
-    <Compile Include="Math\Vector2d.cs" />
-    <Compile Include="Math\Vector3d.cs" />
+    <Compile Include="LockStep\Math\CustomAttributes.cs" />
+    <Compile Include="LockStep\Math\FixedMath.cs" />
+    <Compile Include="LockStep\Math\Pan-Line-Algorithm-master\FractionalLineAlgorithm.cs" />
+    <Compile Include="LockStep\Math\Pan-Line-Algorithm-master\FractionalLineAlgorithmTest.cs" />
+    <Compile Include="LockStep\Math\Vector2d.cs" />
+    <Compile Include="LockStep\Math\Vector3d.cs" />
     <Compile Include="ObjectCollection.cs" />
     <Compile Include="PoolManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="LockStep\Replay.cs" />
     <Compile Include="SceneManager.cs" />
+    <Compile Include="LockStep\Serialization\CerealBehaviour.cs" />
+    <Compile Include="LockStep\Serialization\Compressor.cs" />
+    <Compile Include="LockStep\Serialization\FileManager.cs" />
+    <Compile Include="LockStep\Serialization\Reader.cs" />
+    <Compile Include="LockStep\Serialization\Writer.cs" />
     <Compile Include="Singleton.cs" />
     <Compile Include="Skill\Actions\CreateProjectileAction.cs" />
     <Compile Include="Skill\Actions\DamageAction.cs" />
@@ -95,14 +109,12 @@
     <Folder Include="RUDP\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Math\Area.cs.meta" />
-    <None Include="Math\Coordinate.cs.meta" />
-    <None Include="Math\FixedMath.cs.meta" />
-    <None Include="Math\Pan-Line-Algorithm-master.meta" />
-    <None Include="Math\Pan-Line-Algorithm-master\FractionalLineAlgorithm.cs.meta" />
-    <None Include="Math\Pan-Line-Algorithm-master\FractionalLineAlgorithmTest.cs.meta" />
-    <None Include="Math\Vector2d.cs.meta" />
-    <None Include="Math\Vector3d.cs.meta" />
+    <None Include="LockStep\Math\FixedMath.cs.meta" />
+    <None Include="LockStep\Math\Pan-Line-Algorithm-master.meta" />
+    <None Include="LockStep\Math\Pan-Line-Algorithm-master\FractionalLineAlgorithm.cs.meta" />
+    <None Include="LockStep\Math\Pan-Line-Algorithm-master\FractionalLineAlgorithmTest.cs.meta" />
+    <None Include="LockStep\Math\Vector2d.cs.meta" />
+    <None Include="LockStep\Math\Vector3d.cs.meta" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
