@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ namespace Logic.Skill.Actions
     public class PlayAnimationAction : DisplayAction
     {
         [Display("动作名")]
+        [JsonProperty]
         public string animaitonName { get; private set; }
     }
 
@@ -18,6 +20,7 @@ namespace Logic.Skill.Actions
     public class PlayFXAction : DisplayAction
     {
         [Display("特效名")]
+        [JsonProperty]
         public string FXName { get; private set; }
     }
 }

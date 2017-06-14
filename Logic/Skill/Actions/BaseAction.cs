@@ -41,8 +41,11 @@ namespace Logic.Skill.Actions
                 }
             }
         }
-        private T value_SetDirectly { get; set; }
+        [Newtonsoft.Json.JsonProperty]
+        private T value_SetDirectly { get;  set; }
+        [Newtonsoft.Json.JsonProperty]
         public bool needDataBind { get; private set; }
+        [Newtonsoft.Json.JsonProperty]
         public string bindFrom { get; private set; }
     }
 
@@ -50,6 +53,7 @@ namespace Logic.Skill.Actions
     public abstract class BaseAction
     {
         [Display("执行帧数", "执行帧数", UIControlType.Range)]
+        [Newtonsoft.Json.JsonProperty]
         public int ExecuteFrameIndex { get; private set; }
 
         
@@ -58,14 +62,16 @@ namespace Logic.Skill.Actions
                
         }
     }
-
+   
     [Serializable]
     public class DisplayAction : BaseAction
     {
         [Display("停止条件", UIControlType.Default)]
+        [Newtonsoft.Json.JsonProperty]
         public StopCondition stopCondition { get; private set; }
 
         [Display("播放目标", UIControlType.Default)]
+        [Newtonsoft.Json.JsonProperty]
         public PlayTarget playTarget { get; private set; }
 
         public override void Execute(SceneObject sender, SceneObject reciever, object data)

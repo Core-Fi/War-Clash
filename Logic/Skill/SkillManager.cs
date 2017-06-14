@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Logic.LogicObject;
+using Newtonsoft.Json;
 
 namespace Logic.Skill
 {
@@ -11,6 +12,7 @@ namespace Logic.Skill
     public class SkillManager 
     {
         private static Dictionary<string, Skill> skills =new Dictionary<string, Skill>();
+        private static JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
         public static Skill GetSkill(string path)
         {
             Skill skill = null;
@@ -21,7 +23,7 @@ namespace Logic.Skill
             else
             {
                 string text = File.ReadAllText(path);
-                skill = Newtonsoft.Json.JsonConvert.DeserializeObject<Logic.Skill.Skill>(text);
+                skill = Newtonsoft.Json.JsonConvert.DeserializeObject<Logic.Skill.Skill>(text, settings);
                 skills[path] = skill;
             }
             return skill;

@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.5.0f3</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -79,16 +81,19 @@
     <Reference Include="UnityEditor.iOS.Extensions.Common">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Assets\Plugins\JsonNet\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="Logic">
       <HintPath>Assets\Plugins\Logic.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Assets\Plugins\JsonNet\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Main.cs" />
     <Compile Include="Assets\Scripts\ObjectID.cs" />
+    <Compile Include="Assets\Scripts\U3DActions\U3DDisplayAction.cs" />
+    <Compile Include="Assets\Scripts\U3DActions\U3DPlayAnimationAction.cs" />
+    <Compile Include="Assets\Scripts\U3DActions\U3DPlayFXAction.cs" />
     <Compile Include="Assets\Scripts\U3DCharacter.cs" />
     <Compile Include="Assets\Scripts\U3DNpc.cs" />
     <Compile Include="Assets\Scripts\U3DProjectile.cs" />

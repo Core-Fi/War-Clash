@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Logic
 {
@@ -28,7 +29,7 @@ namespace Logic
         }
         public void Update()
         {
-
+            currentScene.Update(Time.deltaTime);
         }
     }
 }

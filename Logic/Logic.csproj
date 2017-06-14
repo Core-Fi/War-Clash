@@ -59,6 +59,14 @@
     <Compile Include="LogicObject\Scene.cs" />
     <Compile Include="LogicObject\Character.cs" />
     <Compile Include="LogicObject\SceneObject.cs" />
+    <Compile Include="Math\Area.cs" />
+    <Compile Include="Math\Coordinate.cs" />
+    <Compile Include="Math\CustomAttributes.cs" />
+    <Compile Include="Math\FixedMath.cs" />
+    <Compile Include="Math\Pan-Line-Algorithm-master\FractionalLineAlgorithm.cs" />
+    <Compile Include="Math\Pan-Line-Algorithm-master\FractionalLineAlgorithmTest.cs" />
+    <Compile Include="Math\Vector2d.cs" />
+    <Compile Include="Math\Vector3d.cs" />
     <Compile Include="ObjectCollection.cs" />
     <Compile Include="PoolManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,7 +89,20 @@
     <Compile Include="Skill\SkillPath.cs" />
     <Compile Include="Skill\TimeLine.cs" />
     <Compile Include="Skill\TimeLineGroup.cs" />
-    <Compile Include="TcpConnect.cs" />
+    <Compile Include="StateMachine.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="RUDP\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Math\Area.cs.meta" />
+    <None Include="Math\Coordinate.cs.meta" />
+    <None Include="Math\FixedMath.cs.meta" />
+    <None Include="Math\Pan-Line-Algorithm-master.meta" />
+    <None Include="Math\Pan-Line-Algorithm-master\FractionalLineAlgorithm.cs.meta" />
+    <None Include="Math\Pan-Line-Algorithm-master\FractionalLineAlgorithmTest.cs.meta" />
+    <None Include="Math\Vector2d.cs.meta" />
+    <None Include="Math\Vector3d.cs.meta" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
