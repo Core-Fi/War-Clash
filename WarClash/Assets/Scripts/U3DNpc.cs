@@ -16,13 +16,18 @@ public class U3DNpc : U3DCharacter{
         npc = so as Npc;
         GameObject g = Resources.Load("Prefabs/footman_prefab") as GameObject;
         go = GameObject.Instantiate(g);
-        go.transform.position = npc.Position;
+        go.transform.position = npc.Position.ToVector3();
         animator = go.GetComponent<Animator>();
         navMeshAgent = go.GetComponent<NavMeshAgent>();
     }
     public override void ListenEvents()
     {
         base.ListenEvents();
+    }
+    public override void OnUpdate()
+    {
+        base.OnUpdate();
+        go.transform.position = character.Position.ToVector3();
     }
 
     public override void OnDestroy()

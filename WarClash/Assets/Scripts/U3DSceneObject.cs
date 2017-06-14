@@ -22,6 +22,14 @@ public abstract class U3DSceneObject {
     {
 
     }
+    public void Update(float deltaTime)
+    {
+        OnUpdate();
+    }
+    public virtual void OnUpdate()
+    {
+
+    }
     public void Destroy()
     {
         OnDestroy();

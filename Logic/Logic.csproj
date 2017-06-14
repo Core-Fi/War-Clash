@@ -63,6 +63,7 @@
     <Compile Include="IDManager.cs" />
     <Compile Include="LockStep\LockFrameCommand.cs" />
     <Compile Include="LockStep\LockFrameMgr.cs" />
+    <Compile Include="LockStep\Utility.cs" />
     <Compile Include="LogicCore.cs" />
     <Compile Include="LogicObject\Npc.cs" />
     <Compile Include="LogicObject\Projectile.cs" />

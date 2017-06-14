@@ -19,6 +19,7 @@ public class Main : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        u3dSceneManager.Update();
         Logic.LogicCore.SP.Update(Time.deltaTime);
 	}
     void FixedUpdate()

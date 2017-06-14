@@ -32,14 +32,17 @@ namespace Lockstep
             y = Y;
             z = Z;
         }
-
+        public static Vector3d GetForward()
+        {
+            return new Vector3d(0, 0, FixedMath.One);
+        }
+        
         public void Normalize () {
             long magnitude = FixedMath.Sqrt(x.Mul(x) + y.Mul(y) + z.Mul(z));
             x = x.Div(magnitude);
             y = y.Div(magnitude);
             z = z.Div(magnitude);
         }
-
         public Vector2d ToVector2d () {
             return new Vector2d(x,y);
         }
@@ -59,6 +62,12 @@ namespace Lockstep
             y += other.y;
             z += other.z;
         }
+        public static Vector3d operator +(Vector3d a, Vector3d b)
+        {
+            Vector3d v = a;
+            v.Add(b);
+            return v;
+        }
         public void Add (Vector3d other) {
             x += other.x;
             y += other.y;
@@ -77,6 +86,13 @@ namespace Lockstep
             y *= i;
             z *= i;
         }
+        public static Vector3d operator *(Vector3d a, long b)
+        {
+            Vector3d v = a;
+            v.Mul(b);
+            return v;
+        }
+
         public long Distance (Vector3d other) {
             long tX = other.x - x;
             tX *= tX;

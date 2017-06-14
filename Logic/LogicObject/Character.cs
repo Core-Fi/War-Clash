@@ -16,11 +16,13 @@ namespace Logic.LogicObject
             EXECUTEDISPLAYACTION,
             STOPDISPLAYACTION
         }
+        public StateMachine stateMachine { get; private set; }
         public SkillManager skillManager { get; private set; }
 
         internal override void OnInit()
         {
             skillManager = new SkillManager(this);
+            stateMachine = new StateMachine(this);
         }
         internal override void ListenEvents()
         {
@@ -32,6 +34,7 @@ namespace Logic.LogicObject
             {
                 skillManager.ReleaseSkill(path);
             }
+            stateMachine.Start(new MoveState() {dir = new Lockstep.Vector3d(Vector3.forward), speed = Lockstep.FixedMath.One * 2 });
         }
         
         public bool IsRunningSkill
@@ -49,6 +52,7 @@ namespace Logic.LogicObject
         internal override void OnUpdate(float deltaTime)
         {
             skillManager.Update(deltaTime);
+            stateMachine.Update();
             base.OnUpdate(deltaTime);
         }
 
