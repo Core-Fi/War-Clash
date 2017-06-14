@@ -7,7 +7,6 @@ namespace Logic
 {
     public class LockFrameMgr
     {
-        private int fixedCount = 0;
         private int currentFrame = 0;
         private LinkedList<LockFrameCommand> frames = new LinkedList<LockFrameCommand>();
         public void AddFrameCommand(LockFrameCommand cmd)
@@ -16,10 +15,6 @@ namespace Logic
         }
         public void Update()
         {
-            if(fixedCount % 4!=0)
-            {
-                return;
-            }
             while (frames.First!=null && frames.First.Value.frame<=currentFrame)
             {
                 frames.First.Value.Execute();

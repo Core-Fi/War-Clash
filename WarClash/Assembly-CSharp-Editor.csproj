@@ -6,10 +6,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{CCA076D7-A5E3-26F0-DF70-A044A58BA395}</ProjectGuid>
+    <ProjectGuid>{90D0B2F8-7A78-9382-2D89-CDB453F7A13F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>Assets</BaseDirectory>
@@ -46,26 +46,38 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Main.cs" />
-     <Compile Include="Assets\Scripts\ObjectID.cs" />
-     <Compile Include="Assets\Scripts\U3DActions\U3DDisplayAction.cs" />
-     <Compile Include="Assets\Scripts\U3DActions\U3DPlayAnimationAction.cs" />
-     <Compile Include="Assets\Scripts\U3DActions\U3DPlayFXAction.cs" />
-     <Compile Include="Assets\Scripts\U3DCharacter.cs" />
-     <Compile Include="Assets\Scripts\U3DNpc.cs" />
-     <Compile Include="Assets\Scripts\U3DProjectile.cs" />
-     <Compile Include="Assets\Scripts\U3DScene.cs" />
-     <Compile Include="Assets\Scripts\U3DSceneManager.cs" />
-     <Compile Include="Assets\Scripts\U3DSceneObject.cs" />
-     <Compile Include="Assets\Test_06_11.cs" />
-     <Compile Include="Assets\Test_6_13.cs" />
+     <Compile Include="Assets\Editor\SaveBoneVertex.cs" />
+     <Compile Include="Assets\Editor\SkillEditor\CreateSkillWindow.cs" />
+     <Compile Include="Assets\Editor\SkillEditor\EActionControl.cs" />
+     <Compile Include="Assets\Editor\SkillEditor\EControl.cs" />
+     <Compile Include="Assets\Editor\SkillEditor\EElement.cs" />
+     <Compile Include="Assets\Editor\SkillEditor\EEmptyControl.cs" />
+     <Compile Include="Assets\Editor\SkillEditor\ERuntimeOperatePanel.cs" />
+     <Compile Include="Assets\Editor\SkillEditor\EShowActionDetailPanel.cs" />
+     <Compile Include="Assets\Editor\SkillEditor\ETimeline.cs" />
+     <Compile Include="Assets\Editor\SkillEditor\ETimelineGroupPanel.cs" />
+     <Compile Include="Assets\Editor\SkillEditor\SKillWindow.cs" />
+     <Compile Include="Assets\Editor\SkillEditor\SkillEditTempData.cs" />
+     <Compile Include="Assets\Editor\SkillEditor\SkillEditorUtility.cs" />
      <None Include="Assets\Specular.shader" />
      <None Include="Assets\meshData.txt" />
+ <Reference Include="UnityEditor.Advertisements">
+ <HintPath>C:/Program Files/Unity5.6/Editor/Data/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity5.6/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
+ <Reference Include="UnityEditor.UI">
+ <HintPath>C:/Program Files/Unity5.6/Editor/Data/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>C:/Program Files/Unity5.6/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Networking">
+ <HintPath>C:/Program Files/Unity5.6/Editor/Data/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.TestRunner">
+ <HintPath>C:/Program Files/Unity5.6/Editor/Data/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.TestRunner">
  <HintPath>C:/Program Files/Unity5.6/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
@@ -73,14 +85,38 @@
  <Reference Include="nunit.framework">
  <HintPath>C:/Program Files/Unity5.6/Editor/Data/UnityExtensions/Unity/TestRunner/nunit.framework.dll</HintPath>
  </Reference>
+ <Reference Include="UnityEditor.TreeEditor">
+ <HintPath>C:/Program Files/Unity5.6/Editor/Data/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.Analytics">
  <HintPath>C:/Program Files/Unity5.6/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Analytics">
+ <HintPath>C:/Program Files/Unity5.6/Editor/Data/UnityExtensions/Unity/UnityAnalytics/Editor/UnityEditor.Analytics.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.HoloLens">
+ <HintPath>C:/Program Files/Unity5.6/Editor/Data/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.HoloLens">
  <HintPath>C:/Program Files/Unity5.6/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
  </Reference>
+ <Reference Include="UnityEditor.Purchasing">
+ <HintPath>C:/Program Files/Unity5.6/Editor/Data/UnityExtensions/Unity/UnityPurchasing/Editor/UnityEditor.Purchasing.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.VR">
+ <HintPath>C:/Program Files/Unity5.6/Editor/Data/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.VR">
  <HintPath>C:/Program Files/Unity5.6/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Graphs">
+ <HintPath>C:/Program Files/Unity5.6/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+ <HintPath>C:/Program Files/Unity5.6/Editor/Data/PlaybackEngines/windowsstandalonesupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="Microsoft.Office.Interop.Excel">
+ <HintPath>D:/Work/War-Clash/WarClash/Assets/Editor/SkillEditor/Plugins/Microsoft.Office.Interop.Excel.dll</HintPath>
  </Reference>
  <Reference Include="Logic">
  <HintPath>D:/Work/War-Clash/WarClash/Assets/Plugins/Logic.dll</HintPath>
@@ -88,6 +124,10 @@
  <Reference Include="Newtonsoft.Json">
  <HintPath>D:/Work/War-Clash/WarClash/Assets/Plugins/JsonNet/Newtonsoft.Json.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp.csproj">
+      <Project>{CCA076D7-A5E3-26F0-DF70-A044A58BA395}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -24,11 +24,18 @@ namespace Logic
         }
         public void Update(float deltaTime)
         {
-            sceneManager.Update();
+           // sceneManager.Update();
             EventManager.Update(deltaTime);
         }
+        private int fixedCount = 0;
         public void FixedUpdate()
         {
+            fixedCount++;
+            if (fixedCount % 4 != 0)
+            {
+                return;
+            }
+            sceneManager.Update();
             lockFrameMgr.Update();
         }
     }

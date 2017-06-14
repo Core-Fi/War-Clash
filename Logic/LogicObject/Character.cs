@@ -18,12 +18,14 @@ namespace Logic.LogicObject
         }
         public StateMachine stateMachine { get; private set; }
         public SkillManager skillManager { get; private set; }
-
+        public Dictionary<AttributeType, CharacterAttribute> attributes = new Dictionary<AttributeType, CharacterAttribute>();
         internal override void OnInit()
         {
             skillManager = new SkillManager(this);
             stateMachine = new StateMachine(this);
+            attributes[AttributeType.HP] = new CharacterAttribute(Lockstep.FixedMath.One * 5);
         }
+
         internal override void ListenEvents()
         {
             base.ListenEvents();

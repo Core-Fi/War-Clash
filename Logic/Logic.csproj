@@ -43,11 +43,12 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>..\WarClash\Library\UnityAssemblies\UnityEngine.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attribute.cs" />
     <Compile Include="EventArgs.cs" />
     <Compile Include="EventGroup.cs" />
     <Compile Include="FastCollections-master\BiDictionary.cs" />

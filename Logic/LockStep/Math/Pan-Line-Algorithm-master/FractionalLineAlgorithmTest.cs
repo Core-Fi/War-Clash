@@ -29,7 +29,7 @@ namespace PanLineAlgorithm.Test
             {
                 if (!redundancyChecker.Add(coor))
                 {
-                    Debug.LogErrorFormat("Redundancy detected for {0}", coor);
+                    Debug.LogError("Redundancy detected for "+ coor);
                 }
 
                 Outlined [coor.X + offset, coor.Y + offset] = true;
