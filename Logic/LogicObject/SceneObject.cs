@@ -24,7 +24,7 @@ namespace Logic.LogicObject
                 _position = value;
             }
         }
-        private Vector3d _position = new Vector3d(Vector3.zero);
+        private Vector3d _position = new Vector3d(UnityEngine.Vector3.zero);
         internal virtual void ListenEvents()
         {
 

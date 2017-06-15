@@ -14,18 +14,29 @@ namespace Logic.LogicObject
             CANCELSKILL,
             ENDSKILL,
             EXECUTEDISPLAYACTION,
-            STOPDISPLAYACTION
+            STOPDISPLAYACTION,
+            ONATTRIBUTECHANGE,
         }
         public StateMachine stateMachine { get; private set; }
         public SkillManager skillManager { get; private set; }
-        public Dictionary<AttributeType, CharacterAttribute> attributes = new Dictionary<AttributeType, CharacterAttribute>();
+        public AttributeManager attributeManager { get; private set; }
         internal override void OnInit()
         {
             skillManager = new SkillManager(this);
             stateMachine = new StateMachine(this);
-            attributes[AttributeType.HP] = new CharacterAttribute(Lockstep.FixedMath.One * 5);
-        }
+            attributeManager = new AttributeManager();
 
+            attributeManager.OnAttributeChange += OnAttributeChange;
+            attributeManager.New(AttributeType.SPEED, Lockstep.FixedMath.One * 2);
+            attributeManager.New(AttributeType.MAXHP, Lockstep.FixedMath.One * 100);
+            attributeManager.New(AttributeType.HP, Lockstep.FixedMath.One * 100);
+        }
+        public virtual void OnAttributeChange(AttributeType at, long old, long newValue)
+        {
+            EventGroup.FireEvent((int)CharacterEvent.ONATTRIBUTECHANGE, this,  EventGroup.NewArg<EventSingleArgs<AttributeMsg>, AttributeMsg>(new AttributeMsg() {
+                at = at, newValue = newValue, oldValue = old
+            }));
+        } 
         internal override void ListenEvents()
         {
             base.ListenEvents();

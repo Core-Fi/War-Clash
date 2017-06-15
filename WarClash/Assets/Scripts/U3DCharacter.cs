@@ -5,17 +5,18 @@ using UnityEngine;
 using Logic;
 using System;
 using Logic.Skill.Actions;
+using Lockstep;
 
 public class U3DCharacter : U3DSceneObject{
 
     public Character character;
-    private U3DDisplayActionManager _u3dDisplayManager;
+    private U3DDisplayActionManager u3dDisplayManager;
     public Animator animator;
     public override void OnInit()
     {
         base.OnInit();
         character = so as Character;
-        _u3dDisplayManager = new U3DDisplayActionManager(this);
+        u3dDisplayManager = new U3DDisplayActionManager(this);
     }
     public override void ListenEvents()
     {
@@ -25,9 +26,23 @@ public class U3DCharacter : U3DSceneObject{
         character.EventGroup.AddEvent((int)Character.CharacterEvent.STARTSKILL, OnSkillStart);
         character.EventGroup.AddEvent((int)Character.CharacterEvent.CANCELSKILL, OnSkillCancel);
         character.EventGroup.AddEvent((int)Character.CharacterEvent.ENDSKILL, OnSKillEnd);
-
+        character.EventGroup.AddEvent((int)Character.CharacterEvent.ONATTRIBUTECHANGE, OnAttributeChange);
     }
 
+    private void OnAttributeChange(object sender, EventMsg e)
+    {
+        EventSingleArgs<AttributeMsg> msg = e as EventSingleArgs<AttributeMsg>;
+        if(msg.value.at == AttributeType.SPEED)
+        {
+            SetSpeed();
+        }
+    }
+
+    public void SetSpeed()
+    {
+        long speed = character.attributeManager[AttributeType.SPEED];
+        animator.SetInteger("Speed", FixedMath.ToInt(speed));
+    }
     private void OnSKillEnd(object sender, EventMsg e)
     {
     }
@@ -43,15 +58,13 @@ public class U3DCharacter : U3DSceneObject{
     private void StopDisplayAction(object sender, EventMsg e)
     {
         EventSingleArgs<DisplayAction> msg = e as EventSingleArgs<DisplayAction>;
-        _u3dDisplayManager.Stop(msg.value);
+        u3dDisplayManager.Stop(msg.value);
     }
-
     private void ExecuteDisplayAction(object sender, EventMsg e)
     {
         EventSingleArgs<DisplayAction> msg = e as EventSingleArgs<DisplayAction>;
-        _u3dDisplayManager.Play(msg.value);
+        u3dDisplayManager.Play(msg.value);
     }
-
     public override void OnDestroy()
     {
         base.OnDestroy();

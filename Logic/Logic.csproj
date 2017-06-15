@@ -43,7 +43,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>C:\Program Files (x86)\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\WarClash\Library\UnityAssemblies\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
@@ -64,6 +64,7 @@
     <Compile Include="IDManager.cs" />
     <Compile Include="LockStep\LockFrameCommand.cs" />
     <Compile Include="LockStep\LockFrameMgr.cs" />
+    <Compile Include="LockStep\Math\FQuaternion.cs" />
     <Compile Include="LockStep\Utility.cs" />
     <Compile Include="LogicCore.cs" />
     <Compile Include="LogicObject\Npc.cs" />

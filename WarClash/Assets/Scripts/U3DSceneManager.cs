@@ -7,7 +7,7 @@ using Logic.LogicObject;
 
 public class U3DSceneManager {
 
-    U3DScene u3dScene;
+    public U3DScene u3dScene { get; private set; }
     public U3DSceneManager()
     {
         Logic.LogicCore.SP.sceneManager.eventGroup.AddEvent((int)Logic.SceneManager.SceneManagerEvent.ONSWITCHSCENE, OnSwitchScene);

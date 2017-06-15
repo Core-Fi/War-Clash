@@ -24,8 +24,8 @@ namespace Lockstep
         public long z; //Height
         public Vector3d (Vector3 vec3) {
             this.x = FixedMath.Create(vec3.x);
-            this.y = FixedMath.Create(vec3.z);
-            this.z = FixedMath.Create(vec3.y);
+            this.y = FixedMath.Create(vec3.y);
+            this.z = FixedMath.Create(vec3.z);
         }
         public Vector3d (long X, long Y, long Z) {
             x = X;

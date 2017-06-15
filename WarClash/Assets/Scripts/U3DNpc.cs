@@ -19,6 +19,7 @@ public class U3DNpc : U3DCharacter{
         go.transform.position = npc.Position.ToVector3();
         animator = go.GetComponent<Animator>();
         navMeshAgent = go.GetComponent<NavMeshAgent>();
+        SetSpeed();
     }
     public override void ListenEvents()
     {

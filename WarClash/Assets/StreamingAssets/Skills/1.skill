@@ -11,15 +11,7 @@
         "FrameCount": 0,
         "BaseActions": {
           "$type": "System.Collections.Generic.List`1[[Logic.Skill.Actions.BaseAction, Logic]], mscorlib",
-          "$values": [
-            {
-              "$type": "Logic.Skill.Actions.PlayAnimationAction, Logic",
-              "animaitonName": "Footman_Attack",
-              "stopCondition": 0,
-              "playTarget": 0,
-              "ExecuteFrameIndex": 0
-            }
-          ]
+          "$values": []
         },
         "eventTriggers": {
           "$type": "System.Collections.Generic.List`1[[Logic.Skill.EventTrigger, Logic]], mscorlib",
