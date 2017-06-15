@@ -25,6 +25,15 @@ namespace Logic.LogicObject
             }
         }
         private Vector3d _position = new Vector3d(UnityEngine.Vector3.zero);
+        public Vector3d Forward
+        {
+            get { return _forward; }
+            internal set
+            {
+                _forward = value;
+            }
+        }
+        private Vector3d _forward = new Vector3d(UnityEngine.Vector3.forward);
         internal virtual void ListenEvents()
         {
 

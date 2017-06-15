@@ -47,7 +47,7 @@ namespace Lockstep
             return new Vector2d(x,y);
         }
         public Vector3 ToVector3 () {
-            return new Vector3(x.ToPreciseFloat(),z.ToPreciseFloat(),y.ToPreciseFloat());
+            return new Vector3(x.ToPreciseFloat(),y.ToPreciseFloat(),z.ToPreciseFloat());
         }
         public void SetVector2d(Vector2d vec2d) {
             x = vec2d.x;

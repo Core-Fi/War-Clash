@@ -29,6 +29,7 @@ public class U3DNpc : U3DCharacter{
     {
         base.OnUpdate();
         go.transform.position = character.Position.ToVector3();
+        go.transform.forward = character.Forward.ToVector3();
     }
 
     public override void OnDestroy()

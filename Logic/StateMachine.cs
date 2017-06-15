@@ -46,11 +46,13 @@ namespace Logic
     {
         public Vector3d dir;
         public long speed;
-        Vector2d rotateRate;
-        private Vector2d ratation;
+        FixedQuaternion rotateRate;
+        private Vector3d startPosi;
+        private bool turned = false;
         public override void OnStart()
         {
-             rotateRate = Vector2d.CreateRotation(FixedMath.One*2);
+            rotateRate = FixedQuaternion.AngleAxis(FixedMath.One*1, new Vector3d(UnityEngine.Vector3.up));
+            startPosi = character.Position;
         }
         public override void OnStop()
         {
@@ -58,11 +60,12 @@ namespace Logic
         }
         public override void OnUpdate()
         {
-            
+            dir = rotateRate * dir;
             Vector3d posi = dir;
             posi.Mul(character.attributeManager[AttributeType.SPEED]);
             posi.Mul(FixedMath.One.Div(FixedMath.One * 15));
             character.Position += posi;
+            character.Forward = dir;
         }
     }
 }
