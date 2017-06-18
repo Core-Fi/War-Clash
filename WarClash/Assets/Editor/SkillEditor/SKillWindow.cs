@@ -185,7 +185,7 @@ public class SKillWindow : EditorWindow
     {
         if (SkillEditTempData.editingSkill != null && GUILayout.Button("Play"))
         {
-             var oi = Selection.activeGameObject.GetComponent<ObjectID>();
+            var oi = Selection.activeGameObject.GetComponent<LogicObject>();
             if (oi)
             {
                 var so = LogicCore.SP.sceneManager.currentScene.GetObject<Character>(oi.ID);
@@ -194,7 +194,7 @@ public class SKillWindow : EditorWindow
         }
         if (SkillEditTempData.editingSkill != null && GUILayout.Button("Pause"))
         {
-            var oi = Selection.activeGameObject.GetComponent<ObjectID>();
+            var oi = Selection.activeGameObject.GetComponent<LogicObject>();
             if (oi)
             {
                 var so = LogicCore.SP.sceneManager.currentScene.GetObject<Character>(oi.ID);

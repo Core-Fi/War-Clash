@@ -20,6 +20,7 @@ namespace Logic.LogicObject
         public StateMachine stateMachine { get; private set; }
         public SkillManager skillManager { get; private set; }
         public AttributeManager attributeManager { get; private set; }
+
         internal override void OnInit()
         {
             skillManager = new SkillManager(this);

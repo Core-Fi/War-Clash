@@ -74,7 +74,7 @@ public class SkillEditorUtility
     {
         if (EditorApplication.isPlaying && !EditorApplication.isPaused && Selection.activeGameObject != null)
         {
-            var oi = Selection.activeGameObject.GetComponent<ObjectID>();
+            var oi = Selection.activeGameObject.GetComponent<LogicObject>();
             if (oi != null)
             {
                 return true;

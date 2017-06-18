@@ -16,6 +16,8 @@ public class U3DNpc : U3DCharacter{
         npc = so as Npc;
         GameObject g = Resources.Load("Prefabs/footman_prefab") as GameObject;
         go = GameObject.Instantiate(g);
+        var lo = go.AddComponent<LogicObject>();
+        lo.ID = npc.ID;
         go.transform.position = npc.Position.ToVector3();
         animator = go.GetComponent<Animator>();
         navMeshAgent = go.GetComponent<NavMeshAgent>();

@@ -13,8 +13,12 @@ public class Main : MonoBehaviour {
         u3dSceneManager = new U3DSceneManager();
         Logic.LogicCore.SP.sceneManager.SwitchScene(new Scene());
         Npc npc = new Npc();
+        npc.Position = new Lockstep.Vector3d(new Vector3(10,0,0));
+        Npc npc2 = new Npc();
+        npc2.Position = new Lockstep.Vector3d(new Vector3(-10,0,0));
         Logic.LogicCore.SP.sceneManager.currentScene.CreateNpc(npc);
-        npc.ReleaseSkill(Application.streamingAssetsPath+"/skills/1.skill");
+        Logic.LogicCore.SP.sceneManager.currentScene.CreateNpc(npc2);
+        //npc.ReleaseSkill(Application.streamingAssetsPath+"/skills/1.skill");
     }
 	
 	// Update is called once per frame
