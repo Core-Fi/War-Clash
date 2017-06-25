@@ -8,8 +8,10 @@ using Lockstep;
 
 namespace Logic.LogicObject
 {
+
     public abstract class SceneObject
     {
+       
         public enum SceneObjectEvent
         {
             POSITIONCHANGE,

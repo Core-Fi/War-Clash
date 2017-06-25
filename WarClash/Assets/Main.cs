@@ -16,8 +16,6 @@ public class Main : MonoBehaviour {
         npc.Position = new Lockstep.Vector3d(new Vector3(10,0,0));
         Npc npc2 = new Npc();
         npc2.Position = new Lockstep.Vector3d(new Vector3(-10,0,0));
-        Logic.LogicCore.SP.sceneManager.currentScene.CreateNpc(npc);
-        Logic.LogicCore.SP.sceneManager.currentScene.CreateNpc(npc2);
         //npc.ReleaseSkill(Application.streamingAssetsPath+"/skills/1.skill");
     }
 	

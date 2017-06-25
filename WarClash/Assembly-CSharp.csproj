@@ -182,8 +182,10 @@
      <Compile Include="Assets\Scripts\U3DScene.cs" />
      <Compile Include="Assets\Scripts\U3DSceneManager.cs" />
      <Compile Include="Assets\Scripts\U3DSceneObject.cs" />
+     <Compile Include="Assets\Scripts\UI\Battle\BattleUI.cs" />
      <Compile Include="Assets\Test_06_11.cs" />
      <Compile Include="Assets\Test_6_13.cs" />
+     <Compile Include="Assets\UIFrame.cs" />
      <None Include="Assets\Specular.shader" />
      <None Include="Assets\Brainiac\Source\Resources\Brainiac\Templates\Constraint.txt" />
      <None Include="Assets\Brainiac\Source\Resources\Brainiac\Templates\Decorator.txt" />

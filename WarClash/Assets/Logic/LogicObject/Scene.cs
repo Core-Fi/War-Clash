@@ -30,21 +30,14 @@ namespace Logic.LogicObject
             updateAction = delegate(SceneObject so) { so.Update(deltaTime); };
             EventGroup = new EventGroup();
 
+        }
+        public T CreateSceneObject<T>() where T : SceneObject
+        {
+            T t = Activator.CreateInstance<T>();
+            AddSceneObject(IDManager.SP.GetID(), t);
+            return t;
+        }
 
-        }
-        internal void CreateProjectile(Projectile projectile)
-        {
-           AddSceneObject(IDManager.SP.GetID(), projectile);
-        }
-
-        internal void CreateCharacter(Character character)
-        {
-            AddSceneObject(IDManager.SP.GetID(), character);
-        }
-        public void CreateNpc(Npc npc)
-        {
-            AddSceneObject(IDManager.SP.GetID(), npc);
-        }
         internal void RemoveSceneObject(int id)
         {
             this.RemoveObject(id);
