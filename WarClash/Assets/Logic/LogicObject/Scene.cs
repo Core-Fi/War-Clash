@@ -44,7 +44,7 @@ namespace Logic.LogicObject
             EventGroup.FireEvent((int)SceneEvent.REMOVESCENEOBJECT, this, EventGroup.NewArg<EventSingleArgs<int>, int>(id));
             IDManager.SP.ReturnID(id);
         }
-        internal void AddSceneObject(int id, SceneObject so)
+        private void AddSceneObject(int id, SceneObject so)
         {
             so.ID = id;
             so.Init();
@@ -52,7 +52,7 @@ namespace Logic.LogicObject
             this.AddObject(id, so);
             EventGroup.FireEvent((int)SceneEvent.ADDSCENEOBJECT, this, EventGroup.NewArg<EventSingleArgs<SceneObject>, SceneObject>(so));
         }
-        internal void Update(float deltaTime)
+        public void Update(float deltaTime)
         {
             this.deltaTime = deltaTime;
             ForEachDo<SceneObject>(updateAction);

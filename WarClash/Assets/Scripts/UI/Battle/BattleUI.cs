@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Logic;
+using Logic.LogicObject;
 
 public class BattleUI : MonoBehaviour {
 
@@ -15,8 +16,8 @@ public class BattleUI : MonoBehaviour {
 	}
     private void OnButtonClick()
     {
-    //    LogicCore.SP.sceneManager.currentScene.
-
+        var npc = LogicCore.SP.sceneManager.currentScene.CreateSceneObject<Npc>();
+        npc.Position = new Lockstep.Vector3d(new Vector3(Random.Range(-10,10),0, 0));
     }
 	// Update is called once per frame
 	void Update () {

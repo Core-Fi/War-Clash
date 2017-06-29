@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using Logic.LogicObject;
 using Newtonsoft.Json;
+using UnityEngine;
 
 namespace Logic.Skill
 {
@@ -13,6 +14,22 @@ namespace Logic.Skill
     {
         private static Dictionary<string, Skill> skills =new Dictionary<string, Skill>();
         private static JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+#if UNITY_EDITOR
+        public static void SaveTimelineGroup(TimeLineGroup skill, string path)
+        {
+            JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+            string text = Newtonsoft.Json.JsonConvert.SerializeObject(skill, Formatting.Indented, settings);
+            File.WriteAllText(path, text);
+        }
+#endif
+        public static TimeLineGroup GetTimelineGroup<T>(string path) where T : TimeLineGroup
+        {
+            string text = File.ReadAllText(path);
+            T t = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(text, settings);
+            return t;
+        }
+
+
         public static Skill GetSkill(string path)
         {
             Skill skill = null;
@@ -22,7 +39,8 @@ namespace Logic.Skill
             }
             else
             {
-                string text = File.ReadAllText(path);
+                string finalPath = Application.streamingAssetsPath + "/Skills/" + path;
+                string text = File.ReadAllText(finalPath);
                 skill = Newtonsoft.Json.JsonConvert.DeserializeObject<Logic.Skill.Skill>(text, settings);
                 skills[path] = skill;
             }
@@ -48,8 +66,17 @@ namespace Logic.Skill
         }
         internal void ReleaseSkill(string path)
         {
-            var skill = GetSkill(path);
             SkillRunningData srd = new SkillRunningData(so, null, null);
+            ReleaseSkill(path, srd);
+        }
+        internal void ReleaseSkill(string path, SceneObject target)
+        {
+            SkillRunningData srd = new SkillRunningData(so, target, null);
+            ReleaseSkill(path, srd);
+        }
+        private void ReleaseSkill(string path, SkillRunningData srd)
+        {
+            var skill = GetSkill(path);
             runningSkill = new RuntimeSkill();
             runningSkill.Init(skill, srd, OnFinish);
             this.so.EventGroup.FireEvent((int)Character.CharacterEvent.STARTSKILL, so, EventGroup.NewArg<EventSingleArgs<string>, string>(path));

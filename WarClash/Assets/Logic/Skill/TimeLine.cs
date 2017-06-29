@@ -34,8 +34,10 @@ namespace Logic.Skill
     public class TimeLine
     {
         [Display("循环次数")]
+        [Newtonsoft.Json.JsonProperty]
         public int Times { get; private set; }
         [Display("持续帧数")]
+        [Newtonsoft.Json.JsonProperty]
         public int FrameCount { get; private set; }
         public List<BaseAction> BaseActions { get; private set; }
         [Display("监听事件")]

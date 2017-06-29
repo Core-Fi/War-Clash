@@ -119,23 +119,31 @@ namespace Lockstep
 		{
 			return f1 + f2;
 		}
-
-		/// <summary>
-		/// Subtraction.
-		/// </summary>
-		/// <param name="f1">f1.</param>
-		/// <param name="f2">f2.</param>
-		public static long Sub(this long f1, long f2)
+        public static long Add(this long f1, int f2)
+        {
+            return f1 + Create(f2);
+        }
+        /// <summary>
+        /// Subtraction.
+        /// </summary>
+        /// <param name="f1">f1.</param>
+        /// <param name="f2">f2.</param>
+        public static long Sub(this long f1, long f2)
 		{
 			return f1 - f2;
 		}
 
-		/// <summary>
-		/// Multiplication.
-		/// </summary>
-		/// <param name="f1">f1.</param>
-		/// <param name="f2">f2.</param>
-		public static long Mul(this long f1, long f2)
+        public static long Sub(this long f1, int f2)
+        {
+            return f1 - Create(f2);
+        }
+
+        /// <summary>
+        /// Multiplication.
+        /// </summary>
+        /// <param name="f1">f1.</param>
+        /// <param name="f2">f2.</param>
+        public static long Mul(this long f1, long f2)
 		{
 			return (f1 * f2) >> SHIFT_AMOUNT;
 		}

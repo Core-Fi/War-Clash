@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Logic.LogicObject;
+using Lockstep;
 
 namespace Logic.Skill.Actions
 {
@@ -20,6 +22,12 @@ namespace Logic.Skill.Actions
         public DamageAction()
         {
             Damage = new DataBind<int>();
+        }
+        public override void Execute(SceneObject sender, SceneObject reciever, object data)
+        {
+            base.Execute(sender, reciever, data);
+            var character = reciever as Character;
+            character.HP = character.HP.Sub(Damage.value);
         }
     }
 }

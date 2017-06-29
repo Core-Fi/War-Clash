@@ -1,36 +1,29 @@
 {
   "$type": "Logic.Skill.Skill, Assembly-CSharp",
-  "Name": null,
-  "ID": 0,
+  "Name": "2",
+  "ID": 2,
   "TimeLines": {
     "$type": "System.Collections.Generic.List`1[[Logic.Skill.TimeLine, Assembly-CSharp]], mscorlib",
     "$values": [
       {
         "$type": "Logic.Skill.TimeLine, Assembly-CSharp",
         "Times": 1,
-        "FrameCount": 100,
+        "FrameCount": 0,
         "BaseActions": {
           "$type": "System.Collections.Generic.List`1[[Logic.Skill.Actions.BaseAction, Assembly-CSharp]], mscorlib",
           "$values": [
             {
-              "$type": "Logic.Skill.Actions.PlayAnimationAction, Assembly-CSharp",
-              "animaitonName": "Footman_Attack",
-              "stopCondition": 0,
-              "playTarget": 0,
-              "ExecuteFrameIndex": 0
-            },
-            {
               "$type": "Logic.Skill.Actions.DamageAction, Assembly-CSharp",
               "Damage": {
                 "$type": "Logic.Skill.Actions.DataBind`1[[System.Int32, mscorlib]], Assembly-CSharp",
-                "value": 10,
-                "value_SetDirectly": 10,
+                "value": 0,
+                "value_SetDirectly": 0,
                 "needDataBind": false,
                 "bindFrom": null
               },
               "range": 0,
               "r": 0,
-              "ExecuteFrameIndex": 10
+              "ExecuteFrameIndex": 0
             }
           ]
         },
@@ -54,5 +47,5 @@
       }
     ]
   },
-  "path": null
+  "path": "2"
 }

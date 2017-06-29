@@ -243,10 +243,7 @@ public class SKillWindow : EditorWindow
                 }
                 if (GUILayout.Button(Path.GetFileName(fileInfos[i].name), "Label"))
                 {
-                 //   string ext = Path.GetExtension(fileInfos[i].name);
-                    string text = File.ReadAllText(fileInfos[i].name);
-                    JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-                    SkillEditTempData.editingSkill = Newtonsoft.Json.JsonConvert.DeserializeObject<TimeLineGroup>(text, settings);
+                    SkillEditTempData.editingSkill = SkillManager.GetTimelineGroup<TimeLineGroup>(fileInfos[i].name);
                     _timelineGroupPanel = new ETimelineGroupPanel();
                     editingFileInfo = fileInfos[i];
                     SkillEditTempData.editingItem = null;
@@ -312,9 +309,7 @@ public class SKillWindow : EditorWindow
             var tl = SkillEditTempData.editingSkill.TimeLines[i];
             tl.BaseActions.Sort((a, b) => { return (int)(a.ExecuteFrameIndex * 100) - (int)(b.ExecuteFrameIndex * 100); });
         }
-        JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-        string text = Newtonsoft.Json.JsonConvert.SerializeObject(SkillEditTempData.editingSkill, Formatting.Indented, settings);
-        File.WriteAllText(editingFileInfo.name, text);
+        SkillManager.SaveTimelineGroup(SkillEditTempData.editingSkill, editingFileInfo.name);
         this.ShowNotification(new GUIContent("保存成功"));
     }
 }

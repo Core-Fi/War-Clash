@@ -34,6 +34,10 @@ namespace Logic
             baseValue = value;
             finalValue = value;
         }
+        public void SetBase(long value)
+        {
+            baseValue = value;
+        }
         public void Add(Operation operation, long value)
         {
             var attr = new AttributeMotifier()
@@ -127,6 +131,10 @@ namespace Logic
             {
                 Debug.LogError(at + " Key not exsit");
             }
+        }
+        public void SetBase(AttributeType at, long value)
+        {
+            attributes[at].SetBase(value);
         }
         public void Add(AttributeType at, Operation op, long value)
         {

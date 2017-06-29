@@ -124,12 +124,6 @@
     <Reference Include="UnityEditor.iOS.Extensions.Common">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Office.Interop.Excel">
-      <HintPath>Assets\Editor\SkillEditor\Plugins\Microsoft.Office.Interop.Excel.dll</HintPath>
-    </Reference>
-    <Reference Include="Logic">
-      <HintPath>Assets\Plugins\Logic.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Assets\Plugins\JsonNet\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -141,6 +135,46 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTConstraintFactory.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTConstraintInspectorFactory.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTContextMenuFactory.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTEditorCanvas.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTEditorGraph.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTEditorGraphNode.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTEditorGrid.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTEditorStyle.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTEditorTreeLayout.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTEditorUtils.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTGraphNodeStyle.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTNavigationHistory.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTNodeFactory.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTNodeInspectorFactory.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTScriptCreationTool.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTServiceFactory.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTServiceInspectorFactory.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTUndoGroup.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTUndoState.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTUndoSystem.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\BehaviourTreeEditor.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\Undo\UndoNodeCreated.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\Undo\UndoNodeDeleted.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\Undo\UndoNodeGroupPop.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\Undo\UndoNodeGroupPush.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Core\Undo\UndoNodeMoved.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\AIAgentInspector.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\BTAssetInspector.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\BTEditorGraphNodeInspector.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\BlackboardConstraintInspector.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\CompositeInspector.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\ConstraintInspector.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\DesignTimeBlackboardInspector.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\IBlackboardInspector.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\NodeGroupInspector.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\NodeInspector.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\ParallelNodeInspector.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\PlayTimeBlackboardInspector.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\RunBehaviourInspector.cs" />
+    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\ServiceInspector.cs" />
     <Compile Include="Assets\Editor\SaveBoneVertex.cs" />
     <Compile Include="Assets\Editor\SkillEditor\CreateSkillWindow.cs" />
     <Compile Include="Assets\Editor\SkillEditor\EActionControl.cs" />
@@ -156,6 +190,12 @@
     <Compile Include="Assets\Editor\SkillEditor\SkillEditorUtility.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Brainiac\Source\Resources\Brainiac\Templates\Action.txt" />
+    <None Include="Assets\Brainiac\Source\Resources\Brainiac\Templates\Composite.txt" />
+    <None Include="Assets\Brainiac\Source\Resources\Brainiac\Templates\Constraint.txt" />
+    <None Include="Assets\Brainiac\Source\Resources\Brainiac\Templates\Decorator.txt" />
+    <None Include="Assets\Brainiac\Source\Resources\Brainiac\Templates\Service.txt" />
+    <None Include="Assets\Logic\obj\Debug\Logic.csproj.FileListAbsolute.txt" />
     <None Include="Assets\Specular.shader" />
     <None Include="Assets\meshData.txt" />
   </ItemGroup>

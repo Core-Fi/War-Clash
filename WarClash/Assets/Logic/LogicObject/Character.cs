@@ -46,20 +46,42 @@ namespace Logic.LogicObject
         {
             return attributeManager[at];
         }
-
+        public long HP {
+            get {
+               return attributeManager[AttributeType.HP]; 
+            }
+            set
+            {
+                attributeManager.SetBase(AttributeType.HP, value);
+            }
+        }
         internal override void ListenEvents()
         {
             base.ListenEvents();
         }
-        public void ReleaseSkill(string path)
+        public bool ReleaseSkill(string path)
         {
             if (!skillManager.IsRunningSkill)
             {
                 skillManager.ReleaseSkill(path);
+                return true;
             }
+            else
+                return false;
       //      stateMachine.Start(new MoveState() {dir = new Lockstep.Vector3d(Vector3.forward), speed = Lockstep.FixedMath.One * 2 });
         }
-        
+        public bool ReleaseSkill(string path, SceneObject target)
+        {
+            if (!skillManager.IsRunningSkill)
+            {
+                skillManager.ReleaseSkill(path, target);
+                return true;
+            }
+            else
+                return false;
+            //      stateMachine.Start(new MoveState() {dir = new Lockstep.Vector3d(Vector3.forward), speed = Lockstep.FixedMath.One * 2 });
+        }
+
         public bool IsRunningSkill
         {
             get { return skillManager.IsRunningSkill; }

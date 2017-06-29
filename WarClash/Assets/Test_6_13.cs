@@ -1,18 +1,20 @@
 ﻿using Lockstep;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Test_6_13 : MonoBehaviour {
+    public List<Action> actions = new List<Action>();
     // Use this for initialization
     void Start () {
-        int angle = 234;
-        Vector3 axis = new Vector3(0.3f, 0.4f, 0.5f);
-        Quaternion a = Quaternion.AngleAxis(angle, axis);
-        var b = FixedQuaternion.AngleAxis(FixedMath.One.Mul(angle), new Vector3d(axis));
-        var c = CreateFromAxisAngle(axis, angle);
-        Debug.LogError(a+"  "+b+"   "+c);
-        Debug.LogError(a*Vector3.left+"   "+b*new Vector3d(Vector3.left));
+        for (int i = 0; i < 10; i++)
+        {
+            actions.Add(() =>
+            {
+                int b = i + 0;
+            });
+        }
 	}
     public static Quaternion CreateFromAxisAngle(Vector3 axis, float angle)
     {
@@ -31,5 +33,13 @@ public class Test_6_13 : MonoBehaviour {
     // Update is called once per frame
     void Update () {
     
+        if(actions.Count>0)
+        {
+            foreach (var item in actions)
+            {
+                item.Invoke();
+            }
+            actions.Clear();
+        }
 	}
 }
