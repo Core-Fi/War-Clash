@@ -210,6 +210,7 @@
     <Compile Include="Assets\Logic\Skill\TimeLine.cs" />
     <Compile Include="Assets\Logic\Skill\TimeLineGroup.cs" />
     <Compile Include="Assets\Logic\StateMachine.cs" />
+    <Compile Include="Assets\Logic\Utility.cs" />
     <Compile Include="Assets\Main.cs" />
     <Compile Include="Assets\Scripts\LogicObject.cs" />
     <Compile Include="Assets\Scripts\U3DActions\U3DDisplayAction.cs" />

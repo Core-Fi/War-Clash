@@ -69,7 +69,7 @@ namespace Brainiac
 			m_isRunning = true;
 		}
 
-		private void Start()
+		public void Start()
 		{
 			if(m_btInstance != null)
 			{

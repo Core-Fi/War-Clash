@@ -29,7 +29,7 @@ namespace Logic.LogicObject
             stateMachine = new StateMachine(this);
             BTAsset btAsset = Resources.Load("Test") as BTAsset;
             aiAgent = new AIAgent(this, btAsset);
-
+            aiAgent.Start();
             attributeManager = new AttributeManager();
             attributeManager.OnAttributeChange += OnAttributeChange;
             attributeManager.New(AttributeType.SPEED, Lockstep.FixedMath.One * 2);
@@ -52,9 +52,16 @@ namespace Logic.LogicObject
             }
             set
             {
-                attributeManager.SetBase(AttributeType.HP, value);
+                if(value <= 0)
+                {
+                    Dead();
+                    attributeManager.SetBase(AttributeType.HP, 0);
+                }
+                else
+                    attributeManager.SetBase(AttributeType.HP, value);
             }
         }
+
         internal override void ListenEvents()
         {
             base.ListenEvents();
@@ -81,7 +88,18 @@ namespace Logic.LogicObject
                 return false;
             //      stateMachine.Start(new MoveState() {dir = new Lockstep.Vector3d(Vector3.forward), speed = Lockstep.FixedMath.One * 2 });
         }
-
+        public bool IsDeath()
+        {
+            return HP == 0;
+        }
+        private void Dead()
+        {
+            OnDeath();
+        }
+        public virtual void OnDeath()
+        {
+            EventManager.AddEvent("1.event", new SkillRunningData() { sender = this });
+        }
         public bool IsRunningSkill
         {
             get { return skillManager.IsRunningSkill; }

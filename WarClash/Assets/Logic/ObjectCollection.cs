@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Collections;
+using Logic.LogicObject;
 
 namespace Logic.Objects
 {
@@ -177,7 +178,21 @@ namespace Logic.Objects
                 return 0;
             return objectColl[type].Count;
         }
-
+        public void Update()
+        {
+            var dic = objectColl[typeof(TValue)];
+            if(dic != null)
+            {
+                foreach (var item in dic)
+                {
+                    SceneObject so = item.Value.Val as SceneObject;
+                    if(so != null)
+                    {
+                        so.Update(0);
+                    }
+                }
+            }
+        }
         public DeriveTValue GetObject<DeriveTValue>(TKey key) where DeriveTValue : class, TValue
         {
             Type type = typeof(DeriveTValue);

@@ -10,6 +10,7 @@ namespace Lockstep
         public FastList<byte> Canvas {get; private set;}
 		public Writer ()
 		{
+            Canvas = new FastList<byte>();
 		}
         public Writer (FastList<byte> canvas) {
             this.Initialize(canvas);

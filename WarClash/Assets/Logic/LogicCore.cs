@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using Logic.LogicObject;
 using Logic.Skill;
+using Lockstep;
+using System.IO;
+using UnityEngine;
 
 namespace Logic
 {
@@ -27,6 +30,7 @@ namespace Logic
            // sceneManager.Update();
             EventManager.Update(deltaTime);
         }
+        Writer w = new Writer();
         private int fixedCount = 0;
         public void FixedUpdate()
         {
@@ -37,6 +41,15 @@ namespace Logic
             }
             sceneManager.Update();
             lockFrameMgr.Update();
+            sceneManager.currentScene.ForEachDo((c)=> {
+                c.Position.Write(w);
+                c.Forward.Write(w);
+            });
+            if(fixedCount == 400)
+            {
+                var bytes = w.Canvas.ToArray();
+               // File.WriteAllBytes(Application.dataPath+"/data2.bytes", bytes);
+            }
         }
     }
 }

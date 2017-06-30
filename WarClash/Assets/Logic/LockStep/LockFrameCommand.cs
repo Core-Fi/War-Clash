@@ -14,7 +14,6 @@ namespace Logic
         public int sender;
         public int receiver;
         public abstract void Execute();
-        
     }
 
     public class ReleaseSkillCommand : LockFrameCommand

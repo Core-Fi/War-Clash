@@ -2,20 +2,29 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class Test_6_13 : MonoBehaviour {
     public List<Action> actions = new List<Action>();
     // Use this for initialization
     void Start () {
-        for (int i = 0; i < 10; i++)
+
+        string str1 = Md5(Application.dataPath+"/data1.bytes");
+        string str2 = Md5(Application.dataPath + "/data2.bytes");
+        Debug.LogError(str1.Equals(str2));
+    }
+    public string Md5(string filename)
+    {
+        using (var md5 = MD5.Create())
         {
-            actions.Add(() =>
+            using (var stream = File.OpenRead(filename))
             {
-                int b = i + 0;
-            });
+                return BitConverter.ToString(md5.ComputeHash(stream));
+            }
         }
-	}
+    }
     public static Quaternion CreateFromAxisAngle(Vector3 axis, float angle)
     {
         angle = angle * Mathf.Deg2Rad;
@@ -30,16 +39,27 @@ public class Test_6_13 : MonoBehaviour {
         return quaternion;
 
     }
+    private void Ope()
+    {
+        n += 1;
+    }
+    public void Exe(Action t)
+    {
+        t.Invoke();
+    }
+    System.Action a;
+    int n = 0;
     // Update is called once per frame
     void Update () {
     
         if(actions.Count>0)
         {
-            foreach (var item in actions)
+            foreach (var item in actions) 
             {
                 item.Invoke();
             }
             actions.Clear();
         }
-	}
+        Exe(Ope);
+    }
 }

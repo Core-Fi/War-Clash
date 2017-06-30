@@ -243,7 +243,7 @@ public class SKillWindow : EditorWindow
                 }
                 if (GUILayout.Button(Path.GetFileName(fileInfos[i].name), "Label"))
                 {
-                    SkillEditTempData.editingSkill = SkillManager.GetTimelineGroup<TimeLineGroup>(fileInfos[i].name);
+                    SkillEditTempData.editingSkill = SkillManager.GetTimelineGroupFullPath<TimeLineGroup>(fileInfos[i].name);
                     _timelineGroupPanel = new ETimelineGroupPanel();
                     editingFileInfo = fileInfos[i];
                     SkillEditTempData.editingItem = null;

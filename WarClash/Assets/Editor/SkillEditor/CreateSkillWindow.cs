@@ -91,8 +91,7 @@ public class CreateSkillWindow : EditorWindow
                 SetName(tg);
                 SetID(tg);
                 SetPath(tg);
-                string text = Newtonsoft.Json.JsonConvert.SerializeObject(tg, Newtonsoft.Json.Formatting.Indented, settings);
-                File.WriteAllText(path, text);
+                Logic.Skill.SkillManager.SaveTimelineGroup(tg, path);
             }
             else if (tgType == TimelingGroupType.BUFF)
             {
@@ -105,9 +104,8 @@ public class CreateSkillWindow : EditorWindow
                 SetName(tg);
                 SetID(tg);
                 SetPath(tg);
-                string text = Newtonsoft.Json.JsonConvert.SerializeObject(tg, Newtonsoft.Json.Formatting.Indented, settings);
-                File.WriteAllText(path, text);
-               
+                Logic.Skill.SkillManager.SaveTimelineGroup(tg, path);
+
             }
             else if (tgType == TimelingGroupType.EVENT)
             {
@@ -120,8 +118,7 @@ public class CreateSkillWindow : EditorWindow
                 SetName(tg);
                 SetID(tg);
                 SetPath(tg);
-                string text = Newtonsoft.Json.JsonConvert.SerializeObject(tg, Newtonsoft.Json.Formatting.Indented, settings);
-                File.WriteAllText(path, text);
+                Logic.Skill.SkillManager.SaveTimelineGroup(tg, path);
             }
             skillWindow.OnCreate();
             Close();

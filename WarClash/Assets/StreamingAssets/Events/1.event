@@ -1,5 +1,5 @@
 {
-  "$type": "Logic.Skill.Skill, Assembly-CSharp",
+  "$type": "Logic.Skill.Event, Assembly-CSharp",
   "Name": null,
   "ID": 0,
   "TimeLines": {
@@ -8,29 +8,16 @@
       {
         "$type": "Logic.Skill.TimeLine, Assembly-CSharp",
         "Times": 1,
-        "FrameCount": 20,
+        "FrameCount": 0,
         "BaseActions": {
           "$type": "System.Collections.Generic.List`1[[Logic.Skill.Actions.BaseAction, Assembly-CSharp]], mscorlib",
           "$values": [
             {
               "$type": "Logic.Skill.Actions.PlayAnimationAction, Assembly-CSharp",
-              "animaitonName": "Footman_Attack",
+              "animaitonName": "Footman_Death",
               "stopCondition": 0,
               "playTarget": 0,
               "ExecuteFrameIndex": 0
-            },
-            {
-              "$type": "Logic.Skill.Actions.DamageAction, Assembly-CSharp",
-              "Damage": {
-                "$type": "Logic.Skill.Actions.DataBind`1[[System.Int32, mscorlib]], Assembly-CSharp",
-                "value": 98,
-                "value_SetDirectly": 98,
-                "needDataBind": false,
-                "bindFrom": null
-              },
-              "range": 0,
-              "r": 0,
-              "ExecuteFrameIndex": 10
             }
           ]
         },

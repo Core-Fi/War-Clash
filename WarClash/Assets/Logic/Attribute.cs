@@ -37,6 +37,7 @@ namespace Logic
         public void SetBase(long value)
         {
             baseValue = value;
+            Caculate();
         }
         public void Add(Operation operation, long value)
         {

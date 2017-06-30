@@ -22,14 +22,18 @@ namespace Logic.Skill
             File.WriteAllText(path, text);
         }
 #endif
-        public static TimeLineGroup GetTimelineGroup<T>(string path) where T : TimeLineGroup
+        public static T GetTimelineGroupFullPath<T>(string path) where T : TimeLineGroup
         {
             string text = File.ReadAllText(path);
             T t = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(text, settings);
             return t;
         }
-
-
+        public static T GetTimelineGroup<T>(string path) where T : TimeLineGroup
+        {
+            string text = Utility.ReadStringFromStreamingAsset(path);
+            T t = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(text, settings);
+            return t;
+        }
         public static Skill GetSkill(string path)
         {
             Skill skill = null;
@@ -39,9 +43,7 @@ namespace Logic.Skill
             }
             else
             {
-                string finalPath = Application.streamingAssetsPath + "/Skills/" + path;
-                string text = File.ReadAllText(finalPath);
-                skill = Newtonsoft.Json.JsonConvert.DeserializeObject<Logic.Skill.Skill>(text, settings);
+                skill = GetTimelineGroup<Skill>("Skills/" + path);
                 skills[path] = skill;
             }
             return skill;
