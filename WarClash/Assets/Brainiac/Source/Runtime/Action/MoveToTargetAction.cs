@@ -8,6 +8,7 @@ using Lockstep;
 public class MoveToTargetAction : Brainiac.Action
 {
     private Character target = null;
+
 	protected override BehaviourNodeStatus OnExecute(AIAgent agent)
 	{
         if(target == null)

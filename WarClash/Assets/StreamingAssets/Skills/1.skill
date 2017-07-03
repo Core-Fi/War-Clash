@@ -8,17 +8,10 @@
       {
         "$type": "Logic.Skill.TimeLine, Assembly-CSharp",
         "Times": 1,
-        "FrameCount": 20,
+        "FrameCount": 30,
         "BaseActions": {
           "$type": "System.Collections.Generic.List`1[[Logic.Skill.Actions.BaseAction, Assembly-CSharp]], mscorlib",
           "$values": [
-            {
-              "$type": "Logic.Skill.Actions.PlayAnimationAction, Assembly-CSharp",
-              "animaitonName": "Footman_Attack",
-              "stopCondition": 0,
-              "playTarget": 0,
-              "ExecuteFrameIndex": 0
-            },
             {
               "$type": "Logic.Skill.Actions.DamageAction, Assembly-CSharp",
               "Damage": {
@@ -30,7 +23,14 @@
               },
               "range": 0,
               "r": 0,
-              "ExecuteFrameIndex": 10
+              "ExecuteFrameIndex": 0
+            },
+            {
+              "$type": "Logic.Skill.Actions.PlayAnimationAction, Assembly-CSharp",
+              "animaitonName": "Footman_Attack",
+              "stopCondition": 0,
+              "playTarget": 0,
+              "ExecuteFrameIndex": 0
             }
           ]
         },

@@ -79,7 +79,7 @@ namespace Logic.LogicObject
         }
         public bool ReleaseSkill(string path, SceneObject target)
         {
-            if (!skillManager.IsRunningSkill)
+            if (!skillManager.IsRunningSkill && !IsDeath())
             {
                 skillManager.ReleaseSkill(path, target);
                 return true;

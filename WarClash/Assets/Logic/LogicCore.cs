@@ -17,7 +17,6 @@ namespace Logic
         public EventGroup eventGroup;
         public enum LogicCoreEvent
         {
-
         }
         public void Init()
         {
@@ -27,11 +26,11 @@ namespace Logic
         }
         public void Update(float deltaTime)
         {
-           // sceneManager.Update();
             EventManager.Update(deltaTime);
         }
         Writer w = new Writer();
         private int fixedCount = 0;
+        public int realFixedFrame = 0;
         public void FixedUpdate()
         {
             fixedCount++;
@@ -41,6 +40,7 @@ namespace Logic
             }
             sceneManager.Update();
             lockFrameMgr.Update();
+            realFixedFrame++;
             sceneManager.currentScene.ForEachDo((c)=> {
                 c.Position.Write(w);
                 c.Forward.Write(w);

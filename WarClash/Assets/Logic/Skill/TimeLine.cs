@@ -83,7 +83,7 @@ namespace Logic.Skill
             this.OnBreath(deltaTime);
             for (int i = m_curActionIndex; i < timeLine.BaseActions.Count; i++)
             {
-                if (timeLine.BaseActions[i].ExecuteFrameIndex >= m_Duration)
+                if (timeLine.BaseActions[i].ExecuteFrameIndex <= m_Duration)
                 {
                     timeLine.BaseActions[i].Execute(m_RunningData.sender, m_RunningData.receiver, m_RunningData.data);
                     m_curActionIndex++;

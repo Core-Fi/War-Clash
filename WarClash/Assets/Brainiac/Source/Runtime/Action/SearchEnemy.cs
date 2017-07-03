@@ -26,8 +26,11 @@ public class SearchEnemy : Brainiac.Action
         {
             agent.Blackboard.SetItem("Target", target);
             return BehaviourNodeStatus.Success;
+        }else
+        {
+            agent.Blackboard.SetItem("Target", null);
+            return BehaviourNodeStatus.Failure;
         }
-        return BehaviourNodeStatus.Failure;
 	}
 
 }
