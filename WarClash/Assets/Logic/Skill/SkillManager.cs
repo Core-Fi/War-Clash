@@ -14,13 +14,43 @@ namespace Logic.Skill
     {
         private static Dictionary<string, Skill> skills =new Dictionary<string, Skill>();
         private static JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+        private static Dictionary<int, string> skill_index = new Dictionary<int, string>();
 #if UNITY_EDITOR
         public static void SaveTimelineGroup(TimeLineGroup skill, string path)
         {
-            JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
             string text = Newtonsoft.Json.JsonConvert.SerializeObject(skill, Formatting.Indented, settings);
             File.WriteAllText(path, text);
         }
+        public static void SaveToSkillIndexFile(TimeLineGroup tlg, string fpath)
+        {
+            string indexPath = Application.streamingAssetsPath+"/";
+            if(tlg is Skill)
+            {
+                indexPath += "Skills/_index.txt";
+            }
+            else if(tlg is Event)
+            {
+                indexPath += "Events/_index.txt";
+            }
+            Dictionary<int, string> dic = null;
+            if (File.Exists(indexPath))
+            {
+                var text = File.ReadAllText(indexPath);
+                dic = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<int, string>>(text, settings);
+            }
+            else
+            {
+                File.Create(indexPath).Dispose();
+                dic = new Dictionary<int, string>();
+            }
+            if(!dic.ContainsKey(tlg.ID))
+            {
+                dic.Add(tlg.ID, fpath);
+                string text = Newtonsoft.Json.JsonConvert.SerializeObject(dic, Formatting.Indented, settings);
+                File.WriteAllText(indexPath, text);
+            }
+        }
+
 #endif
         public static T GetTimelineGroupFullPath<T>(string path) where T : TimeLineGroup
         {

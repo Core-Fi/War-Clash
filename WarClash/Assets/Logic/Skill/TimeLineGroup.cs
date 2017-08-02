@@ -11,12 +11,15 @@ namespace Logic.Skill
     public class TimeLineGroup
     {
         [Display("名字")]
+        [Newtonsoft.Json.JsonProperty]
         public string Name { get; private set; }
 
         [Display("ID")]
+        [Newtonsoft.Json.JsonProperty]
         public int ID { get; private set; }
         public List<TimeLine> TimeLines { get; private set; }
 
+        [Newtonsoft.Json.JsonProperty]
         public string path { get; private set; }
         public TimeLineGroup()
         {

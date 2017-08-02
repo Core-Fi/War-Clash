@@ -39,8 +39,10 @@ namespace Logic.Skill
         [Display("持续帧数")]
         [Newtonsoft.Json.JsonProperty]
         public int FrameCount { get; private set; }
+        [Newtonsoft.Json.JsonProperty]
         public List<BaseAction> BaseActions { get; private set; }
         [Display("监听事件")]
+        [Newtonsoft.Json.JsonProperty]
         public List<EventTrigger> eventTriggers { get; private set; }
 
 #if UNITY_EDITOR

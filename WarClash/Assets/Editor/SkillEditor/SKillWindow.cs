@@ -21,6 +21,14 @@ public class FileInfo
     public FileInfo parent;
     public List<FileInfo> files = new List<FileInfo>();
 }
+public enum FileType
+{
+    Skill,
+    Buff,
+    Event,
+    Invalid
+}
+
 public class SKillWindow : EditorWindow
 {
     [MenuItem("Window/技能编辑")]
@@ -309,6 +317,7 @@ public class SKillWindow : EditorWindow
             var tl = SkillEditTempData.editingSkill.TimeLines[i];
             tl.BaseActions.Sort((a, b) => { return (int)(a.ExecuteFrameIndex * 100) - (int)(b.ExecuteFrameIndex * 100); });
         }
+        Logic.Skill.SkillManager.SaveToSkillIndexFile(SkillEditTempData.editingSkill, editingFileInfo.name.Replace(Application.streamingAssetsPath,""));
         SkillManager.SaveTimelineGroup(SkillEditTempData.editingSkill, editingFileInfo.name);
         this.ShowNotification(new GUIContent("保存成功"));
     }
