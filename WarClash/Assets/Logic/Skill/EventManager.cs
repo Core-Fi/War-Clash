@@ -10,7 +10,13 @@ namespace Logic.Skill
     public class EventManager
     {
         private static Dictionary<string, Logic.Skill.Event> events = new Dictionary<string, Logic.Skill.Event>();
-        private static List<RuntimeEvent> runtimeEvents = new List<RuntimeEvent>();  
+        private static List<RuntimeEvent> runtimeEvents = new List<RuntimeEvent>();
+        private static Dictionary<int, string> event_index = new Dictionary<int, string>();
+
+        public static void LoadSkillIndexFiles()
+        {
+            event_index = Logic.Skill.SkillUtility.LoadIndexFile("/Events");
+        }
         //private static Dictionary<string, RuntimeSkill> runtimeskills = new Dictionary<string, RuntimeSkill>();
         private static Logic.Skill.Event GetEvent(string path)
         {
@@ -21,13 +27,16 @@ namespace Logic.Skill
             }
             else
             {
-                _event = SkillManager.GetTimelineGroup<Event>("Events/" + path);
+                _event = SkillUtility.GetTimelineGroup<Event>("Events/" + path);
                 events[path] = _event;
             }
             return _event;
         }
+        public static void AddEvent(int id)
+        {
 
-        public static void AddEvent(string path, SkillRunningData runnignData)
+        }
+        public static void AddEvent(string path, RuntimeData runnignData)
         {
             if(string.IsNullOrEmpty(path)) return;
             var skill = GetEvent(path);

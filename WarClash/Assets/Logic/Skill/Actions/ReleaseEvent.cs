@@ -16,7 +16,7 @@ namespace Logic.Skill.Actions
 
         public override void Execute(SceneObject sender, SceneObject reciever, object data)
         {
-            EventManager.AddEvent(path, new SkillRunningData(sender, reciever, data));
+            EventManager.AddEvent(path, new RuntimeData(sender, reciever, data));
             base.Execute(sender, reciever, data);
         }
     }

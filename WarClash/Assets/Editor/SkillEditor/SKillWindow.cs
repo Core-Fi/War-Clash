@@ -251,7 +251,7 @@ public class SKillWindow : EditorWindow
                 }
                 if (GUILayout.Button(Path.GetFileName(fileInfos[i].name), "Label"))
                 {
-                    SkillEditTempData.editingSkill = SkillManager.GetTimelineGroupFullPath<TimeLineGroup>(fileInfos[i].name);
+                    SkillEditTempData.editingSkill = Logic.Skill.SkillUtility.GetTimelineGroupFullPath<TimeLineGroup>(fileInfos[i].name);
                     _timelineGroupPanel = new ETimelineGroupPanel();
                     editingFileInfo = fileInfos[i];
                     SkillEditTempData.editingItem = null;
@@ -317,8 +317,8 @@ public class SKillWindow : EditorWindow
             var tl = SkillEditTempData.editingSkill.TimeLines[i];
             tl.BaseActions.Sort((a, b) => { return (int)(a.ExecuteFrameIndex * 100) - (int)(b.ExecuteFrameIndex * 100); });
         }
-        Logic.Skill.SkillManager.SaveToSkillIndexFile(SkillEditTempData.editingSkill, editingFileInfo.name.Replace(Application.streamingAssetsPath,""));
-        SkillManager.SaveTimelineGroup(SkillEditTempData.editingSkill, editingFileInfo.name);
+        Logic.Skill.SkillUtility.SaveToSkillIndexFile(SkillEditTempData.editingSkill, editingFileInfo.name.Replace(Application.streamingAssetsPath,""));
+        Logic.Skill.SkillUtility.SaveTimelineGroup(SkillEditTempData.editingSkill, editingFileInfo.name);
         this.ShowNotification(new GUIContent("保存成功"));
     }
 }

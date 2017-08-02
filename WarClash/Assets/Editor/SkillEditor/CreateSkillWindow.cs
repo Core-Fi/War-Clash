@@ -100,8 +100,8 @@ public class CreateSkillWindow : EditorWindow
                 tg = Create<Logic.Skill.Event>(path);
             }
             string finalPath = Application.streamingAssetsPath + path;
-            Logic.Skill.SkillManager.SaveTimelineGroup(tg, finalPath);
-            Logic.Skill.SkillManager.SaveToSkillIndexFile(tg, path);
+            SkillUtility.SaveTimelineGroup(tg, finalPath);
+            SkillUtility.SaveToSkillIndexFile(tg, path);
             skillWindow.OnCreate();
             Close();
         }

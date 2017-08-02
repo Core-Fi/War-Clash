@@ -63,9 +63,9 @@ namespace Logic.Skill
         public TimeLine timeLine { get; private set; }
         public int m_Duration { get; private set; }
         public float m_Times { get; private set; }
-        private SkillRunningData m_RunningData;
+        private RuntimeData m_RunningData;
         private int m_curActionIndex;
-        public virtual void Init(TimeLine tl, SkillRunningData runningData)
+        public virtual void Init(TimeLine tl, RuntimeData runningData)
         {
             timeLine = tl;
             m_Duration = 0;

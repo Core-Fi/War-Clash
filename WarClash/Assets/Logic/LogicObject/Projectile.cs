@@ -95,7 +95,7 @@ namespace Logic.LogicObject
         public void OnHit()
         {
             hitCount++;
-            EventManager.AddEvent(projectileAction.hitEventEffectPath, new SkillRunningData(sender, receiver, data));
+            EventManager.AddEvent(projectileAction.hitEventEffectPath, new RuntimeData(sender, receiver, data));
             EventGroup.FireEvent((int)ProjectileEvent.ONHIT, this, null);
             bool hasTarget = SetTarget();
             if (hitCount > projectileAction.hitCount || !hasTarget)

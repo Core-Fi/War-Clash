@@ -28,6 +28,7 @@ using System.Text;
             if (pool_dic.ContainsKey(type) && pool_dic[type].Count > 0)
             {
                 obj = pool_dic[type].Dequeue();
+                UnityEngine.Debug.LogError("recycle item "+type);
             }
             else
             {

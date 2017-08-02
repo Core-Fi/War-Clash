@@ -16,9 +16,9 @@ namespace Logic.Skill
     {
        
     }
-    public struct SkillRunningData
+    public struct RuntimeData
     {
-        public SkillRunningData(SceneObject sender, SceneObject receiver, object data)
+        public RuntimeData(SceneObject sender, SceneObject receiver, object data)
         {
             this.sender = sender;
             this.receiver = receiver;

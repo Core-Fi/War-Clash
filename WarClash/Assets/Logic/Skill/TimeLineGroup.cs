@@ -31,7 +31,7 @@ namespace Logic.Skill
     public class RuntimeTimeLineGroup : IPool
     {
         public TimeLineGroup sourceData;
-        public SkillRunningData m_RunningData;
+        public RuntimeData m_RunningData;
         public List<RuntimeTimeLine> timelines = new List<RuntimeTimeLine>(); 
         //public Queue<object>    
         public Action finishAction;
@@ -42,7 +42,7 @@ namespace Logic.Skill
         }
         private int m_CurrentTLIndex;
 
-        public void Init(TimeLineGroup skill, SkillRunningData srd, Action finishAction)
+        public void Init(TimeLineGroup skill, RuntimeData srd, Action finishAction)
         {
             this.sourceData = skill;
             this.m_RunningData = srd;
@@ -115,6 +115,7 @@ namespace Logic.Skill
         }
         public void EnterNextTimeLine()
         {
+            Pool.SP.Recycle(timelines[m_CurrentTLIndex]);
             m_CurrentTLIndex++;
             timelines[m_CurrentTLIndex].Enter();
         }

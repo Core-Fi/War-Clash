@@ -13,56 +13,11 @@ namespace Logic.Skill
     public class SkillManager 
     {
         private static Dictionary<string, Skill> skills =new Dictionary<string, Skill>();
-        private static JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
         private static Dictionary<int, string> skill_index = new Dictionary<int, string>();
-#if UNITY_EDITOR
-        public static void SaveTimelineGroup(TimeLineGroup skill, string path)
-        {
-            string text = Newtonsoft.Json.JsonConvert.SerializeObject(skill, Formatting.Indented, settings);
-            File.WriteAllText(path, text);
-        }
-        public static void SaveToSkillIndexFile(TimeLineGroup tlg, string fpath)
-        {
-            string indexPath = Application.streamingAssetsPath+"/";
-            if(tlg is Skill)
-            {
-                indexPath += "Skills/_index.txt";
-            }
-            else if(tlg is Event)
-            {
-                indexPath += "Events/_index.txt";
-            }
-            Dictionary<int, string> dic = null;
-            if (File.Exists(indexPath))
-            {
-                var text = File.ReadAllText(indexPath);
-                dic = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<int, string>>(text, settings);
-            }
-            else
-            {
-                File.Create(indexPath).Dispose();
-                dic = new Dictionary<int, string>();
-            }
-            if(!dic.ContainsKey(tlg.ID))
-            {
-                dic.Add(tlg.ID, fpath);
-                string text = Newtonsoft.Json.JsonConvert.SerializeObject(dic, Formatting.Indented, settings);
-                File.WriteAllText(indexPath, text);
-            }
-        }
 
-#endif
-        public static T GetTimelineGroupFullPath<T>(string path) where T : TimeLineGroup
+        public static void LoadSkillIndexFiles()
         {
-            string text = File.ReadAllText(path);
-            T t = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(text, settings);
-            return t;
-        }
-        public static T GetTimelineGroup<T>(string path) where T : TimeLineGroup
-        {
-            string text = Utility.ReadStringFromStreamingAsset(path);
-            T t = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(text, settings);
-            return t;
+            skill_index = Logic.Skill.SkillUtility.LoadIndexFile("/Skills");
         }
         public static Skill GetSkill(string path)
         {
@@ -73,7 +28,7 @@ namespace Logic.Skill
             }
             else
             {
-                skill = GetTimelineGroup<Skill>("Skills/" + path);
+                skill = Logic.Skill.SkillUtility.GetTimelineGroup<Skill>("Skills/" + path);
                 skills[path] = skill;
             }
             return skill;
@@ -90,6 +45,7 @@ namespace Logic.Skill
         internal void CancelSkill()
         {
             this.so.EventGroup.FireEvent((int)Character.CharacterEvent.CANCELSKILL, so, EventGroup.NewArg<EventSingleArgs<string>, string>(runningSkill.sourceData.path));
+            Pool.SP.Recycle(runningSkill);
             runningSkill = null;
         }
         public SkillManager(Character so)
@@ -98,15 +54,15 @@ namespace Logic.Skill
         }
         internal void ReleaseSkill(string path)
         {
-            SkillRunningData srd = new SkillRunningData(so, null, null);
+            RuntimeData srd = new RuntimeData(so, null, null);
             ReleaseSkill(path, srd);
         }
         internal void ReleaseSkill(string path, SceneObject target)
         {
-            SkillRunningData srd = new SkillRunningData(so, target, null);
+            RuntimeData srd = new RuntimeData(so, target, null);
             ReleaseSkill(path, srd);
         }
-        private void ReleaseSkill(string path, SkillRunningData srd)
+        private void ReleaseSkill(string path, RuntimeData srd)
         {
             var skill = GetSkill(path);
             runningSkill = Pool.SP.Get(typeof(RuntimeSkill)) as RuntimeSkill;
