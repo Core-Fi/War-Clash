@@ -55,7 +55,7 @@ namespace Logic.Skill
       
     }
 
-    public class RuntimeTimeLine
+    public class RuntimeTimeLine : IPool
     {
         public TimeLineStatus m_TimeLineStatus;
         public TimeLine timeLine { get; private set; }
@@ -150,6 +150,11 @@ namespace Logic.Skill
         public virtual void OnFinish()
         {
            OnTimeLineEnd();
+        }
+
+        public void Reset()
+        {
+            
         }
     }
     public enum TimeLineStatus

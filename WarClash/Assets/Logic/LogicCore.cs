@@ -26,7 +26,6 @@ namespace Logic
         }
         public void Update(float deltaTime)
         {
-            EventManager.Update(deltaTime);
         }
         Writer w = new Writer();
         private int fixedCount = 0;
@@ -40,6 +39,7 @@ namespace Logic
             }
             sceneManager.Update();
             lockFrameMgr.Update();
+            EventManager.Update(Time.deltaTime);
             realFixedFrame++;
             sceneManager.currentScene.ForEachDo((c)=> {
                 c.Position.Write(w);

@@ -34,7 +34,7 @@ public class U3DDisplayActionManager
     public void Play(DisplayAction action)
     {
         Type targetType = U3DDisplayAction._Logic_Display_Actions[action.GetType()];
-        U3DDisplayAction u3dDisplayAction = PoolManager.SP.Get(targetType) as U3DDisplayAction;
+        U3DDisplayAction u3dDisplayAction = Pool.SP.Get(targetType) as U3DDisplayAction;
         u3dDisplayAction.action = action;
         u3dDisplayAction.Execute(u3dCharacter, null, null);
     }
@@ -45,7 +45,7 @@ public class U3DDisplayActionManager
             if(displayActions[i].action == action)
             {
                 displayActions[i].Stop();
-                PoolManager.SP.Recycle(displayActions[i]);
+                Pool.SP.Recycle(displayActions[i]);
                 displayActions.RemoveAt(i);
                 i--;
             }

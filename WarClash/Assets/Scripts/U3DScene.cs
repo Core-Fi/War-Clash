@@ -23,8 +23,8 @@ public class U3DScene : ObjectCollection<int, U3DSceneObject>
     }
     public void ListenEvents()
     {
-        scene.EventGroup.AddEvent((int)Scene.SceneEvent.ADDSCENEOBJECT,OnAddSceneObject);
-        scene.EventGroup.AddEvent((int)Scene.SceneEvent.REMOVESCENEOBJECT, OnRemoveSceneObject);
+        scene.EventGroup.ListenEvent((int)Scene.SceneEvent.ADDSCENEOBJECT,OnAddSceneObject);
+        scene.EventGroup.ListenEvent((int)Scene.SceneEvent.REMOVESCENEOBJECT, OnRemoveSceneObject);
     }
 
     private void OnRemoveSceneObject(object sender, EventMsg e)

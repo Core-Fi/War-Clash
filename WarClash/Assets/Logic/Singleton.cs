@@ -2,23 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-namespace Logic
+public abstract class Singleton<T>
 {
-    public abstract class Singleton<T>
+    public static T SP
     {
-        public static T SP
+        get
         {
-            get
+            if (_SP == null)
             {
-                if (_SP == null)
-                {
-                    _SP = Activator.CreateInstance<T>();
-                }
-                return _SP;
+                _SP = Activator.CreateInstance<T>();
             }
+            return _SP;
         }
-
-        private static T _SP;
     }
+
+    private static T _SP;
 }

@@ -10,6 +10,7 @@ public class U3DPlayAnimationAction : U3DDisplayAction
     public override void Execute(U3DCharacter sender, U3DCharacter receiver, object data)
     {
         animationAction = this.action as PlayAnimationAction;
+        UnityEngine.Debug.LogError(sender+" "+animationAction.animaitonName);
         sender.animator.Play(animationAction.animaitonName, -1, 0);
     }
     public override void Stop()

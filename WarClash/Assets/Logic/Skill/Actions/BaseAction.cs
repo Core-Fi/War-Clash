@@ -90,5 +90,5 @@ namespace Logic.Skill.Actions
                 EventGroup.NewArg<EventSingleArgs<DisplayAction>, DisplayAction>(this));
             base.Execute(sender, reciever, data);
         }
-}
+    }
 }

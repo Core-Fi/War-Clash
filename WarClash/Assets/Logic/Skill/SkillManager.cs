@@ -79,7 +79,7 @@ namespace Logic.Skill
         private void ReleaseSkill(string path, SkillRunningData srd)
         {
             var skill = GetSkill(path);
-            runningSkill = new RuntimeSkill();
+            runningSkill = Pool.SP.Get(typeof(RuntimeSkill)) as RuntimeSkill;
             runningSkill.Init(skill, srd, OnFinish);
             this.so.EventGroup.FireEvent((int)Character.CharacterEvent.STARTSKILL, so, EventGroup.NewArg<EventSingleArgs<string>, string>(path));
         }
@@ -94,6 +94,7 @@ namespace Logic.Skill
         internal void OnFinish()
         {
             so.EventGroup.FireEvent((int)Character.CharacterEvent.ENDSKILL, so, EventGroup.NewArg<EventSingleArgs<string>, string>(runningSkill.sourceData.path));
+            Pool.SP.Recycle(runningSkill);
             runningSkill = null;
         }
 

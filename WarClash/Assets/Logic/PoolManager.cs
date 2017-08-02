@@ -4,15 +4,14 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
-namespace Logic
-{
+
     public interface IPool
     {
         void Reset();
     }
-    public class PoolManager : Singleton<PoolManager>
+    public class Pool : Singleton<Pool>
     {
-        public Dictionary<Type, Queue<IPool>> pool_dic = new Dictionary<Type, Queue<IPool>>();
+        private Dictionary<Type, Queue<IPool>> pool_dic = new Dictionary<Type, Queue<IPool>>();
         public void Recycle(IPool iPool)
         {
             Type type = iPool.GetType();
@@ -38,4 +37,3 @@ namespace Logic
             return obj;
         }
     }
-}

@@ -21,12 +21,12 @@ public class U3DCharacter : U3DSceneObject{
     public override void ListenEvents()
     {
         base.ListenEvents();
-        character.EventGroup.AddEvent((int)Character.CharacterEvent.EXECUTEDISPLAYACTION, ExecuteDisplayAction);
-        character.EventGroup.AddEvent((int)Character.CharacterEvent.STOPDISPLAYACTION, StopDisplayAction);
-        character.EventGroup.AddEvent((int)Character.CharacterEvent.STARTSKILL, OnSkillStart);
-        character.EventGroup.AddEvent((int)Character.CharacterEvent.CANCELSKILL, OnSkillCancel);
-        character.EventGroup.AddEvent((int)Character.CharacterEvent.ENDSKILL, OnSKillEnd);
-        character.EventGroup.AddEvent((int)Character.CharacterEvent.ONATTRIBUTECHANGE, OnAttributeChange);
+        character.EventGroup.ListenEvent((int)Character.CharacterEvent.EXECUTEDISPLAYACTION, ExecuteDisplayAction);
+        character.EventGroup.ListenEvent((int)Character.CharacterEvent.STOPDISPLAYACTION, StopDisplayAction);
+        character.EventGroup.ListenEvent((int)Character.CharacterEvent.STARTSKILL, OnSkillStart);
+        character.EventGroup.ListenEvent((int)Character.CharacterEvent.CANCELSKILL, OnSkillCancel);
+        character.EventGroup.ListenEvent((int)Character.CharacterEvent.ENDSKILL, OnSKillEnd);
+        character.EventGroup.ListenEvent((int)Character.CharacterEvent.ONATTRIBUTECHANGE, OnAttributeChange);
     }
 
     private void OnAttributeChange(object sender, EventMsg e)

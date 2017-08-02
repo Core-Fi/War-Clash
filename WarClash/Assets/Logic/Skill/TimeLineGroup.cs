@@ -25,7 +25,7 @@ namespace Logic.Skill
 
     }
 
-    public class RuntimeTimeLineGroup
+    public class RuntimeTimeLineGroup : IPool
     {
         public TimeLineGroup sourceData;
         public SkillRunningData m_RunningData;
@@ -48,9 +48,8 @@ namespace Logic.Skill
             isRunning = true;
             for (int i = 0; i < m_TimeLineCount; i++)
             {
-                var rtl = new RuntimeTimeLine();
-                rtl.Init(sourceData.TimeLines[i], srd);
-                timelines.Add(new RuntimeTimeLine());
+                var rtl = Pool.SP.Get(typeof(RuntimeTimeLine)) as RuntimeTimeLine;
+                timelines.Add(rtl);
                 timelines[i].Init(sourceData.TimeLines[i], srd);
             }
         }
@@ -115,6 +114,11 @@ namespace Logic.Skill
         {
             m_CurrentTLIndex++;
             timelines[m_CurrentTLIndex].Enter();
+        }
+
+        public void Reset()
+        {
+            timelines.Clear();
         }
     }
 }

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Logic
-{
     public delegate void EventMsgHandler(object sender, EventMsg e);
   
     public class EventMsg
@@ -45,5 +43,24 @@ namespace Logic
             value2 = default(V);
             base.Clear();
         }
+    }
+public class EventThreeArgs<K, V, T> : EventMsg
+{
+    public K value1 { get; internal set; }
+    public V value2 { get; internal set; }
+    public T value3 { get; internal set; }
+    public EventThreeArgs() { }
+    public EventThreeArgs(K k, V v, T t)
+    {
+        value1 = k;
+        value2 = v;
+        value3 = t;
+    }
+    public override void Clear()
+    {
+        value1 = default(K);
+        value2 = default(V);
+        value3 = default(T);
+        base.Clear();
     }
 }
