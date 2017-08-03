@@ -166,6 +166,10 @@
     <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\PlayTimeBlackboardInspector.cs" />
     <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\RunBehaviourInspector.cs" />
     <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\ServiceInspector.cs" />
+    <Compile Include="Assets\Editor\MapEditor\ABTest.cs" />
+    <Compile Include="Assets\Editor\MapEditor\InspectorOfMapEdit.cs" />
+    <Compile Include="Assets\Editor\MapEditor\MapEditor.cs" />
+    <Compile Include="Assets\Editor\MapEditor\TerrianEditor.cs" />
     <Compile Include="Assets\Editor\SaveBoneVertex.cs" />
     <Compile Include="Assets\Editor\SkillEditor\CreateSkillWindow.cs" />
     <Compile Include="Assets\Editor\SkillEditor\EActionControl.cs" />
@@ -187,7 +191,10 @@
     <None Include="Assets\Brainiac\Source\Resources\Brainiac\Templates\Decorator.txt" />
     <None Include="Assets\Brainiac\Source\Resources\Brainiac\Templates\Service.txt" />
     <None Include="Assets\Logic\obj\Debug\Logic.csproj.FileListAbsolute.txt" />
+    <None Include="Assets\Shader\Editor\Grid.shader" />
     <None Include="Assets\Specular.shader" />
+    <None Include="Assets\StreamingAssets\Events\_index.txt" />
+    <None Include="Assets\StreamingAssets\Skills\_index.txt" />
     <None Include="Assets\meshData.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

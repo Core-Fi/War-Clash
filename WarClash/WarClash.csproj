@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.6.2f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -206,11 +204,13 @@
     <Compile Include="Assets\Logic\Skill\Skill.cs" />
     <Compile Include="Assets\Logic\Skill\SkillManager.cs" />
     <Compile Include="Assets\Logic\Skill\SkillPath.cs" />
+    <Compile Include="Assets\Logic\Skill\SkillUtility.cs" />
     <Compile Include="Assets\Logic\Skill\TimeLine.cs" />
     <Compile Include="Assets\Logic\Skill\TimeLineGroup.cs" />
     <Compile Include="Assets\Logic\StateMachine.cs" />
     <Compile Include="Assets\Logic\Utility.cs" />
     <Compile Include="Assets\Main.cs" />
+    <Compile Include="Assets\Scripts\Box.cs" />
     <Compile Include="Assets\Scripts\Framework\BattleView.cs" />
     <Compile Include="Assets\Scripts\Framework\Controller.cs" />
     <Compile Include="Assets\Scripts\Framework\EventDispatcher.cs" />
@@ -222,16 +222,20 @@
     <Compile Include="Assets\Scripts\Framework\UIPath.cs" />
     <Compile Include="Assets\Scripts\Framework\View.cs" />
     <Compile Include="Assets\Scripts\Framework\ViewManager.cs" />
-    <Compile Include="Assets\Scripts\LogicObject.cs" />
+    <Compile Include="Assets\Scripts\MapEdit.cs" />
+    <Compile Include="Assets\Scripts\MapEditCopy.cs" />
+    <Compile Include="Assets\Scripts\Test0719.cs" />
+    <Compile Include="Assets\Scripts\Test0726.cs" />
     <Compile Include="Assets\Scripts\U3DActions\U3DDisplayAction.cs" />
     <Compile Include="Assets\Scripts\U3DActions\U3DPlayAnimationAction.cs" />
     <Compile Include="Assets\Scripts\U3DActions\U3DPlayFXAction.cs" />
-    <Compile Include="Assets\Scripts\U3DCharacter.cs" />
-    <Compile Include="Assets\Scripts\U3DNpc.cs" />
-    <Compile Include="Assets\Scripts\U3DProjectile.cs" />
-    <Compile Include="Assets\Scripts\U3DScene.cs" />
-    <Compile Include="Assets\Scripts\U3DSceneManager.cs" />
-    <Compile Include="Assets\Scripts\U3DSceneObject.cs" />
+    <Compile Include="Assets\Scripts\U3DObject\LogicObject.cs" />
+    <Compile Include="Assets\Scripts\U3DObject\U3DCharacter.cs" />
+    <Compile Include="Assets\Scripts\U3DObject\U3DNpc.cs" />
+    <Compile Include="Assets\Scripts\U3DObject\U3DProjectile.cs" />
+    <Compile Include="Assets\Scripts\U3DObject\U3DScene.cs" />
+    <Compile Include="Assets\Scripts\U3DObject\U3DSceneManager.cs" />
+    <Compile Include="Assets\Scripts\U3DObject\U3DSceneObject.cs" />
     <Compile Include="Assets\Scripts\UI\Battle\BattleUI.cs" />
     <Compile Include="Assets\Test0801.cs" />
     <Compile Include="Assets\Test_06_11.cs" />
@@ -245,7 +249,10 @@
     <None Include="Assets\Brainiac\Source\Resources\Brainiac\Templates\Decorator.txt" />
     <None Include="Assets\Brainiac\Source\Resources\Brainiac\Templates\Service.txt" />
     <None Include="Assets\Logic\obj\Debug\Logic.csproj.FileListAbsolute.txt" />
+    <None Include="Assets\Shader\Editor\Grid.shader" />
     <None Include="Assets\Specular.shader" />
+    <None Include="Assets\StreamingAssets\Events\_index.txt" />
+    <None Include="Assets\StreamingAssets\Skills\_index.txt" />
     <None Include="Assets\meshData.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

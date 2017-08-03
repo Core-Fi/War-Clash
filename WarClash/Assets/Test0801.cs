@@ -6,8 +6,9 @@ using UnityEngine;
 public class Test0801 : MonoBehaviour {
 
 	// Use this for initialization
-	void Start () {
-   
+	void Start ()
+    {
+       
 	}
 
     private void Do(object sender, EventMsg e)
