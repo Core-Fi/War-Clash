@@ -8,20 +8,29 @@ using System;
 
 public class U3DScene : ObjectCollection<int, U3DSceneObject>
 {
-
     public Scene scene;
-    private VoidAction<U3DSceneObject> updateAction = null;
-    private float deltaTime;
     public U3DScene()
     {
-        updateAction = delegate (U3DSceneObject so) { so.Update(deltaTime); };
     }
     public void Init(Scene scene)
     {
         this.scene = scene;
-        OnInit();
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Scene01");
+        Main.inst.StartCoroutine(LoadScene());
     }
-    public void ListenEvents()
+    IEnumerator LoadScene()
+    {
+        AsyncOperation asyn = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("Scene01");
+        yield return asyn;
+        OnInit();
+        ListenEvents();
+    }
+    protected virtual void OnInit()
+    {
+        
+
+    }
+    protected virtual void ListenEvents()
     {
         scene.EventGroup.ListenEvent((int)Scene.SceneEvent.ADDSCENEOBJECT,OnAddSceneObject);
         scene.EventGroup.ListenEvent((int)Scene.SceneEvent.REMOVESCENEOBJECT, OnRemoveSceneObject);
@@ -52,17 +61,8 @@ public class U3DScene : ObjectCollection<int, U3DSceneObject>
 
     }
 
-    public virtual void OnInit()
+    public override void OnUpdate()
     {
-        ListenEvents();
-    }
-    public void Update()
-    {
-        ForEachDo<U3DSceneObject>(updateAction);
-        OnUpdate();
-    }
-    public virtual void OnUpdate()
-    {
-
+        base.OnUpdate();
     }
 }

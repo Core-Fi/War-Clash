@@ -5,10 +5,12 @@ using System.Text;
 
 public enum EventList
 {
-    //50000开始
+    //5000开始
     ShowUI = 50000,
     HideUI,
     OnShowUI,
     OnHideUI,
+    //
+    PreLoadResource = 10000,
 }
 

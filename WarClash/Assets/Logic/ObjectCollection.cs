@@ -192,6 +192,11 @@ namespace Logic.Objects
                     }
                 }
             }
+            OnUpdate();
+        }
+        public virtual void OnUpdate()
+        {
+
         }
         public DeriveTValue GetObject<DeriveTValue>(TKey key) where DeriveTValue : class, TValue
         {

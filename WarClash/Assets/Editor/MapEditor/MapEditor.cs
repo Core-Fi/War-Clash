@@ -16,7 +16,7 @@ public class MapEditor : EditorWindow {
     public int height;
     public float cellwidth;
     public float cellheight;
-    
+    private MapEdit me;
     void OnGUI()
     {
         string temp ;
@@ -34,18 +34,18 @@ public class MapEditor : EditorWindow {
         GUILayout.BeginHorizontal();
         GUILayout.Label("格子宽度");
         temp = GUILayout.TextField(cellwidth.ToString(), GUILayout.MinWidth(100));
-        cellwidth = int.Parse(temp);
+        float.TryParse(temp, out cellwidth);
         GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
         GUILayout.Label("格子高度");
         temp = GUILayout.TextField(cellheight.ToString(), GUILayout.MinWidth(100));
-        cellheight = int.Parse(temp);
+        float.TryParse(temp, out cellheight);
         GUILayout.EndHorizontal();
         if(width*height*cellheight * cellwidth >0 && GUILayout.Button("创建"))
         {
-            GameObject g = GameObject.CreatePrimitive(PrimitiveType.Plane);
+            GameObject g = new GameObject();
             g.transform.position = Vector3.zero;
-            var me = g.AddComponent<MapEdit>();
+            me = g.AddComponent<MapEdit>();
             me.width = width;
             me.height = height;
             me.cell_height = cellheight;
@@ -53,6 +53,7 @@ public class MapEditor : EditorWindow {
             me.Generate();
         }
         GUILayout.EndVertical();
+
     }
 
 

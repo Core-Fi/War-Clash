@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
 public class Test0719 : MonoBehaviour
 {
@@ -108,7 +107,7 @@ public class Test0719 : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);// HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
         if(fromEditor)
         {
-            ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
+            //ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
         }
         var hits = Physics.RaycastAll(ray, 100);
         for (int i = 0; i < hits.Length; i++)

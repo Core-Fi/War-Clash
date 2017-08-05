@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarClash.Plugins", "WarClash.Plugins.csproj", "{6F76A764-7AAE-CA91-81D7-D8BF6D4425B7}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarClash", "WarClash.csproj", "{307C3509-C8E2-A9A3-20A2-24634A2E8EFA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarClash.Editor", "WarClash.Editor.csproj", "{B4F288E2-0CED-2297-3E2E-01BEC01D85E0}"
@@ -11,6 +13,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6F76A764-7AAE-CA91-81D7-D8BF6D4425B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F76A764-7AAE-CA91-81D7-D8BF6D4425B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F76A764-7AAE-CA91-81D7-D8BF6D4425B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F76A764-7AAE-CA91-81D7-D8BF6D4425B7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{307C3509-C8E2-A9A3-20A2-24634A2E8EFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{307C3509-C8E2-A9A3-20A2-24634A2E8EFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{307C3509-C8E2-A9A3-20A2-24634A2E8EFA}.Release|Any CPU.ActiveCfg = Release|Any CPU

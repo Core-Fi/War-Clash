@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
 [SelectionBase]
 public class MapEditCopy : MonoBehaviour
@@ -103,7 +102,7 @@ public class MapEditCopy : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);// HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
         if(fromEditor)
         {
-            ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
+           // ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
         }
         var hits = Physics.RaycastAll(ray, 100);
         for (int i = 0; i < hits.Length; i++)

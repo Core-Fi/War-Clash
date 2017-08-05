@@ -14,14 +14,6 @@ public class InspectorOfMapEdit : Editor {
         if (GUILayout.Button("Generate"))
         {
             t.Generate();
-            var list = Resources.FindObjectsOfTypeAll(typeof(GameObject));
-            for (int i = 0; i < list.Length; i++)
-            {
-                if (list[i] != t.gameObject)
-                {
-                    list[i].hideFlags = HideFlags.HideInHierarchy;
-                }
-            }
         }
         if(GUILayout.Button("ShowElse"))
         {

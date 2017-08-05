@@ -8,29 +8,26 @@ public class ABTest : Editor {
 
     public static Dictionary<Object, int> refCount = new Dictionary<Object, int>();
     public static List<GameObject> caculatedGO = new List<GameObject>(); 
-    public static List<System.Type> types = new List<System.Type>() {typeof(Texture2D), typeof(Mesh), typeof(Material), typeof(Shader), typeof(AnimationClip)};
+    public static List<System.Type> types = new List<System.Type>() {typeof(RuntimeAnimatorController),typeof(Texture2D), typeof(Mesh), typeof(Material), typeof(Shader), typeof(AnimationClip)};
     [MenuItem("Tools/BuildAB")]
     public static void BuildAB()
     {
+        ClearABName();
+        SetAssetBundleName();
         var path = Path.Combine(Application.dataPath, @"..\AB");
-        Debug.LogError(path);
-        BuildPipeline.BuildAssetBundles(path, BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.StandaloneWindows64);
+        BuildPipeline.BuildAssetBundles(path, BuildAssetBundleOptions.ChunkBasedCompression|BuildAssetBundleOptions.DeterministicAssetBundle, BuildTarget.StandaloneWindows64);
     }
-
-    [MenuItem("Tools/AB")]
-    public static void AB()
+    [MenuItem("Tools/SetAssetBundleName")]
+    public static void SetAssetBundleName()
     {
-        string basePath = Application.dataPath + "/BoxWorld";
-        Directory.GetFiles(basePath, "");
         var paths = AssetDatabase.GetAllAssetPaths();
         List<string> filterPaths = new List<string>(paths.Length);
         foreach (var path in paths)
         {
-            if(path.Contains("Assets/BoxWorld"))
+            if(path.Contains("Assets/RequiredResources"))
             {
                 filterPaths.Add(path);
                 var asset = AssetDatabase.LoadAssetAtPath(path, typeof(Object));
-
                 if (asset is GameObject)
                 {
                     var go = asset as GameObject;
@@ -42,6 +39,31 @@ public class ABTest : Editor {
                     DoScene(scene, path);
                 }
             }
+        }
+    }
+    [MenuItem("Tools/ClearAssetBundleName")]
+    private static void ClearABName()
+    {
+        var paths = AssetDatabase.GetAllAssetPaths();
+        foreach (var path in paths)
+        {
+            if (path.Contains("Assets/RequiredResources/"))
+            {
+                var asset = AssetDatabase.LoadAssetAtPath(path, typeof(Object));
+                ClearAB(asset);
+            }
+        }
+    }
+    static void ClearAB(Object go)
+    {
+        SetAssetBundleName(string.Empty, go);
+        var objs = EditorUtility.CollectDependencies(new Object[] { go });
+        for (int i = 0; i < objs.Length; i++)
+        {
+            var obj = objs[i];
+            System.Type t = obj.GetType();
+            if (types.Contains(t) || t.Equals(typeof(SceneAsset)) || t.Equals(typeof(GameObject)))
+                SetAssetBundleName(string.Empty, obj);
         }
     }
     static AssetBundle ab;
@@ -67,52 +89,66 @@ public class ABTest : Editor {
 
     public static void SetAssetBundleName(string ap, Object obj)
     {
-        AssetImporter ai = AssetImporter.GetAtPath(ap);
-        if (ai == null) Debug.LogError(ap + "  " + obj.GetType());
+        var r_path = AssetDatabase.GetAssetPath(obj);
+        AssetImporter ai = AssetImporter.GetAtPath(r_path);
+        if (ai == null)
+        {
+           // Debug.LogError(ap + "  " + obj.GetType());
+        }
         else
+        {
+            ap = ap.Replace("Assets/RequiredResources/", string.Empty);
             ai.assetBundleName = ap;
-
+        }
     }
+
     static void DoScene(SceneAsset scene, string path)
     {
         SetAssetBundleName(path, scene);
-        foreach (Object obj in EditorUtility.CollectDependencies(new Object[] { scene }))
+        var objs = EditorUtility.CollectDependencies(new Object[] { scene });
+        foreach (Object obj in objs)
         {
             if(obj is GameObject && !caculatedGO.Contains(obj as GameObject))
             {
                 caculatedGO.Add(obj as GameObject);
                 var ap = AssetDatabase.GetAssetPath(obj);
-                DoGameObject(obj as GameObject, ap);
+                DoGameObject(obj as GameObject, ap, true);
             }
         }
     }
-    static void DoGameObject(GameObject go, string path)
+    
+    static void DoGameObject(GameObject go, string path, bool inSceneObj = false)
     {
-        SetAssetBundleName(path, go);
-        foreach (Object obj in EditorUtility.CollectDependencies(new Object[] { go }))
+        if (inSceneObj)
+        {
+            int count = CheckCount(go);
+            if (count > 1)
+            { 
+                SetAssetBundleName(path, go);
+            }
+        }
+        else
+        {
+            SetAssetBundleName(path, go);
+        }
+        var objs = EditorUtility.CollectDependencies(new Object[] { go });
+        foreach (Object obj in objs)
         {
             if (types.Contains(obj.GetType()))
             {
                 var ap = AssetDatabase.GetAssetPath(obj);
-                if (!refCount.ContainsKey(obj)) refCount[obj] = 0;
-                refCount[obj]++;
-                if (refCount[obj] > 1)
+                int count = CheckCount(obj);
+                if (count > 1)
                 {
                     SetAssetBundleName(ap, obj);
                 }
             }
         }
     }
-    public static void DoMeshRenderer(GameObject go, MeshRenderer mr)
+    private static int CheckCount(Object obj)
     {
-        for (int i = 0; i < mr.materials.Length; i++)
-        {
-            DoMaterial(mr.materials[i]);
-        }
-    }
-    public static void DoMaterial(Material mat)
-    {
-        
+        if (!refCount.ContainsKey(obj)) refCount[obj] = 0;
+        return ++refCount[obj];
     }
 
 }

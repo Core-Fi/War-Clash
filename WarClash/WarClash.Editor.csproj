@@ -15,7 +15,7 @@
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
     <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Editor:5</UnityProjectType>
-    <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
+    <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>5.6.2f1</UnityVersion>
     <RootNamespace></RootNamespace>
     <LangVersion>4</LangVersion>
@@ -27,7 +27,7 @@
     <IntermediateOutputPath>Temp\UnityVS_obj\Debug\</IntermediateOutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_2;UNITY_5_6;UNITY_5;UNITY_ANALYTICS;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_PRO_LICENSE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_2;UNITY_5_6;UNITY_5;UNITY_64;UNITY_ANALYTICS;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_PRO_LICENSE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -37,7 +37,7 @@
     <IntermediateOutputPath>Temp\UnityVS_obj\Release\</IntermediateOutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DefineConstants>TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_2;UNITY_5_6;UNITY_5;UNITY_ANALYTICS;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_PRO_LICENSE</DefineConstants>
+    <DefineConstants>TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_2;UNITY_5_6;UNITY_5;UNITY_64;UNITY_ANALYTICS;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_PRO_LICENSE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
@@ -118,58 +118,68 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>Assets\Plugins\JsonNet\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="ConsolePro.Editor">
+      <HintPath>Assets\AddOns\ConsolePro\Editor\ConsolePro.Editor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="WarClash.Plugins.csproj">
+      <Project>{6F76A764-7AAE-CA91-81D7-D8BF6D4425B7}</Project>
+      <Name>WarClash.Plugins</Name>
+    </ProjectReference>
     <ProjectReference Include="WarClash.csproj">
       <Project>{307C3509-C8E2-A9A3-20A2-24634A2E8EFA}</Project>
       <Name>WarClash</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTConstraintFactory.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTConstraintInspectorFactory.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTContextMenuFactory.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTEditorCanvas.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTEditorGraph.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTEditorGraphNode.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTEditorGrid.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTEditorStyle.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTEditorTreeLayout.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTEditorUtils.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTGraphNodeStyle.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTNavigationHistory.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTNodeFactory.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTNodeInspectorFactory.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTScriptCreationTool.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTServiceFactory.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTServiceInspectorFactory.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTUndoGroup.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTUndoState.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\BTUndoSystem.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\BehaviourTreeEditor.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\Undo\UndoNodeCreated.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\Undo\UndoNodeDeleted.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\Undo\UndoNodeGroupPop.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\Undo\UndoNodeGroupPush.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Core\Undo\UndoNodeMoved.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\AIAgentInspector.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\BTAssetInspector.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\BTEditorGraphNodeInspector.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\BlackboardConstraintInspector.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\CompositeInspector.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\ConstraintInspector.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\DesignTimeBlackboardInspector.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\IBlackboardInspector.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\NodeGroupInspector.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\NodeInspector.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\ParallelNodeInspector.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\PlayTimeBlackboardInspector.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\RunBehaviourInspector.cs" />
-    <Compile Include="Assets\Brainiac\Source\Editor\Inspectors\ServiceInspector.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BTConstraintFactory.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BTConstraintInspectorFactory.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BTContextMenuFactory.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BTEditorCanvas.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BTEditorGraph.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BTEditorGraphNode.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BTEditorGrid.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BTEditorStyle.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BTEditorTreeLayout.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BTEditorUtils.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BTGraphNodeStyle.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BTNavigationHistory.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BTNodeFactory.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BTNodeInspectorFactory.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BTScriptCreationTool.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BTServiceFactory.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BTServiceInspectorFactory.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BTUndoGroup.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BTUndoState.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BTUndoSystem.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BehaviourTreeEditor.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\Undo\UndoNodeCreated.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\Undo\UndoNodeDeleted.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\Undo\UndoNodeGroupPop.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\Undo\UndoNodeGroupPush.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\Undo\UndoNodeMoved.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Inspectors\AIAgentInspector.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Inspectors\BTAssetInspector.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Inspectors\BTEditorGraphNodeInspector.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Inspectors\BlackboardConstraintInspector.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Inspectors\CompositeInspector.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Inspectors\ConstraintInspector.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Inspectors\DesignTimeBlackboardInspector.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Inspectors\IBlackboardInspector.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Inspectors\NodeGroupInspector.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Inspectors\NodeInspector.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Inspectors\ParallelNodeInspector.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Inspectors\PlayTimeBlackboardInspector.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Inspectors\RunBehaviourInspector.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Inspectors\ServiceInspector.cs" />
     <Compile Include="Assets\Editor\MapEditor\ABTest.cs" />
     <Compile Include="Assets\Editor\MapEditor\InspectorOfMapEdit.cs" />
     <Compile Include="Assets\Editor\MapEditor\MapEditor.cs" />
     <Compile Include="Assets\Editor\MapEditor\TerrianEditor.cs" />
+    <Compile Include="Assets\Editor\PathologicalGames\Common\PGEditorUtils.cs" />
+    <Compile Include="Assets\Editor\PathologicalGames\PoolManager\PreRuntimePoolItemInspector.cs" />
+    <Compile Include="Assets\Editor\PathologicalGames\PoolManager\SpawnPoolInspector.cs" />
     <Compile Include="Assets\Editor\SaveBoneVertex.cs" />
     <Compile Include="Assets\Editor\SkillEditor\CreateSkillWindow.cs" />
     <Compile Include="Assets\Editor\SkillEditor\EActionControl.cs" />
@@ -185,12 +195,13 @@
     <Compile Include="Assets\Editor\SkillEditor\SkillEditorUtility.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Brainiac\Source\Resources\Brainiac\Templates\Action.txt" />
-    <None Include="Assets\Brainiac\Source\Resources\Brainiac\Templates\Composite.txt" />
-    <None Include="Assets\Brainiac\Source\Resources\Brainiac\Templates\Constraint.txt" />
-    <None Include="Assets\Brainiac\Source\Resources\Brainiac\Templates\Decorator.txt" />
-    <None Include="Assets\Brainiac\Source\Resources\Brainiac\Templates\Service.txt" />
-    <None Include="Assets\Logic\obj\Debug\Logic.csproj.FileListAbsolute.txt" />
+    <None Include="Assets\AddOns\Brainiac\Source\Resources\Brainiac\Templates\Action.txt" />
+    <None Include="Assets\AddOns\Brainiac\Source\Resources\Brainiac\Templates\Composite.txt" />
+    <None Include="Assets\AddOns\Brainiac\Source\Resources\Brainiac\Templates\Constraint.txt" />
+    <None Include="Assets\AddOns\Brainiac\Source\Resources\Brainiac\Templates\Decorator.txt" />
+    <None Include="Assets\AddOns\Brainiac\Source\Resources\Brainiac\Templates\Service.txt" />
+    <None Include="Assets\AddOns\ConsolePro\Readme.txt" />
+    <None Include="Assets\Plugins\PathologicalGames\readme.txt" />
     <None Include="Assets\Shader\Editor\Grid.shader" />
     <None Include="Assets\Specular.shader" />
     <None Include="Assets\StreamingAssets\Events\_index.txt" />

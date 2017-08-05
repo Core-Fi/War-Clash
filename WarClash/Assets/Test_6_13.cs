@@ -11,9 +11,9 @@ public class Test_6_13 : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        string str1 = Md5(Application.dataPath+"/data1.bytes");
-        string str2 = Md5(Application.dataPath + "/data2.bytes");
-        Debug.LogError(str1.Equals(str2));
+        //string str1 = Md5(Application.dataPath+"/data1.bytes");
+        //string str2 = Md5(Application.dataPath + "/data2.bytes");
+        //Debug.LogError(str1.Equals(str2));
     }
     public string Md5(string filename)
     {
@@ -52,14 +52,11 @@ public class Test_6_13 : MonoBehaviour {
     // Update is called once per frame
     void Update () {
     
-        if(actions.Count>0)
-        {
-            foreach (var item in actions) 
-            {
-                item.Invoke();
-            }
-            actions.Clear();
-        }
-        Exe(Ope);
+        
+    }
+
+    void OnDestroy()
+    {
+        Debug.LogError("Destroyed");
     }
 }

@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 
 
-class ManagerDriver : Singleton<ManagerDriver>
+class ManagerDriver
 {
     public List<IManager> managers = new List<IManager>()
     {
         new ViewManager(),
-
+        new TerrainManager(),
+        new SceneLoadManager(),
 
     };
 

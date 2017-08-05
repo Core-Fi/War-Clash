@@ -5,36 +5,36 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 
-    public interface IPool
+public interface IPool
+{
+    void Reset();
+}
+public class Pool : Singleton<Pool>
+{
+    private Dictionary<Type, Queue<IPool>> pool_dic = new Dictionary<Type, Queue<IPool>>();
+    public void Recycle(IPool iPool)
     {
-        void Reset();
-    }
-    public class Pool : Singleton<Pool>
-    {
-        private Dictionary<Type, Queue<IPool>> pool_dic = new Dictionary<Type, Queue<IPool>>();
-        public void Recycle(IPool iPool)
+        Type type = iPool.GetType();
+        if (!pool_dic.ContainsKey(type))
         {
-            Type type = iPool.GetType();
-            if (!pool_dic.ContainsKey(type))
-            {
-                pool_dic[type] = new Queue<IPool>();
-            }
-            pool_dic[type].Enqueue(iPool);
+            pool_dic[type] = new Queue<IPool>();
         }
+        iPool.Reset();
+        pool_dic[type].Enqueue(iPool);
+    }
 
-        public IPool Get(Type type) 
+    public IPool Get(Type type)
+    {
+        IPool obj = null;
+        if (pool_dic.ContainsKey(type) && pool_dic[type].Count > 0)
         {
-            IPool obj = null;
-            if (pool_dic.ContainsKey(type) && pool_dic[type].Count > 0)
-            {
-                obj = pool_dic[type].Dequeue();
-                UnityEngine.Debug.LogError("recycle item "+type);
-            }
-            else
-            {
-                obj = Activator.CreateInstance(type) as IPool;
-            }
-            obj.Reset();
-            return obj;
+            obj = pool_dic[type].Dequeue();
         }
+        else
+        {
+            obj = Activator.CreateInstance(type) as IPool;
+        }
+        obj.Reset();
+        return obj;
     }
+}

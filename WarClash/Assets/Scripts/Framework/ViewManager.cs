@@ -36,7 +36,7 @@ class ViewManager : Manager
     }
     public override void OnUpdate()
     {
-        base.Update();
+        base.OnUpdate();
         for (int i = 0; i < views.Count; i++)
         {
             views[i].Update();
