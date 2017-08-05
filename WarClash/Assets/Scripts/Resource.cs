@@ -84,10 +84,10 @@ class ResourceLoader : IPool
         {
             for (int i = 0; i < depens.Length; i++)
             {
-               // depens[i].Unload(false);
+                depens[i].Unload(false);
             }
         }
-        //asyn.assetBundle.Unload(false);
+        asyn.assetBundle.Unload(false);
         func.Invoke(path, obj);
         Pool.SP.Recycle(this);
     }

@@ -2,12 +2,12 @@ Mono path[0] = 'D:/War-Clash/WarClash/Game0805_Data/Managed'
 Mono path[1] = 'D:/War-Clash/WarClash/Game0805_Data/Mono'
 Mono config path = 'D:/War-Clash/WarClash/Game0805_Data/Mono/etc'
 PlayerConnection initialized from D:/War-Clash/WarClash/Game0805_Data (debug = 0)
-PlayerConnection initialized network socket : 0.0.0.0 55070
-Multi-casting "[IP] 10.2.38.76 [Port] 55070 [Flags] 3 [Guid] 610210612 [EditorId] 786361143 [Version] 1048832 [Id] WindowsPlayer(ZQ-20170523AYVG) [Debug] 0" to [225.0.0.222:54997]...
-Waiting for connection from host on [0.0.0.0:55070]...
+PlayerConnection initialized network socket : 0.0.0.0 55392
+Multi-casting "[IP] 10.2.38.76 [Port] 55392 [Flags] 3 [Guid] 1495195589 [EditorId] 786361143 [Version] 1048832 [Id] WindowsPlayer(ZQ-20170523AYVG) [Debug] 0" to [225.0.0.222:54997]...
+Waiting for connection from host on [0.0.0.0:55392]...
 Timed out. Continuing without host connection.
-Started listening to [0.0.0.0:55070]
-PlayerConnection already initialized - listening to [0.0.0.0:55070]
+Started listening to [0.0.0.0:55392]
+PlayerConnection already initialized - listening to [0.0.0.0:55392]
 Player data archive not found at `D:/War-Clash/WarClash/Game0805_Data/data.unity3d`, using local filesystemInitialize engine version: 5.6.2f1 (a2913c821e27)
 GfxDevice: creating device client; threaded=1
 d3d11: D3D_FEATURE_LEVEL_11_1 not-recognized (only 11.0 runtime installed?)
@@ -39,44 +39,46 @@ desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 1.102182 ms
-PlayerConnection accepted from [172.23.100.1] handle:0x738
+UnloadTime: 1.232961 ms
+PlayerConnection accepted from [172.23.100.1] handle:0x73c
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+UnityEngine.Object:DontDestroyOnLoad(Object)
+Main:DonotDestroy() (at D:\War-Clash\WarClash\Assets\Main.cs:45)
+Main:Start() (at D:\War-Clash\WarClash\Assets\Main.cs:21)
+
+[C:\buildslave\unity\build\Runtime/SceneManager/SceneManager.cpp line 481] 
+(Filename: D:/War-Clash/WarClash/Assets/Main.cs Line: 45)
+
 Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 249c -> priority: 1 
-  Thread -> id: 2e50 -> priority: 1 
-UnloadTime: 0.226793 ms
+  Thread -> id: 2b08 -> priority: 1 
+  Thread -> id: 3ac4 -> priority: 1 
+UnloadTime: 0.252617 ms
 System memory in use before: 19.1 MB.
 System memory in use after: 19.1 MB.
 
-Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 413.
-Total: 0.196333 ms (FindLiveObjects: 0.028142 ms CreateObjectMapping: 0.012581 ms MarkObjects: 0.145677 ms  DeleteObjects: 0.008939 ms)
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 420.
+Total: 0.200306 ms (FindLiveObjects: 0.043703 ms CreateObjectMapping: 0.012912 ms MarkObjects: 0.134089 ms  DeleteObjects: 0.008608 ms)
 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 1)
-UnloadTime: 0.291023 ms
-System memory in use before: 19.1 MB.
+UnloadTime: 0.254604 ms
+System memory in use before: 19.0 MB.
 System memory in use after: 19.1 MB.
 
-Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 413.
-Total: 0.198651 ms (FindLiveObjects: 0.036750 ms CreateObjectMapping: 0.012581 ms MarkObjects: 0.129454 ms  DeleteObjects: 0.019202 ms)
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 420.
+Total: 0.137069 ms (FindLiveObjects: 0.017216 ms CreateObjectMapping: 0.012581 ms MarkObjects: 0.098001 ms  DeleteObjects: 0.008277 ms)
 
-Failed to create agent because there is no valid NavMesh
-UnityEngine.Object:Internal_CloneSingle(Object)
-UnityEngine.Object:Instantiate(Object) (at C:\buildslave\unity\build\Runtime\Export\UnityEngineObject.cs:176)
-Main:<Start>m__0(String, Object) (at D:\War-Clash\WarClash\Assets\Main.cs:26)
-<LoadMainAsset>c__Iterator1:MoveNext() (at D:\War-Clash\WarClash\Assets\Scripts\Resource.cs:91)
-UnityEngine.SetupCoroutine:InvokeMoveNext(IEnumerator, IntPtr) (at C:\buildslave\unity\build\Runtime\Export\Coroutines.cs:17)
-
-[C:/buildslave/unity/build/Runtime/AI/Internal/Components/NavMeshAgent.cpp line 598] 
-(Filename: C:/buildslave/unity/build/Runtime/Export/UnityEngineObject.cs Line: 176)
-
-Destroyed
+Parent of RectTransform is being set with parent property. Consider using the SetParent method instead, with the worldPositionStays argument set to false. This will retain local orientation and scale rather than world orientation and scale, which can prevent common UI scaling issues.
 UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
 UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
-UnityEngine.Logger:Log(LogType, Object)
-UnityEngine.Debug:LogError(Object)
-Test_6_13:OnDestroy() (at D:\War-Clash\WarClash\Assets\Test_6_13.cs:60)
+UnityEngine.Logger:Log(LogType, Object, Object)
+UnityEngine.Debug:LogWarning(Object, Object)
+UnityEngine.Transform:set_parent(Transform) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\TransformBindings.gen.cs:153)
+Main:<Start>m__0(String, Object) (at D:\War-Clash\WarClash\Assets\Main.cs:28)
+<LoadMainAsset>c__Iterator1:MoveNext() (at D:\War-Clash\WarClash\Assets\Scripts\Resource.cs:91)
+UnityEngine.SetupCoroutine:InvokeMoveNext(IEnumerator, IntPtr) (at C:\buildslave\unity\build\Runtime\Export\Coroutines.cs:17)
  
-(Filename: D:/War-Clash/WarClash/Assets/Test_6_13.cs Line: 60)
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/TransformBindings.gen.cs Line: 153)
 
+PlayerConnection accepted from [172.23.100.1] handle:0x7e0
 Waiting for finish

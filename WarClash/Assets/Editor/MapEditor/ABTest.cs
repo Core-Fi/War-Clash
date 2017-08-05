@@ -9,13 +9,21 @@ public class ABTest : Editor {
     public static Dictionary<Object, int> refCount = new Dictionary<Object, int>();
     public static List<GameObject> caculatedGO = new List<GameObject>(); 
     public static List<System.Type> types = new List<System.Type>() {typeof(RuntimeAnimatorController),typeof(Texture2D), typeof(Mesh), typeof(Material), typeof(Shader), typeof(AnimationClip)};
-    [MenuItem("Tools/BuildAB")]
+    [MenuItem("Tools/BuildAssetBundle(Win)")]
     public static void BuildAB()
     {
         ClearABName();
         SetAssetBundleName();
         var path = Path.Combine(Application.dataPath, @"..\AB");
         BuildPipeline.BuildAssetBundles(path, BuildAssetBundleOptions.ChunkBasedCompression|BuildAssetBundleOptions.DeterministicAssetBundle, BuildTarget.StandaloneWindows64);
+    }
+    [MenuItem("Tools/BuildAssetBundle(Android)")]
+    public static void BuildABForAndroid()
+    {
+        ClearABName();
+        SetAssetBundleName();
+        var path = Path.Combine(Application.streamingAssetsPath, @"AB");
+        BuildPipeline.BuildAssetBundles(path, BuildAssetBundleOptions.ChunkBasedCompression | BuildAssetBundleOptions.DeterministicAssetBundle, BuildTarget.Android);
     }
     [MenuItem("Tools/SetAssetBundleName")]
     public static void SetAssetBundleName()
@@ -37,6 +45,10 @@ public class ABTest : Editor {
                 {
                     var scene = asset as SceneAsset;
                     DoScene(scene, path);
+                }
+                else
+                {
+                    DoAsset(asset, path);
                 }
             }
         }
@@ -131,6 +143,10 @@ public class ABTest : Editor {
         {
             SetAssetBundleName(path, go);
         }
+        DoAsset(go, path);
+    }
+    static void DoAsset(Object go, string path)
+    {
         var objs = EditorUtility.CollectDependencies(new Object[] { go });
         foreach (Object obj in objs)
         {

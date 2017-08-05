@@ -6,8 +6,9 @@ using UnityEngine;
 
 public class Main : MonoBehaviour {
 
-    U3DSceneManager u3dSceneManager;
+    public Transform uiparent;
     public static Main inst;
+    private U3DSceneManager u3dSceneManager;
     private ManagerDriver managerDriver;
     void Awake()
     {
@@ -21,16 +22,19 @@ public class Main : MonoBehaviour {
         Logic.LogicCore.SP.Init();
         u3dSceneManager = new U3DSceneManager();
         Logic.LogicCore.SP.sceneManager.SwitchScene(new Scene());
-        Resource.Load("Prefabs/footman_prefab.prefab", (path, obj) => 
+        Resource.Load("UI/BattleUI.prefab", (path, obj) => 
         {
             GameObject g = GameObject.Instantiate(obj) as GameObject;
+            g.transform.parent = uiparent;
+
         });
+       
         //   EventDispatcher.FireEvent((int)EventList.PreLoadResource, this, EventGroup.NewArg<EventSingleArgs<string>, string>("Prefabs/footman_prefab"));
         //var npc1 = LogicCore.SP.sceneManager.currentScene.CreateSceneObject<Npc>();
         //npc1.Position = new Lockstep.Vector3d(new Vector3(-10, 0, 0));
         //var npc2 = LogicCore.SP.sceneManager.currentScene.CreateSceneObject<Npc>();
         //npc2.Position = new Lockstep.Vector3d(new Vector3(10, 0, 0));
-       
+
         //npc.ReleaseSkill(Application.streamingAssetsPath+"/skills/1.skill");
     }
     void DonotDestroy()
@@ -41,12 +45,21 @@ public class Main : MonoBehaviour {
             DontDestroyOnLoad(objs[i]);
         }
     }
-	
+    float ?t = 0;
 	// Update is called once per frame
 	void Update () {
         managerDriver.Update();
         u3dSceneManager.Update();
         Logic.LogicCore.SP.Update(Time.deltaTime);
+        if(Time.time>5 && t!=null)
+        {
+            Resource.Load("Prefabs/footman_prefab.prefab", (path, obj) =>
+            {
+                GameObject g = GameObject.Instantiate(obj) as GameObject;
+            });
+            t = null;
+        }
+       
 	}
     void FixedUpdate()
     {
