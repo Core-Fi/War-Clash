@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2207320262
+CRC: 2129763176
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 34929c53a94763f2e5c8ffb347d588a8
+    Hash: 3a3b9e34b0f7834667979bcc1540e151
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 051ce1d562a685d5ec2d1508b6743482
+    Hash: 7f906f2ed763cf4fd688ddb6af655e1f
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -17,9 +17,13 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 23
   Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
 - Class: 33
   Script: {instanceID: 0}
 - Class: 43
+  Script: {instanceID: 0}
+- Class: 48
   Script: {instanceID: 0}
 - Class: 74
   Script: {instanceID: 0}
@@ -35,8 +39,4 @@ ClassTypes:
   Script: {instanceID: 0}
 Assets:
 - Assets/RequiredResources/Prefabs/Footman_prefab_copy.prefab
-Dependencies:
-- D:/War-Clash/WarClash/Assets/StreamingAssets/AB/assets/other models/medival strategy
-  low-poly pack/models/footman/material/footman.mat
-- D:/War-Clash/WarClash/Assets/StreamingAssets/AB/assets/other models/medival strategy
-  low-poly pack/models/footman/footman.fbx
+Dependencies: []

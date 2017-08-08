@@ -22,12 +22,12 @@ public class Main : MonoBehaviour {
         Logic.LogicCore.SP.Init();
         u3dSceneManager = new U3DSceneManager();
         Logic.LogicCore.SP.sceneManager.SwitchScene(new Scene());
-        Resource.Load("UI/BattleUI.prefab", (path, obj) => 
-        {
-            GameObject g = GameObject.Instantiate(obj) as GameObject;
-            g.transform.parent = uiparent;
+        //Resource.Load("Farm01-flower-03.png", (path, obj) => 
+        //{
+        //   // GameObject g = GameObject.Instantiate(obj) as GameObject;
+        //    //g.transform.parent = uiparent;
 
-        });
+        //});
        
         //   EventDispatcher.FireEvent((int)EventList.PreLoadResource, this, EventGroup.NewArg<EventSingleArgs<string>, string>("Prefabs/footman_prefab"));
         //var npc1 = LogicCore.SP.sceneManager.currentScene.CreateSceneObject<Npc>();
@@ -53,9 +53,11 @@ public class Main : MonoBehaviour {
         Logic.LogicCore.SP.Update(Time.deltaTime);
         if(Time.time>5 && t!=null)
         {
-            Resource.Load("Prefabs/footman_prefab.prefab", (path, obj) =>
+            Resource.Load("UI/NextBattleUI.prefab", (path, obj) =>
             {
                 GameObject g = GameObject.Instantiate(obj) as GameObject;
+                g.transform.parent = uiparent;
+
             });
             t = null;
         }

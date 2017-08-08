@@ -1,26 +1,47 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
+using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
-public class ABTest : Editor {
-
-    public static Dictionary<Object, int> refCount = new Dictionary<Object, int>();
-    public static List<GameObject> caculatedGO = new List<GameObject>(); 
-    public static List<System.Type> types = new List<System.Type>() {typeof(RuntimeAnimatorController),typeof(Texture2D), typeof(Mesh), typeof(Material), typeof(Shader), typeof(AnimationClip)};
+public class ABTest : Editor
+{
+    private const string RequiredUrl = "Assets/RequiredResources/";
+    public static Dictionary<Object, int> RefCount = new Dictionary<Object, int>();
+    public static List<GameObject> CaculatedGo = new List<GameObject>(); 
+    public static List<System.Type> Types = new List<System.Type>() {typeof(RuntimeAnimatorController),typeof(Texture2D), typeof(Mesh), typeof(Material), typeof(Shader), typeof(AnimationClip)};
     [MenuItem("Tools/BuildAssetBundle(Win)")]
-    public static void BuildAB()
+    public static void BuildAb()
     {
-        ClearABName();
+        var dependencyBundle = new Dictionary<string, string>();
+        ClearAbName();
         SetAssetBundleName();
         var path = Path.Combine(Application.dataPath, @"..\AB");
-        BuildPipeline.BuildAssetBundles(path, BuildAssetBundleOptions.ChunkBasedCompression|BuildAssetBundleOptions.DeterministicAssetBundle, BuildTarget.StandaloneWindows64);
+        var manifest = BuildPipeline.BuildAssetBundles(path, BuildAssetBundleOptions.ChunkBasedCompression|BuildAssetBundleOptions.DeterministicAssetBundle, BuildTarget.StandaloneWindows64);
+        var bundles = manifest.GetAllAssetBundles();
+        for (var i = 0; i < bundles.Length; i++)
+        {
+            var allAssets = AssetDatabase.GetAssetPathsFromAssetBundle(bundles[i]);
+            for (var j = 0; j < allAssets.Length; j++)
+            {
+                if (allAssets[j].Contains(RequiredUrl))
+                {
+                    string replacedPath = allAssets[j].Replace(RequiredUrl, "");
+                    dependencyBundle[replacedPath] = bundles[i];
+                }
+            }
+        }
+        var txt = Newtonsoft.Json.JsonConvert.SerializeObject(dependencyBundle, Formatting.Indented);
+        File.WriteAllText(path+@"/bundles.txt", txt);
     }
     [MenuItem("Tools/BuildAssetBundle(Android)")]
-    public static void BuildABForAndroid()
+    public static void BuildAbForAndroid()
     {
-        ClearABName();
+        ClearAbName();
         SetAssetBundleName();
         var path = Path.Combine(Application.streamingAssetsPath, @"AB");
         BuildPipeline.BuildAssetBundles(path, BuildAssetBundleOptions.ChunkBasedCompression | BuildAssetBundleOptions.DeterministicAssetBundle, BuildTarget.Android);
@@ -32,7 +53,7 @@ public class ABTest : Editor {
         List<string> filterPaths = new List<string>(paths.Length);
         foreach (var path in paths)
         {
-            if(path.Contains("Assets/RequiredResources"))
+            if(path.Contains(RequiredUrl))
             {
                 filterPaths.Add(path);
                 var asset = AssetDatabase.LoadAssetAtPath(path, typeof(Object));
@@ -54,19 +75,19 @@ public class ABTest : Editor {
         }
     }
     [MenuItem("Tools/ClearAssetBundleName")]
-    private static void ClearABName()
+    private static void ClearAbName()
     {
         var paths = AssetDatabase.GetAllAssetPaths();
         foreach (var path in paths)
         {
-            if (path.Contains("Assets/RequiredResources/"))
+            if (path.Contains(RequiredUrl))
             {
                 var asset = AssetDatabase.LoadAssetAtPath(path, typeof(Object));
-                ClearAB(asset);
+                ClearAb(asset);
             }
         }
     }
-    static void ClearAB(Object go)
+    static void ClearAb(Object go)
     {
         SetAssetBundleName(string.Empty, go);
         var objs = EditorUtility.CollectDependencies(new Object[] { go });
@@ -74,42 +95,21 @@ public class ABTest : Editor {
         {
             var obj = objs[i];
             System.Type t = obj.GetType();
-            if (types.Contains(t) || t.Equals(typeof(SceneAsset)) || t.Equals(typeof(GameObject)))
+            if (Types.Contains(t) || t.Equals(typeof(SceneAsset)) || t.Equals(typeof(GameObject)))
                 SetAssetBundleName(string.Empty, obj);
         }
-    }
-    static AssetBundle ab;
-    [MenuItem("Tools/Caculate")]
-    public static void Compare()
-    {
-        
-        //WWW www = new WWW("file:///D:/TestProjs/ABTest/New Unity Project/AB/AB");
-        //while (!www.isDone)
-        //{
-            
-        //}
-        //var manifest = (AssetBundleManifest)www.assetBundle.LoadAsset("AB");
-    //    manifest.
-        if(ab == null)
-            ab = AssetBundle.LoadFromFile(@"D:\TestProjs\ABTest\New Unity Project\AB\assets\boxworld\Canvas.prefab");
-        Debug.LogError(ab == null);
-        var obj = ab.LoadAsset("Canvas");
-        GameObject go = GameObject.Instantiate(obj) as GameObject;
-        Debug.LogError(obj==null);
-        ab.Unload(false);
     }
 
     public static void SetAssetBundleName(string ap, Object obj)
     {
-        var r_path = AssetDatabase.GetAssetPath(obj);
-        AssetImporter ai = AssetImporter.GetAtPath(r_path);
+        var rPath = AssetDatabase.GetAssetPath(obj);
+        AssetImporter ai = AssetImporter.GetAtPath(rPath);
         if (ai == null)
         {
-           // Debug.LogError(ap + "  " + obj.GetType());
         }
         else
         {
-            ap = ap.Replace("Assets/RequiredResources/", string.Empty);
+            ap = ap.Replace(RequiredUrl, string.Empty);
             ai.assetBundleName = ap;
         }
     }
@@ -120,9 +120,9 @@ public class ABTest : Editor {
         var objs = EditorUtility.CollectDependencies(new Object[] { scene });
         foreach (Object obj in objs)
         {
-            if(obj is GameObject && !caculatedGO.Contains(obj as GameObject))
+            if(obj is GameObject && !CaculatedGo.Contains(obj as GameObject))
             {
-                caculatedGO.Add(obj as GameObject);
+                CaculatedGo.Add(obj as GameObject);
                 var ap = AssetDatabase.GetAssetPath(obj);
                 DoGameObject(obj as GameObject, ap, true);
             }
@@ -143,28 +143,52 @@ public class ABTest : Editor {
         {
             SetAssetBundleName(path, go);
         }
-        DoAsset(go, path);
+        CollectDependencies(go, path);
     }
     static void DoAsset(Object go, string path)
+    {
+        bool done = false;
+        Debug.LogError(go.GetType());
+        if(go is Texture2D)
+        {
+            done = DoUISprite(go as Texture);
+        }
+        if(!done)
+        {
+            var ap = AssetDatabase.GetAssetPath(go);
+            int count = CheckCount(go);
+            if (count > 1)
+            {
+                SetAssetBundleName(ap, go);
+            }
+        }
+    }
+    static void CollectDependencies(Object go, string path)
     {
         var objs = EditorUtility.CollectDependencies(new Object[] { go });
         foreach (Object obj in objs)
         {
-            if (types.Contains(obj.GetType()))
+            if (Types.Contains(obj.GetType()))
             {
-                var ap = AssetDatabase.GetAssetPath(obj);
-                int count = CheckCount(obj);
-                if (count > 1)
-                {
-                    SetAssetBundleName(ap, obj);
-                }
+                DoAsset(obj, path);
             }
         }
     }
+    static bool DoUISprite(Object go)
+    {
+        var r_path = AssetDatabase.GetAssetPath(go);
+        TextureImporter ti = AssetImporter.GetAtPath(r_path) as TextureImporter;
+        if(ti!=null && ti.textureType == TextureImporterType.Sprite)
+        {
+            ti.assetBundleName = ti.spritePackingTag;
+            return true;
+        }
+        return false;
+    }
     private static int CheckCount(Object obj)
     {
-        if (!refCount.ContainsKey(obj)) refCount[obj] = 0;
-        return ++refCount[obj];
+        if (!RefCount.ContainsKey(obj)) RefCount[obj] = 0;
+        return ++RefCount[obj];
     }
 
 }

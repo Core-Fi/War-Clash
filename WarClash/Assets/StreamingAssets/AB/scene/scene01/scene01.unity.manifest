@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 985028876
+CRC: 3851901127
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 650ef2cf6ce316fc4e6c96f940d27b7f
+    Hash: 78bf6f6723b9a995cfe7bbfeefe64646
   TypeTreeHash:
     serializedVersion: 2
     Hash: 31d6cfe0d16ae931b73c59d7e0c089c0
@@ -11,4 +11,5 @@ HashAppended: 0
 ClassTypes: []
 Assets:
 - Assets/RequiredResources/Scene/Scene01/Scene01.unity
-Dependencies: []
+Dependencies:
+- D:/War-Clash/WarClash/Assets/StreamingAssets/AB/assets/rawresources/scenes/scene01/plane.prefab
