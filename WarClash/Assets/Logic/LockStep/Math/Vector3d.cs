@@ -37,11 +37,12 @@ namespace Lockstep
             return new Vector3d(0, 0, FixedMath.One);
         }
         
-        public void Normalize () {
+        public Vector3d Normalize () {
             long magnitude = FixedMath.Sqrt(x.Mul(x) + y.Mul(y) + z.Mul(z));
             x = x.Div(magnitude);
             y = y.Div(magnitude);
             z = z.Div(magnitude);
+            return this;
         }
         public Vector2d ToVector2d () {
             return new Vector2d(x,y);

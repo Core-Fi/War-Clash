@@ -7,23 +7,28 @@ using UnityEngine.AI;
 
 public class U3DNpc : U3DCharacter{
 
-    public Npc npc { get; private set; }
-    private GameObject go;
-    private NavMeshAgent navMeshAgent;
+    public Npc Npc { get; private set; }
+    private NavMeshAgent _navMeshAgent;
     public override void OnInit()
     {
         base.OnInit();
-        npc = so as Npc;
-        GameObject g = Resources.Load("Prefabs/footman_prefab") as GameObject;
-        go = GameObject.Instantiate(g);
-        go.name = this.npc.ToString();
-        var lo = go.AddComponent<LogicObject>();
-        lo.ID = npc.ID;
-        go.transform.position = npc.Position.ToVector3();
-        animator = go.GetComponent<Animator>();
-        navMeshAgent = go.GetComponent<NavMeshAgent>();
-        SetSpeed();
+        Npc = So as Npc;
+        Resource.LoadAsset("Footman_prefab.prefab", OnLoadedRes);
     }
+
+    public override void OnLoadedRes(string name, Object obj)
+    {
+        Go = Object.Instantiate(obj) as GameObject;
+        Go.name = this.Npc.ToString();
+        var lo = Go.AddComponent<LogicObject>();
+        lo.ID = Npc.Id;
+        Go.transform.position = Npc.Position.ToVector3();
+        animator = Go.GetComponent<Animator>();
+        _navMeshAgent = Go.GetComponent<NavMeshAgent>();
+        SetSpeed();
+        base.OnLoadedRes(name, obj);
+    }
+
     public override void ListenEvents()
     {
         base.ListenEvents();
@@ -31,8 +36,11 @@ public class U3DNpc : U3DCharacter{
     public override void OnUpdate()
     {
         base.OnUpdate();
-        go.transform.position = character.Position.ToVector3();
-        go.transform.forward = character.Forward.ToVector3();
+        if (Go != null)
+        {
+            Go.transform.position = Character.Position.ToVector3();
+            Go.transform.forward = Character.Forward.ToVector3();
+        }
     }
 
     public override void OnDestroy()

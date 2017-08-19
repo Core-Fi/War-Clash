@@ -15,6 +15,10 @@ public class InspectorOfMapEdit : Editor {
         {
             t.Generate();
         }
+        if (GUILayout.Button("Save"))
+        {
+            t.Save();   
+        }
         if(GUILayout.Button("ShowElse"))
         {
             var list = Resources.FindObjectsOfTypeAll(typeof(GameObject));
@@ -37,7 +41,7 @@ public class InspectorOfMapEdit : Editor {
         }
         if (edit && Event.current.type == EventType.MouseMove)
         {
-            t.Raycast(true);
+            t.Raycast(HandleUtility.GUIPointToWorldRay(Event.current.mousePosition));
         }
     }
 }

@@ -5,14 +5,21 @@ using UnityEngine;
 using Logic;
 using System;
 
-public abstract class U3DSceneObject {
-
-    public SceneObject so;
-
+public abstract class U3DSceneObject : IUpdate {
+    
+    public SceneObject So;
+    protected GameObject Go;
+    protected LogicObject LogicObject;
 	public void Init(SceneObject so)
     {
-        this.so = so;
+        this.So = so;
         OnInit();
+    }
+
+    public virtual void OnLoadedRes(string name, UnityEngine.Object obj)
+    {
+        LogicObject = Go.GetComponent<LogicObject>(true);
+        LogicObject.ID = So.Id;
     }
     public virtual void OnInit()
     {

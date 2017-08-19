@@ -10,6 +10,7 @@ namespace Logic
     { 
         HP ,
         MAXHP,
+        MAXSPEED,
         SPEED ,
         CHARACTEREND,
     }
@@ -18,25 +19,25 @@ namespace Logic
         ABSOLUTE,
         PERCENT
     }
-    public class AttributeMotifier
+    public struct AttributeMotifier
     {
         public Operation operation;
         public long value;
     }
     public class CharacterAttribute
     {
-        public long baseValue { get; private set; }
-        private LinkedList<AttributeMotifier> motifiers = new LinkedList<AttributeMotifier>();
-        public long finalValue { get; private set; }
+        public long BaseValue { get; private set; }
+        private LinkedList<AttributeMotifier> _motifiers = new LinkedList<AttributeMotifier>();
+        public long FinalValue { get; private set; }
      //   public AttributeType attribute { get; private set; }
         public CharacterAttribute(long value)
         {
-            baseValue = value;
-            finalValue = value;
+            BaseValue = value;
+            FinalValue = value;
         }
         public void SetBase(long value)
         {
-            baseValue = value;
+            BaseValue = value;
             Caculate();
         }
         public void Add(Operation operation, long value)
@@ -48,54 +49,65 @@ namespace Logic
             };
             if(operation == Operation.PERCENT)
             {
-                motifiers.AddFirst(attr);
+                _motifiers.AddFirst(attr);
             }else
             {
-                motifiers.AddLast(attr);
+                _motifiers.AddLast(attr);
             }
             
             Caculate();
         }
         public void Remove(Operation operation, long value)
         {
-            AttributeMotifier removeTarget = null;
-            foreach (var item in motifiers)
+            AttributeMotifier removeTarget = new AttributeMotifier() {operation = operation, value = value};
+            bool rst = _motifiers.Remove(removeTarget);
+            if (rst)
             {
-                if (item.operation == Operation.PERCENT && item.value == value)
-                {
-                    removeTarget = item;
-                    break;
-                }
+                Caculate();
             }
-            motifiers.Remove(removeTarget);
-            Caculate();
-
+            else
+            {
+                Debug.LogError("fail to remove");   
+            }
         }
         public void Caculate()
         {
-            finalValue = baseValue;
-            foreach (var item in motifiers)
+            FinalValue = BaseValue;
+            foreach (var item in _motifiers)
             {
                 if(item.operation == Operation.PERCENT)
                 {
-                    finalValue *= item.value;
+                    FinalValue *= item.value;
                 }
                 else
                 {
-                    finalValue += item.value;
+                    FinalValue += item.value;
                 }
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var item in _motifiers)
+            {
+                sb.Append(item.operation);
+                sb.Append(item.value);
+            }
+            sb.Append(BaseValue);
+            sb.Append(FinalValue);
+            return sb.ToString();
         }
     }
     public struct AttributeMsg
     {
-        public AttributeType at;
-        public long oldValue;
-        public long newValue;
+        public AttributeType At;
+        public long OldValue;
+        public long NewValue;
     }
     public class AttributeManager
     {
-        private Dictionary<AttributeType, CharacterAttribute> attributes = new Dictionary<AttributeType, CharacterAttribute>();
+        private Dictionary<AttributeType, CharacterAttribute> _attributes = new Dictionary<AttributeType, CharacterAttribute>();
         public Action<AttributeType, long, long> OnAttributeChange;
         public long this[AttributeType at]
         {
@@ -105,27 +117,27 @@ namespace Logic
                     Debug.LogError(at + " Key not exsit");
                     return 0;
                 }
-                return attributes[at].finalValue;
+                return _attributes[at].FinalValue;
             }
         }
         public bool HasAttribute(AttributeType at)
         {
-            return attributes.ContainsKey(at);
+            return _attributes.ContainsKey(at);
         }
         public void New(AttributeType at, long value)
         {
-            attributes[at] = new CharacterAttribute(value);
+            _attributes[at] = new CharacterAttribute(value);
         }
         public void Remove(AttributeType at, Operation op, long value)
         {
-            if (attributes.ContainsKey(at))
+            if (_attributes.ContainsKey(at))
             {
-                var attr = attributes[at];
-                long oldValue = attr.finalValue;
+                var attr = _attributes[at];
+                long oldValue = attr.FinalValue;
                 attr.Remove(op, value);
                 if (OnAttributeChange != null)
                 {
-                    OnAttributeChange.Invoke(at, oldValue, attr.finalValue);
+                    OnAttributeChange.Invoke(at, oldValue, attr.FinalValue);
                 }
             }
             else
@@ -135,18 +147,24 @@ namespace Logic
         }
         public void SetBase(AttributeType at, long value)
         {
-            attributes[at].SetBase(value);
+            var attr = _attributes[at];
+            long oldValue = attr.FinalValue;
+            _attributes[at].SetBase(value);
+            if (OnAttributeChange != null)
+            {
+                OnAttributeChange.Invoke(at, oldValue, attr.FinalValue);
+            }
         }
         public void Add(AttributeType at, Operation op, long value)
         {
-            if(attributes.ContainsKey(at))
+            if(_attributes.ContainsKey(at))
             {
-                var attr = attributes[at];
-                long oldValue = attr.finalValue;
+                var attr = _attributes[at];
+                long oldValue = attr.FinalValue;
                 attr.Add(op, value);
                 if(OnAttributeChange != null)
                 {
-                    OnAttributeChange.Invoke(at, oldValue, attr.finalValue);
+                    OnAttributeChange.Invoke(at, oldValue, attr.FinalValue);
                 }
             }else
             {
@@ -154,6 +172,16 @@ namespace Logic
             }
         }
 
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var attribute in _attributes)
+            {
+                sb.Append(attribute.Key);
+                sb.Append(attribute.Value.ToString());
+            }
+            return sb.ToString();
+        }
     }
 
 }

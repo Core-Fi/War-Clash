@@ -7,21 +7,20 @@ using Logic.LogicObject;
 
 public class U3DSceneManager {
 
-    public U3DScene u3dScene { get; private set; }
+    public U3DScene U3DScene { get; private set; }
     public U3DSceneManager()
     {
-        Logic.LogicCore.SP.sceneManager.eventGroup.ListenEvent((int)Logic.SceneManager.SceneManagerEvent.ONSWITCHSCENE, OnSwitchScene);
+        Logic.LogicCore.SP.sceneManager.eventGroup.ListenEvent((int)Logic.SceneManager.SceneManagerEvent.Onswitchscene, OnSwitchScene);
     }
-
     private void OnSwitchScene(object sender, EventMsg e)
     {
         EventSingleArgs<Scene> msg = e as EventSingleArgs<Scene>;
         Scene scene = msg.value;
-        u3dScene = new U3DScene();
-        u3dScene.Init(scene);
+        U3DScene = new U3DScene();
+        U3DScene.Init(scene);
     }
     public void Update()
     {
-        u3dScene.Update();
+        U3DScene.Update(Time.deltaTime);
     }
 }

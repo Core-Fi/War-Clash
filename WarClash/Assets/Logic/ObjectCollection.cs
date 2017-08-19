@@ -171,36 +171,68 @@ namespace Logic.Objects
             }
         }
 
-        public int Count<DeriveTValue>() where DeriveTValue : class, TValue
+        public int Count<TDeriveTValue>() where TDeriveTValue : class, TValue
         {
-            Type type = typeof(DeriveTValue);
+            Type type = typeof(TDeriveTValue);
             if (!objectColl.ContainsKey(type))
                 return 0;
             return objectColl[type].Count;
         }
-        public void Update()
+        public void Update(float deltaTime)
         {
+            traverseLevel++;
             var dic = objectColl[typeof(TValue)];
             if(dic != null)
             {
                 foreach (var item in dic)
                 {
-                    SceneObject so = item.Value.Val as SceneObject;
-                    if(so != null)
+                    if (item.Value.Val is IUpdate)
                     {
-                        so.Update(0);
+                        IUpdate so = item.Value.Val as IUpdate;
+                        if (so != null)
+                        {
+                            so.Update(deltaTime);
+                        }
                     }
                 }
             }
-            OnUpdate();
+            OnUpdate(deltaTime);
+            DecTraverseLevel();
         }
-        public virtual void OnUpdate()
+
+        public void FixedUpdate(long deltaTime)
+        {
+            traverseLevel++;
+            var dic = objectColl[typeof(TValue)];
+            if (dic != null)
+            {
+                foreach (var item in dic)
+                {
+                    if (item.Value.Val is IFixedUpdate)
+                    {
+                        IFixedUpdate so = item.Value.Val as IFixedUpdate;
+                        if (so != null)
+                        {
+                            so.FixedUpdate(deltaTime);
+                        }
+                    }
+                }
+            }
+            OnUpdate(deltaTime);
+            DecTraverseLevel();
+        }
+        public virtual void OnUpdate(float deltaTime)
         {
 
         }
-        public DeriveTValue GetObject<DeriveTValue>(TKey key) where DeriveTValue : class, TValue
+
+        public virtual void OnFixedUpdate(long deltaTime)
         {
-            Type type = typeof(DeriveTValue);
+            
+        }
+        public TDeriveTValue GetObject<TDeriveTValue>(TKey key) where TDeriveTValue : class, TValue
+        {
+            Type type = typeof(TDeriveTValue);
             if (objectColl.ContainsKey(type))
             {
                 Dictionary<TKey, ValuePack<TValue>> dic = objectColl[type];
@@ -208,7 +240,7 @@ namespace Logic.Objects
                 {
                     ValuePack<TValue> valPack = dic[key];
                     if (valPack.Enable)
-                        return valPack.Val as DeriveTValue;
+                        return valPack.Val as TDeriveTValue;
                 }
             }
             if (IsTraversing)
@@ -217,7 +249,7 @@ namespace Logic.Objects
                 {
                     if (null != pair && key.Equals(pair.key))
                     {
-                        return pair.val as DeriveTValue;
+                        return pair.val as TDeriveTValue;
                     }
                 }
             }
@@ -229,9 +261,9 @@ namespace Logic.Objects
             return GetObject<TValue>(key);
         }
 
-        public bool HasObject<DeriveTValue>(TKey key) where DeriveTValue : class, TValue
+        public bool HasObject<TDeriveTValue>(TKey key) where TDeriveTValue : class, TValue
         {
-            return null != GetObject<DeriveTValue>(key);
+            return null != GetObject<TDeriveTValue>(key);
         }
 
         public bool HasObject(TKey key)

@@ -8,14 +8,25 @@ using Lockstep;
 
 namespace Logic.LogicObject
 {
+    public enum Team
+    {
+        Team1,
+        Team2,
+        Team3,
+        Team4,
+        Neutral
+    }
 
-    public abstract class SceneObject
+    public abstract class SceneObject: IUpdate, IFixedUpdate
     {
         public enum SceneObjectEvent
         {
-            POSITIONCHANGE,
+            Positionchange,
+            Onattributechange
+
         }
-        public int ID;
+        public int Id;
+        public Team Team;
         public EventGroup EventGroup { get; private set; }
         public Vector3d Position
         {
@@ -35,6 +46,25 @@ namespace Logic.LogicObject
             }
         }
         private Vector3d _forward = new Vector3d(UnityEngine.Vector3.forward);
+        public AttributeManager AttributeManager { get; private set; }
+        public long Hp
+        {
+            get
+            {
+                return AttributeManager[AttributeType.HP];
+            }
+            set
+            {
+                if (value <= 0)
+                {
+                    Dispose();
+                    AttributeManager.SetBase(AttributeType.HP, 0);
+                }
+                else
+                    AttributeManager.SetBase(AttributeType.HP, value);
+            }
+        }
+
         internal virtual void ListenEvents()
         {
 
@@ -42,24 +72,79 @@ namespace Logic.LogicObject
         internal void Init()
         {
             EventGroup = new EventGroup();
+            AttributeManager = new AttributeManager();
+            AttributeManager.New(AttributeType.HP, Lockstep.FixedMath.One * 100);
+            AttributeManager.OnAttributeChange += OnAttributeChange;
             OnInit();
+        }
+        public virtual void OnAttributeChange(AttributeType at, long old, long newValue)
+        {
+            EventGroup.FireEvent((int)SceneObjectEvent.Onattributechange, this, EventGroup.NewArg<EventSingleArgs<AttributeMsg>, AttributeMsg>(new AttributeMsg()
+            {
+                At = at,
+                NewValue = newValue,
+                OldValue = old
+            }));
+        }
+        public long GetAttributeValue(AttributeType at)
+        {
+            return AttributeManager[at];
         }
         internal virtual void OnInit()
         {
             
         }
-        internal void Update(float deltaTime)
+        public void Update(float deltaTime)
         {
             OnUpdate(deltaTime);
+        }
+
+        public void FixedUpdate(long deltaTime)
+        {
+            OnFixedUpdate(deltaTime);
+        }
+
+        internal virtual void OnFixedUpdate(long deltaTime)
+        {
+            
         }
         internal virtual void OnUpdate(float deltaTime)
         {
 
         }
 
+        internal void Dispose()
+        {
+            
+        }
+        internal virtual void OnDispose()
+        {
+            
+        }
+
         public override string ToString()
         {
-            return this.GetType()+"  "+ID;
+            return this.GetType()+"  "+Id;
+        }
+        public virtual int GetStatusHash()
+        {
+            return GetStatusStr().GetHashCode();
+        }
+
+        public virtual string GetStatusStr()
+        {
+            StringBuilder sb = new StringBuilder();
+            AppendVector3d(sb, Position);
+            AppendVector3d(sb, Forward);
+            sb.Append(AttributeManager.ToString());
+            return sb.ToString();
+        }
+
+        private void AppendVector3d(StringBuilder sb, Vector3d v)
+        {
+            sb.Append(v.x);
+            sb.Append(v.y);
+            sb.Append(v.z);
         }
     }
 }

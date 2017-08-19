@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Status
-{
-    Unreachable,
-    Reachable,
-}
+
 public class Box : MonoBehaviour
 {
+    public enum Status
+    {
+        Unreachable = 0,
+        Reachable = 1,
+    }
     public Vector3 size;
     public Status status;
     public Action OnClick;

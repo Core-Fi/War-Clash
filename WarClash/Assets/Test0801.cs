@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class Test0801 : MonoBehaviour {
 
+   
 	// Use this for initialization
 	void Start ()
     {
        
-	}
+    }
 
     private void Do(object sender, EventMsg e)
     {
@@ -23,12 +24,7 @@ public class Test0801 : MonoBehaviour {
 
     void OnDestroy()
     {
-        Debug.LogError("1212");
+
     }
 }
 
-class TestController : Manager
-{
-
-
-}

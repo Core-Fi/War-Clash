@@ -19,7 +19,7 @@ namespace BrainiacEditor
             {
                 LogicObject lo = (LogicObject)target;
                 var c = (lo.so as Character);
-                AIAgent agent =  c.aiAgent;
+                AIAgent agent =  c.AiAgent;
                 Blackboard blackboard = agent.Blackboard;
                 IDictionary<string, object> dict = GetRuntimeValues(blackboard);
                 if(dict != null)
@@ -54,7 +54,7 @@ namespace BrainiacEditor
 			serializedObject.ApplyModifiedProperties();
             LogicObject lo = (LogicObject)target;
             var c = (lo.so as Character);
-            AIAgent agent =  c.aiAgent;
+            AIAgent agent =  c.AiAgent;
             BTAsset btAsset = agent.BehaviourTree as BTAsset;
 			BehaviourTree btInstance = agent.GetBehaviourTree();
 

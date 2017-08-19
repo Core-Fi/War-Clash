@@ -5,17 +5,16 @@ using UnityEngine;
 
 public class U3DProjectile : U3DSceneObject
 {
-
-    private Projectile projectile;
+    private Projectile _projectile;
     public override void OnInit()
     {
         base.OnInit();
-        projectile = so as Projectile;
+        _projectile = So as Projectile;
     }
     public override void OnDestroy()
     {
         base.OnDestroy();
-
     }
+
 
 }

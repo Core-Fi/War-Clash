@@ -144,8 +144,9 @@ namespace Lockstep
         /// <param name="f1">f1.</param>
         /// <param name="f2">f2.</param>
         public static long Mul(this long f1, long f2)
-		{
-			return (f1 * f2) >> SHIFT_AMOUNT;
+        {
+            f1 = (f1*f2) >> SHIFT_AMOUNT;
+            return f1;
 		}
 
 		public static long Mul(this long f1, int intr)

@@ -1,29 +1,33 @@
 ﻿using Logic.LogicObject;
 using Logic.Objects;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Logic;
 using System;
 
 public class U3DScene : ObjectCollection<int, U3DSceneObject>
 {
-    public Scene scene;
+    public Scene Scene;
     public U3DScene()
     {
     }
     public void Init(Scene scene)
     {
-        this.scene = scene;
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Scene01");
-        Main.inst.StartCoroutine(LoadScene());
+        this.Scene = scene;
+        ListenEvents();
+        UnityEngine.SceneManagement.SceneManager.LoadScene("scene01");
+        Main.SP.StartCoroutine(LoadScene());
     }
     IEnumerator LoadScene()
     {
-        AsyncOperation asyn = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("Scene01");
+        AsyncOperation asyn = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("scene01");
         yield return asyn;
         OnInit();
-        ListenEvents();
+        //NavMeshTriangulation triangles = NavMesh.CalculateTriangulation();
+        //Mesh mesh = new Mesh();
+        //mesh.vertices = triangles.vertices;
+        //mesh.triangles = triangles.indices;
+        //AssetDatabase.CreateAsset(mesh, "Assets/navmesh.asset");
+        // ListenEvents();
     }
     protected virtual void OnInit()
     {
@@ -32,37 +36,30 @@ public class U3DScene : ObjectCollection<int, U3DSceneObject>
     }
     protected virtual void ListenEvents()
     {
-        scene.EventGroup.ListenEvent((int)Scene.SceneEvent.ADDSCENEOBJECT,OnAddSceneObject);
-        scene.EventGroup.ListenEvent((int)Scene.SceneEvent.REMOVESCENEOBJECT, OnRemoveSceneObject);
+        Scene.EventGroup.ListenEvent((int)Scene.SceneEvent.Addsceneobject,OnAddSceneObject);
+        Scene.EventGroup.ListenEvent((int)Scene.SceneEvent.Removesceneobject, OnRemoveSceneObject);
     }
 
     private void OnRemoveSceneObject(object sender, EventMsg e)
     {
         EventSingleArgs<SceneObject> msg = e as EventSingleArgs<SceneObject>;
-        U3DSceneObject uso = GetObject(msg.value.ID);
+        U3DSceneObject uso = GetObject(msg.value.Id);
         uso.Destroy();
-        RemoveObject(msg.value.ID);
+        RemoveObject(msg.value.Id);
     }
 
     private void OnAddSceneObject(object sender, EventMsg e)
     {
         EventSingleArgs<SceneObject> msg = e as EventSingleArgs<SceneObject>;
-        U3DSceneObject uso = null;
-        if(msg.value is Projectile)
-        {
-            uso = new U3DProjectile();
-        }else if(msg.value is Npc)
-        {
-            uso = new U3DNpc();
-        }
-        AddObject(msg.value.ID, uso);
+        Type t = LogicObjectCorresponding.Corresponding[msg.value.GetType()];
+        U3DSceneObject uso = Activator.CreateInstance(t) as U3DSceneObject;
+        AddObject(msg.value.Id, uso);
         uso.Init(msg.value);
         uso.ListenEvents();
-
     }
 
-    public override void OnUpdate()
+    public override void OnUpdate(float deltaTime)
     {
-        base.OnUpdate();
+        base.OnUpdate(deltaTime);
     }
 }

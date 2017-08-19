@@ -12,7 +12,7 @@ namespace Logic.Skill
    
     public class SkillManager 
     {
-        private static Dictionary<string, Skill> skills =new Dictionary<string, Skill>();
+        private static readonly Dictionary<string, Skill> skills =new Dictionary<string, Skill>();
         private static Dictionary<int, string> skill_index = new Dictionary<int, string>();
 
         public static void LoadSkillIndexFiles()
@@ -22,31 +22,47 @@ namespace Logic.Skill
         public static Skill GetSkill(string path)
         {
             Skill skill = null;
-            if (skills.ContainsKey(path))
+            if (Skills.ContainsKey(path))
             {
-                skill = skills[path];
+                skill = Skills[path];
             }
             else
             {
                 skill = Logic.Skill.SkillUtility.GetTimelineGroup<Skill>("Skills/" + path);
-                skills[path] = skill;
+                Skills[path] = skill;
             }
             return skill;
         }
 
-        public RuntimeSkill runningSkill { get; private set; }
+        public RuntimeSkill RunningSkill { get; private set; }
         private Character so;
 
         public bool IsRunningSkill
         {
-            get { return runningSkill != null; }
+            get { return RunningSkill != null; }
+        }
+
+        public static Dictionary<string, Skill> Skills
+        {
+            get
+            {
+                return Skills1;
+            }
+        }
+
+        public static Dictionary<string, Skill> Skills1
+        {
+            get
+            {
+                return skills;
+            }
         }
 
         internal void CancelSkill()
         {
-            this.so.EventGroup.FireEvent((int)Character.CharacterEvent.CANCELSKILL, so, EventGroup.NewArg<EventSingleArgs<string>, string>(runningSkill.sourceData.path));
-            Pool.SP.Recycle(runningSkill);
-            runningSkill = null;
+            this.so.EventGroup.FireEvent((int)Character.CharacterEvent.Cancelskill, so, EventGroup.NewArg<EventSingleArgs<string>, string>(RunningSkill.sourceData.path));
+            Pool.SP.Recycle(RunningSkill);
+            RunningSkill = null;
         }
         public SkillManager(Character so)
         {
@@ -65,23 +81,23 @@ namespace Logic.Skill
         private void ReleaseSkill(string path, RuntimeData srd)
         {
             var skill = GetSkill(path);
-            runningSkill = Pool.SP.Get(typeof(RuntimeSkill)) as RuntimeSkill;
-            runningSkill.Init(skill, srd, OnFinish);
-            this.so.EventGroup.FireEvent((int)Character.CharacterEvent.STARTSKILL, so, EventGroup.NewArg<EventSingleArgs<string>, string>(path));
+            RunningSkill = Pool.SP.Get(typeof(RuntimeSkill)) as RuntimeSkill;
+            RunningSkill.Init(skill, srd, OnFinish);
+            this.so.EventGroup.FireEvent((int)Character.CharacterEvent.Startskill, so, EventGroup.NewArg<EventSingleArgs<string>, string>(path));
         }
         internal void Update(float deltaTime)
         {
-            if (runningSkill != null)
+            if (RunningSkill != null)
             {
-                runningSkill.Breath(deltaTime);
+                RunningSkill.Breath(deltaTime);
             }
         }
 
         internal void OnFinish()
         {
-            so.EventGroup.FireEvent((int)Character.CharacterEvent.ENDSKILL, so, EventGroup.NewArg<EventSingleArgs<string>, string>(runningSkill.sourceData.path));
-            Pool.SP.Recycle(runningSkill);
-            runningSkill = null;
+            so.EventGroup.FireEvent((int)Character.CharacterEvent.Endskill, so, EventGroup.NewArg<EventSingleArgs<string>, string>(RunningSkill.sourceData.path));
+            Pool.SP.Recycle(RunningSkill);
+            RunningSkill = null;
         }
 
     }

@@ -14,13 +14,13 @@ namespace Brainiac
                 return m_behaviourTree;
             }
         }
-        public Character Character{
+        public SceneObject SceneObject{
 
             get{
-                return m_character;
+                return _mSceneObject;
             }
         }
-        private Character m_character;
+        private SceneObject _mSceneObject;
 		private BTAsset m_behaviourTree;
         private UpdateMode m_updateMode = UpdateMode.Manual;
 		private float m_updateInterval;
@@ -53,18 +53,15 @@ namespace Brainiac
 			}
 		}
 
-        public AIAgent(Character c,  BTAsset asset)
+        public AIAgent(SceneObject so,  BTAsset asset)
 		{
-            m_character = c;
+            _mSceneObject = so;
             m_behaviourTree = asset;
-
             m_blackboard = new Blackboard();
-
 			if(m_behaviourTree != null)
 			{
 				m_btInstance = m_behaviourTree.CreateRuntimeTree();
 			}
-
 			m_timeElapsedSinceLastUpdate = 0.0f;
 			m_isRunning = true;
 		}

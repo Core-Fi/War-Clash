@@ -9,30 +9,31 @@ using Lockstep;
 
 public class U3DCharacter : U3DSceneObject{
 
-    public Character character;
-    private U3DDisplayActionManager u3dDisplayManager;
+    public Character Character;
+    private U3DDisplayActionManager _u3DDisplayManager;
     public Animator animator;
     public override void OnInit()
     {
         base.OnInit();
-        character = so as Character;
-        u3dDisplayManager = new U3DDisplayActionManager(this);
+        Character = So as Character;
+        _u3DDisplayManager = new U3DDisplayActionManager(this);
     }
     public override void ListenEvents()
     {
         base.ListenEvents();
-        character.EventGroup.ListenEvent((int)Character.CharacterEvent.EXECUTEDISPLAYACTION, ExecuteDisplayAction);
-        character.EventGroup.ListenEvent((int)Character.CharacterEvent.STOPDISPLAYACTION, StopDisplayAction);
-        character.EventGroup.ListenEvent((int)Character.CharacterEvent.STARTSKILL, OnSkillStart);
-        character.EventGroup.ListenEvent((int)Character.CharacterEvent.CANCELSKILL, OnSkillCancel);
-        character.EventGroup.ListenEvent((int)Character.CharacterEvent.ENDSKILL, OnSKillEnd);
-        character.EventGroup.ListenEvent((int)Character.CharacterEvent.ONATTRIBUTECHANGE, OnAttributeChange);
+        Character.EventGroup.ListenEvent((int)Character.CharacterEvent.Executedisplayaction, ExecuteDisplayAction);
+        Character.EventGroup.ListenEvent((int)Character.CharacterEvent.Stopdisplayaction, StopDisplayAction);
+        Character.EventGroup.ListenEvent((int)Character.CharacterEvent.Startskill, OnSkillStart);
+        Character.EventGroup.ListenEvent((int)Character.CharacterEvent.Cancelskill, OnSkillCancel);
+        Character.EventGroup.ListenEvent((int)Character.CharacterEvent.Endskill, OnSkillEnd);
+        Character.EventGroup.ListenEvent((int)SceneObject.SceneObjectEvent.Onattributechange, OnAttributeChange);
     }
 
     private void OnAttributeChange(object sender, EventMsg e)
     {
         EventSingleArgs<AttributeMsg> msg = e as EventSingleArgs<AttributeMsg>;
-        if(msg.value.at == AttributeType.SPEED)
+        if(msg == null) return;
+        if(msg.value.At == AttributeType.SPEED)
         {
             SetSpeed();
         }
@@ -40,10 +41,11 @@ public class U3DCharacter : U3DSceneObject{
 
     public void SetSpeed()
     {
-        long speed = character.attributeManager[AttributeType.SPEED];
-        animator.SetInteger("Speed", FixedMath.ToInt(speed));
+        long speed = Character.AttributeManager[AttributeType.SPEED];
+        if(animator!=null)
+            animator.SetInteger("Speed", speed.ToInt());
     }
-    private void OnSKillEnd(object sender, EventMsg e)
+    private void OnSkillEnd(object sender, EventMsg e)
     {
     }
 
@@ -58,12 +60,12 @@ public class U3DCharacter : U3DSceneObject{
     private void StopDisplayAction(object sender, EventMsg e)
     {
         EventSingleArgs<DisplayAction> msg = e as EventSingleArgs<DisplayAction>;
-        u3dDisplayManager.Stop(msg.value);
+        _u3DDisplayManager.Stop(msg.value);
     }
     private void ExecuteDisplayAction(object sender, EventMsg e)
     {
         EventSingleArgs<DisplayAction> msg = e as EventSingleArgs<DisplayAction>;
-        u3dDisplayManager.Play(msg.value);
+        _u3DDisplayManager.Play(msg.value);
     }
     public override void OnDestroy()
     {

@@ -100,7 +100,7 @@ namespace Logic.LogicObject
             bool hasTarget = SetTarget();
             if (hitCount > projectileAction.hitCount || !hasTarget)
             {
-                LogicCore.SP.sceneManager.currentScene.RemoveSceneObject(this.ID);
+                LogicCore.SP.sceneManager.currentScene.RemoveSceneObject(this.Id);
             }
         }
 

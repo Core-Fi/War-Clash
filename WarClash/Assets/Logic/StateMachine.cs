@@ -46,9 +46,8 @@ namespace Logic
     {
         public Vector3d dir;
         public long speed;
-        FixedQuaternion rotateRate;
+        private FixedQuaternion rotateRate;
         private Vector3d startPosi;
-        private bool turned = false;
         public override void OnStart()
         {
             rotateRate = FixedQuaternion.AngleAxis(FixedMath.One*1, new Vector3d(UnityEngine.Vector3.up));
@@ -62,7 +61,7 @@ namespace Logic
         {
             dir = rotateRate * dir;
             Vector3d posi = dir;
-            posi.Mul(character.attributeManager[AttributeType.SPEED]);
+            posi.Mul(character.AttributeManager[AttributeType.SPEED]);
             posi.Mul(FixedMath.One.Div(FixedMath.One * 15));
             character.Position += posi;
             character.Forward = dir;

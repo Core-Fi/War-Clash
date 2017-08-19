@@ -17,6 +17,16 @@ public static class Utility
             builder.Capacity = 0;
         }
     }
+
+    public static T GetComponent<T>(this GameObject go, bool add) where T : Component
+    {
+        var comp = go.GetComponent<T>();
+        if (comp == null && add)
+        {
+            comp = go.AddComponent<T>();
+        }
+        return comp;
+    }
     public static byte[] ReadByteFromStreamingAsset(string path)
     {
         stringbuilder.Clear();

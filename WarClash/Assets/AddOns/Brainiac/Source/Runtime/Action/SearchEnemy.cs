@@ -6,22 +6,22 @@ using Logic.LogicObject;
 [AddNodeMenu("Action/SearchEnemy")]
 public class SearchEnemy : Brainiac.Action
 {
-    private Character self;
+    private SceneObject _self;
     public override void OnStart(AIAgent agent)
     {
         base.OnStart(agent);
-        searchEnemy = Search;
+        _self = agent.SceneObject;
+        _searchEnemy = Search;
     }
-    private Logic.Objects.ObjectCollection<int, SceneObject>.BoolAction<Character> searchEnemy;
-    private bool Search(Character c)
+    private Logic.Objects.ObjectCollection<int, SceneObject>.BoolAction<SceneObject> _searchEnemy;
+    private bool Search(SceneObject c)
     {
-        return c != self && !c.IsDeath();
+        return c != _self && c.Hp>0 && c.Team!=_self.Team && (c is Character);
     }
 
     protected override BehaviourNodeStatus OnExecute(AIAgent agent)
 	{
-        self = agent.Character;
-        Character target = Logic.LogicCore.SP.sceneManager.currentScene.ForEachDo<Character>(searchEnemy);
+        SceneObject target = Logic.LogicCore.SP.sceneManager.currentScene.ForEachDo<SceneObject>(_searchEnemy);
         if(target!=null)
         {
             agent.Blackboard.SetItem("Target", target);

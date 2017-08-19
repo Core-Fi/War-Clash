@@ -60,7 +60,7 @@ namespace Logic.Skill.Actions
         public virtual void Execute(SceneObject sender, SceneObject reciever, object data)
         {
             string str = reciever == null ? "" : reciever.ToString();
-            UnityEngine.Debug.LogError(sender.ToString()+"  "+str+"  "+GetType()+"  "+ LogicCore.SP.realFixedFrame);
+            UnityEngine.Debug.Log(sender.ToString()+"  "+str+"  "+GetType()+"  "+ LogicCore.SP.realFixedFrame);
         }
     }
    
@@ -86,7 +86,7 @@ namespace Logic.Skill.Actions
             {
                 so = reciever as Character;
             }
-            so.EventGroup.FireEvent((int) Character.CharacterEvent.EXECUTEDISPLAYACTION, sender,
+            so.EventGroup.FireEvent((int) Character.CharacterEvent.Executedisplayaction, sender,
                 EventGroup.NewArg<EventSingleArgs<DisplayAction>, DisplayAction>(this));
             base.Execute(sender, reciever, data);
         }

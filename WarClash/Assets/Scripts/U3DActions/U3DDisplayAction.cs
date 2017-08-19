@@ -6,14 +6,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class U3DDisplayAction : IPool{
-    public static Dictionary<Type, Type> _Logic_Display_Actions = new Dictionary<Type, Type>()
+    public static Dictionary<Type, Type> LogicDisplayActions = new Dictionary<Type, Type>()
     {
         { typeof(PlayAnimationAction), typeof(U3DPlayAnimationAction) },
         { typeof(PlayFXAction), typeof(U3DPlayFXAction) },
 
     };
 
-    public DisplayAction action;
+    public DisplayAction Action;
 
     public abstract void Execute(U3DCharacter sender, U3DCharacter receiver, object data);
 
@@ -33,16 +33,16 @@ public class U3DDisplayActionManager
     }
     public void Play(DisplayAction action)
     {
-        Type targetType = U3DDisplayAction._Logic_Display_Actions[action.GetType()];
+        Type targetType = U3DDisplayAction.LogicDisplayActions[action.GetType()];
         U3DDisplayAction u3dDisplayAction = Pool.SP.Get(targetType) as U3DDisplayAction;
-        u3dDisplayAction.action = action;
+        u3dDisplayAction.Action = action;
         u3dDisplayAction.Execute(u3dCharacter, null, null);
     }
     public void Stop(DisplayAction action)
     {
         for (int i = 0; i < displayActions.Count; i++)
         {
-            if(displayActions[i].action == action)
+            if(displayActions[i].Action == action)
             {
                 displayActions[i].Stop();
                 Pool.SP.Recycle(displayActions[i]);

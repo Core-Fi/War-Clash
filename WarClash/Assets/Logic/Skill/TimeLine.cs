@@ -140,7 +140,7 @@ namespace Logic.Skill
                     {
                         so = this.m_RunningData.receiver as Character;
                     }
-                    so.EventGroup.FireEvent((int)Character.CharacterEvent.STOPDISPLAYACTION, so, EventGroup.NewArg<EventSingleArgs<DisplayAction>, DisplayAction>(action as DisplayAction));
+                    so.EventGroup.FireEvent((int)Character.CharacterEvent.Stopdisplayaction, so, EventGroup.NewArg<EventSingleArgs<DisplayAction>, DisplayAction>(action as DisplayAction));
                 }
             }
         }

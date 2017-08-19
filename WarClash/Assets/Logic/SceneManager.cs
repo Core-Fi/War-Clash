@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Lockstep;
 using UnityEngine;
 
 namespace Logic
@@ -13,7 +14,7 @@ namespace Logic
         public EventGroup eventGroup;
         public enum SceneManagerEvent
         {
-            ONSWITCHSCENE
+            Onswitchscene
         }
         public SceneManager()
         {
@@ -25,11 +26,16 @@ namespace Logic
                 currentScene.Destroy();
             currentScene = scene;
             currentScene.Init();
-            eventGroup.FireEvent((int)SceneManagerEvent.ONSWITCHSCENE, this, EventGroup.NewArg<EventSingleArgs<Scene>, Scene>(scene));
+            eventGroup.FireEvent((int)SceneManagerEvent.Onswitchscene, this, EventGroup.NewArg<EventSingleArgs<Scene>, Scene>(scene));
         }
         public void Update()
         {
             currentScene.Update(Time.deltaTime);
+        }
+
+        public void FixedUpdate()
+        {
+            currentScene.FixedUpdate(FixedMath.One/15);
         }
     }
 }

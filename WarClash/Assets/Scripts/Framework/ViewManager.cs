@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using UnityEngine;
 
 class ViewManager : Manager
 {
-    public List<View> views = new List<View>();
+    struct  PendingViewInfo
+    {
+        public string UiName;
+        public Type UiType;
+        public object Param;
+    }
+    private readonly List<View> _views = new List<View>();
+    private readonly List<PendingViewInfo> _waitingForLoadView = new List<PendingViewInfo>(1);  
     public ViewManager()
     {
         ListenEvent((int)EventList.ShowUI, ShowUI);
@@ -22,24 +28,44 @@ class ViewManager : Manager
     private void ShowUI(object sender, EventMsg e)
     {
         var msg = e as EventThreeArgs<string, Type, object>;
-        string ui_name = msg.value1;
+        string uiName = msg.value1;
         Type t = msg.value2;
         object para = msg.value3;
-
-        var v = Activator.CreateInstance(t) as View;
-        views.Add(v);
-        v.name = ui_name;
-        v.Init(null);
-        v.Show(para);
-
-        FireEvent((int)EventList.OnShowUI, this, EventGroup.NewArg<EventSingleArgs<View>, View>(v));
+        _waitingForLoadView.Add(new PendingViewInfo() {UiName = uiName, UiType = t, Param = para});
+        Resource.LoadAsset(uiName, OnLoadUI);
     }
+
+    private void OnLoadUI(string uiName, UnityEngine.Object obj)
+    {
+        PendingViewInfo info = default(PendingViewInfo);
+        for (int i = _waitingForLoadView.Count-1; i >= 0; i--)
+        {
+            var pendingViewInfo = _waitingForLoadView[i];
+            if (pendingViewInfo.UiName.Equals(uiName))
+            {
+                info = pendingViewInfo;
+                _waitingForLoadView.RemoveAt(i);
+            }
+        }
+        if (!info.Equals(default(PendingViewInfo)) && info.UiName.Equals(uiName))
+        {
+            GameObject go = UnityEngine.Object.Instantiate(obj) as GameObject;
+            go.transform.parent = Main.SP.Uiparent;
+            var v = Activator.CreateInstance(info.UiType) as View;
+            _views.Add(v);
+            v.name = uiName;
+            v.Init(go);
+            v.Show(info.Param);
+            FireEvent((int) EventList.OnShowUI, this, EventGroup.NewArg<EventSingleArgs<View>, View>(v));
+        }
+    }
+
     public override void OnUpdate()
     {
         base.OnUpdate();
-        for (int i = 0; i < views.Count; i++)
+        for (int i = 0; i < _views.Count; i++)
         {
-            views[i].Update();
+            _views[i].Update();
         }
     }
 

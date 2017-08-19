@@ -18,7 +18,7 @@ class SceneLoadManager : Manager
     {
         EventSingleArgs<string> msg = e as EventSingleArgs<string>;
         var rl = Pool.SP.Get(typeof(ResourceLoader)) as ResourceLoader;
-        rl.Start(msg.value, onLoadFinish);
+       // rl.Start(msg.value, onLoadFinish);
     }
     private void OnLoadFinish(string path, UnityEngine.Object obj)
     {

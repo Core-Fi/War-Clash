@@ -13,11 +13,12 @@ public abstract class View : IEventDispatcher
 
     public virtual void OnShow(object para) { }
 
+    public virtual void OnUpdate() { }
+
     public virtual void OnHide() { }
 
     public virtual void OnDispose() { }
-    public virtual void OnUpdate() { }
-
+  
     public T GetComponent<T>(string path) where T : Component
     {
         var t = go.transform.Find(path);

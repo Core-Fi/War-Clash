@@ -8,21 +8,19 @@ class BattleView : View
 {
     public override void OnDispose()
     {
-        throw new NotImplementedException();
+
     }
 
     public override void OnHide()
     {
-        throw new NotImplementedException();
     }
 
     public override void OnInit(GameObject go)
     {
-        throw new NotImplementedException();
+
     }
 
     public override void OnShow(object para)
     {
-        throw new NotImplementedException();
     }
 }

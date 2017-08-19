@@ -11,9 +11,9 @@ public class Test_6_13 : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        //string str1 = Md5(Application.dataPath+"/data1.bytes");
-        //string str2 = Md5(Application.dataPath + "/data2.bytes");
-        //Debug.LogError(str1.Equals(str2));
+        string str1 = Md5(Application.dataPath + "/data1.bytes");
+        string str2 = Md5(Application.dataPath + "/data2.bytes");
+        Debug.LogError(str1.Equals(str2));
     }
     public string Md5(string filename)
     {
@@ -53,10 +53,5 @@ public class Test_6_13 : MonoBehaviour {
     void Update () {
     
         
-    }
-
-    void OnDestroy()
-    {
-        Debug.LogError("Destroyed");
     }
 }

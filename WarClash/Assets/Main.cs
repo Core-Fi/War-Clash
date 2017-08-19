@@ -1,19 +1,23 @@
-﻿using Logic;
+﻿using System;
+using Logic;
 using Logic.LogicObject;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+class HashTest
+{
+    public int num = 100;
+}
 
 public class Main : MonoBehaviour {
 
-    public Transform uiparent;
-    public static Main inst;
+    public Transform Uiparent;
+    public static Main SP;
     private U3DSceneManager u3dSceneManager;
     private ManagerDriver managerDriver;
     void Awake()
     {
+        SP = this;
         managerDriver = new ManagerDriver();
-        inst = this;
     }
 	// Use this for initialization
 	void Start ()
@@ -22,50 +26,59 @@ public class Main : MonoBehaviour {
         Logic.LogicCore.SP.Init();
         u3dSceneManager = new U3DSceneManager();
         Logic.LogicCore.SP.sceneManager.SwitchScene(new Scene());
-        //Resource.Load("Farm01-flower-03.png", (path, obj) => 
-        //{
-        //   // GameObject g = GameObject.Instantiate(obj) as GameObject;
-        //    //g.transform.parent = uiparent;
-
-        //});
+        //var b = LogicCore.SP.sceneManager.currentScene.CreateSceneObject<BarackBuilding>();
+        //b.Team = Team.Team1;
+        //b.Position = new Lockstep.Vector3d(new Vector3(0, 0, 0));
+        EventDispatcher.FireEvent((int)EventList.ShowUI, this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("BattleUI.prefab", typeof(BattleView), null));
        
         //   EventDispatcher.FireEvent((int)EventList.PreLoadResource, this, EventGroup.NewArg<EventSingleArgs<string>, string>("Prefabs/footman_prefab"));
-        //var npc1 = LogicCore.SP.sceneManager.currentScene.CreateSceneObject<Npc>();
-        //npc1.Position = new Lockstep.Vector3d(new Vector3(-10, 0, 0));
+        var npc1 = LogicCore.SP.sceneManager.currentScene.CreateSceneObject<Npc>();
         //var npc2 = LogicCore.SP.sceneManager.currentScene.CreateSceneObject<Npc>();
         //npc2.Position = new Lockstep.Vector3d(new Vector3(10, 0, 0));
 
-        //npc.ReleaseSkill(Application.streamingAssetsPath+"/skills/1.skill");
+        //Npc.ReleaseSkill(Application.streamingAssetsPath+"/skills/1.skill");
+
+
+
+    }
+
+    void OnGUI()
+    {
+        if (GUI.Button(new Rect(0, 0, 300, 50), "GC"))
+        {
+            System.GC.Collect();
+            Resources.UnloadUnusedAssets();
+        }
+        if (GUI.Button(new Rect(0,50, 300, 50),"load"))
+        {
+            Resource.LoadAsset("Farm01-flower-03.png", (s, o) => Debug.Log(o.GetType()));
+        }
     }
     void DonotDestroy()
     {
         var objs = GameObject.FindGameObjectsWithTag("NotDestroy");
-        for (int i = 0; i < objs.Length; i++)
+        for (var i = 0; i < objs.Length; i++)
         {
             DontDestroyOnLoad(objs[i]);
         }
     }
-    float ?t = 0;
+
+    private bool a;
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
+	    if (!a && Time.time > 0.01f)
+	    {
+            EventDispatcher.FireEvent((int)EventList.ShowUI, this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("NextBattleUI.prefab", typeof(BattleView), null));
+	        a = true;
+	    }
         managerDriver.Update();
         u3dSceneManager.Update();
         Logic.LogicCore.SP.Update(Time.deltaTime);
-        if(Time.time>5 && t!=null)
-        {
-            Resource.Load("UI/NextBattleUI.prefab", (path, obj) =>
-            {
-                GameObject g = GameObject.Instantiate(obj) as GameObject;
-                g.transform.parent = uiparent;
-
-            });
-            t = null;
-        }
-       
 	}
     void FixedUpdate()
     {
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < 100; i++)
         {
             Logic.LogicCore.SP.FixedUpdate();
         }

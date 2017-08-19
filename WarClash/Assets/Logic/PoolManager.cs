@@ -11,30 +11,29 @@ public interface IPool
 }
 public class Pool : Singleton<Pool>
 {
-    private Dictionary<Type, Queue<IPool>> pool_dic = new Dictionary<Type, Queue<IPool>>();
+    private readonly Dictionary<Type, Queue<IPool>> _poolDic = new Dictionary<Type, Queue<IPool>>();
     public void Recycle(IPool iPool)
     {
         Type type = iPool.GetType();
-        if (!pool_dic.ContainsKey(type))
+        if (!_poolDic.ContainsKey(type))
         {
-            pool_dic[type] = new Queue<IPool>();
+            _poolDic[type] = new Queue<IPool>();
         }
         iPool.Reset();
-        pool_dic[type].Enqueue(iPool);
+        _poolDic[type].Enqueue(iPool);
     }
 
     public IPool Get(Type type)
     {
         IPool obj = null;
-        if (pool_dic.ContainsKey(type) && pool_dic[type].Count > 0)
+        if (_poolDic.ContainsKey(type) && _poolDic[type].Count > 0)
         {
-            obj = pool_dic[type].Dequeue();
+            obj = _poolDic[type].Dequeue();
         }
         else
         {
             obj = Activator.CreateInstance(type) as IPool;
         }
-        obj.Reset();
         return obj;
     }
 }

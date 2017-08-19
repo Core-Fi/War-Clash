@@ -1,38 +1,55 @@
 ﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Security;
-using System.Text;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
-class ResourceLoader : Loader
+public struct BundleInfo
 {
-    private string bundlePath;
+    public string BundleName;
+    public string AssetPath;
+}
+
+public enum WaitingType
+{
+    Asset, Bundle
+}
+public struct WaitingBundle
+{
+    public WaitingType WaitingType;
+    public string Name;
+    public System.Action<string, UnityEngine.Object> Action;
+}
+
+class ResourceLoader : IPool
+{
+    public Action<string, AssetBundle> OnLoadFinish;
+    public string BundleName;
+    protected IEnumerator LoadCoroutine;
     private string[] dependencies;
     private AssetBundle[] depens;
     private Object[] depenObjs;
-    public override void Start(string path, System.Action<string, UnityEngine.Object> func)
+    public void Start(string bundleName, Action<string, AssetBundle> onLoadFinish)
     {
-        this.path = path;
-        this.func = func;
-        bundlePath = Resource.GetBundleName(path);
-        dependencies = Resource.Manifest.GetAllDependencies(bundlePath);
+        this.BundleName = bundleName;
+        LoadCoroutine = LoadMainAsset();
+        dependencies = Resource.Manifest.GetAllDependencies(bundleName);
+        Resource.AddLoadingLoader(this);
         if (dependencies.Length > 0)
         {
             depens = new AssetBundle[dependencies.Length];
             depenObjs = new Object[dependencies.Length];
             for (int i = dependencies.Length-1; i >= 0; i--)
             {
-                var loader = Pool.SP.Get(typeof(Loader)) as Loader;
-                if(loader!=null)
-                    loader.Start(dependencies[i], OnDependencyLoadFinish);
+                Resource.LoadBundle(dependencies[i], OnDependencyLoadFinish);
             }
         }
         else
         {
-            Main.inst.StartCoroutine(LoadMainAsset());
+
+            Main.SP.StartCoroutine(LoadCoroutine);
         }
     }
     public void OnDependencyLoadFinish(string dPath, Object bundle)
@@ -55,123 +72,198 @@ class ResourceLoader : Loader
         }
         if(isFinish)
         {
-            for (int i = 0; i < depens.Length; i++)
-            {
-               depenObjs[i] = depens[i].LoadAsset(dependencies[i]);
-            }
-            Main.inst.StartCoroutine(LoadMainAsset());
+            Main.SP.StartCoroutine(LoadCoroutine);
         }
     }
     IEnumerator LoadMainAsset()
     {
-        string finalpath = Resource.BaseUrl + bundlePath;
-        string assetName = Resource.BaseUrl2 + path;
-        var asyn = AssetBundle.LoadFromFileAsync(finalpath);
+        var asyn = AssetBundle.LoadFromFileAsync(Resource.BaseUrl+BundleName);
         yield return asyn;
-        var obj = asyn.assetBundle.LoadAsset(assetName);
         if (depens != null)
         {
             for (int i = 0; i < depens.Length; i++)
             {
-                depens[i].Unload(false);
+               // depens[i].Unload(false);
             }
         }
-        asyn.assetBundle.Unload(false);
-        func.Invoke(path, obj);
+        //asyn.assetBundle.Unload(false);
+        Resource.RemoveFinishedLoader(this, BundleName, asyn.assetBundle);
         Pool.SP.Recycle(this);
     }
-    public override void Reset()
+    public void Reset()
     {
-        base.Reset();
         dependencies = null;
         depens = null;
         depenObjs = null;
+        BundleName = null;
+        OnLoadFinish = null;
+        Main.SP.StopCoroutine(LoadCoroutine);
     }
 }
 
-class Loader : IPool
-{
-    public string path;
-    public System.Action<string, UnityEngine.Object> func;
-    public virtual void Start(string path, System.Action<string, UnityEngine.Object> func)
-    {
-        this.path = path;
-        this.func = func;
-        Main.inst.StartCoroutine(Load());
-    }
-    private IEnumerator Load()
-    {
-        string finalpath = Resource.BaseUrl + path;
-        string assetName = assetName = path;
-        var asyn = AssetBundle.LoadFromFileAsync(finalpath);
-        yield return asyn;
-        func.Invoke(path, asyn.assetBundle);
-        Pool.SP.Recycle(this);
-    }
-    public virtual void Reset()
-    {
-        path = null;
-        func = null;
-    }
-}
 
 class Resource
 {
     public static string BaseUrl;
-    public static string BaseUrl2 = "Assets/RequiredResources/";
     public static AssetBundleManifest Manifest;
-    public static Dictionary<string, string> AssetsBundleDic;
-    public static string[] AllBundles;
-    public static int[] BundleNameHash;
-
-    public static string GetBundleName(string path)
+    public static Dictionary<string, BundleInfo> AssetsInfos; 
+    private static readonly List<ResourceLoader> LoadingList = new List<ResourceLoader>();
+    private static readonly Dictionary<string,Dictionary<string, Object>> BundleNameAssets = new Dictionary<string, Dictionary<string, Object>>(); 
+    private static readonly Dictionary<string, AssetBundle> LoadedBundles = new Dictionary<string, AssetBundle>(); 
+    private static readonly List<WaitingBundle> WaitingList = new List<WaitingBundle>();
+    public static void RemoveFinishedLoader(ResourceLoader l, string bundleName, AssetBundle bundle)
     {
-        int hash = path.GetHashCode();
-        for (int i = 0; i < BundleNameHash.Length; i++)
+        string[] assetsNames = bundle.GetAllAssetNames();
+        Object[] assets = bundle.LoadAllAssets();
+        if (!BundleNameAssets.ContainsKey(bundleName))
         {
-            if (BundleNameHash[i] == hash)
+            BundleNameAssets[bundleName] = new Dictionary<string, Object>();
+            for (int i = 0; i < assetsNames.Length; i++)
             {
-                return AllBundles[i];
+                BundleNameAssets[bundleName][assetsNames[i]] = assets[i];
+            }
+            LoadedBundles[bundleName] = bundle;
+        }
+        LoadingList.Remove(l);
+        for (int i = 0; i < WaitingList.Count; i++)
+        {
+            var w = WaitingList[i];
+            string waitingBundleName = string.Empty;
+            if (w.WaitingType == WaitingType.Asset)
+            {
+                var bundleInfo = GetBundleInfo(w.Name);
+                if (bundleInfo.BundleName.Equals(bundleName))
+                {
+                    WaitingList[i].Action.Invoke(w.Name,
+                        BundleNameAssets[bundleInfo.BundleName][bundleInfo.AssetPath]);
+                    WaitingList.RemoveAt(i);
+                    i--;
+                }
+            }
+            else
+            {
+                if (w.Name.Equals(bundleName))
+                {
+                    WaitingList[i].Action.Invoke(w.Name, bundle);
+                    WaitingList.RemoveAt(i);
+                    i--;
+                }
             }
         }
-        if (AssetsBundleDic.ContainsKey(path))
-        {
-            return AssetsBundleDic[path];
-        }
-        return null;
     }
-    public static void LoadManifest()
+    public static void AddLoadingLoader(ResourceLoader l)
     {
-        string path = BaseUrl = System.IO.Path.Combine(Application.dataPath,@"..\AB\");
+        LoadingList.Add(l);
+    }
+    public static BundleInfo GetBundleInfo(string assetName)
+    {
+        if (AssetsInfos.ContainsKey(assetName))
+        {
+            return AssetsInfos[assetName];
+        }
+        else
+        {
+            throw new Exception("Asset "+assetName+" Not Exsit");
+        }
+    }
+
+    public static AssetBundle GetBundleByName(string bundleName)
+    {
+        if (LoadedBundles.ContainsKey(bundleName))
+        {
+            return LoadedBundles[bundleName];
+        }
+        else
+        {
+            return null;
+        }
+    }
+    private static void LoadManifest()
+    {
+        BaseUrl = System.IO.Path.Combine(Application.dataPath,@"..\AB\");
         var bundle = AssetBundle.LoadFromFile(BaseUrl + "AB");
+
         Manifest = bundle.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
+        bundle.Unload(false);
         if(Manifest == null)
         {
             throw new System.Exception("Manifest not found ");
         }
-        AllBundles = Manifest.GetAllAssetBundles();
-        BundleNameHash = new int[AllBundles.Length];
-        for (var i = 0; i < BundleNameHash.Length; i++)
+        var txt = File.ReadAllText(BaseUrl + "assetInfos.txt");
+        AssetsInfos = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, BundleInfo>>(txt);
+        if (AssetsInfos == null)
         {
-            BundleNameHash[i] = AllBundles[i].GetHashCode();
+            throw new System.Exception("BundleAssetsDic not found ");
         }
-        var txt = File.ReadAllText(BaseUrl + "bundles.txt");
-        AssetsBundleDic = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(txt);
-        if (AssetsBundleDic == null)
+        else
         {
-            throw new System.Exception("AssetBundleIndexDic not found ");
+          
         }
     }
-    public static void Load(string path, System.Action<string, UnityEngine.Object> func)
+    public static void LoadAsset(string assetName, System.Action<string, UnityEngine.Object> action)
     {
         if (Manifest == null)
         {
             LoadManifest();
         }
-        var loader = Pool.SP.Get(typeof(ResourceLoader)) as ResourceLoader;
-        loader.Start(path, func);
+        var bundleInfo =  GetBundleInfo(assetName);
+        if (BundleNameAssets.ContainsKey(bundleInfo.BundleName))
+        {
+            action.Invoke(assetName, BundleNameAssets[bundleInfo.BundleName][bundleInfo.AssetPath]);
+        }
+        else if (IsLoading(assetName, WaitingType.Asset))
+        {
+            WaitingList.Add(new WaitingBundle() { Action = action, Name = assetName, WaitingType = WaitingType.Asset});
+        }
+        else
+        {
+            WaitingList.Add(new WaitingBundle() { Action = action, Name = assetName, WaitingType = WaitingType.Asset});
+            var loader = Pool.SP.Get(typeof(ResourceLoader)) as ResourceLoader;
+            loader.Start(bundleInfo.BundleName, null);
+        }
     }
 
-    
+    public static void LoadBundle(string bundleName, System.Action<string, UnityEngine.Object> action)
+    {
+        if (Manifest == null)
+        {
+            LoadManifest();
+        }
+        if (LoadedBundles.ContainsKey(bundleName))
+        {
+            action.Invoke(bundleName, LoadedBundles[bundleName]);
+        }
+        else if (IsLoading(bundleName, WaitingType.Bundle))
+        {
+            WaitingList.Add(new WaitingBundle() { Action = action, Name = bundleName, WaitingType = WaitingType.Bundle });
+        }
+        else
+        {
+            WaitingList.Add(new WaitingBundle() { Action = action, Name = bundleName, WaitingType = WaitingType.Bundle });
+            var loader = Pool.SP.Get(typeof(ResourceLoader)) as ResourceLoader;
+            loader.Start(bundleName, null);
+        }
+    }
+    private static bool IsLoading(string name, WaitingType wt)
+    {
+        string bundleName = string.Empty;
+        if (wt == WaitingType.Asset)
+        {
+            var bundleInfo = GetBundleInfo(name);
+            bundleName = bundleInfo.BundleName;
+        }
+        else
+        {
+            bundleName = name;
+        }
+        for (int i = 0; i < LoadingList.Count; i++)
+        {
+            if (LoadingList[i].BundleName.Equals(bundleName))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

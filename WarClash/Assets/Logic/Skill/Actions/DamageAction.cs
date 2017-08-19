@@ -27,7 +27,7 @@ namespace Logic.Skill.Actions
         {
             base.Execute(sender, reciever, data);
             var character = reciever as Character;
-            character.HP = character.HP.Sub(Damage.value);
+            character.Hp = character.Hp.Sub(Damage.value);
         }
     }
 }

@@ -14,20 +14,17 @@ namespace Logic.LogicObject
         }
         public enum SceneEvent
         {
-            ADDSCENEOBJECT,
-            REMOVESCENEOBJECT,
-            ONCREATE
+            Addsceneobject,
+            Removesceneobject,
+            Oncreate
         }
         public EventGroup EventGroup { get; private set; }
-        private float deltaTime = 0;
-        private VoidAction<SceneObject> updateAction = null;
         public Scene()
         {
         }
 
         internal void Init()
         {
-            updateAction = delegate(SceneObject so) { so.Update(deltaTime); };
             EventGroup = new EventGroup();
 
         }
@@ -41,22 +38,28 @@ namespace Logic.LogicObject
         internal void RemoveSceneObject(int id)
         {
             this.RemoveObject(id);
-            EventGroup.FireEvent((int)SceneEvent.REMOVESCENEOBJECT, this, EventGroup.NewArg<EventSingleArgs<int>, int>(id));
+            EventGroup.FireEvent((int)SceneEvent.Removesceneobject, this, EventGroup.NewArg<EventSingleArgs<int>, int>(id));
             IDManager.SP.ReturnID(id);
         }
         private void AddSceneObject(int id, SceneObject so)
         {
-            so.ID = id;
+            so.Id = id;
             so.Init();
             so.ListenEvents();
             this.AddObject(id, so);
-            EventGroup.FireEvent((int)SceneEvent.ADDSCENEOBJECT, this, EventGroup.NewArg<EventSingleArgs<SceneObject>, SceneObject>(so));
+            EventGroup.FireEvent((int)SceneEvent.Addsceneobject, this, EventGroup.NewArg<EventSingleArgs<SceneObject>, SceneObject>(so));
         }
-        public void Update(float deltaTime)
+
+        public override void OnUpdate(float deltaTime)
         {
-            this.deltaTime = deltaTime;
-            ForEachDo<SceneObject>(updateAction);
+            base.OnUpdate(deltaTime);
         }
+
+        public override void OnFixedUpdate(long deltaTime)
+        {
+            base.OnFixedUpdate(deltaTime);
+        }
+
         internal void Destroy()
         {
 

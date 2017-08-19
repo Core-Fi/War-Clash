@@ -43,6 +43,25 @@ public class EventGroup
         }
         return t;
     }
+    public static T NewArg<T, K, V, U>(K param1, V param2, U param3) where T : EventThreeArgs<K, V, U>
+    {
+        T t = null;
+        if (!dic.ContainsKey(typeof(T)))
+        {
+            dic.Add(typeof(T), new Queue<EventMsg>());
+        }
+        if (dic[typeof(T)].Count == 0)
+        {
+            t = Activator.CreateInstance(typeof(T), param1, param2, param3) as T;
+        }
+        else
+        {
+            t = dic[typeof(T)].Dequeue() as T;
+            t.value1 = param1;
+            t.value2 = param2;
+        }
+        return t;
+    }
 
     public static void Return(EventMsg e)
     {

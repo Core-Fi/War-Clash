@@ -21,9 +21,33 @@ public class MapEdit : MonoBehaviour
             GameObject.DestroyImmediate(t.gameObject);
         }
     }
+
+    public void Load()
+    {
+        string path = GetPath();
+        if (File.Exists(path))
+        {
+            var str = File.ReadAllText(path);
+            data = Newtonsoft.Json.JsonConvert.DeserializeObject<int[,]>(str);
+        }
+        else
+        {
+            data = new int[width, height];
+        }
+    }
+    public void Save()
+    {
+        string dataStr = Newtonsoft.Json.JsonConvert.SerializeObject(data);
+        File.WriteAllText(GetPath(), dataStr);
+    }
+
+    public string GetPath()
+    {
+        return Application.streamingAssetsPath + "/map.txt";
+    }
     public void Generate()
     {
-        data = new int[width, height];
+        Load();
         for (int i = 0; i < height; i++)
         {
             for (int j = 0; j < width; j++)
@@ -39,19 +63,15 @@ public class MapEdit : MonoBehaviour
                 var box = g.AddComponent<Box>();
                 box.x = j;
                 box.y = i;
+                box.status = (Box.Status)(data[j, i]);
                 box.size = new Vector3(cell_width,0,cell_height);
                 boxes.Add(box);
             }
         }
     }
-    public void Raycast(bool fromEditor)
+    public void Raycast(Ray ray)
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);// HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
-        if(fromEditor)
-        {
-            //ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
-        }
-        var hits = Physics.RaycastAll(ray, 100);
+        var hits = Physics.RaycastAll(ray, 1000);
         for (int i = 0; i < hits.Length; i++)
         {
             var hit = hits[i];
@@ -59,17 +79,17 @@ public class MapEdit : MonoBehaviour
             if(box != null)
             {
                 data[box.x, box.y] = 1;
-                box.status = Status.Reachable;
+                box.status = Box.Status.Reachable;
             }
         }
     }
     void OnMouseDrag()
     {
-        Raycast(false);
+        Raycast(Camera.main.ScreenPointToRay(Input.mousePosition));
     }
     void OnMouseMove()
     {
-        Raycast(false);
+        Raycast(Camera.main.ScreenPointToRay(Input.mousePosition));
     }
     void OnDrawGizmos()
     {

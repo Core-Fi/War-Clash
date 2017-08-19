@@ -10,11 +10,9 @@ public class Test_06_11 : MonoBehaviour
     private Dictionary<Transform, List<int>> t_l = new Dictionary<Transform, List<int>>();
     private Dictionary<Transform, Matrix4x4> t_m = new Dictionary<Transform, Matrix4x4>();
     private Dictionary<Transform, List<Vector3>> t_o = new Dictionary<Transform, List<Vector3>>();
-    private Matrix4x4 world2localM;
     // Use this for initialization
     void Start()
     {
-        world2localM = transform.worldToLocalMatrix;
         mesh = GetComponent<MeshFilter>().mesh;
         vertexs = new Vector3[mesh.vertices.Length];
         string str = File.ReadAllText(Application.dataPath + "/" + gameObject.name + ".json");

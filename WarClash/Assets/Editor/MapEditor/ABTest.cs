@@ -8,6 +8,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
+
 public class ABTest : Editor
 {
     private const string RequiredUrl = "Assets/RequiredResources/";
@@ -17,7 +18,7 @@ public class ABTest : Editor
     [MenuItem("Tools/BuildAssetBundle(Win)")]
     public static void BuildAb()
     {
-        var dependencyBundle = new Dictionary<string, string>();
+        var assetInfosInBundle = new Dictionary<string, BundleInfo>();
         ClearAbName();
         SetAssetBundleName();
         var path = Path.Combine(Application.dataPath, @"..\AB");
@@ -28,15 +29,12 @@ public class ABTest : Editor
             var allAssets = AssetDatabase.GetAssetPathsFromAssetBundle(bundles[i]);
             for (var j = 0; j < allAssets.Length; j++)
             {
-                if (allAssets[j].Contains(RequiredUrl))
-                {
-                    string replacedPath = allAssets[j].Replace(RequiredUrl, "");
-                    dependencyBundle[replacedPath] = bundles[i];
-                }
+                var fileName = Path.GetFileName(allAssets[j]);
+                assetInfosInBundle[fileName] = new BundleInfo() {AssetPath = allAssets[j].ToLower(), BundleName = bundles[i]};
             }
         }
-        var txt = Newtonsoft.Json.JsonConvert.SerializeObject(dependencyBundle, Formatting.Indented);
-        File.WriteAllText(path+@"/bundles.txt", txt);
+        var txt = Newtonsoft.Json.JsonConvert.SerializeObject(assetInfosInBundle, Formatting.Indented);
+        File.WriteAllText(path + @"/assetInfos.txt", txt);
     }
     [MenuItem("Tools/BuildAssetBundle(Android)")]
     public static void BuildAbForAndroid()
@@ -83,7 +81,10 @@ public class ABTest : Editor
             if (path.Contains(RequiredUrl))
             {
                 var asset = AssetDatabase.LoadAssetAtPath(path, typeof(Object));
-                ClearAb(asset);
+                if (asset != null)
+                {
+                    ClearAb(asset);
+                }
             }
         }
     }
@@ -109,11 +110,31 @@ public class ABTest : Editor
         }
         else
         {
-            ap = ap.Replace(RequiredUrl, string.Empty);
+            if (ap != string.Empty)
+            {
+                ap = ap.Replace(RequiredUrl, string.Empty);
+            }
             ai.assetBundleName = ap;
         }
     }
+    public static string GetExactPathName(string pathName)
+    {
+        if (!(File.Exists(pathName) || Directory.Exists(pathName)))
+            return pathName;
 
+        var di = new DirectoryInfo(pathName);
+
+        if (di.Parent != null)
+        {
+            return Path.Combine(
+                GetExactPathName(di.Parent.FullName),
+                di.Parent.GetFileSystemInfos(di.Name)[0].Name);
+        }
+        else
+        {
+            return di.Name.ToUpper();
+        }
+    }
     static void DoScene(SceneAsset scene, string path)
     {
         SetAssetBundleName(path, scene);
@@ -148,7 +169,6 @@ public class ABTest : Editor
     static void DoAsset(Object go, string path)
     {
         bool done = false;
-        Debug.LogError(go.GetType());
         if(go is Texture2D)
         {
             done = DoUISprite(go as Texture);

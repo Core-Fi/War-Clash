@@ -8,11 +8,18 @@ using Brainiac.Serialization;
 [AddNodeMenu("Action/AttackAction")]
 public class AttackAction : Brainiac.Action
 {
+    private Character _self;
     [BTProperty("SkillPath")]
     public MemoryVar skillPath;
 
     private Character target = null;
     private bool isRunningSkill = false;
+    public override void OnStart(AIAgent agent)
+    {
+        base.OnStart(agent);
+        _self = agent.SceneObject as Character;
+    }
+
     public override void OnReset()
     {
         base.OnReset();
@@ -28,7 +35,7 @@ public class AttackAction : Brainiac.Action
             if (isRunningSkill == false)
             {
                 string path = skillPath.AsString;
-                bool rst = agent.Character.ReleaseSkill(path, target);
+                bool rst = _self.ReleaseSkill(path, target);
                 if (!rst)
                     return BehaviourNodeStatus.Failure;
                 else
@@ -36,7 +43,7 @@ public class AttackAction : Brainiac.Action
             }
             if(isRunningSkill)
             {
-                if(agent.Character.IsRunningSkill)
+                if(_self.IsRunningSkill)
                 {
                     return BehaviourNodeStatus.Running;
                 }
