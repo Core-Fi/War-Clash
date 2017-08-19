@@ -19,12 +19,15 @@ namespace BrainiacEditor
             {
                 LogicObject lo = (LogicObject)target;
                 var c = (lo.so as Character);
-                AIAgent agent =  c.AiAgent;
-                Blackboard blackboard = agent.Blackboard;
-                IDictionary<string, object> dict = GetRuntimeValues(blackboard);
-                if(dict != null)
+                if (c != null && c.AiAgent != null)
                 {
-                    m_inspector = new PlayTimeBlackboardInspector(dict);
+                    AIAgent agent = c.AiAgent;
+                    Blackboard blackboard = agent.Blackboard;
+                    IDictionary<string, object> dict = GetRuntimeValues(blackboard);
+                    if (dict != null)
+                    {
+                        m_inspector = new PlayTimeBlackboardInspector(dict);
+                    }
                 }
             }
             else
@@ -53,28 +56,31 @@ namespace BrainiacEditor
 
 			serializedObject.ApplyModifiedProperties();
             LogicObject lo = (LogicObject)target;
-            var c = (lo.so as Character);
-            AIAgent agent =  c.AiAgent;
-            BTAsset btAsset = agent.BehaviourTree as BTAsset;
-			BehaviourTree btInstance = agent.GetBehaviourTree();
+		    var c = (lo.so as Character);
+            if (c != null && c.AiAgent != null)
+            {
+                AIAgent agent = c.AiAgent;
+		        BTAsset btAsset = agent.BehaviourTree as BTAsset;
+		        BehaviourTree btInstance = agent.GetBehaviourTree();
 
-			GUI.enabled = btAsset != null;
-			if(EditorApplication.isPlaying && btInstance != null)
-			{
-				if(GUILayout.Button("Preview", GUILayout.Height(24.0f)))
-				{
-					BehaviourTreeEditor.OpenDebug(btAsset, btInstance);
-				}
-			}
-			else
-			{
-				if(GUILayout.Button("Edit", GUILayout.Height(24.0f)))
-				{
-					BehaviourTreeEditor.Open(btAsset);
-				}
-			}
+		        GUI.enabled = btAsset != null;
+		        if (EditorApplication.isPlaying && btInstance != null)
+		        {
+		            if (GUILayout.Button("Preview", GUILayout.Height(24.0f)))
+		            {
+		                BehaviourTreeEditor.OpenDebug(btAsset, btInstance);
+		            }
+		        }
+		        else
+		        {
+		            if (GUILayout.Button("Edit", GUILayout.Height(24.0f)))
+		            {
+		                BehaviourTreeEditor.Open(btAsset);
+		            }
+		        }
+		    }
 
-            if(m_inspector != null)
+		    if(m_inspector != null)
             {
                 BTEditorStyle.EnsureStyle();
                 m_inspector.DrawGUI();

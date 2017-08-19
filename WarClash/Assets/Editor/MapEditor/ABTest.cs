@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
+using System.IO.Compression;
+using System.Text;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
@@ -33,9 +32,25 @@ public class ABTest : Editor
                 assetInfosInBundle[fileName] = new BundleInfo() {AssetPath = allAssets[j].ToLower(), BundleName = bundles[i]};
             }
         }
+     
         var txt = Newtonsoft.Json.JsonConvert.SerializeObject(assetInfosInBundle, Formatting.Indented);
-        File.WriteAllText(path + @"/assetInfos.txt", txt);
+        byte[] text = Encoding.UTF8.GetBytes(txt);
+        byte[] compress = Compress(text);
+        File.WriteAllBytes(path + @"/assetInfos.txt", compress);
     }
+    public static byte[] Compress(byte[] raw)
+    {
+        using (MemoryStream memory = new MemoryStream())
+        {
+            using (GZipStream gzip = new GZipStream(memory,
+                CompressionMode.Compress, true))
+            {
+                gzip.Write(raw, 0, raw.Length);
+            }
+            return memory.ToArray();
+        }
+    }
+
     [MenuItem("Tools/BuildAssetBundle(Android)")]
     public static void BuildAbForAndroid()
     {
@@ -198,7 +213,7 @@ public class ABTest : Editor
     {
         var r_path = AssetDatabase.GetAssetPath(go);
         TextureImporter ti = AssetImporter.GetAtPath(r_path) as TextureImporter;
-        if(ti!=null && ti.textureType == TextureImporterType.Sprite)
+        if(ti!=null && ti.textureType == TextureImporterType.Sprite && !ti.assetBundleName.Equals(string.Empty))
         {
             ti.assetBundleName = ti.spritePackingTag;
             return true;

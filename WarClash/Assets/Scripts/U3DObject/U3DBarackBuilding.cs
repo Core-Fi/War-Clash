@@ -15,6 +15,8 @@ class U3DBarackBuilding : U3DBuilding
     public override void OnUpdate()
     {
         base.OnUpdate();
+        if(Go!=null)
+            Go.transform.position = Building.Position.ToVector3();
     }
 
     public override void OnLoadedRes(string name, Object obj)

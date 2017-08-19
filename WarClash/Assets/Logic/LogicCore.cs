@@ -46,15 +46,13 @@ namespace Logic
             EventManager.Update(Time.deltaTime);
             realFixedFrame++;
             TotalTime += FixedMath.One/(15);
-
-            //if (!a && TotalTime > FixedMath.One * 3)
-            //{
-            //    var b2 = LogicCore.SP.sceneManager.currentScene.CreateSceneObject<BarackBuilding>();
-            //    b2.Team = Team.Team2;
-            //    b2.Position = new Lockstep.Vector3d(new Vector3(10, 0, 0));
-            //    a = true;
-            //}
-
+            if (!a && TotalTime > FixedMath.One * 3)
+            {
+                var b2 = LogicCore.SP.sceneManager.currentScene.CreateSceneObject<BarackBuilding>();
+                b2.Team = Team.Team2;
+                b2.Position = new Lockstep.Vector3d(new Vector3(10, 0, 0));
+                a = true;
+            }
             //sceneManager.currentScene.ForEachDo((c)=> {
             //    w.Write(c.GetStatusStr());
             //    sb.Append(c.GetStatusStr()+"\n\r");

@@ -23,7 +23,6 @@ namespace Logic.LogicObject
         {
             Positionchange,
             Onattributechange
-
         }
         public int Id;
         public Team Team;
@@ -33,7 +32,11 @@ namespace Logic.LogicObject
             get { return _position; }
             internal set
             {
-                _position = value;
+                if (_position != value)
+                {
+                    _position = value;
+                    EventGroup.FireEvent((int)SceneObjectEvent.Positionchange, this, null);
+                }
             }
         }
         private Vector3d _position = new Vector3d(UnityEngine.Vector3.zero);

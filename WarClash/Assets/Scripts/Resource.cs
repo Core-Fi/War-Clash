@@ -1,11 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using UnityEngine;
 using Object = UnityEngine.Object;
-
+[Serializable]
 public struct BundleInfo
 {
     public string BundleName;
@@ -189,15 +189,13 @@ class Resource
         {
             throw new System.Exception("Manifest not found ");
         }
-        var txt = File.ReadAllText(BaseUrl + "assetInfos.txt");
-        AssetsInfos = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, BundleInfo>>(txt);
+        var txt = File.ReadAllBytes(BaseUrl + "assetInfos.txt");
+        byte[] decompress = Utility.Decompress(txt);
+        var destr = Encoding.UTF8.GetString(decompress);
+        AssetsInfos = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, BundleInfo>>(destr);
         if (AssetsInfos == null)
         {
             throw new System.Exception("BundleAssetsDic not found ");
-        }
-        else
-        {
-          
         }
     }
     public static void LoadAsset(string assetName, System.Action<string, UnityEngine.Object> action)

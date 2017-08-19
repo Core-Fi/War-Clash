@@ -26,9 +26,9 @@ public class Main : MonoBehaviour {
         Logic.LogicCore.SP.Init();
         u3dSceneManager = new U3DSceneManager();
         Logic.LogicCore.SP.sceneManager.SwitchScene(new Scene());
-        //var b = LogicCore.SP.sceneManager.currentScene.CreateSceneObject<BarackBuilding>();
-        //b.Team = Team.Team1;
-        //b.Position = new Lockstep.Vector3d(new Vector3(0, 0, 0));
+        var b = LogicCore.SP.sceneManager.currentScene.CreateSceneObject<BarackBuilding>();
+        b.Team = Team.Team1;
+        b.Position = new Lockstep.Vector3d(new Vector3(0, 0, 0));
         EventDispatcher.FireEvent((int)EventList.ShowUI, this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("BattleUI.prefab", typeof(BattleView), null));
        
         //   EventDispatcher.FireEvent((int)EventList.PreLoadResource, this, EventGroup.NewArg<EventSingleArgs<string>, string>("Prefabs/footman_prefab"));
@@ -78,7 +78,7 @@ public class Main : MonoBehaviour {
 	}
     void FixedUpdate()
     {
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 1; i++)
         {
             Logic.LogicCore.SP.FixedUpdate();
         }

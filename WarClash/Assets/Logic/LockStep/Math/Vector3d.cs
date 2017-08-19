@@ -110,6 +110,14 @@ namespace Lockstep
             v.Add(b*nagtive);
             return v;
         }
+        public static bool operator ==(Vector3d a, Vector3d b)
+        {
+            return a.x == b.x && a.y == b.y && a.z == b.z;
+        }
+        public static bool operator !=(Vector3d a, Vector3d b)
+        {
+            return a.x != b.x || a.y != b.y || a.z != b.z;
+        }
         public static long Distance(Vector3d a, Vector3d b)
         {
             long tX = b.x - a.x;
