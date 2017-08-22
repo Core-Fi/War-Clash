@@ -23,6 +23,19 @@ public class Pool : Singleton<Pool>
         _poolDic[type].Enqueue(iPool);
     }
 
+    public T Get<T>() where T : class, IPool 
+    {
+        T obj = null;
+        if (_poolDic.ContainsKey(typeof(T)) && _poolDic[typeof(T)].Count > 0)
+        {
+            obj = _poolDic[typeof(T)].Dequeue() as T;
+        }
+        else
+        {
+            obj = Activator.CreateInstance<T>();
+        }
+        return obj;
+    }
     public IPool Get(Type type)
     {
         IPool obj = null;
@@ -35,5 +48,11 @@ public class Pool : Singleton<Pool>
             obj = Activator.CreateInstance(type) as IPool;
         }
         return obj;
+    }
+
+    public void Clear()
+    {
+        _poolDic.Clear();
+
     }
 }

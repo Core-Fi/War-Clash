@@ -49,9 +49,9 @@ public class Main : MonoBehaviour {
             System.GC.Collect();
             Resources.UnloadUnusedAssets();
         }
-        if (GUI.Button(new Rect(0,50, 300, 50),"load"))
+        if (GUI.Button(new Rect(0,50, 300, 50),"Unload"))
         {
-            Resource.LoadAsset("Farm01-flower-03.png", (s, o) => Debug.Log(o.GetType()));
+            Resource.UnloadBundles();
         }
     }
     void DonotDestroy()

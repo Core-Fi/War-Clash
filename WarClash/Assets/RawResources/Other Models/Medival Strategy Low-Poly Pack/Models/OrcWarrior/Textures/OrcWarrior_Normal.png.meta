@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 5bc22a47b4d58f04abf8d43cabee6ea6
-timeCreated: 1473948059
+guid: ec5c3354aeb9e8e43808b23e3c3c55cb
+timeCreated: 1473938688
 licenseType: Store
 TextureImporter:
   fileIDToRecycleName: {}
@@ -15,10 +15,10 @@ TextureImporter:
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
-    convertToNormalMap: 1
+    convertToNormalMap: 0
     externalNormalMap: 1
-    heightScale: 0.144
-    normalMapFilter: 1
+    heightScale: 0.25
+    normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
@@ -64,5 +64,5 @@ TextureImporter:
     outline: []
   spritePackingTag: 
   userData: 
-  assetBundleName: assets/other models/medival strategy low-poly pack/textures/sronghold_bump.png
+  assetBundleName: 
   assetBundleVariant: 

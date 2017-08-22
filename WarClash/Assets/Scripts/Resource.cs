@@ -23,13 +23,13 @@ public struct WaitingBundle
     public System.Action<string, UnityEngine.Object> Action;
 }
 
-class ResourceLoader : IPool
+class BundleLoader : IPool
 {
     public Action<string, AssetBundle> OnLoadFinish;
     public string BundleName;
     protected IEnumerator LoadCoroutine;
     private string[] dependencies;
-    private AssetBundle[] depens;
+    private int count;
     private Object[] depenObjs;
     public void Start(string bundleName, Action<string, AssetBundle> onLoadFinish)
     {
@@ -39,7 +39,6 @@ class ResourceLoader : IPool
         Resource.AddLoadingLoader(this);
         if (dependencies.Length > 0)
         {
-            depens = new AssetBundle[dependencies.Length];
             depenObjs = new Object[dependencies.Length];
             for (int i = dependencies.Length-1; i >= 0; i--)
             {
@@ -48,52 +47,32 @@ class ResourceLoader : IPool
         }
         else
         {
-
             Main.SP.StartCoroutine(LoadCoroutine);
         }
     }
     public void OnDependencyLoadFinish(string dPath, Object bundle)
     {
-        for (int i = 0; i < dependencies.Length; i++)
-        {
-            if(dependencies[i].Equals(dPath))
-            {
-                depens[i] = bundle as AssetBundle;
-            }
-        }
-        bool isFinish = true;
-        for (int i = 0; i < depens.Length; i++)
-        {
-            if (depens[i] == null)
-            {
-                isFinish = false;
-                break;
-            }
-        }
-        if(isFinish)
+        count ++;
+        if(count == dependencies.Length)
         {
             Main.SP.StartCoroutine(LoadCoroutine);
         }
     }
+    //System.Diagnostics.Stopwatch sw = new Stopwatch();
+    //sw.Start();
     IEnumerator LoadMainAsset()
     {
         var asyn = AssetBundle.LoadFromFileAsync(Resource.BaseUrl+BundleName);
-        yield return asyn;
-        if (depens != null)
-        {
-            for (int i = 0; i < depens.Length; i++)
-            {
-               // depens[i].Unload(false);
-            }
-        }
-        //asyn.assetBundle.Unload(false);
-        Resource.RemoveFinishedLoader(this, BundleName, asyn.assetBundle);
+        yield return asyn.assetBundle;
+        var assetsReq = asyn.assetBundle.LoadAllAssetsAsync();
+        yield return assetsReq;
+        Resource.RemoveFinishedLoader(this, BundleName, assetsReq.allAssets, asyn.assetBundle);
         Pool.SP.Recycle(this);
     }
     public void Reset()
     {
         dependencies = null;
-        depens = null;
+        count = 0;
         depenObjs = null;
         BundleName = null;
         OnLoadFinish = null;
@@ -107,14 +86,21 @@ class Resource
     public static string BaseUrl;
     public static AssetBundleManifest Manifest;
     public static Dictionary<string, BundleInfo> AssetsInfos; 
-    private static readonly List<ResourceLoader> LoadingList = new List<ResourceLoader>();
+    private static readonly List<BundleLoader> LoadingList = new List<BundleLoader>();
     private static readonly Dictionary<string,Dictionary<string, Object>> BundleNameAssets = new Dictionary<string, Dictionary<string, Object>>(); 
     private static readonly Dictionary<string, AssetBundle> LoadedBundles = new Dictionary<string, AssetBundle>(); 
     private static readonly List<WaitingBundle> WaitingList = new List<WaitingBundle>();
-    public static void RemoveFinishedLoader(ResourceLoader l, string bundleName, AssetBundle bundle)
+    public static void UnloadBundles()
+    {
+        foreach (var loadedBundle in LoadedBundles)
+        {
+            loadedBundle.Value.Unload(false);
+        }
+        LoadedBundles.Clear();
+    }
+    public static void RemoveFinishedLoader(BundleLoader l, string bundleName, Object[] assets, AssetBundle bundle)
     {
         string[] assetsNames = bundle.GetAllAssetNames();
-        Object[] assets = bundle.LoadAllAssets();
         if (!BundleNameAssets.ContainsKey(bundleName))
         {
             BundleNameAssets[bundleName] = new Dictionary<string, Object>();
@@ -134,24 +120,24 @@ class Resource
                 var bundleInfo = GetBundleInfo(w.Name);
                 if (bundleInfo.BundleName.Equals(bundleName))
                 {
-                    WaitingList[i].Action.Invoke(w.Name,
-                        BundleNameAssets[bundleInfo.BundleName][bundleInfo.AssetPath]);
                     WaitingList.RemoveAt(i);
                     i--;
+                    w.Action.Invoke(w.Name,
+                        BundleNameAssets[bundleInfo.BundleName][bundleInfo.AssetPath]);
                 }
             }
             else
             {
                 if (w.Name.Equals(bundleName))
                 {
-                    WaitingList[i].Action.Invoke(w.Name, bundle);
                     WaitingList.RemoveAt(i);
                     i--;
+                    w.Action.Invoke(w.Name, bundle);
                 }
             }
         }
     }
-    public static void AddLoadingLoader(ResourceLoader l)
+    public static void AddLoadingLoader(BundleLoader l)
     {
         LoadingList.Add(l);
     }
@@ -182,7 +168,6 @@ class Resource
     {
         BaseUrl = System.IO.Path.Combine(Application.dataPath,@"..\AB\");
         var bundle = AssetBundle.LoadFromFile(BaseUrl + "AB");
-
         Manifest = bundle.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
         bundle.Unload(false);
         if(Manifest == null)
@@ -216,7 +201,7 @@ class Resource
         else
         {
             WaitingList.Add(new WaitingBundle() { Action = action, Name = assetName, WaitingType = WaitingType.Asset});
-            var loader = Pool.SP.Get(typeof(ResourceLoader)) as ResourceLoader;
+            var loader = Pool.SP.Get(typeof(BundleLoader)) as BundleLoader;
             loader.Start(bundleInfo.BundleName, null);
         }
     }
@@ -238,7 +223,7 @@ class Resource
         else
         {
             WaitingList.Add(new WaitingBundle() { Action = action, Name = bundleName, WaitingType = WaitingType.Bundle });
-            var loader = Pool.SP.Get(typeof(ResourceLoader)) as ResourceLoader;
+            var loader = Pool.SP.Get(typeof(BundleLoader)) as BundleLoader;
             loader.Start(bundleName, null);
         }
     }

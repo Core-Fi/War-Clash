@@ -27,11 +27,13 @@ namespace Logic
         public void Update(float deltaTime)
         {
         }
-        Writer w = new Writer();
-        StringBuilder sb = new StringBuilder();
+     
         private int fixedCount = 0;
         public int realFixedFrame = 0;
         public long TotalTime;
+
+        Writer w = new Writer();
+        StringBuilder sb = new StringBuilder();
         private bool a;
         public void FixedUpdate()
         {
@@ -45,7 +47,7 @@ namespace Logic
             lockFrameMgr.Update();
             EventManager.Update(Time.deltaTime);
             realFixedFrame++;
-            TotalTime += FixedMath.One/(15);
+            TotalTime += FixedMath.One/15;
             if (!a && TotalTime > FixedMath.One * 3)
             {
                 var b2 = LogicCore.SP.sceneManager.currentScene.CreateSceneObject<BarackBuilding>();

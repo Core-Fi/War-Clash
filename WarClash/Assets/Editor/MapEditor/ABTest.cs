@@ -21,7 +21,7 @@ public class ABTest : Editor
         ClearAbName();
         SetAssetBundleName();
         var path = Path.Combine(Application.dataPath, @"..\AB");
-        var manifest = BuildPipeline.BuildAssetBundles(path, BuildAssetBundleOptions.ChunkBasedCompression|BuildAssetBundleOptions.DeterministicAssetBundle, BuildTarget.StandaloneWindows64);
+        var manifest = BuildPipeline.BuildAssetBundles(path, BuildAssetBundleOptions.DeterministicAssetBundle, BuildTarget.StandaloneWindows64);
         var bundles = manifest.GetAllAssetBundles();
         for (var i = 0; i < bundles.Length; i++)
         {
@@ -32,7 +32,6 @@ public class ABTest : Editor
                 assetInfosInBundle[fileName] = new BundleInfo() {AssetPath = allAssets[j].ToLower(), BundleName = bundles[i]};
             }
         }
-     
         var txt = Newtonsoft.Json.JsonConvert.SerializeObject(assetInfosInBundle, Formatting.Indented);
         byte[] text = Encoding.UTF8.GetBytes(txt);
         byte[] compress = Compress(text);
