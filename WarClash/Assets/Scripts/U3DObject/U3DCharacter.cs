@@ -6,6 +6,7 @@ using Logic;
 using System;
 using Logic.Skill.Actions;
 using Lockstep;
+using Object = UnityEngine.Object;
 
 public class U3DCharacter : U3DSceneObject{
 
@@ -37,6 +38,16 @@ public class U3DCharacter : U3DSceneObject{
         {
             SetSpeed();
         }
+    }
+
+    public override void OnLoadedRes(string name, Object obj)
+    {
+        Go = Object.Instantiate(obj) as GameObject;
+        Go.name = So.ToString();
+        Go.transform.position = Character.Position.ToVector3();
+        SetSpeed();
+        animator = Go.GetComponent<Animator>();
+        base.OnLoadedRes(name, obj);
     }
 
     public void SetSpeed()

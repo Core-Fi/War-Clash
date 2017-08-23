@@ -21,7 +21,7 @@ namespace Logic
         public string path;
         public override void Execute()
         {
-            var c = LogicCore.SP.sceneManager.currentScene.GetObject<Character>(sender);
+            var c = LogicCore.SP.SceneManager.currentScene.GetObject<Character>(sender);
             c.ReleaseSkill(path);
         }
     }

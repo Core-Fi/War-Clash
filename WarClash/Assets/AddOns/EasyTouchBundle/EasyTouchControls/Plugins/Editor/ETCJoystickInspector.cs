@@ -35,7 +35,6 @@ public class ETCJoystickInspector:Editor  {
 	}
 
 	public override void OnInspectorGUI(){
-		
 		ETCJoystick t = (ETCJoystick)target;
 
 			

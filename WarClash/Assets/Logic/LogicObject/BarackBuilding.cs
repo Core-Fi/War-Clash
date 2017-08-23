@@ -28,7 +28,7 @@ namespace Logic.LogicObject
             if (_curTime > _timeout && count<1)
             {
                 _curTime = 0;
-                var npc1 = LogicCore.SP.sceneManager.currentScene.CreateSceneObject<Npc>();
+                var npc1 = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Npc>();
                 npc1.Team = this.Team;
                 npc1.Position = Position;
                 count ++;

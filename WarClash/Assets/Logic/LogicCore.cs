@@ -12,17 +12,21 @@ namespace Logic
 {
     public class LogicCore : Singleton<LogicCore>
     {
-        public SceneManager sceneManager;
-        public LockFrameMgr lockFrameMgr;
-        public EventGroup eventGroup;
+        public SceneManager SceneManager;
+        public LockFrameMgr LockFrameMgr;
+        public EventGroup EventGroup;
         public enum LogicCoreEvent
         {
+            OnJoystickStart,
+            OnJoystickMove,
+            OnJoystickEnd
+            
         }
         public void Init()
         {
-            lockFrameMgr = new LockFrameMgr();
-            sceneManager = new SceneManager();
-            eventGroup = new EventGroup();
+            LockFrameMgr = new LockFrameMgr();
+            SceneManager = new SceneManager();
+            EventGroup = new EventGroup();
         }
         public void Update(float deltaTime)
         {
@@ -42,15 +46,15 @@ namespace Logic
             {
                 return;
             }
-            sceneManager.Update();
-            sceneManager.FixedUpdate();
-            lockFrameMgr.Update();
+            SceneManager.Update();
+            SceneManager.FixedUpdate();
+            LockFrameMgr.Update();
             EventManager.Update(Time.deltaTime);
             realFixedFrame++;
             TotalTime += FixedMath.One/15;
             if (!a && TotalTime > FixedMath.One * 3)
             {
-                var b2 = LogicCore.SP.sceneManager.currentScene.CreateSceneObject<BarackBuilding>();
+                var b2 = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<BarackBuilding>();
                 b2.Team = Team.Team2;
                 b2.Position = new Lockstep.Vector3d(new Vector3(10, 0, 0));
                 a = true;

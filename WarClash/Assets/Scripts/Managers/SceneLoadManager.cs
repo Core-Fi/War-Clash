@@ -6,7 +6,7 @@ using UnityEngine;
 
 class SceneLoadManager : Manager
 {
-  
+    
 
 }
 

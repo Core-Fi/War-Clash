@@ -10,7 +10,8 @@ class LogicObjectCorresponding
     public static readonly Dictionary<Type, Type> Corresponding =  new Dictionary<Type, Type>()
     {
         {typeof(Npc), typeof(U3DNpc)},
-        {typeof(BarackBuilding), typeof(U3DBarackBuilding)}
+        {typeof(BarackBuilding), typeof(U3DBarackBuilding)},
+        {typeof(Player), typeof(U3DPlayer) }
 
     };
 

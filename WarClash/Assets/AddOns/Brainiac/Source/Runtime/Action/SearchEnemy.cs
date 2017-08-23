@@ -21,7 +21,7 @@ public class SearchEnemy : Brainiac.Action
 
     protected override BehaviourNodeStatus OnExecute(AIAgent agent)
 	{
-        SceneObject target = Logic.LogicCore.SP.sceneManager.currentScene.ForEachDo<SceneObject>(_searchEnemy);
+        SceneObject target = Logic.LogicCore.SP.SceneManager.currentScene.ForEachDo<SceneObject>(_searchEnemy);
         if(target!=null)
         {
             agent.Blackboard.SetItem("Target", target);

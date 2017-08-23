@@ -25,14 +25,19 @@ public class Main : MonoBehaviour {
         DonotDestroy();
         Logic.LogicCore.SP.Init();
         u3dSceneManager = new U3DSceneManager();
-        Logic.LogicCore.SP.sceneManager.SwitchScene(new Scene());
-        var b = LogicCore.SP.sceneManager.currentScene.CreateSceneObject<BarackBuilding>();
+        Logic.LogicCore.SP.SceneManager.SwitchScene(new Scene());
+        var b = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<BarackBuilding>();
         b.Team = Team.Team1;
         b.Position = new Lockstep.Vector3d(new Vector3(0, 0, 0));
+
+        var p = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Player>();
+        p.Team = Team.Team1;
+        p.Position = new Lockstep.Vector3d(new Vector3(0, 0, 0));
+
         EventDispatcher.FireEvent((int)EventList.ShowUI, this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("BattleUI.prefab", typeof(BattleView), null));
        
         //   EventDispatcher.FireEvent((int)EventList.PreLoadResource, this, EventGroup.NewArg<EventSingleArgs<string>, string>("Prefabs/footman_prefab"));
-        var npc1 = LogicCore.SP.sceneManager.currentScene.CreateSceneObject<Npc>();
+        var npc1 = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Npc>();
         //var npc2 = LogicCore.SP.sceneManager.currentScene.CreateSceneObject<Npc>();
         //npc2.Position = new Lockstep.Vector3d(new Vector3(10, 0, 0));
 

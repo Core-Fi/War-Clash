@@ -269,6 +269,7 @@
     <Compile Include="Assets\Logic\LogicObject\Character.cs" />
     <Compile Include="Assets\Logic\LogicObject\MainBaseBuilding.cs" />
     <Compile Include="Assets\Logic\LogicObject\Npc.cs" />
+    <Compile Include="Assets\Logic\LogicObject\Player.cs" />
     <Compile Include="Assets\Logic\LogicObject\Projectile.cs" />
     <Compile Include="Assets\Logic\LogicObject\Scene.cs" />
     <Compile Include="Assets\Logic\LogicObject\SceneObject.cs" />
@@ -327,11 +328,13 @@
     <Compile Include="Assets\Scripts\U3DObject\U3DBuilding.cs" />
     <Compile Include="Assets\Scripts\U3DObject\U3DCharacter.cs" />
     <Compile Include="Assets\Scripts\U3DObject\U3DNpc.cs" />
+    <Compile Include="Assets\Scripts\U3DObject\U3DPlayer.cs" />
     <Compile Include="Assets\Scripts\U3DObject\U3DProjectile.cs" />
     <Compile Include="Assets\Scripts\U3DObject\U3DScene.cs" />
     <Compile Include="Assets\Scripts\U3DObject\U3DSceneManager.cs" />
     <Compile Include="Assets\Scripts\U3DObject\U3DSceneObject.cs" />
     <Compile Include="Assets\Scripts\UI\Battle\BattleUI.cs" />
+    <Compile Include="Assets\Test0711.cs" />
     <Compile Include="Assets\Test0801.cs" />
     <Compile Include="Assets\Test_06_11.cs" />
     <Compile Include="Assets\Test_6_13.cs" />

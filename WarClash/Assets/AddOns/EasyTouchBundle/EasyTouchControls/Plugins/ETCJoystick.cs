@@ -7,6 +7,7 @@
 		
 **********************************************/
 using System.Collections.Generic;
+using Logic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
@@ -163,8 +164,10 @@ public class ETCJoystick : ETCBase,IPointerEnterHandler,IDragHandler, IBeginDrag
 	protected override void Awake (){
 
 		base.Awake ();
-
-		if (joystickType == JoystickType.Dynamic){
+	    this.onMoveStart.AddListener(() => {LogicCore.SP.EventGroup.FireEvent((int)LogicCore.LogicCoreEvent.OnJoystickStart, this, null); });
+        this.onMove.AddListener((p) => { LogicCore.SP.EventGroup.FireEvent((int)LogicCore.LogicCoreEvent.OnJoystickMove, this, EventGroup.NewArg<EventSingleArgs<Vector2>, Vector2>(p)); });
+        this.onMoveEnd.AddListener(() => { LogicCore.SP.EventGroup.FireEvent((int)LogicCore.LogicCoreEvent.OnJoystickEnd, this, null); });
+        if (joystickType == JoystickType.Dynamic){
 			this.rectTransform().anchorMin = new Vector2(0.5f,0.5f);
 			this.rectTransform().anchorMax = new Vector2(0.5f,0.5f);
 			this.rectTransform().SetAsLastSibling();
@@ -733,7 +736,6 @@ public class ETCJoystick : ETCBase,IPointerEnterHandler,IDragHandler, IBeginDrag
 		GetComponent<Image>().enabled = localVisible;
 		thumb.GetComponent<Image>().enabled = localVisible;
 		GetComponent<CanvasGroup>().blocksRaycasts = _activated;
-
 
 	}
 	#endregion

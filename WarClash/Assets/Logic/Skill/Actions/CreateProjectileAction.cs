@@ -95,7 +95,7 @@ namespace Logic.Skill.Actions
 
         public override void Execute(SceneObject sender, SceneObject reciever, object data)
         {
-            var projectile = LogicCore.SP.sceneManager.currentScene.CreateSceneObject<Projectile>();
+            var projectile = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Projectile>();
             projectile.SetValue(this, sender, reciever, data);
             base.Execute(sender, reciever, data);
         }

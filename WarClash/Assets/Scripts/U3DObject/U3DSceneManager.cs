@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Logic;
 using UnityEngine;
 using Logic.LogicObject;
 
-public class U3DSceneManager {
-
+public class U3DSceneManager
+{
     public U3DScene U3DScene { get; private set; }
     public U3DSceneManager()
     {
-        Logic.LogicCore.SP.sceneManager.eventGroup.ListenEvent((int)Logic.SceneManager.SceneManagerEvent.Onswitchscene, OnSwitchScene);
+        Logic.LogicCore.SP.SceneManager.eventGroup.ListenEvent((int)Logic.SceneManager.SceneManagerEvent.Onswitchscene, OnSwitchScene);
     }
     private void OnSwitchScene(object sender, EventMsg e)
     {

@@ -10,7 +10,7 @@ public class LogicObject : MonoBehaviour {
         get{
             if(_so == null)
             {
-                _so = Logic.LogicCore.SP.sceneManager.currentScene.GetObject(ID);
+                _so = Logic.LogicCore.SP.SceneManager.currentScene.GetObject(ID);
             }
             return _so;
         }

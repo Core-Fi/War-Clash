@@ -16,7 +16,7 @@ public class BattleUI : MonoBehaviour {
 	}
     private void OnButtonClick()
     {
-        var npc = LogicCore.SP.sceneManager.currentScene.CreateSceneObject<Npc>();
+        var npc = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Npc>();
         npc.Position = new Lockstep.Vector3d(new Vector3(Random.Range(-10,10),0, 0));
     }
 	// Update is called once per frame
