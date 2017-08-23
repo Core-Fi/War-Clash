@@ -42,29 +42,49 @@ namespace Logic
         public abstract void OnStop();
     }
 
-    public class MoveState : State
+    public class IdleState : State
     {
-        public Vector3d dir;
-        public long speed;
-        private FixedQuaternion rotateRate;
-        private Vector3d startPosi;
         public override void OnStart()
         {
-            rotateRate = FixedQuaternion.AngleAxis(FixedMath.One*1, new Vector3d(UnityEngine.Vector3.up));
-            startPosi = character.Position;
+            character.AttributeManager.SetBase(AttributeType.Speed, 0);
         }
+
         public override void OnStop()
         {
 
         }
+
         public override void OnUpdate()
         {
-            dir = rotateRate * dir;
-            Vector3d posi = dir;
-            posi.Mul(character.AttributeManager[AttributeType.SPEED]);
+
+        }
+    }
+
+    public class MoveState : State
+    {
+      //  public Vector3d dir;
+       // public long speed;
+       // private FixedQuaternion rotateRate;
+       // private Vector3d startPosi;
+        public override void OnStart()
+        {
+            var speed = character.AttributeManager[AttributeType.MaxSpeed];
+            character.AttributeManager.SetBase(AttributeType.Speed, speed);
+           // rotateRate = FixedQuaternion.AngleAxis(FixedMath.One*1, new Vector3d(UnityEngine.Vector3.up));
+         //   startPosi = character.Position;
+        }
+        public override void OnStop()
+        {
+            character.AttributeManager.SetBase(AttributeType.Speed, 0);
+        }
+        public override void OnUpdate()
+        {
+           // dir = rotateRate * dir;
+            Vector3d posi = character.Forward;
+            posi.Mul(character.AttributeManager[AttributeType.Speed]);
             posi.Mul(FixedMath.One.Div(FixedMath.One * 15));
             character.Position += posi;
-            character.Forward = dir;
+        //    character.Forward = dir;
         }
     }
 }

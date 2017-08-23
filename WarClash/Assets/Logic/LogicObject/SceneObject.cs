@@ -54,17 +54,17 @@ namespace Logic.LogicObject
         {
             get
             {
-                return AttributeManager[AttributeType.HP];
+                return AttributeManager[AttributeType.Hp];
             }
             set
             {
                 if (value <= 0)
                 {
                     Dispose();
-                    AttributeManager.SetBase(AttributeType.HP, 0);
+                    AttributeManager.SetBase(AttributeType.Hp, 0);
                 }
                 else
-                    AttributeManager.SetBase(AttributeType.HP, value);
+                    AttributeManager.SetBase(AttributeType.Hp, value);
             }
         }
 
@@ -76,7 +76,7 @@ namespace Logic.LogicObject
         {
             EventGroup = new EventGroup();
             AttributeManager = new AttributeManager();
-            AttributeManager.New(AttributeType.HP, Lockstep.FixedMath.One * 100);
+            AttributeManager.New(AttributeType.Hp, Lockstep.FixedMath.One * 100);
             AttributeManager.OnAttributeChange += OnAttributeChange;
             OnInit();
         }

@@ -93,13 +93,6 @@
     <None Include="Assets\AddOns\Brainiac\Source\Resources\Brainiac\Templates\Decorator.txt" />
     <None Include="Assets\AddOns\Brainiac\Source\Resources\Brainiac\Templates\Service.txt" />
     <None Include="Assets\AddOns\ConsolePro\Readme.txt" />
-    <None Include="Assets\AddOns\EasyTouchBundle\EasyTouch\How to migrate from EasyTouch 4.X.txt" />
-    <None Include="Assets\AddOns\EasyTouchBundle\EasyTouch\RealseNotes.txt" />
-    <None Include="Assets\AddOns\EasyTouchBundle\EasyTouch\_Documentation\How to migrate from EasyTouch 4.X.txt" />
-    <None Include="Assets\AddOns\EasyTouchBundle\EasyTouchControls\Documentation\Version 2.0.txt" />
-    <None Include="Assets\AddOns\EasyTouchBundle\EasyTouchControls\Issues in button behavior (MAC).txt" />
-    <None Include="Assets\AddOns\EasyTouchBundle\EasyTouchControls\ReleaseNotes.txt" />
-    <None Include="Assets\AddOns\EasyTouchBundle\Readme.txt" />
     <None Include="Assets\Plugins\PathologicalGames\readme.txt" />
     <None Include="Assets\Shader\Editor\Grid.shader" />
     <None Include="Assets\Specular.shader" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 
 public class EventGroup
 {
@@ -43,7 +44,7 @@ public class EventGroup
         }
         return t;
     }
-    public static T NewArg<T, K, V, U>(K param1, V param2, U param3) where T : EventThreeArgs<K, V, U>
+    public static T NewArg<T, TK, TV, TU>(TK param1, TV param2, TU param3) where T : EventThreeArgs<TK, TV, TU>
     {
         T t = null;
         if (!dic.ContainsKey(typeof(T)))
@@ -59,6 +60,7 @@ public class EventGroup
             t = dic[typeof(T)].Dequeue() as T;
             t.value1 = param1;
             t.value2 = param2;
+            t.value3 = param3;
         }
         return t;
     }

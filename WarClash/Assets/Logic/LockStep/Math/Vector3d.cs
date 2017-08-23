@@ -144,6 +144,11 @@ namespace Lockstep
             tZ >>= FixedMath.SHIFT_AMOUNT;
             return FixedMath.Sqrt(tX + tY + tZ);
         }
+
+        public static long Dot(Vector3d a, Vector3d b)
+        {
+            return a.x.Mul(b.x) + a.y.Mul(b.y) + a.z.Mul(b.z);
+        }
         public long LongStateHash {get {return (x * 31 + y * 7 + z * 11);}}
         public int StateHash {get {return (int)(LongStateHash % int.MaxValue);}}
 

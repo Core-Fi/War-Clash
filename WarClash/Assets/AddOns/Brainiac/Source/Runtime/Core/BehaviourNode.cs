@@ -1,6 +1,7 @@
 using UnityEngine;
 using Brainiac.Serialization;
 using System.Collections.Generic;
+using Logic.LogicObject;
 
 namespace Brainiac
 {
@@ -15,7 +16,7 @@ namespace Brainiac
 		private float m_weight;
 		private Breakpoint m_breakpoint;
 		private BehaviourNodeStatus m_status;
-
+	    protected SceneObject SceneObject;
 		[BTProperty("Constraints")]
 		private List<Constraint> m_constraints;
 		[BTProperty("Services")]
@@ -156,6 +157,7 @@ namespace Brainiac
 
 		public virtual void OnStart(AIAgent agent)
 		{
+		    this.SceneObject = agent.SceneObject;
 		}
 
 		public virtual void OnReset()

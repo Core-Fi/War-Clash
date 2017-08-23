@@ -8,11 +8,12 @@ namespace Logic
 {
     public enum AttributeType
     { 
-        HP ,
-        MAXHP,
-        MAXSPEED,
-        SPEED ,
-        CHARACTEREND,
+        Hp,
+        Maxhp,
+        MaxSpeed,
+        Speed ,
+        CharacterEnd,
+        CanMove,
     }
     public enum Operation
     { 
@@ -107,14 +108,14 @@ namespace Logic
     }
     public class AttributeManager
     {
-        private readonly Dictionary<AttributeType, CharacterAttribute> _attributes = new Dictionary<AttributeType, CharacterAttribute>();
+        private readonly Dictionary<int, CharacterAttribute> _attributes = new Dictionary<int, CharacterAttribute>();
         public Action<AttributeType, long, long> OnAttributeChange;
         public long this[AttributeType at]
         {
             get {
                 if (HasAttribute(at))
                 {
-                    return _attributes[at].FinalValue;
+                    return _attributes[(int)at].FinalValue;
                 }
                 Debug.LogError(at + " Key not exsit");
                 return 0;
@@ -122,17 +123,17 @@ namespace Logic
         }
         public bool HasAttribute(AttributeType at)
         {
-            return _attributes.ContainsKey(at);
+            return _attributes.ContainsKey((int)at);
         }
         public void New(AttributeType at, long value)
         {
-            _attributes[at] = new CharacterAttribute(value);
+            _attributes[(int)at] = new CharacterAttribute(value);
         }
         public void Remove(AttributeType at, Operation op, long value)
         {
-            if (_attributes.ContainsKey(at))
+            if (_attributes.ContainsKey((int)at))
             {
-                var attr = _attributes[at];
+                var attr = _attributes[(int)at];
                 long oldValue = attr.FinalValue;
                 attr.Remove(op, value);
                 if (OnAttributeChange != null)
@@ -147,9 +148,9 @@ namespace Logic
         }
         public void SetBase(AttributeType at, long value)
         {
-            var attr = _attributes[at];
+            var attr = _attributes[(int)at];
             var oldValue = attr.FinalValue;
-            _attributes[at].SetBase(value);
+            _attributes[(int)at].SetBase(value);
             if (OnAttributeChange != null)
             {
                 OnAttributeChange.Invoke(at, oldValue, attr.FinalValue);
@@ -157,9 +158,9 @@ namespace Logic
         }
         public void Add(AttributeType at, Operation op, long value)
         {
-            if(_attributes.ContainsKey(at))
+            if(_attributes.ContainsKey((int)at))
             {
-                var attr = _attributes[at];
+                var attr = _attributes[(int)at];
                 var oldValue = attr.FinalValue;
                 attr.Add(op, value);
                 if(OnAttributeChange != null)

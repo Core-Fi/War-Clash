@@ -33,7 +33,7 @@ namespace Logic
         }
      
         private int fixedCount = 0;
-        public int realFixedFrame = 0;
+        public int RealFixedFrame = 0;
         public long TotalTime;
 
         Writer w = new Writer();
@@ -48,9 +48,9 @@ namespace Logic
             }
             SceneManager.Update();
             SceneManager.FixedUpdate();
-            LockFrameMgr.Update();
+            LockFrameMgr.FixedUpdate();
             EventManager.Update(Time.deltaTime);
-            realFixedFrame++;
+            RealFixedFrame++;
             TotalTime += FixedMath.One/15;
             if (!a && TotalTime > FixedMath.One * 3)
             {

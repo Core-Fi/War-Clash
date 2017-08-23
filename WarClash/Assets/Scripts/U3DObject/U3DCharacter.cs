@@ -34,7 +34,7 @@ public class U3DCharacter : U3DSceneObject{
     {
         EventSingleArgs<AttributeMsg> msg = e as EventSingleArgs<AttributeMsg>;
         if(msg == null) return;
-        if(msg.value.At == AttributeType.SPEED)
+        if(msg.value.At == AttributeType.Speed)
         {
             SetSpeed();
         }
@@ -52,7 +52,7 @@ public class U3DCharacter : U3DSceneObject{
 
     public void SetSpeed()
     {
-        long speed = Character.AttributeManager[AttributeType.SPEED];
+        long speed = Character.AttributeManager[AttributeType.Speed];
         if(animator!=null)
             animator.SetInteger("Speed", speed.ToInt());
     }

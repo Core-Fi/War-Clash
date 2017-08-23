@@ -17,21 +17,17 @@ namespace Logic.LogicObject
             Executedisplayaction,
             Stopdisplayaction,
         }
-        public StateMachine StateMachine { get; private set; }
+      
         public SkillManager SkillManager { get; private set; }
-        public AIAgent AiAgent;
+        public AIAgent AiAgent { get; protected set; }
 
         internal override void OnInit()
         {
             SkillManager = new SkillManager(this);
-            StateMachine = new StateMachine(this);
-            BTAsset btAsset = Resources.Load("Test") as BTAsset;
-            AiAgent = new AIAgent(this, btAsset);
-            AiAgent.Start();
-            AttributeManager.New(AttributeType.SPEED, 0);
-            AttributeManager.New(AttributeType.MAXSPEED, Lockstep.FixedMath.One * 2);
-            AttributeManager.New(AttributeType.MAXHP, Lockstep.FixedMath.One * 100);
-            AttributeManager.New(AttributeType.HP, Lockstep.FixedMath.One * 100);
+            AttributeManager.New(AttributeType.Speed, 0);
+            AttributeManager.New(AttributeType.MaxSpeed, Lockstep.FixedMath.One * 2);
+            AttributeManager.New(AttributeType.Maxhp, Lockstep.FixedMath.One * 100);
+            AttributeManager.New(AttributeType.Hp, Lockstep.FixedMath.One * 100);
         }
         internal override void ListenEvents()
         {
@@ -40,7 +36,7 @@ namespace Logic.LogicObject
         public override void OnAttributeChange(AttributeType at, long old, long newValue)
         {
             base.OnAttributeChange(at, old, newValue);
-            if (at == AttributeType.HP)
+            if (at == AttributeType.Hp)
             {
                 if(newValue == 0)
                     Dead();
@@ -99,9 +95,9 @@ namespace Logic.LogicObject
 
         internal override void OnUpdate(float deltaTime)
         {
-            AiAgent.Tick();
+          
             SkillManager.Update(deltaTime);
-            StateMachine.Update();
+          
             base.OnUpdate(deltaTime);
         }
 

@@ -19,6 +19,18 @@ public static class Utility
         }
     }
 
+    public static bool RoundEquals(this float f, float v)
+    {
+        if (Mathf.Abs(f - v) < 0.0001f)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public static T GetComponent<T>(this GameObject go, bool add) where T : Component
     {
         var comp = go.GetComponent<T>();

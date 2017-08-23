@@ -16,9 +16,9 @@ using System.Text;
     {
         public T value { get; internal set; }
         public EventSingleArgs() { } 
-        public EventSingleArgs(T _t)
+        public EventSingleArgs(T t)
         {
-            value = _t;
+            value = t;
         }
 
         public override void Clear()
@@ -27,30 +27,30 @@ using System.Text;
             base.Clear();
         }
     }
-    public class EventTwoArgs<K, V> : EventMsg
+    public class EventTwoArgs<TK, TV> : EventMsg
     {
-        public K value1 { get; internal set; }
-        public V value2 { get; internal set; }
+        public TK value1 { get; internal set; }
+        public TV value2 { get; internal set; }
         public EventTwoArgs() { }
-        public EventTwoArgs(K k, V v)
+        public EventTwoArgs(TK k, TV v)
         {
             value1 = k;
             value2 = v;
         }
         public override void Clear()
         {
-            value1 = default(K);
-            value2 = default(V);
+            value1 = default(TK);
+            value2 = default(TV);
             base.Clear();
         }
     }
-public class EventThreeArgs<K, V, T> : EventMsg
+public class EventThreeArgs<TK, TV, T> : EventMsg
 {
-    public K value1 { get; internal set; }
-    public V value2 { get; internal set; }
+    public TK value1 { get; internal set; }
+    public TV value2 { get; internal set; }
     public T value3 { get; internal set; }
     public EventThreeArgs() { }
-    public EventThreeArgs(K k, V v, T t)
+    public EventThreeArgs(TK k, TV v, T t)
     {
         value1 = k;
         value2 = v;
@@ -58,8 +58,8 @@ public class EventThreeArgs<K, V, T> : EventMsg
     }
     public override void Clear()
     {
-        value1 = default(K);
-        value2 = default(V);
+        value1 = default(TK);
+        value2 = default(TV);
         value3 = default(T);
         base.Clear();
     }
