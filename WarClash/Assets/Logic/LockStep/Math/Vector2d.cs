@@ -172,6 +172,12 @@ namespace Lockstep
 			return vec;
 		}
 
+	    public Vector2d Mul(long a)
+	    {
+	        x = x.Mul(a);
+	        y = y.Mul(a);
+	        return this;
+	    }
 		public void Rotate(long cos, long sin)
 		{
 			temp1 = (this.x * cos + this.y * sin) >> FixedMath.SHIFT_AMOUNT;
@@ -259,6 +265,10 @@ namespace Lockstep
 			return this.Dot(other.x, other.y);
 		}
 
+	    public static long Dot(Vector2d a, Vector2d b)
+	    {
+	        return a.Dot(b);
+	    }
 
 		public long Cross(long otherX, long otherY)
 		{

@@ -115,6 +115,15 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>Library\UnityAssemblies\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
+    <Reference Include="Pathfinding.ClipperLib">
+      <HintPath>Assets\AddOns\AstarPathfindingProject\Plugins\Clipper\Pathfinding.ClipperLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Pathfinding.Ionic.Zip.Reduced">
+      <HintPath>Assets\AddOns\AstarPathfindingProject\Plugins\DotNetZip\Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
+    </Reference>
+    <Reference Include="Pathfinding.Poly2Tri">
+      <HintPath>Assets\AddOns\AstarPathfindingProject\Plugins\Poly2Tri\Pathfinding.Poly2Tri.dll</HintPath>
+    </Reference>
     <Reference Include="ConsolePro.Editor">
       <HintPath>Assets\AddOns\ConsolePro\Editor\ConsolePro.Editor.dll</HintPath>
     </Reference>
@@ -131,8 +140,35 @@
       <Project>{307C3509-C8E2-A9A3-20A2-24634A2E8EFA}</Project>
       <Name>WarClash</Name>
     </ProjectReference>
+    <ProjectReference Include="WarClash.Editor.Plugins.csproj">
+      <Project>{BC4E929E-0E5E-4FD3-4459-EB33F1F40C44}</Project>
+      <Name>WarClash.Editor.Plugins</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\AnimationLinkEditor.cs" />
+    <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\AstarPathEditor.cs" />
+    <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\AstarUpdateChecker.cs" />
+    <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\AstarUpdateWindow.cs" />
+    <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\CustomGraphEditorAttribute.cs" />
+    <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\EditorGUIx.cs" />
+    <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\GraphEditors\GraphEditor.cs" />
+    <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\GraphEditors\GridGeneratorEditor.cs" />
+    <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\GraphEditors\LayerGridGraphEditor.cs" />
+    <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\GraphEditors\NavMeshGeneratorEditor.cs" />
+    <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\GraphEditors\PointGeneratorEditor.cs" />
+    <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\GraphEditors\RecastGraphEditor.cs" />
+    <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\GraphUpdateSceneEditor.cs" />
+    <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\Misc\AstarEnumFlagDrawer.cs" />
+    <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\ModifierEditors\RaycastModifierEditor.cs" />
+    <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\ModifierEditors\SmoothModifierEditor.cs" />
+    <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\NavmeshCutEditor.cs" />
+    <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\OptimizationHandler.cs" />
+    <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\RVONavmeshEditor.cs" />
+    <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\RVOSimulatorEditor.cs" />
+    <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\RVOSquareObstacleEditor.cs" />
+    <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\RecastMeshObjEditor.cs" />
+    <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\SeekerEditor.cs" />
     <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BTConstraintFactory.cs" />
     <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BTConstraintInspectorFactory.cs" />
     <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Core\BTContextMenuFactory.cs" />
@@ -193,8 +229,23 @@
     <Compile Include="Assets\Editor\SkillEditor\SKillWindow.cs" />
     <Compile Include="Assets\Editor\SkillEditor\SkillEditTempData.cs" />
     <Compile Include="Assets\Editor\SkillEditor\SkillEditorUtility.cs" />
+    <Compile Include="Assets\Editor\Test0711Inspector.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\AddOns\AstarPathfindingProject\Editor\EditorAssets\Materials\Navmesh.shader" />
+    <None Include="Assets\AddOns\AstarPathfindingProject\Editor\EditorAssets\Materials\NavmeshOutline.shader" />
+    <None Include="Assets\AddOns\AstarPathfindingProject\ExampleScenes\Example8_PathTypes\SquareShader.shader" />
+    <None Include="Assets\AddOns\AstarPathfindingProject\ExampleScenes\Materials\DiffuseAlwaysVisible.shader" />
+    <None Include="Assets\AddOns\AstarPathfindingProject\ExampleScenes\Materials\Projector Light.shader" />
+    <None Include="Assets\AddOns\AstarPathfindingProject\ExampleScenes\Materials\Projector Multiply.shader" />
+    <None Include="Assets\AddOns\AstarPathfindingProject\ExampleScenes\_Example Scenes.txt" />
+    <None Include="Assets\AddOns\AstarPathfindingProject\Plugins\Clipper\ClipperLicense.txt" />
+    <None Include="Assets\AddOns\AstarPathfindingProject\Plugins\DotNetZip\DotNetZipLicense.txt" />
+    <None Include="Assets\AddOns\AstarPathfindingProject\Plugins\Poly2Tri\Poly2TriLicense.txt" />
+    <None Include="Assets\AddOns\AstarPathfindingProject\Plugins\dependencies.txt" />
+    <None Include="Assets\AddOns\AstarPathfindingProject\Readme.txt" />
+    <None Include="Assets\AddOns\AstarPathfindingProject\Readme_upgrading.txt" />
+    <None Include="Assets\AddOns\AstarPathfindingProject\link.xml" />
     <None Include="Assets\AddOns\Brainiac\Source\Resources\Brainiac\Templates\Action.txt" />
     <None Include="Assets\AddOns\Brainiac\Source\Resources\Brainiac\Templates\Composite.txt" />
     <None Include="Assets\AddOns\Brainiac\Source\Resources\Brainiac\Templates\Constraint.txt" />
@@ -211,6 +262,7 @@
     <None Include="Assets\bundles.txt" />
     <None Include="Assets\data1_str.txt" />
     <None Include="Assets\data2_str.txt" />
+    <None Include="Assets\graph.txt" />
     <None Include="Assets\meshData.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

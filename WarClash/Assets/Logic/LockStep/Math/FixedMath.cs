@@ -164,12 +164,22 @@ namespace Lockstep
 			return (f1 << SHIFT_AMOUNT) / f2;
 		}
 
-		/// <summary>
-		/// Modulo.
+        /// <summary>
+		/// Division.
 		/// </summary>
 		/// <param name="f1">f1.</param>
 		/// <param name="f2">f2.</param>
-		public static long Remainder(this long f1, long f2)
+		public static long Div(this long f1, int f2)
+        {
+            return (f1) / f2;
+        }
+
+        /// <summary>
+        /// Modulo.
+        /// </summary>
+        /// <param name="f1">f1.</param>
+        /// <param name="f2">f2.</param>
+        public static long Remainder(this long f1, long f2)
 		{
 			return f1 % f2;
 		}

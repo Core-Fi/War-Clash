@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
+using UnityEngine.AI;
 
 namespace Logic
 {
@@ -83,8 +85,18 @@ namespace Logic
             Vector3d posi = character.Forward;
             posi.Mul(character.AttributeManager[AttributeType.Speed]);
             posi.Mul(FixedMath.One.Div(FixedMath.One * 15));
-            character.Position += posi;
-        //    character.Forward = dir;
+            var finalPosi = character.Position + posi;
+            NavMeshHit hit;
+            if (
+                !NavMesh.Raycast(character.Position.ToVector3(), finalPosi.ToVector3(), out hit,
+                    (int) NavMeshLayer.Walkable))
+            {
+                character.Position = finalPosi;
+            }
+            else
+            {
+                Debug.LogError(hit.distance);
+            }
         }
     }
 }

@@ -1,11 +1,9 @@
-using UnityEngine;
-using System;
 using Brainiac;
 using Logic.LogicObject;
 using Lockstep;
 using Logic;
-using Newtonsoft.Json.Utilities;
-using UnityEditor;
+using Pathfinding;
+using UnityEngine;
 using UnityEngine.AI;
 
 [AddNodeMenu("Action/MoveToTargetAction")]
@@ -17,7 +15,10 @@ public class MoveToTargetAction : Brainiac.Action
     public override void OnStart(AIAgent agent)
     {
         base.OnStart(agent);
-        _path = new NavMeshPath();
+         _path = new NavMeshPath();
+
+        AstarPath a;
+        
     }
 
     protected override void OnEnter(AIAgent agent)
@@ -27,6 +28,8 @@ public class MoveToTargetAction : Brainiac.Action
         CacualtePath();
         if (target != null)
         {
+            var speed = SceneObject.AttributeManager[AttributeType.MaxSpeed];
+            SceneObject.AttributeManager.SetBase(AttributeType.Speed, speed);
             target.EventGroup.ListenEvent((int)SceneObject.SceneObjectEvent.Positionchange, OnTargetPosiChanged);
         }
     }
@@ -41,7 +44,7 @@ public class MoveToTargetAction : Brainiac.Action
     }
     private void OnTargetPosiChanged(object sender, EventMsg e)
     {
-        CacualtePath();
+        //CacualtePath();
     }
     private void CacualtePath()
     {
@@ -49,11 +52,22 @@ public class MoveToTargetAction : Brainiac.Action
         {
             var mask = NavMesh.GetAreaFromName("Walkable");
             mask = 1 << mask;
-            var success = NavMesh.CalculatePath(SceneObject.Position.ToVector3(), target.Position.ToVector3(), mask, _path);
-            if (_path.corners.Length > 1)
+            NavMeshHit hit;
+
+            if (NavMesh.Raycast(SceneObject.Position.ToVector3(), target.Position.ToVector3(), out hit, mask))
             {
-                _pathIndex = 1;
+                var success = NavMesh.CalculatePath(SceneObject.Position.ToVector3(), target.Position.ToVector3(), mask, _path);
+                if (_path.corners.Length > 1)
+                {
+                    _pathIndex = 1;
+                }
             }
+            else
+            {
+                
+            }
+
+           
         }
     }
     protected override BehaviourNodeStatus OnExecute(AIAgent agent)

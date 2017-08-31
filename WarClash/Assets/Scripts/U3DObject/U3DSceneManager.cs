@@ -9,7 +9,7 @@ public class U3DSceneManager
     public U3DScene U3DScene { get; private set; }
     public U3DSceneManager()
     {
-        Logic.LogicCore.SP.SceneManager.eventGroup.ListenEvent((int)Logic.SceneManager.SceneManagerEvent.Onswitchscene, OnSwitchScene);
+        Logic.LogicCore.SP.SceneManager.EventGroup.ListenEvent((int)Logic.SceneManager.SceneManagerEvent.OnSwitchScene, OnSwitchScene);
     }
     private void OnSwitchScene(object sender, EventMsg e)
     {

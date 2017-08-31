@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Lockstep;
+using Pathfinding;
 using UnityEngine;
 
-public class Test0801 : MonoBehaviour {
+public class Test0801 : MonoBehaviour
+{
 
-   
-	// Use this for initialization
-	void Start ()
+    public GameObject a;
+    public GameObject b;
+    public GameObject c;
+    public GameObject target;
+    public GameObject closetPoint;
+    // Use this for initialization
+    void Start ()
     {
        
     }
@@ -18,9 +25,13 @@ public class Test0801 : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-       
-	}
+    void Update ()
+    {
+
+        var p = Polygon.ClosestPointOnTriangle(new Vector2d(a.transform.position), new Vector2d(b.transform.position), new Vector2d(c.transform.position),
+            new Vector2d(target.transform.position));
+        closetPoint.transform.position = p.ToVector3();
+    }
 
     void OnDestroy()
     {

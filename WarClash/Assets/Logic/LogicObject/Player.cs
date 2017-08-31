@@ -22,12 +22,11 @@ class Player : Character
         LogicCore.SP.EventGroup.ListenEvent((int)LogicCore.LogicCoreEvent.OnJoystickStart, OnJoystickStart);
         LogicCore.SP.EventGroup.ListenEvent((int)LogicCore.LogicCoreEvent.OnJoystickMove, OnJoystickMove);
         LogicCore.SP.EventGroup.ListenEvent((int)LogicCore.LogicCoreEvent.OnJoystickEnd, OnJoystickEnd);
-
     }
 
     private void OnJoystickEnd(object sender, EventMsg e)
     {
-        var cmd = Pool.SP.Get<MoveCommand>();
+        var cmd = Pool.SP.Get<StopCommand>();
         cmd.Sender = Id;
         LogicCore.SP.LockFrameMgr.AddFrameCommand(cmd);
      //   StateMachine.Start(new IdleState());

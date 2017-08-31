@@ -233,14 +233,16 @@ namespace Logic.Objects
         public TDeriveTValue GetObject<TDeriveTValue>(TKey key) where TDeriveTValue : class, TValue
         {
             Type type = typeof(TDeriveTValue);
-            if (objectColl.ContainsKey(type))
+            Dictionary<TKey, ValuePack<TValue>> val;
+            if (objectColl.TryGetValue(type, out val))
             {
-                Dictionary<TKey, ValuePack<TValue>> dic = objectColl[type];
-                if (dic.ContainsKey(key))
+                ValuePack<TValue> valPack;
+                if (val.TryGetValue(key, out valPack))
                 {
-                    ValuePack<TValue> valPack = dic[key];
                     if (valPack.Enable)
+                    {
                         return valPack.Val as TDeriveTValue;
+                    }
                 }
             }
             if (IsTraversing)
@@ -301,9 +303,10 @@ namespace Logic.Objects
             traverseLevel++;
             Type type = typeof(DeriveTValue);
             DeriveTValue ret = null;
-            if (objectColl.ContainsKey(type))
+            Dictionary<TKey, ValuePack<TValue>> dic;
+            if (objectColl.TryGetValue(type, out dic))
             {
-                foreach (var valPack in objectColl[type])
+                foreach (var valPack in dic)
                 {
                     if (!valPack.Value.Enable) continue;
                     if (action(valPack.Value.Val as DeriveTValue))
@@ -313,6 +316,7 @@ namespace Logic.Objects
                     }
                 }
             }
+
             if (null == ret)
             {
                 for (int i = 0; i < delayAdd.Count; i++)

@@ -11,14 +11,14 @@ namespace Logic
     public class SceneManager
     {
         public Scene currentScene;
-        public EventGroup eventGroup;
+        public EventGroup EventGroup;
         public enum SceneManagerEvent
         {
-            Onswitchscene
+            OnSwitchScene
         }
         public SceneManager()
         {
-            eventGroup = new EventGroup();
+            EventGroup = new EventGroup();
         }
         public void SwitchScene(Scene scene)
         {
@@ -26,7 +26,9 @@ namespace Logic
                 currentScene.Destroy();
             currentScene = scene;
             currentScene.Init();
-            eventGroup.FireEvent((int)SceneManagerEvent.Onswitchscene, this, EventGroup.NewArg<EventSingleArgs<Scene>, Scene>(scene));
+            var arg = EventGroup.NewArg<EventSingleArgs<Scene>>();
+            arg.value = scene;
+            EventGroup.FireEvent((int)SceneManagerEvent.OnSwitchScene, this, arg);
         }
         public void Update()
         {

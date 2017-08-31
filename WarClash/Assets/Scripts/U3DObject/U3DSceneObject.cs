@@ -9,6 +9,7 @@ public abstract class U3DSceneObject : IUpdate {
     
     public SceneObject So;
     protected GameObject Go;
+    protected Transform Transform;
     protected LogicObject LogicObject;
 	public void Init(SceneObject so)
     {
@@ -20,6 +21,7 @@ public abstract class U3DSceneObject : IUpdate {
     {
         LogicObject = Go.GetComponent<LogicObject>(true);
         LogicObject.ID = So.Id;
+        Transform = Go.transform;
     }
     public virtual void OnInit()
     {

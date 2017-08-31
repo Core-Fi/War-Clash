@@ -7,9 +7,28 @@ public class EventGroup
 {
     private static Dictionary<Type, Queue<EventMsg>> dic = new Dictionary<Type, Queue<EventMsg>>();
 
-    public static T NewArg<T, K>(K param) where T : EventSingleArgs<K>
+    public static T NewArg<T>() where T : EventMsg
     {
         T t = null;
+        if (!dic.ContainsKey(typeof(T)))
+        {
+            dic.Add(typeof(T), new Queue<EventMsg>());
+        }
+        if (dic[typeof(T)].Count == 0)
+        {
+            t = Activator.CreateInstance<T>();
+        }
+        else
+        {
+            t = dic[typeof(T)].Dequeue() as T;
+        }
+        return t;
+    }
+    public static T NewArg<T, TK>(TK param) where T : EventSingleArgs<TK>
+    {
+        T t = null;
+        Type type = typeof (T);
+        var genericTypes = type.GetGenericArguments();
         if (!dic.ContainsKey(typeof(T)))
         {
             dic.Add(typeof(T), new Queue<EventMsg>());
@@ -25,7 +44,7 @@ public class EventGroup
         }
         return t;
     }
-    public static T NewArg<T, K, V>(K param1, V param2) where T : EventTwoArgs<K,V>
+    public static T NewArg<T, T1, T2>(T1 param1, T2 param2) where T : EventTwoArgs<T1, T2>
     {
         T t = null;
         if (!dic.ContainsKey(typeof(T)))
@@ -44,7 +63,7 @@ public class EventGroup
         }
         return t;
     }
-    public static T NewArg<T, TK, TV, TU>(TK param1, TV param2, TU param3) where T : EventThreeArgs<TK, TV, TU>
+    public static T NewArg<T, T1, T2, T3>(T1 param1, T2 param2, T3 param3) where T : EventThreeArgs<T1, T2, T3>
     {
         T t = null;
         if (!dic.ContainsKey(typeof(T)))

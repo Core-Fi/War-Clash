@@ -32,8 +32,8 @@ public class U3DNpc : U3DCharacter{
         base.OnUpdate();
         if (Go != null)
         {
-            Go.transform.position = Character.Position.ToVector3();
-            Go.transform.forward = Character.Forward.ToVector3();
+            Transform.position = Character.Position.ToVector3();
+            Transform.forward = Character.Forward.ToVector3();
         }
     }
 
