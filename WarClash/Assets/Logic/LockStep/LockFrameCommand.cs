@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LiteNetLib.Utils;
 using Lockstep;
 using UnityEngine;
 
@@ -16,9 +17,21 @@ namespace Logic
         public void Execute()
         {
             OnExecute();
+            if (LogicCore.SP.WriteToLog)
+            {
+                WriteToLog(LogicCore.SP.Writer);
+                LogicCore.SP.Writer.AppendLine();
+            }
             Pool.SP.Recycle(this);
         }
 
+        public virtual void WriteToLog(StringBuilder writer)
+        {
+
+            writer.Append(Frame);
+            writer.Append("  "+Sender+"  "+this.GetType()+"  ");
+           
+        }
         public virtual void OnExecute()
         {
            
@@ -27,11 +40,19 @@ namespace Logic
         {
             
         }
+        public virtual void Serialize(NetDataWriter writer)
+        {
+            writer.Put(Sender);
+        }
+        public virtual void Deserialize(NetDataReader reader)
+        {
+            Frame = reader.GetShort();
+            Sender = reader.GetInt();
+        }
     }
 
     public class ReleaseSkillCommand : LockFrameCommand
     {
-        public int frame;
         public Vector3 position;
         public int receiver;
         public int id;
@@ -47,7 +68,25 @@ namespace Logic
         public override void OnExecute()
         {
             var player = LogicCore.SP.SceneManager.currentScene.GetObject(Sender) as Player;
-            player.StateMachine.Start(new MoveState());
+            player.StateMachine.Start<MoveState>();
+            player.StateMachine.Update();
+        }
+
+        public override void WriteToLog(StringBuilder writer)
+        {
+            base.WriteToLog(writer);
+        }
+
+        public override void Serialize(NetDataWriter writer)
+        {
+            var msgid = (int) NetEventList.PlayerMoveMsg - (int)NetEventList.MsgStart;
+            writer.Put((short)msgid);
+            base.Serialize(writer);
+        }
+
+        public override void Deserialize(NetDataReader reader)
+        {
+            base.Deserialize(reader);
         }
     }
 
@@ -56,7 +95,19 @@ namespace Logic
         public override void OnExecute()
         {
             var player = LogicCore.SP.SceneManager.currentScene.GetObject(Sender) as Player;
-            player.StateMachine.Start(new IdleState());
+            player.StateMachine.Start<IdleState>();
+        }
+
+        public override void Deserialize(NetDataReader reader)
+        {
+            base.Deserialize(reader);
+        }
+
+        public override void Serialize(NetDataWriter writer)
+        {
+            var msgid = (int)NetEventList.PlayerStopMsg - (int)NetEventList.MsgStart;
+            writer.Put((short)msgid);
+            base.Serialize(writer);
         }
     }
 
@@ -67,6 +118,55 @@ namespace Logic
         {
             var player = LogicCore.SP.SceneManager.currentScene.GetObject(Sender) as Player;
             player.Forward = Forward;
+            
+        }
+        public override void WriteToLog(StringBuilder writer)
+        {
+            base.WriteToLog(writer);
+            writer.Append(Forward.ToStringRaw());
+            writer.AppendLine();
+        }
+        public override void Deserialize(NetDataReader reader)
+        {
+            base.Deserialize(reader);
+            Forward.x = reader.GetLong();
+            Forward.y = reader.GetLong();
+            Forward.z = reader.GetLong();
+        }
+
+        public override void Serialize(NetDataWriter writer)
+        {
+            var msgid = (int)NetEventList.PlayerRotateMsg - (int)NetEventList.MsgStart;
+            writer.Put((short)msgid);
+            base.Serialize(writer);
+            writer.Put(Forward.x);
+            writer.Put(Forward.y);
+            writer.Put(Forward.z);
+        }
+    }
+
+    public class CreatePlayerCommand : LockFrameCommand
+    {
+        public override void OnExecute()
+        {
+            var player = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Player>(Sender);
+            player.Position = new Vector3d(Vector3.left*3);
+        }
+        public override void WriteToLog(StringBuilder writer)
+        {
+            base.WriteToLog(writer);
+        }
+        public override void Deserialize(NetDataReader reader)
+        {
+            base.Deserialize(reader);
+        }
+
+        public override void Serialize(NetDataWriter writer)
+        {
+           
+            var msgid = (int)NetEventList.CreatePlayer - (int)NetEventList.MsgStart;
+            writer.Put((short)msgid);
+            base.Serialize(writer);
         }
     }
 

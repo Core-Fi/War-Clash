@@ -11,7 +11,7 @@ class ManagerDriver
         new ViewManager(),
         new TerrainManager(),
         new SceneLoadManager(),
-
+        new GameNetManager(),
     };
 
     public void Update()

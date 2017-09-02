@@ -183,9 +183,13 @@ namespace Pathfinding {
 		 * and it constrains distance set by A* Inspector -> Settings -> Max Nearest Node Distance */
 		public static NNConstraint Default {
 			get {
-				return new NNConstraint();
+                if(_default == null)
+                    _default = new NNConstraint();
+				return _default;
 			}
 		}
+
+	    private static NNConstraint _default;
 
 		/** Returns a constraint which will not filter the results */
 		public static NNConstraint None {

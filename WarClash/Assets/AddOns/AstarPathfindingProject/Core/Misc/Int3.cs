@@ -1,3 +1,4 @@
+using Lockstep;
 using UnityEngine;
 
 namespace Pathfinding {
@@ -30,8 +31,11 @@ namespace Pathfinding {
 			y = (int)System.Math.Round(position.y*FloatPrecision);
 			z = (int)System.Math.Round(position.z*FloatPrecision);
 		}
-
-		public Int3 (int _x, int _y, int _z) {
+        public static Vector3d ToVector3D(Int3 v)
+        {
+            return new Vector3d(((long)v.x * FixedMath.One / 1000), ((long)v.y * FixedMath.One / 1000), ((long)v.z * FixedMath.One / 1000));
+        }
+        public Int3 (int _x, int _y, int _z) {
 			x = _x;
 			y = _y;
 			z = _z;

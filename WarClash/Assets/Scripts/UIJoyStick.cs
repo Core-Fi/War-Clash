@@ -9,17 +9,12 @@ using UnityEngine.EventSystems;
 
 class UIJoyStick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
-    [System.Serializable] public class OnMoveStartHandler : UnityEvent { }
-    [System.Serializable] public class OnMoveSpeedHandler : UnityEvent<Vector2> { }
-    [System.Serializable] public class OnMoveHandler : UnityEvent<Vector2> { }
-    [System.Serializable] public class OnMoveEndHandler : UnityEvent { }
-    [SerializeField]
+    public delegate void OnMoveStartHandler();
+    public delegate void OnMoveHandler(Vector2 v);
+    public delegate void OnMoveEndHandler();
+
     public OnMoveStartHandler OnMoveStart;
-    [SerializeField]
     public OnMoveHandler OnMove;
-    [SerializeField]
-    public OnMoveSpeedHandler OnMoveSpeed;
-    [SerializeField]
     public OnMoveEndHandler OnMoveEnd;
     public RectTransform Thumb;
     [SerializeField]
@@ -29,9 +24,9 @@ class UIJoyStick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpH
 
     void Awake()
     {
-        this.OnMoveStart.AddListener(() => { LogicCore.SP.EventGroup.FireEvent((int)LogicCore.LogicCoreEvent.OnJoystickStart, this, null); });
-        this.OnMove.AddListener((p) => { LogicCore.SP.EventGroup.FireEvent((int)LogicCore.LogicCoreEvent.OnJoystickMove, this, EventGroup.NewArg<EventSingleArgs<Vector2>, Vector2>(p)); });
-        this.OnMoveEnd.AddListener(() => { LogicCore.SP.EventGroup.FireEvent((int)LogicCore.LogicCoreEvent.OnJoystickEnd, this, null); });
+        this.OnMoveStart=(() => { LogicCore.SP.EventGroup.FireEvent((int)LogicCore.LogicCoreEvent.OnJoystickStart, this, null); });
+        this.OnMove = ((v) => { LogicCore.SP.EventGroup.FireEvent((int)LogicCore.LogicCoreEvent.OnJoystickMove, this, EventGroup.NewArg<EventSingleArgs<Vector2>, Vector2>(v)); });
+        this.OnMoveEnd = (() => { LogicCore.SP.EventGroup.FireEvent((int)LogicCore.LogicCoreEvent.OnJoystickEnd, this, null); });
         cachedRectTransform = transform as RectTransform;
     }
 

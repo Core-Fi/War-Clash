@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Pathfinding;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,20 +13,28 @@ namespace Logic
     public class StateMachine
     {
         public State state;
-        public Character character;
+        public Character Character;
         public StateMachine(Character character)
         {
-            this.character = character;
+            this.Character = character;
         }
-        public void Start(State state)
+        public void Start<T>() where T : State, IPool
         {
             if(this.state != null)
             {
-                this.state.OnStop();
+                if (this.state is T)
+                {
+                    return;
+                }
+                else
+                {
+                    this.state.OnStop();
+                }
             }
-            this.state = state;
-            this.state.character = character;
+            this.state = Pool.SP.Get<T>() as State;
+            this.state.Character = Character;
             this.state.OnStart();
+
         }
 
         public void Update()
@@ -36,26 +45,29 @@ namespace Logic
             }
         }
     }
-    public abstract class State
+    public abstract class State : IPool
     {
-        public Character character;
+        public Character Character;
         public abstract void OnStart();
         public abstract void OnUpdate();
         public abstract void OnStop();
+        public void Reset()
+        {
+           
+        }
     }
 
     public class IdleState : State
     {
         public override void OnStart()
         {
-            character.AttributeManager.SetBase(AttributeType.Speed, 0);
+            Character.AttributeManager.SetBase(AttributeType.Speed, 0);
         }
 
         public override void OnStop()
         {
 
         }
-
         public override void OnUpdate()
         {
 
@@ -64,38 +76,36 @@ namespace Logic
 
     public class MoveState : State
     {
-      //  public Vector3d dir;
-       // public long speed;
-       // private FixedQuaternion rotateRate;
-       // private Vector3d startPosi;
         public override void OnStart()
         {
-            var speed = character.AttributeManager[AttributeType.MaxSpeed];
-            character.AttributeManager.SetBase(AttributeType.Speed, speed);
-           // rotateRate = FixedQuaternion.AngleAxis(FixedMath.One*1, new Vector3d(UnityEngine.Vector3.up));
-         //   startPosi = character.Position;
+            var speed = Character.AttributeManager[AttributeType.MaxSpeed];
+            Character.AttributeManager.SetBase(AttributeType.Speed, speed);
         }
         public override void OnStop()
         {
-            character.AttributeManager.SetBase(AttributeType.Speed, 0);
+            Character.AttributeManager.SetBase(AttributeType.Speed, 0);
         }
         public override void OnUpdate()
         {
-           // dir = rotateRate * dir;
-            Vector3d posi = character.Forward;
-            posi.Mul(character.AttributeManager[AttributeType.Speed]);
-            posi.Mul(FixedMath.One.Div(FixedMath.One * 15));
-            var finalPosi = character.Position + posi;
-            NavMeshHit hit;
-            if (
-                !NavMesh.Raycast(character.Position.ToVector3(), finalPosi.ToVector3(), out hit,
-                    (int) NavMeshLayer.Walkable))
+            Vector3d posi = Character.Forward;
+            posi.Mul(Character.AttributeManager[AttributeType.Speed]);
+            posi.Mul(FixedMath.One.Div(LockFrameMgr.FixedFrameRate));
+            var finalPosi = Character.Position + posi;
+            var fp = AstarPath.active.GetNearest(finalPosi);
+            var b = (fp.node as MeshNode).ContainsPoint(Vector3d.ToInt3(finalPosi));
+            if (LogicCore.SP.WriteToLog)
             {
-                character.Position = finalPosi;
+                LogicCore.SP.Writer.Append(LogicCore.SP.RealFixedFrame+"  "+ Character.Position.ToStringRaw()+ "  "+finalPosi.ToStringRaw()+"  "+b+"  "+fp.node.NodeIndex+"  "+ fp.constFixedClampedPosition.ToStringRaw());
+                LogicCore.SP.Writer.AppendLine();
+            }
+            if (b)
+            {
+                Character.Position = finalPosi;
             }
             else
             {
-                Debug.LogError(hit.distance);
+                Character.Position = fp.constFixedClampedPosition;
+                
             }
         }
     }

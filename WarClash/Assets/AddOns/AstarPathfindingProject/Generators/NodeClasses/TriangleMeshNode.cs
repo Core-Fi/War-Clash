@@ -108,12 +108,11 @@ namespace Pathfinding {
             Int3 tp3 = g.GetVertex(v2);
 
             Vector2d closest = Polygon.ClosestPointOnTriangle(
-                new Vector2d(((long)tp1.x) << FixedMath.SHIFT_AMOUNT / 1000, ((long)tp1.z) << FixedMath.SHIFT_AMOUNT / 1000),
-                new Vector2d(((long)tp2.x) << FixedMath.SHIFT_AMOUNT / 1000, ((long)tp2.z) << FixedMath.SHIFT_AMOUNT / 1000),
-                new Vector2d(((long)tp3.x) << FixedMath.SHIFT_AMOUNT / 1000, ((long)tp3.z) << FixedMath.SHIFT_AMOUNT / 1000),
+                new Vector2d(((long)tp1.x) * FixedMath.One/1000, ((long)tp1.z) * FixedMath.One / 1000),
+                new Vector2d(((long)tp2.x) * FixedMath.One / 1000, ((long)tp2.z) * FixedMath.One / 1000),
+                new Vector2d(((long)tp3.x) * FixedMath.One / 1000, ((long)tp3.z) * FixedMath.One / 1000),
                 new Vector2d(p.x, p.z)
                 );
-
             return new Vector3d(closest.x, 0, closest.y);
         }
 

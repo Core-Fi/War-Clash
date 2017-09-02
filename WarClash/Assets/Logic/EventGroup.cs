@@ -28,7 +28,6 @@ public class EventGroup
     {
         T t = null;
         Type type = typeof (T);
-        var genericTypes = type.GetGenericArguments();
         if (!dic.ContainsKey(typeof(T)))
         {
             dic.Add(typeof(T), new Queue<EventMsg>());

@@ -114,10 +114,10 @@ namespace Pathfinding {
 			originalEndPoint = end;
 
 			startPoint = start;
-			endPoint = end;
+            endPoint = end;
 
 			startIntPoint = (Int3)start;
-			hTarget = (Int3)end;
+            hTarget = (Int3)end;
 		}
 
 		public override uint GetConnectionSpecialCost (GraphNode a, GraphNode b, uint currentCost) {

@@ -14,15 +14,15 @@ class ViewManager : Manager
     private readonly List<PendingViewInfo> _waitingForLoadView = new List<PendingViewInfo>(1);  
     public ViewManager()
     {
-        ListenEvent((int)EventList.ShowUI, ShowUI);
-        ListenEvent((int)EventList.HideUI, HideUI);
+        ListenEvent((int)UIEventList.ShowUI, ShowUI);
+        ListenEvent((int)UIEventList.HideUI, HideUI);
     }
 
     private void HideUI(object sender, EventMsg e)
     {
         var v = e as EventSingleArgs<View>;
         v.value.OnHide();
-        FireEvent((int)EventList.OnHideUI, this, EventGroup.NewArg<EventSingleArgs<View>, View>(v.value));
+        FireEvent((int)UIEventList.OnHideUI, this, EventGroup.NewArg<EventSingleArgs<View>, View>(v.value));
     }
 
     private void ShowUI(object sender, EventMsg e)
@@ -56,7 +56,7 @@ class ViewManager : Manager
             v.name = uiName;
             v.Init(go);
             v.Show(info.Param);
-            FireEvent((int) EventList.OnShowUI, this, EventGroup.NewArg<EventSingleArgs<View>, View>(v));
+            FireEvent((int) UIEventList.OnShowUI, this, EventGroup.NewArg<EventSingleArgs<View>, View>(v));
         }
     }
 

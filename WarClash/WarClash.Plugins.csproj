@@ -90,6 +90,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Plugins\Net\INetEventListener.cs" />
+    <Compile Include="Assets\Plugins\Net\NatPunchModule.cs" />
+    <Compile Include="Assets\Plugins\Net\NetConstants.cs" />
+    <Compile Include="Assets\Plugins\Net\NetDebug.cs" />
+    <Compile Include="Assets\Plugins\Net\NetEndPoint.cs" />
+    <Compile Include="Assets\Plugins\Net\NetManager.cs" />
+    <Compile Include="Assets\Plugins\Net\NetPacket.cs" />
+    <Compile Include="Assets\Plugins\Net\NetPacketPool.cs" />
+    <Compile Include="Assets\Plugins\Net\NetPeer.cs" />
+    <Compile Include="Assets\Plugins\Net\NetPeerCollection.cs" />
+    <Compile Include="Assets\Plugins\Net\NetSocket.cs" />
+    <Compile Include="Assets\Plugins\Net\NetThread.cs" />
+    <Compile Include="Assets\Plugins\Net\NetUtils.cs" />
+    <Compile Include="Assets\Plugins\Net\ReliableChannel.cs" />
+    <Compile Include="Assets\Plugins\Net\SequencedChannel.cs" />
+    <Compile Include="Assets\Plugins\Net\SimpleChannel.cs" />
+    <Compile Include="Assets\Plugins\Net\Utils\FastBitConverter.cs" />
+    <Compile Include="Assets\Plugins\Net\Utils\NetDataReader.cs" />
+    <Compile Include="Assets\Plugins\Net\Utils\NetDataWriter.cs" />
+    <Compile Include="Assets\Plugins\Net\Utils\NetSerializer.cs" />
     <Compile Include="Assets\Plugins\PathologicalGames\PoolManager\PoolManager.cs" />
     <Compile Include="Assets\Plugins\PathologicalGames\PoolManager\PreRuntimePoolItem.cs" />
     <Compile Include="Assets\Plugins\PathologicalGames\PoolManager\SpawnPool.cs" />
@@ -126,6 +146,7 @@
     <None Include="Assets\data1_str.txt" />
     <None Include="Assets\data2_str.txt" />
     <None Include="Assets\graph.txt" />
+    <None Include="Assets\log.txt" />
     <None Include="Assets\meshData.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -296,8 +296,7 @@ namespace Pathfinding {
 
         void SearchBoxClosestXZ (int boxi, Vector3 p, ref float closestDist, NNConstraint constraint, ref NNInfo nnInfo) {
 			BBTreeBox box = arr[boxi];
-
-			if (box.node != null) {
+            if (box.node != null) {
 				//Leaf node
 
 				//Update the NNInfo
@@ -308,21 +307,19 @@ namespace Pathfinding {
 				#endif
 
 				Vector3 closest = box.node.ClosestPointOnNodeXZ(p);
-
-				if (constraint == null || constraint.Suitable(box.node)) {
+                if (constraint == null || constraint.Suitable(box.node)) {
 					// XZ distance
 					float dist = (closest.x-p.x)*(closest.x-p.x)+(closest.z-p.z)*(closest.z-p.z);
-
 					if (nnInfo.constrainedNode == null) {
 						nnInfo.constrainedNode = box.node;
 						nnInfo.constClampedPosition = closest;
 						closestDist = (float)Math.Sqrt(dist);
-					} else if (dist < closestDist*closestDist) {
+                    } else if (dist < closestDist*closestDist) {
 						nnInfo.constrainedNode = box.node;
 						nnInfo.constClampedPosition = closest;
 						closestDist = (float)Math.Sqrt(dist);
-					}
-				}
+                    }
+                }
 
 				#if ASTARDEBUG
 				Debug.DrawLine((Vector3)box.node.GetVertex(0), (Vector3)box.node.GetVertex(1), Color.blue);
@@ -373,7 +370,6 @@ namespace Pathfinding {
         void SearchBoxClosestXZ(int boxi, Vector3d p, ref long closestDist, NNConstraint constraint, ref NNInfo nnInfo)
         {
             BBTreeBox box = arr[boxi];
-
             if (box.node != null)
             {
                 //Leaf node
@@ -386,23 +382,24 @@ namespace Pathfinding {
 #endif
 
                 Vector3d closest = box.node.ClosestPointOnNodeXZ(p);
-
                 if (constraint == null || constraint.Suitable(box.node))
                 {
                     // XZ distance
                     long dist = (closest.x - p.x).Mul(closest.x - p.x) + (closest.z - p.z).Mul(closest.z - p.z);
-
+                    long pre = closestDist;
+                    float pre_f = dist.ToFloat();
+                    float clo_f = closestDist.ToFloat();
                     if (nnInfo.constrainedNode == null)
                     {
                         nnInfo.constrainedNode = box.node;
                         nnInfo.constFixedClampedPosition = closest;
-                        closestDist =  dist;
+                        closestDist =  FixedMath.Sqrt(dist);
                     }
-                    else if (dist < closestDist * closestDist)
+                    else if (dist < closestDist.Mul(closestDist))
                     {
                         nnInfo.constrainedNode = box.node;
                         nnInfo.constFixedClampedPosition = closest;
-                        closestDist = dist;
+                        closestDist = FixedMath.Sqrt(dist);
                     }
                 }
 
@@ -420,7 +417,6 @@ namespace Pathfinding {
 				Debug.DrawLine(new Vector3(box.rect.xMin, 0, box.rect.yMin), new Vector3(box.rect.xMin, 0, box.rect.yMax), Color.white);
 				Debug.DrawLine(new Vector3(box.rect.xMax, 0, box.rect.yMin), new Vector3(box.rect.xMax, 0, box.rect.yMax), Color.white);
 #endif
-
                 //Search children
                 if (RectIntersectsCircle(arr[box.left].rect, p, closestDist))
                 {
@@ -447,8 +443,7 @@ namespace Pathfinding {
 					#endif
 
 					Vector3 closest = box.node.ClosestPointOnNode(p);
-
-					if (constraint == null || constraint.Suitable(box.node)) {
+                    if (constraint == null || constraint.Suitable(box.node)) {
 						float dist = (closest-p).sqrMagnitude;
 
 						if (nnInfo.constrainedNode == null) {
@@ -710,22 +705,26 @@ namespace Pathfinding {
 			p.x = Math.Min(p.x, r.xmax*Int3.PrecisionFactor);
 			p.z = Math.Max(p.z, r.ymin*Int3.PrecisionFactor);
 			p.z = Math.Min(p.z, r.ymax*Int3.PrecisionFactor);
-
-			// XZ squared magnitude comparison
-			return (p.x-po.x)*(p.x-po.x) + (p.z-po.z)*(p.z-po.z) < radius*radius;
+		    var a = (p.x - po.x)*(p.x - po.x) + (p.z - po.z)*(p.z - po.z);
+            var b = radius * radius;
+            var val = a < b;
+            // XZ squared magnitude comparison
+            return val;
 		}
         static bool RectIntersectsCircle(IntRect r, Vector3d p, long radius)
         {
-            if (float.IsPositiveInfinity(radius)) return true;
+            if (radius.Equals(long.MaxValue)) return true;
 
             Vector3d po = p;
-            p.x = Math.Max(p.x, r.xmin<<FixedMath.SHIFT_AMOUNT / 1000);
-            p.x = Math.Min(p.x, r.xmax << FixedMath.SHIFT_AMOUNT / 1000);
-            p.z = Math.Max(p.z, r.ymin << FixedMath.SHIFT_AMOUNT / 1000);
-            p.z = Math.Min(p.z, r.ymax << FixedMath.SHIFT_AMOUNT / 1000);
-
+            p.x = Math.Max(po.x, (r.xmin * FixedMath.One).Div(Int3.Precision));
+            p.x = Math.Min(po.x, (r.xmax * FixedMath.One).Div(Int3.Precision));
+            p.z = Math.Max(po.z, (r.ymin * FixedMath.One).Div(Int3.Precision));
+            p.z = Math.Min(po.z, (r.ymax * FixedMath.One).Div(Int3.Precision));
+            long  a = (p.x - po.x).Mul(p.x - po.x) + (p.z - po.z).Mul(p.z - po.z);
+            var b = (radius).Mul(radius);
+            var val = a<b ;
             // XZ squared magnitude comparison
-            return (p.x - po.x) .Mul (p.x - po.x) + (p.z - po.z).Mul(p.z - po.z) < radius.Mul (radius);
+            return val;
         }
 
         /** Returns a new rect which contains both \a r and \a r2 */

@@ -986,7 +986,7 @@ namespace Pathfinding {
         {
             if (tiles == null) return new NNInfo();
 
-            Vector3d localPosition = position;//-  forcedBounds.min;
+            Vector3d localPosition = position -  new Vector3d(forcedBounds.min);
             int tx = Mathf.FloorToInt(localPosition.x.Div(Mathf.RoundToInt(cellSize * tileSizeX)).ToInt());
             int tz = Mathf.FloorToInt(localPosition.z.Div(Mathf.RoundToInt(cellSize * tileSizeZ)).ToInt());
 
@@ -1020,19 +1020,20 @@ namespace Pathfinding {
                         // Absolute x coordinate
                         int x = -dx + tx;
                         NavmeshTile tile = tiles[x + z * tileXCount];
-
+                        //Debug.LogError(x + z * tileXCount);
                         if (tile != null)
                         {
                             if (xzSearch)
                             {
                                 best = tile.bbTree.QueryClosestXZ(position, constraint, ref bestDistance, best);
-                                if (bestDistance < float.PositiveInfinity) break;
+                                if (bestDistance < long.MaxValue) break;
                             }
                             else
                             {
                                // best = tile.bbTree.QueryClosest(position, constraint, ref bestDistance, best);
                             }
                         }
+                        
                     }
 
                     // Other solution, make sure it is not the same solution by checking x != 0
@@ -1041,18 +1042,20 @@ namespace Pathfinding {
                         // Absolute x coordinate
                         int x = dx + tx;
                         NavmeshTile tile = tiles[x + z * tileXCount];
+                        //Debug.LogError(x + z * tileXCount);
                         if (tile != null)
                         {
                             if (xzSearch)
                             {
                                 best = tile.bbTree.QueryClosestXZ(position, constraint, ref bestDistance, best);
-                                if (bestDistance < float.PositiveInfinity) break;
+                                if (bestDistance < long.MaxValue) break;
                             }
                             else
                             {
                                // best = tile.bbTree.QueryClosest(position, constraint, ref bestDistance, best);
                             }
                         }
+                        
                     }
                 }
             }
@@ -1062,6 +1065,7 @@ namespace Pathfinding {
             best.clampedPosition = best.constClampedPosition;
             return best;
         }
+
         public override NNInfo GetNearestForce (Vector3 position, NNConstraint constraint) {
 			if (tiles == null) return new NNInfo();
 
@@ -1096,31 +1100,33 @@ namespace Pathfinding {
 						// Absolute x coordinate
 						int x = -dx + tx;
 						NavmeshTile tile = tiles[x + z*tileXCount];
-
-						if (tile != null) {
+                        //Debug.Log(x + z * tileXCount);
+                        if (tile != null) {
 							if (xzSearch) {
 								best = tile.bbTree.QueryClosestXZ(position, constraint, ref bestDistance, best);
-								if (bestDistance < float.PositiveInfinity) break;
+                                if (bestDistance < float.PositiveInfinity) break;
 							} else {
 								best = tile.bbTree.QueryClosest(position, constraint, ref bestDistance, best);
 							}
 						}
-					}
+					   
+                    }
 
 					// Other solution, make sure it is not the same solution by checking x != 0
 					if (dx != 0 && dx + tx < tileXCount) {
 						// Absolute x coordinate
 						int x = dx + tx;
 						NavmeshTile tile = tiles[x + z*tileXCount];
-						if (tile != null) {
+                     //   Debug.Log(x + z * tileXCount);
+                        if (tile != null) {
 							if (xzSearch) {
 								best = tile.bbTree.QueryClosestXZ(position, constraint, ref bestDistance, best);
-								if (bestDistance < float.PositiveInfinity) break;
+                                if (bestDistance < float.PositiveInfinity) break;
 							} else {
 								best = tile.bbTree.QueryClosest(position, constraint, ref bestDistance, best);
 							}
 						}
-					}
+                    }
 				}
 			}
 
@@ -1886,7 +1892,7 @@ namespace Pathfinding {
 			tileIndex <<= TileIndexOffset;
 
 			if (tile.verts.Length > VertexIndexMask) {
-				Debug.LogError("Too many vertices in the tile (" + tile.verts.Length + " > " + VertexIndexMask +")\nYou can enable ASTAR_RECAST_LARGER_TILES under the 'Optimizations' tab in the A* Inspector to raise this limit.");
+				//Debug.LogError("Too many vertices in the tile (" + tile.verts.Length + " > " + VertexIndexMask +")\nYou can enable ASTAR_RECAST_LARGER_TILES under the 'Optimizations' tab in the A* Inspector to raise this limit.");
 				tiles[tileIndex] = NewEmptyTile(x, z);
 				return;
 			}

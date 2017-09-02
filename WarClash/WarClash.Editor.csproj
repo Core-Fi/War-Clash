@@ -263,6 +263,7 @@
     <None Include="Assets\data1_str.txt" />
     <None Include="Assets\data2_str.txt" />
     <None Include="Assets\graph.txt" />
+    <None Include="Assets\log.txt" />
     <None Include="Assets\meshData.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

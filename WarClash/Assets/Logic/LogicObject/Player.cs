@@ -10,6 +10,7 @@ using UnityEngine;
 class Player : Character
 {
     public StateMachine StateMachine { get; private set; }
+    private bool IsPressing;
     internal override void OnInit()
     {
         base.OnInit();
@@ -26,9 +27,10 @@ class Player : Character
 
     private void OnJoystickEnd(object sender, EventMsg e)
     {
+        IsPressing = false;
         var cmd = Pool.SP.Get<StopCommand>();
         cmd.Sender = Id;
-        LogicCore.SP.LockFrameMgr.AddFrameCommand(cmd);
+        LogicCore.SP.LockFrameMgr.SendCommand(cmd);
      //   StateMachine.Start(new IdleState());
     }
 
@@ -45,22 +47,23 @@ class Player : Character
             var cmd = Pool.SP.Get<ChangeForwardCommand>();
             cmd.Sender = Id;
             cmd.Forward = forward;
-            LogicCore.SP.LockFrameMgr.AddFrameCommand(cmd);
-            //Forward = new Vector3d(r);
+            LogicCore.SP.LockFrameMgr.SendCommand(cmd);
         }
     }
 
     private void OnJoystickStart(object sender, EventMsg e)
     {
-        var cmd = Pool.SP.Get<MoveCommand>();
-        cmd.Sender = Id;
-        LogicCore.SP.LockFrameMgr.AddFrameCommand(cmd);
-       //StateMachine.Start(new MoveState());
+        IsPressing = true;
     }
 
     internal override void OnUpdate(float deltaTime)
     {
         base.OnUpdate(deltaTime);
-        StateMachine.Update();
+        if (IsPressing)
+        {
+            var cmd = Pool.SP.Get<MoveCommand>();
+            cmd.Sender = Id;
+            LogicCore.SP.LockFrameMgr.SendCommand(cmd);
+        }
     }
 }

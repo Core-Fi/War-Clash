@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Lockstep;
+using Logic;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 class U3DPlayer : U3DCharacter
@@ -22,33 +24,43 @@ class U3DPlayer : U3DCharacter
         {
             var logicPosi = Character.Position.ToVector3();
             logicGo.transform.position = logicPosi;
-            var additive = (logicPosi - Go.transform.position) * Time.deltaTime * 6;;
-            if (additive != Vector3.zero)
-            {
-                if (additive.sqrMagnitude < 0.1f)
-                {
-                    Transform.position = logicPosi;
-                }
-                else
-                {
-                    Transform.position += additive;
-                }
-            }
-            if (Vector3.Distance(logicPosi, Go.transform.position) < 0.1f)
+            float speed = this.Character.GetAttributeValue(AttributeType.MaxSpeed).ToFloat();
+            float distance = Vector3.Distance(logicPosi, Transform.position);
+            Transform.position = Vector3.Lerp(Transform.position, logicPosi, Time.deltaTime*4);
+
+            //if (distance < 0.1f)
+            //{
+            //   // Transform.position = logicPosi;
+            //}
+            //else
+            //{
+            //    var additive = (logicPosi - Transform.position).normalized*Time.deltaTime*speed;
+
+            //    if (additive.magnitude > distance)
+            //    {
+            //        Transform.position = logicPosi;
+            //        Debug.LogError("on dest point");
+            //    }
+            //    else
+            //    {
+            //        Transform.position += additive;
+            //    }
+            //}
+            if (Vector3.Distance(logicPosi, Transform.position) < 0.1f)
             {
                 var tempForward = Character.Forward.ToVector3();
                 if (Transform.forward != tempForward)
                 {
-                    Transform.forward = tempForward;
+                  //  Transform.forward = tempForward;
 
                 }
             }
             else
             {
-                var tempForward = (logicPosi - Go.transform.position).normalized;
+                var tempForward = (logicPosi - Transform.position).normalized;
                 if (Transform.forward != tempForward)
                 {
-                    Transform.forward = tempForward;
+                 //   Transform.forward = tempForward;
                 }
             }
           

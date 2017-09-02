@@ -3,14 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public enum EventList
+public enum UIEventList
 {
+    PreLoadResource = 10000,
     //5000开始
     ShowUI = 50000,
     HideUI,
     OnShowUI,
     OnHideUI,
-    //
-    PreLoadResource = 10000,
+
+    SendNetMsg = 60000,
 }
 
+public enum NetEventList
+{
+    MsgStart = 70000,
+    SaveToLog,
+    BattleStart,
+    PlayerMoveMsg,
+    PlayerStopMsg,
+    PlayerRotateMsg,
+    CreatePlayer,
+   
+}

@@ -3,8 +3,10 @@ using Logic.Objects;
 using System.Collections;
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Lockstep;
+using Pathfinding;
 using UnityEngine.AI;
 
 public struct NavRawData
@@ -26,29 +28,39 @@ public class U3DScene : ObjectCollection<int, U3DSceneObject>
         UnityEngine.SceneManagement.SceneManager.LoadScene("scene01");
         Main.SP.StartCoroutine(LoadScene());
     }
+
+    public static bool IsFixed;
     IEnumerator LoadScene()
     {
         AsyncOperation asyn = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("scene01");
         yield return asyn;
         OnInit();
-        NavMeshTriangulation triangles = NavMesh.CalculateTriangulation();
-        //Mesh mesh = new Mesh();
-        //mesh.vertices = triangles.vertices;
-        //mesh.triangles = triangles.indices;
-        //AssetDatabase.CreateAsset(mesh, "Assets/navmesh.asset");
-        // ListenEvents();
-        NavRawData navRawData;
-        navRawData.vertices = new Vector3d[triangles.vertices.Length];
-        for (int i = 0; i < triangles.vertices.Length; i++)
+        var graph = AstarPath.active.graphs[0] as RecastGraph;
+        //var v = new Vector3(10, 0, 11);
+        //var fnode = graph.GetNearestForce(new Vector3d(v), NNConstraint.Default);
+        //var node = graph.GetNearestForce(v, NNConstraint.Default);
+        //Debug.LogError("----------------- " + v + "  " + fnode.node.NodeIndex + "  " + node.node.NodeIndex);
+
+        int wrong = 0;
+        for (int i = 0; i < 100; i++)
         {
-            navRawData.vertices[i] = new Vector3d(triangles.vertices[i]);
+            var v = new Vector3(UnityEngine.Random.Range(0, 100), 0, UnityEngine.Random.Range(0, 100));
+            var fnode = graph.GetNearestForce(new Vector3d(v), NNConstraint.Default);
+            var node = graph.GetNearestForce(v, NNConstraint.Default);
+            if (fnode.node != null && node.node != null)
+            {
+                //   Debug.LogError(fnode.constFixedClampedPosition+"   "+node.constClampedPosition);
+                if (fnode.node.NodeIndex != node.node.NodeIndex)
+                {
+                    Debug.LogError("----------------- " + v + "  " + fnode.node.NodeIndex + "  " + node.node.NodeIndex);
+                    wrong++;
+                }
+            }
         }
-        navRawData.indices = triangles.indices;
-        navRawData.areas = triangles.areas;
-        var str = JsonUtility.ToJson(navRawData);
-        File.WriteAllText(Application.dataPath+"/nav.data", str);
-        var rawData = JsonUtility.FromJson<NavRawData>(str);
-        Debug.LogError(rawData.vertices.Length);
+        Debug.LogError(wrong);
+
+       
+        //Debug.LogError(rawData.vertices.Length);
 
     }
     protected virtual void OnInit()

@@ -28,6 +28,12 @@ namespace Logic.LogicObject
             EventGroup = new EventGroup();
 
         }
+        public T CreateSceneObject<T>(int id) where T : SceneObject
+        {
+            T t = Activator.CreateInstance<T>();
+            AddSceneObject(id, t);
+            return t;
+        }
         public T CreateSceneObject<T>() where T : SceneObject
         {
             T t = Activator.CreateInstance<T>();

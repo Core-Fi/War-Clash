@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Lockstep;
 using Pathfinding;
 
 #if NETFX_CORE
@@ -2818,6 +2819,11 @@ public class AstarPath : MonoBehaviour {
 		return GetNearest(position, constraint, null);
 	}
 
+    public NNInfo GetNearest(Vector3d position)
+    {
+        var g = graphs[0] as RecastGraph;
+        return g.GetNearestForce(position, NNConstraint.Default);
+    }
 	/** Returns the nearest node to a position using the specified NNConstraint.
 	 * Searches through all graphs for their nearest nodes to the specified position and picks the closest one.
 	 * The NNConstraint can be used to specify constraints on which nodes can be chosen such as only picking walkable nodes.

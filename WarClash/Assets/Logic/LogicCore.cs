@@ -15,6 +15,7 @@ namespace Logic
         public SceneManager SceneManager;
         public LockFrameMgr LockFrameMgr;
         public EventGroup EventGroup;
+       
         public enum LogicCoreEvent
         {
             OnJoystickStart,
@@ -27,38 +28,35 @@ namespace Logic
             LockFrameMgr = new LockFrameMgr();
             SceneManager = new SceneManager();
             EventGroup = new EventGroup();
+            timeStep = 1f/LockFrameMgr.FixedFrameRate;
+            Debug.LogError(timeStep);
         }
         public void Update(float deltaTime)
         {
         }
-     
-        private int fixedCount = 0;
+
+        public bool WriteToLog = true;
+        public float fixedtime = 0;
         public int RealFixedFrame = 0;
         public long TotalTime;
-
-        Writer w = new Writer();
+        private float timeStep;
+        public StringBuilder Writer = new StringBuilder();
         StringBuilder sb = new StringBuilder();
-        private bool a;
         public void FixedUpdate()
         {
-            fixedCount++;
-            if (fixedCount % 4 != 0)
+            fixedtime += Time.fixedDeltaTime;
+            if (fixedtime < timeStep)
             {
                 return;
             }
+            fixedtime = fixedtime - timeStep;
             SceneManager.Update();
             SceneManager.FixedUpdate();
             LockFrameMgr.FixedUpdate();
             EventManager.Update(Time.deltaTime);
             RealFixedFrame++;
-            TotalTime += FixedMath.One/15;
-            if (!a && TotalTime > FixedMath.One * 3)
-            {
-                var b2 = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<BarackBuilding>();
-                b2.Team = Team.Team2;
-                b2.Position = new Lockstep.Vector3d(new Vector3(10, 0, 0));
-                a = true;
-            }
+            TotalTime += FixedMath.One/LockFrameMgr.FixedFrameRate;
+           
             //sceneManager.currentScene.ForEachDo((c)=> {
             //    w.Write(c.GetStatusStr());
             //    sb.Append(c.GetStatusStr()+"\n\r");
@@ -73,3 +71,4 @@ namespace Logic
         }
     }
 }
+

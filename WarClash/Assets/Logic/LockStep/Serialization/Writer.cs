@@ -4,6 +4,7 @@ using System.Collections; using FastCollections;
 using System.Text;
 namespace Lockstep
 {
+    
 	public class Writer
 	{
 		static int i, length;

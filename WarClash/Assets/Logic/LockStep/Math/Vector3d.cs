@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections; using FastCollections;
+using Pathfinding;
 
 namespace Lockstep
 {
@@ -90,6 +91,13 @@ namespace Lockstep
             z *= i;
             return this;
         }
+        public Vector3d Div(int i)
+        {
+            x /= i;
+            y /= i;
+            z /= i;
+            return this;
+        }
         public static Vector3d operator *(Vector3d a, long b)
         {
             Vector3d v = a;
@@ -145,6 +153,10 @@ namespace Lockstep
             return FixedMath.Sqrt(tX + tY + tZ);
         }
 
+        public static Int3 ToInt3(Vector3d v)
+        {
+            return new Int3((v.x*1000).ToInt(), (v.y * 1000).ToInt(), (v.z * 1000).ToInt());
+        }
         public static long Dot(Vector3d a, Vector3d b)
         {
             return a.x.Mul(b.x) + a.y.Mul(b.y) + a.z.Mul(b.z);
@@ -157,6 +169,10 @@ namespace Lockstep
             return string.Format("({0}, {1}, {2})", x.ToFormattedDouble(),y.ToFormattedDouble(),z.ToFloat());
         }
 
+        public string ToStringRaw()
+        {
+            return string.Format("({0}, {1}, {2})", x, y, z);
+        }
         public void Write (Writer writer) {
             writer.Write(x);
             writer.Write(y);

@@ -9,10 +9,10 @@ using System.Collections.Generic;
  * The radius modifier will offset the path to create the effect
  * of adjusting it to the characters radius.
  * It gives good results on navmeshes which have not been offset with the
- * character radius during scan. Especially useful when characters with different
+ * Character radius during scan. Especially useful when characters with different
  * radiuses are used on the same navmesh. It is also useful when using
  * rvo local avoidance with the RVONavmesh since the RVONavmesh assumes the
- * navmesh has not been offset with the character radius.
+ * navmesh has not been offset with the Character radius.
  *
  * This modifier assumes all paths are in the XZ plane (i.e Y axis is up).
  *
@@ -42,7 +42,7 @@ public class RadiusModifier : MonoModifier {
 	public override int Order { get { return 41; } }
 
 	/** Radius of the circle segments generated.
-	 * Usually similar to the character radius.
+	 * Usually similar to the Character radius.
 	 */
 	public float radius = 1f;
 

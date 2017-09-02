@@ -63,7 +63,7 @@ public abstract class View : IEventDispatcher
 
     public void Hide()
     {
-        FireEvent((int)EventList.HideUI, this, EventGroup.NewArg<EventSingleArgs<View>, View>(this));
+        FireEvent((int)UIEventList.HideUI, this, EventGroup.NewArg<EventSingleArgs<View>, View>(this));
     }
     public void Init(GameObject go)
     {

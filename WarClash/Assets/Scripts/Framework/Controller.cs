@@ -30,4 +30,14 @@ public abstract class Manager : IManager
     }
 
     public virtual void OnUpdate() { }
+
+    public void Dispose()
+    {
+     OnDispose();   
+    }
+
+    public virtual void OnDispose()
+    {
+        
+    }
 }
