@@ -27,7 +27,7 @@ namespace Logic.LogicObject
             AttributeManager.New(AttributeType.Speed, 0);
             AttributeManager.New(AttributeType.MaxSpeed, Lockstep.FixedMath.One * 2);
             AttributeManager.New(AttributeType.Maxhp, Lockstep.FixedMath.One * 100);
-            AttributeManager.New(AttributeType.Hp, Lockstep.FixedMath.One * 100);
+            AttributeManager.New(AttributeType.Hp, Lockstep.FixedMath.One * 1000);
         }
         internal override void ListenEvents()
         {

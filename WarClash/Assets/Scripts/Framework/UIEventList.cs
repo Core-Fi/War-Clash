@@ -24,5 +24,6 @@ public enum NetEventList
     PlayerStopMsg,
     PlayerRotateMsg,
     CreatePlayer,
+    CreateNpc
    
 }

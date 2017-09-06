@@ -25,7 +25,9 @@ namespace Logic
             EventDispatcher.ListenEvent((int)NetEventList.PlayerRotateMsg, (sender, e) => { OnGetReceiveLockstepMsg<ChangeForwardCommand>(e); });
             EventDispatcher.ListenEvent((int)NetEventList.PlayerStopMsg, (sender, e) => { OnGetReceiveLockstepMsg<StopCommand>(e); });
             EventDispatcher.ListenEvent((int)NetEventList.CreatePlayer, (sender, e) => { OnGetReceiveLockstepMsg<CreatePlayerCommand>(e); });
+            EventDispatcher.ListenEvent((int)NetEventList.CreateNpc, (sender, e) => { OnGetReceiveLockstepMsg<CreateNpcCommand>(e); });
             EventDispatcher.ListenEvent((int)NetEventList.SaveToLog, (sender, e) => { File.WriteAllText(Application.dataPath+"/log.txt", LogicCore.SP.Writer.ToString()); });
+
         }
 
         private void OnGetReceiveLockstepMsg<T>(EventMsg e) where T : LockFrameCommand

@@ -51,7 +51,7 @@ class ClientListenner : INetEventListener
     public void OnNetworkReceive(NetPeer peer, NetDataReader reader)
     {
         var msgId = reader.GetShort();
-       // UnityEngine.Debug.Log((NetEventList)((int)msgId + (int)NetEventList.MsgStart));
+        UnityEngine.Debug.Log((NetEventList)((int)msgId + (int)NetEventList.MsgStart));
         EventDispatcher.FireEvent((int)msgId+(int)NetEventList.MsgStart, this, EventGroup.NewArg< EventSingleArgs < NetDataReader > ,NetDataReader >(reader));
     }
 

@@ -144,13 +144,37 @@ namespace Logic
             writer.Put(Forward.z);
         }
     }
+    public class CreateNpcCommand : LockFrameCommand
+    {
+        public override void OnExecute()
+        {
+            var npc = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Npc>(Sender);
+            npc.Team = Team.Team2;
+            npc.Position = new Vector3d(Vector3.left * 6);
+        }
+        public override void WriteToLog(StringBuilder writer)
+        {
+            base.WriteToLog(writer);
+        }
+        public override void Deserialize(NetDataReader reader)
+        {
+            base.Deserialize(reader);
+        }
 
+        public override void Serialize(NetDataWriter writer)
+        {
+
+            var msgid = (int)NetEventList.CreateNpc - (int)NetEventList.MsgStart;
+            writer.Put((short)msgid);
+            base.Serialize(writer);
+        }
+    }
     public class CreatePlayerCommand : LockFrameCommand
     {
         public override void OnExecute()
         {
             var player = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Player>(Sender);
-            player.Position = new Vector3d(Vector3.left*3);
+            player.Position = new Vector3d(-Vector3.left*6);
         }
         public override void WriteToLog(StringBuilder writer)
         {

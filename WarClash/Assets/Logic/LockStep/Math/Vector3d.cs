@@ -118,6 +118,11 @@ namespace Lockstep
             v.Add(b*nagtive);
             return v;
         }
+
+        public long sqrMagnitude {
+            get { return this.x.Mul(x) + this.y.Mul(y) + this.z.Mul(z); }
+        }
+
         public static bool operator ==(Vector3d a, Vector3d b)
         {
             return a.x == b.x && a.y == b.y && a.z == b.z;
@@ -160,6 +165,11 @@ namespace Lockstep
         public static long Dot(Vector3d a, Vector3d b)
         {
             return a.x.Mul(b.x) + a.y.Mul(b.y) + a.z.Mul(b.z);
+        }
+
+        public static Vector3d Cross(Vector3d lhs, Vector3d rhs)
+        {
+            return new Vector3d((lhs.y .Mul( rhs.z) - lhs.z.Mul(rhs.y)), (lhs.z.Mul(rhs.x) - lhs.x.Mul(rhs.z)), (lhs.x.Mul(rhs.y) - lhs.y.Mul(rhs.x)));
         }
         public long LongStateHash {get {return (x * 31 + y * 7 + z * 11);}}
         public int StateHash {get {return (int)(LongStateHash % int.MaxValue);}}

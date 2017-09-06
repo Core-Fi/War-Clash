@@ -43,6 +43,10 @@ public class Main : MonoBehaviour {
         {
             LogicCore.SP.LockFrameMgr.SendCommand(new CreatePlayerCommand{Sender = 100});
         }
+        if (GUILayout.Button("NewNpc"))
+        {
+            LogicCore.SP.LockFrameMgr.SendCommand(new CreateNpcCommand() { Sender = 103 });
+        }
         if (GUILayout.Button("SaveLog"))
         {
             NetDataWriter w = new NetDataWriter();

@@ -151,8 +151,11 @@ namespace Pathfinding {
 				lhs.y * rhs.y +
 				lhs.z * rhs.z;
 		}
-
-		public static long DotLong (Int3 lhs, Int3 rhs) {
+        public static Int3 Cross(Int3 lhs, Int3 rhs)
+        {
+            return new Int3((lhs.y*(rhs.z) - lhs.z*(rhs.y)), (lhs.z*(rhs.x) - lhs.x*(rhs.z)), (lhs.x*(rhs.y) - lhs.y*(rhs.x)));
+        }
+        public static long DotLong (Int3 lhs, Int3 rhs) {
 			return
 				(long)lhs.x * (long)rhs.x +
 				(long)lhs.y * (long)rhs.y +

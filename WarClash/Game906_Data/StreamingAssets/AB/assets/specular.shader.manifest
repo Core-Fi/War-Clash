@@ -1,0 +1,16 @@
+ManifestFileVersion: 0
+CRC: 177508446
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: f9f42f227a4ac5fd6f5da246e1fd0b23
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cc7b69794a2bdada249e557ebbfded10
+HashAppended: 0
+ClassTypes:
+- Class: 48
+  Script: {instanceID: 0}
+Assets:
+- Assets/Specular.shader
+Dependencies: []

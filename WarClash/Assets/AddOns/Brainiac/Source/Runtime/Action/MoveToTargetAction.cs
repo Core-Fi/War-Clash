@@ -2,6 +2,7 @@ using Brainiac;
 using Logic.LogicObject;
 using Lockstep;
 using Logic;
+using System.Collections.Generic;
 using Pathfinding;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,15 +10,20 @@ using UnityEngine.AI;
 [AddNodeMenu("Action/MoveToTargetAction")]
 public class MoveToTargetAction : Brainiac.Action
 {
+    private enum  Stage
+    {
+        CaculatingPath,
+        StartMove,
+        Moving,
+    }
     private Character target = null;
-    private NavMeshPath _path;
+    private List<Vector3d> _path;
     private int _pathIndex = 0;
+    private Stage stage;
     public override void OnStart(AIAgent agent)
     {
         base.OnStart(agent);
-         _path = new NavMeshPath();
-
-        AstarPath a;
+         _path = new List<Vector3d>(5);
         
     }
 
@@ -32,6 +38,7 @@ public class MoveToTargetAction : Brainiac.Action
             SceneObject.AttributeManager.SetBase(AttributeType.Speed, speed);
             target.EventGroup.ListenEvent((int)SceneObject.SceneObjectEvent.Positionchange, OnTargetPosiChanged);
         }
+        stage = Stage.CaculatingPath;
     }
     protected override void OnExit(AIAgent agent)
     {
@@ -44,58 +51,66 @@ public class MoveToTargetAction : Brainiac.Action
     }
     private void OnTargetPosiChanged(object sender, EventMsg e)
     {
-        //CacualtePath();
+        CacualtePath();
     }
     private void CacualtePath()
     {
         if (target != null)
         {
-            var mask = NavMesh.GetAreaFromName("Walkable");
-            mask = 1 << mask;
-            NavMeshHit hit;
-
-            if (NavMesh.Raycast(SceneObject.Position.ToVector3(), target.Position.ToVector3(), out hit, mask))
-            {
-                var success = NavMesh.CalculatePath(SceneObject.Position.ToVector3(), target.Position.ToVector3(), mask, _path);
-                if (_path.corners.Length > 1)
-                {
-                    _pathIndex = 1;
-                }
-            }
-            else
-            {
-                
-            }
-
-           
+            FixedABPath path = FixedABPath.Construct(base.SceneObject.Position, target.Position, OnCaculated);
+            AstarPath.StartPath(path);
         }
+    }
+
+    private void OnCaculated(Path p)
+    {
+        FixedABPath path= p as FixedABPath;
+        _path.Clear();
+        ReflectionCaculator.CaculateReflectionPoints(path, _path);
+        _path.Add(path.EndPoint);
+        stage=Stage.StartMove;
+        _pathIndex = 0;
+
     }
     protected override BehaviourNodeStatus OnExecute(AIAgent agent)
 	{
         if(target != null && _path!=null)
         {
+            if (stage == Stage.CaculatingPath) return BehaviourNodeStatus.Running;
+            if (stage == Stage.StartMove)
+            {
+                Vector3d moveDirection = (_path[_pathIndex] - agent.SceneObject.Position).Normalize();
+                SceneObject.Forward = moveDirection;
+                stage = Stage.Moving;
+            }
             long distance = Vector3d.Distance(target.Position, agent.SceneObject.Position);
             if(distance<FixedMath.One)
             {
                 return BehaviourNodeStatus.Success;
             }
             long moveDistance = agent.SceneObject.GetAttributeValue(Logic.AttributeType.Speed).Mul(FixedMath.One / 15);
-            while (moveDistance > 0 && _pathIndex < _path.corners.Length)
+            while (moveDistance > 0 && _pathIndex < _path.Count)
             {
-                long nextCornerDistance = Vector3d.Distance(new Vector3d(_path.corners[_pathIndex]),
+                long nextCornerDistance = Vector3d.Distance(_path[_pathIndex],
                     agent.SceneObject.Position);
-                Vector3d moveDirection = (new Vector3d(_path.corners[_pathIndex]) - agent.SceneObject.Position).Normalize();
                 if (nextCornerDistance < moveDistance)
                 {
-                    agent.SceneObject.Position = new Vector3d(_path.corners[_pathIndex]);
+                    agent.SceneObject.Position = _path[_pathIndex];
                     moveDistance -= nextCornerDistance;
-                    SceneObject.Forward = moveDirection;
                     _pathIndex++;
+                    if (_pathIndex == _path.Count)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Vector3d moveDirection = (_path[_pathIndex] - agent.SceneObject.Position).Normalize();
+                        SceneObject.Forward = moveDirection;
+                    }
                 }
                 else
                 {
-                    SceneObject.Forward = moveDirection;
-                    agent.SceneObject.Position += moveDirection * moveDistance;
+                    agent.SceneObject.Position += agent.SceneObject.Forward * moveDistance;
                     break;
                 }
             }

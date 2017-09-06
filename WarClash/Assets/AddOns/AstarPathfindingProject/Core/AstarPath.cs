@@ -1487,7 +1487,6 @@ public class AstarPath : MonoBehaviour {
 	 * \see #OnAwakeSettings
 	 */
 	void Awake () {
-        Debug.LogError(astarData==null);
 		//Very important to set this. Ensures the singleton pattern holds
 		active = this;
 
