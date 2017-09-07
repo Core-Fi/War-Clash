@@ -5,13 +5,19 @@ using System.Linq;
 using System.Text;
 using LiteNetLib.Utils;
 using Lockstep;
+using Logic.Skill;
 using UnityEngine;
 
 namespace Logic
 {
     public class LockFrameMgr
     {
+        private Dictionary<int, Action<NetDataReader>> lockstepCommandDic = new Dictionary<int, Action<NetDataReader>>
+        {
+        }; 
         public static readonly int FixedFrameRate = 15;
+        private int _serverFrameCount;
+        private int _localFrameCount;
         private int m_PingAverage;
         private int m_PingVariance;
         private List<int> m_pingRecords = new List<int>();
@@ -20,21 +26,31 @@ namespace Logic
 
         public LockFrameMgr ()
         {
-            EventDispatcher.ListenEvent((int)NetEventList.BattleStart, (sender, msg) => LogicCore.SP.RealFixedFrame=0);
-            EventDispatcher.ListenEvent((int)NetEventList.PlayerMoveMsg, (sender, e)=> {OnGetReceiveLockstepMsg<MoveCommand>(e);});
-            EventDispatcher.ListenEvent((int)NetEventList.PlayerRotateMsg, (sender, e) => { OnGetReceiveLockstepMsg<ChangeForwardCommand>(e); });
-            EventDispatcher.ListenEvent((int)NetEventList.PlayerStopMsg, (sender, e) => { OnGetReceiveLockstepMsg<StopCommand>(e); });
-            EventDispatcher.ListenEvent((int)NetEventList.CreatePlayer, (sender, e) => { OnGetReceiveLockstepMsg<CreatePlayerCommand>(e); });
-            EventDispatcher.ListenEvent((int)NetEventList.CreateNpc, (sender, e) => { OnGetReceiveLockstepMsg<CreateNpcCommand>(e); });
-            EventDispatcher.ListenEvent((int)NetEventList.SaveToLog, (sender, e) => { File.WriteAllText(Application.dataPath+"/log.txt", LogicCore.SP.Writer.ToString()); });
-
+            EventDispatcher.ListenEvent((int)NetEventList.LockStepMsg, OnGetLockstepMsg);
+            lockstepCommandDic.Add((int)NetEventList.BattleStart, (e) => _localFrameCount=0);
+            lockstepCommandDic.Add((int)NetEventList.PlayerMoveMsg, OnGetReceiveLockstepMsg<MoveCommand>);
+            lockstepCommandDic.Add((int)NetEventList.PlayerRotateMsg, OnGetReceiveLockstepMsg<ChangeForwardCommand>);
+            lockstepCommandDic.Add((int)NetEventList.PlayerStopMsg, OnGetReceiveLockstepMsg<StopCommand>);
+            lockstepCommandDic.Add((int)NetEventList.CreatePlayer, OnGetReceiveLockstepMsg<CreatePlayerCommand>);
+            lockstepCommandDic.Add((int)NetEventList.CreateNpc, OnGetReceiveLockstepMsg<CreateNpcCommand>);
+            lockstepCommandDic.Add((int)NetEventList.SaveToLog, (e) => { File.WriteAllText(Application.dataPath+"/log.txt", LogicCore.SP.Writer.ToString()); });
         }
 
-        private void OnGetReceiveLockstepMsg<T>(EventMsg e) where T : LockFrameCommand
+        private void OnGetLockstepMsg(object o, EventMsg e)
         {
             var msg = e as EventSingleArgs<NetDataReader>;
+            var reader = msg.value;
+            while (reader.Position<msg.value.Data.Length-1)
+            {
+                var cmdId = reader.GetShort();
+                lockstepCommandDic[cmdId].Invoke(reader);
+            }
+        }
+
+        private void OnGetReceiveLockstepMsg<T>(NetDataReader reader) where T : LockFrameCommand
+        {
             var cmd = Pool.SP.Get<T>();
-            cmd.Deserialize(msg.value);
+            cmd.Deserialize(reader);
             AddFrameCommand(cmd);
         }
        
@@ -57,17 +73,25 @@ namespace Logic
                 cmdNode = new LinkedListNode<LockFrameCommand>(cmd);
             }
             _frames.AddLast(cmdNode);
+            _serverFrameCount = Mathf.Max(_serverFrameCount, cmd.Frame);
         }
         private int record = 0;
         public void FixedUpdate()
         {
-            while (_frames.First!=null && _frames.First.Value.Frame<=LogicCore.SP.RealFixedFrame)
+            if (_localFrameCount > _serverFrameCount && _serverFrameCount>0) return;
+            while (_frames.First!=null && _frames.First.Value.Frame==_localFrameCount)
             {
                 _frames.First.Value.Execute();
                 _frames.First.Value = null;
                 _cachCmds.Enqueue(_frames.First);
                 _frames.RemoveFirst();
             }
+
+            LogicCore.SP.SceneManager.FixedUpdate();
+            EventManager.FixedUpdate();
+            _localFrameCount++;
+
+
             record++;
             if (record%2 == 0)
             {

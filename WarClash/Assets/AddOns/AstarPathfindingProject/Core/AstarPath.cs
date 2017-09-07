@@ -546,7 +546,7 @@ public class AstarPath : MonoBehaviour {
 	/** Holds info about each thread.
 	 * The first item will hold information about the pathfinding coroutine when not using multithreading.
 	 */
-	private static PathThreadInfo[] threadInfos = new PathThreadInfo[0];
+	public static PathThreadInfo[] threadInfos = new PathThreadInfo[0];
 
 	/** When no multithreading is used, the IEnumerator is stored here.
 	 * When no multithreading is used, a coroutine is used instead. It is not directly called with StartCoroutine

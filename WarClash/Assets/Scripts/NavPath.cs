@@ -4,30 +4,26 @@ using System.IO;
 using Lockstep;
 using UnityEngine;
 using UnityEngine.AI;
+public struct NavRawData
+{
+    public Vector3d[] vertices;
+    public int[] indices;
+    public int[] areas;
+}
+
+public class NavNode
+{
+    private NavNode parent;
+    public int v0;
+    public int v1;
+    public int v2;
+    public Vector3d position;
+
+}
 
 public class NavPath
 {
-    public NavRawData data;
-
-    public void Save()
-    {
-        NavMeshTriangulation triangles = NavMesh.CalculateTriangulation();
-        //Mesh mesh = new Mesh();
-        //mesh.vertices = triangles.vertices;
-        //mesh.triangles = triangles.indices;
-        //AssetDatabase.CreateAsset(mesh, "Assets/navmesh.asset");
-        // ListenEvents();
-        NavRawData navRawData;
-        navRawData.vertices = new Vector3d[triangles.vertices.Length];
-        for (int i = 0; i < triangles.vertices.Length; i++)
-        {
-            navRawData.vertices[i] = new Vector3d(triangles.vertices[i]);
-        }
-        navRawData.indices = triangles.indices;
-        navRawData.areas = triangles.areas;
-        var str = JsonUtility.ToJson(navRawData);
-        File.WriteAllText(Application.dataPath + "/nav.data", str);
-        var rawData = JsonUtility.FromJson<NavRawData>(str);
-    }
+    public List<NavNode> nodes = new List<NavNode>();
+     
 
 }

@@ -17,7 +17,7 @@ public class ReflectionCaculator
     public static void CaculateReflectionPoints(FixedABPath path, List<Vector3d> points)
     {
         if (path.path.Count >= 2)
-            SearchReflectionPointFromIndex(path.StartPoint, 0, path.path, points);
+            SearchReflectionPointFromIndex(path.StartPoint, 0, path, points);
     }
 
     private static void AddPoint(Vector3d point, List<Vector3d> points )
@@ -30,19 +30,19 @@ public class ReflectionCaculator
         else
             points.Add(point);
     }
-    private static void SearchReflectionPointFromIndex(Vector3d startPosi, int index, List<GraphNode> pathNodes, List<Vector3d> points)
+    private static void SearchReflectionPointFromIndex(Vector3d startPosi, int index, FixedABPath path, List<Vector3d> points)
     {
         var graph = AstarPath.active.graphs[0] as RecastGraph;
         bool findStartPoint = true;
         Vector3d left = new Vector3d();
         Vector3d right = new Vector3d();
         int startPosiIndex = -1;
-        for (int i = index; i < pathNodes.Count; i++)
+        for (int i = index; i < path.path.Count; i++)
         {
             if (i != 0)
             {
-                TriangleMeshNode prenode = pathNodes[i - 1] as TriangleMeshNode;
-                TriangleMeshNode curnode = pathNodes[i] as TriangleMeshNode;
+                TriangleMeshNode prenode = path.path[i - 1] as TriangleMeshNode;
+                TriangleMeshNode curnode = path.path[i] as TriangleMeshNode;
                 int a, b;
                 a = prenode.SharedEdge(curnode);
                 b = a ==2?0:a+1;
@@ -130,18 +130,20 @@ public class ReflectionCaculator
                     {
                         right = tempR;
                     }
-                    if (i == pathNodes.Count - 1)
+                    var relationEndPoint = GetRelation(left - startPosi, right - startPosi, path.EndPoint - startPosi);
+                    if (relationEndPoint == VectorRelation.Left)
                     {
-                        if ((tempL - startPosi).sqrMagnitude > (tempR - startPosi).sqrMagnitude)
-                        {
-                            AddPoint(tempR, points);
-                        }
+                        AddPoint(left, points);
+                    }
+                    else if (relationEndPoint == VectorRelation.Right)
+                    {
+                        AddPoint(right, points);
                     }
                 }
             }
         }
         if(startPosiIndex!=-1)
-            SearchReflectionPointFromIndex(startPosi, startPosiIndex, pathNodes, points);
+            SearchReflectionPointFromIndex(startPosi, startPosiIndex, path, points);
     }
 
     private void SpawnGO(Vector3d posi)

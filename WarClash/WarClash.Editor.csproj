@@ -213,6 +213,7 @@
     <Compile Include="Assets\Editor\MapEditor\InspectorOfMapEdit.cs" />
     <Compile Include="Assets\Editor\MapEditor\MapEditor.cs" />
     <Compile Include="Assets\Editor\MapEditor\TerrianEditor.cs" />
+    <Compile Include="Assets\Editor\NavMesh\NavMeshEditor.cs" />
     <Compile Include="Assets\Editor\PathologicalGames\Common\PGEditorUtils.cs" />
     <Compile Include="Assets\Editor\PathologicalGames\PoolManager\PreRuntimePoolItemInspector.cs" />
     <Compile Include="Assets\Editor\PathologicalGames\PoolManager\SpawnPoolInspector.cs" />

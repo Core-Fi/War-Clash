@@ -26,7 +26,7 @@ namespace Pathfinding {
 #endif
 
 		/** Data for the thread calculating this path */
-		public PathHandler pathHandler { get; private set; }
+		public PathHandler pathHandler { get; protected set; }
 
 		/** Callback to call when the path is complete.
 		 * This is usually sent to the Seeker component which post processes the path and then calls a callback to the script which requested the path

@@ -51,6 +51,11 @@ namespace Logic.Skill
                 runtimeEvents[i].Breath(deltaTime);
             }
         }
+
+        public static void FixedUpdate()
+        {
+            
+        }
     }
 
     public class RuntimeEvent : RuntimeTimeLineGroup

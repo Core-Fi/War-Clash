@@ -11,7 +11,6 @@ namespace Logic
 {
     public abstract class LockFrameCommand : IPool
     {
-        public int Sender;
         public int Frame;
 
         public void Execute()
@@ -29,7 +28,7 @@ namespace Logic
         {
 
             writer.Append(Frame);
-            writer.Append("  "+Sender+"  "+this.GetType()+"  ");
+          
            
         }
         public virtual void OnExecute()
@@ -42,16 +41,34 @@ namespace Logic
         }
         public virtual void Serialize(NetDataWriter writer)
         {
-            writer.Put(Sender);
         }
         public virtual void Deserialize(NetDataReader reader)
         {
             Frame = reader.GetShort();
-            Sender = reader.GetInt();
         }
     }
 
-    public class ReleaseSkillCommand : LockFrameCommand
+    public abstract class PlayerOperateCommand : LockFrameCommand
+    {
+        public int Sender;
+        public override void Serialize(NetDataWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Put(Sender);
+        }
+        public override void Deserialize(NetDataReader reader)
+        {
+            base.Deserialize(reader);
+            Sender = reader.GetInt();
+        }
+
+        public override void WriteToLog(StringBuilder writer)
+        {
+            base.WriteToLog(writer);
+            writer.Append("  " + Sender + "  " + this.GetType() + "  ");
+        }
+    }
+    public class ReleaseSkillCommand : PlayerOperateCommand
     {
         public Vector3 position;
         public int receiver;
@@ -63,7 +80,7 @@ namespace Logic
         }
     }
 
-    public class MoveCommand : LockFrameCommand
+    public class MoveCommand : PlayerOperateCommand
     {
         public override void OnExecute()
         {
@@ -79,7 +96,7 @@ namespace Logic
 
         public override void Serialize(NetDataWriter writer)
         {
-            var msgid = (int) NetEventList.PlayerMoveMsg - (int)NetEventList.MsgStart;
+            var msgid = (int) NetEventList.PlayerMoveMsg ;
             writer.Put((short)msgid);
             base.Serialize(writer);
         }
@@ -90,7 +107,7 @@ namespace Logic
         }
     }
 
-    public class StopCommand : LockFrameCommand
+    public class StopCommand : PlayerOperateCommand
     {
         public override void OnExecute()
         {
@@ -105,13 +122,13 @@ namespace Logic
 
         public override void Serialize(NetDataWriter writer)
         {
-            var msgid = (int)NetEventList.PlayerStopMsg - (int)NetEventList.MsgStart;
+            var msgid = (int)NetEventList.PlayerStopMsg ;
             writer.Put((short)msgid);
             base.Serialize(writer);
         }
     }
 
-    public class ChangeForwardCommand : LockFrameCommand
+    public class ChangeForwardCommand : PlayerOperateCommand
     {
         public Vector3d Forward;
         public override void OnExecute()
@@ -136,7 +153,7 @@ namespace Logic
 
         public override void Serialize(NetDataWriter writer)
         {
-            var msgid = (int)NetEventList.PlayerRotateMsg - (int)NetEventList.MsgStart;
+            var msgid = (int)NetEventList.PlayerRotateMsg ;
             writer.Put((short)msgid);
             base.Serialize(writer);
             writer.Put(Forward.x);
@@ -144,7 +161,7 @@ namespace Logic
             writer.Put(Forward.z);
         }
     }
-    public class CreateNpcCommand : LockFrameCommand
+    public class CreateNpcCommand : PlayerOperateCommand
     {
         public override void OnExecute()
         {
@@ -164,12 +181,12 @@ namespace Logic
         public override void Serialize(NetDataWriter writer)
         {
 
-            var msgid = (int)NetEventList.CreateNpc - (int)NetEventList.MsgStart;
+            var msgid = (int)NetEventList.CreateNpc ;
             writer.Put((short)msgid);
             base.Serialize(writer);
         }
     }
-    public class CreatePlayerCommand : LockFrameCommand
+    public class CreatePlayerCommand : PlayerOperateCommand
     {
         public override void OnExecute()
         {
@@ -188,7 +205,7 @@ namespace Logic
         public override void Serialize(NetDataWriter writer)
         {
            
-            var msgid = (int)NetEventList.CreatePlayer - (int)NetEventList.MsgStart;
+            var msgid = (int)NetEventList.CreatePlayer ;
             writer.Put((short)msgid);
             base.Serialize(writer);
         }

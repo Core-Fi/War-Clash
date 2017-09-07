@@ -15,7 +15,11 @@ namespace Logic
         public SceneManager SceneManager;
         public LockFrameMgr LockFrameMgr;
         public EventGroup EventGroup;
-       
+        public bool WriteToLog = true;
+        public StringBuilder Writer = new StringBuilder();
+        private float _fixedtime = 0;
+        private float _timeStep;
+
         public enum LogicCoreEvent
         {
             OnJoystickStart,
@@ -28,46 +32,24 @@ namespace Logic
             LockFrameMgr = new LockFrameMgr();
             SceneManager = new SceneManager();
             EventGroup = new EventGroup();
-            timeStep = 1f/LockFrameMgr.FixedFrameRate;
-            Debug.LogError(timeStep);
+            _timeStep = 1f/LockFrameMgr.FixedFrameRate;
         }
         public void Update(float deltaTime)
         {
+            SceneManager.Update();
+            EventManager.Update(Time.deltaTime);
         }
 
-        public bool WriteToLog = true;
-        public float fixedtime = 0;
-        public int RealFixedFrame = 0;
-        public long TotalTime;
-        private float timeStep;
-        public StringBuilder Writer = new StringBuilder();
-        StringBuilder sb = new StringBuilder();
+    
         public void FixedUpdate()
         {
-            fixedtime += Time.fixedDeltaTime;
-            if (fixedtime < timeStep)
+            _fixedtime += Time.fixedDeltaTime;
+            if (_fixedtime < _timeStep)
             {
                 return;
             }
-            fixedtime = fixedtime - timeStep;
-            SceneManager.Update();
-            SceneManager.FixedUpdate();
+            _fixedtime = _fixedtime - _timeStep;
             LockFrameMgr.FixedUpdate();
-            EventManager.Update(Time.deltaTime);
-            RealFixedFrame++;
-            TotalTime += FixedMath.One/LockFrameMgr.FixedFrameRate;
-           
-            //sceneManager.currentScene.ForEachDo((c)=> {
-            //    w.Write(c.GetStatusStr());
-            //    sb.Append(c.GetStatusStr()+"\n\r");
-            //});
-            //if(fixedCount == 600)
-            //{
-            //    var bytes = w.Canvas.ToArray();
-            //    File.WriteAllBytes(Application.dataPath+"/data1.bytes", bytes);
-            //    File.WriteAllText(Application.dataPath + "/data1_str.txt", sb.ToString());
-            //}
-
         }
     }
 }

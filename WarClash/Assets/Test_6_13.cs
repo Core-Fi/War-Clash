@@ -4,16 +4,34 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
+using Pathfinding;
 using UnityEngine;
 
-public class Test_6_13 : MonoBehaviour {
+public class Test_6_13 : MonoBehaviour
+{
+    public Transform A;
+    public Transform B;
     public List<Action> actions = new List<Action>();
+    private bool caculated = false;
     // Use this for initialization
     void Start () {
-
-        string str1 = Md5(Application.dataPath + "/data1.bytes");
-        string str2 = Md5(Application.dataPath + "/data2.bytes");
-        Debug.LogError(str1.Equals(str2));
+     
+        //string str1 = Md5(Application.dataPath + "/data1.bytes");
+        //string str2 = Md5(Application.dataPath + "/data2.bytes");
+        //Debug.LogError(str1.Equals(str2));
+    }
+    List<Vector3d> list = new List<Vector3d>(); 
+    void OnCaculate(Pathfinding.Path path)
+    {
+        Debug.Log(Time.frameCount);
+        caculated = true;
+        list.Clear();
+        ReflectionCaculator.CaculateReflectionPoints(path as FixedABPath, list);
+        for (int i = 0; i < list.Count; i++)
+        {
+            var c = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            c.transform.position = list[i].ToVector3();
+        }
     }
     public string Md5(string filename)
     {
@@ -51,7 +69,15 @@ public class Test_6_13 : MonoBehaviour {
     int n = 0;
     // Update is called once per frame
     void Update () {
-    
-        
+        if (Time.frameCount == 3)
+        {
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+            FixedABPath path = FixedABPath.Construct(new Vector3d(A.position), new Vector3d(B.position), OnCaculate);
+            path.CacualteNow();
+            OnCaculate(path);
+            //  AstarPath.StartPath(path);
+            Debug.Log("start " + sw.ElapsedMilliseconds);
+        }
     }
 }

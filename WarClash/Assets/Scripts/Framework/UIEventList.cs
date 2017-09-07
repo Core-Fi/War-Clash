@@ -17,7 +17,8 @@ public enum UIEventList
 
 public enum NetEventList
 {
-    MsgStart = 70000,
+    LockStepMsg,
+    LockStepFrame,
     SaveToLog,
     BattleStart,
     PlayerMoveMsg,
@@ -25,5 +26,4 @@ public enum NetEventList
     PlayerRotateMsg,
     CreatePlayer,
     CreateNpc
-   
 }

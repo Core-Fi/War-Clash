@@ -21,6 +21,7 @@ class GameNetManager : Manager
     public void SendMsg(object sender, EventMsg e)
     {
         var msg = e as EventSingleArgs<NetDataWriter>;
+
         _netManger.SendToAll(msg.value, SendOptions.ReliableOrdered);
     }
     public override void OnUpdate()
@@ -51,8 +52,8 @@ class ClientListenner : INetEventListener
     public void OnNetworkReceive(NetPeer peer, NetDataReader reader)
     {
         var msgId = reader.GetShort();
-        UnityEngine.Debug.Log((NetEventList)((int)msgId + (int)NetEventList.MsgStart));
-        EventDispatcher.FireEvent((int)msgId+(int)NetEventList.MsgStart, this, EventGroup.NewArg< EventSingleArgs < NetDataReader > ,NetDataReader >(reader));
+        UnityEngine.Debug.Log((NetEventList)msgId);
+        EventDispatcher.FireEvent((int)msgId, this, EventGroup.NewArg< EventSingleArgs < NetDataReader > ,NetDataReader >(reader));
     }
 
     public void OnNetworkReceiveUnconnected(NetEndPoint remoteEndPoint, NetDataReader reader, UnconnectedMessageType messageType)

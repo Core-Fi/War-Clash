@@ -9,12 +9,7 @@ using Lockstep;
 using Pathfinding;
 using UnityEngine.AI;
 
-public struct NavRawData
-{
-    public Vector3d[] vertices;
-    public int[] indices;
-    public int[] areas;
-}
+
 public class U3DScene : ObjectCollection<int, U3DSceneObject>
 {
     public Scene Scene;

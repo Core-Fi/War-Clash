@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Lockstep;
 
@@ -25,6 +26,14 @@ namespace Pathfinding
             var p = PathPool.GetPath<FixedABPath>();
             p.Setup(start, end, callback);
             return p;
+        }
+
+        public void CacualteNow()
+        {
+            this.PrepareBase(AstarPath.threadInfos[0].runData);
+            this.Prepare();
+            this.Initialize();
+            this.CalculateStep(long.MaxValue);
         }
         protected void Setup(Vector3d start, Vector3d end, OnPathDelegate callbackDelegate)
         {
