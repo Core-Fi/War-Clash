@@ -62,7 +62,6 @@ class ClientListenner : INetEventListener
 
     public void OnPeerConnected(NetPeer peer)
     {
-       UnityEngine.Debug.LogError(peer.ConnectId+"  connected");
     }
 
     public void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)

@@ -24,7 +24,6 @@ public class MoveToTargetAction : Brainiac.Action
     {
         base.OnStart(agent);
          _path = new List<Vector3d>(5);
-        
     }
 
     protected override void OnEnter(AIAgent agent)
@@ -57,33 +56,24 @@ public class MoveToTargetAction : Brainiac.Action
     {
         if (target != null)
         {
-            FixedABPath path = FixedABPath.Construct(base.SceneObject.Position, target.Position, OnCaculated);
-            Debug.LogError(base.SceneObject.Position+"  "+target.Position);
-            AstarPath.StartPath(path);
+            _path.Clear();
+            FixedABPath path = FixedABPath.Construct(base.SceneObject.Position, target.Position, null);
+            path.CacualteNow();
+            ReflectionCaculator.CaculateReflectionPoints(path, _path);
+            _path.Add(path.EndPoint);
+            stage = Stage.StartMove;
+            _pathIndex = 0;
+            Vector3d moveDirection = (_path[_pathIndex] - SceneObject.Position).Normalize();
+            SceneObject.Forward = moveDirection;
+            stage = Stage.Moving;
         }
     }
 
-    private void OnCaculated(Path p)
-    {
-        FixedABPath path= p as FixedABPath;
-        _path.Clear();
-        ReflectionCaculator.CaculateReflectionPoints(path, _path);
-        _path.Add(path.EndPoint);
-        stage=Stage.StartMove;
-        _pathIndex = 0;
-
-    }
     protected override BehaviourNodeStatus OnExecute(AIAgent agent)
 	{
         if(target != null && _path!=null)
         {
             if (stage == Stage.CaculatingPath) return BehaviourNodeStatus.Running;
-            if (stage == Stage.StartMove)
-            {
-                Vector3d moveDirection = (_path[_pathIndex] - agent.SceneObject.Position).Normalize();
-                SceneObject.Forward = moveDirection;
-                stage = Stage.Moving;
-            }
             long distance = Vector3d.Distance(target.Position, agent.SceneObject.Position);
             if(distance<FixedMath.One)
             {

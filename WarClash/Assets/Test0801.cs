@@ -23,7 +23,6 @@ public class ReflectionCaculator
             g.name = i.ToString();
 
         }
-        Debug.LogError("Caculate Reflection Point");
         if (path.path.Count >= 2)
             SearchReflectionPointFromIndex(path.StartPoint, 0, path, points);
     }
@@ -41,14 +40,8 @@ public class ReflectionCaculator
         return true;
     }
 
-    private static int count;
     private static void SearchReflectionPointFromIndex(Vector3d startPosi, int index, FixedABPath path, List<Vector3d> points)
     {
-        count++;
-        if (count > 100)
-        {
-            return;
-        }
         var graph = AstarPath.active.graphs[0] as RecastGraph;
         bool findStartPoint = true;
         Vector3d left = new Vector3d();
@@ -94,8 +87,8 @@ public class ReflectionCaculator
                         bool add = AddPoint(left, points);
                         startPosi = left;
                         startPosiIndex = leftIndex;
-                        //if (add)
-                        //    SpawnGO(left, i); 
+                        if (add)
+                            SpawnGO(left, i); 
                         break; 
                     }
                     else if (relationR == VectorRelation.Right && relationL == VectorRelation.Right)
@@ -103,8 +96,8 @@ public class ReflectionCaculator
                         bool add = AddPoint(right, points);
                         startPosi = right;
                         startPosiIndex = rightIndex;
-                        //if (add)
-                        //    SpawnGO(left, i); 
+                        if (add)
+                            SpawnGO(right, i); 
                         break;
                     }
                     else if(relationR== VectorRelation.Equal && relationL == VectorRelation.Right)
@@ -112,8 +105,8 @@ public class ReflectionCaculator
                         bool add = AddPoint(right, points);
                         startPosi = right;
                         startPosiIndex = rightIndex;
-                        //if (add)
-                        //    SpawnGO(left, i); 
+                        if (add)
+                            SpawnGO(right, i); 
                         break;
                     }
                     else if (relationR == VectorRelation.Equal && relationL == VectorRelation.Left)
@@ -121,8 +114,8 @@ public class ReflectionCaculator
                         bool add = AddPoint(left, points);
                         startPosi = left;
                         startPosiIndex = leftIndex;
-                        //if (add)
-                        //    SpawnGO(left, i); 
+                        if (add)
+                            SpawnGO(left, i); 
                         break;
                     }
                     //else if (relationL == VectorRelation.Equal && relationR == VectorRelation.Left)
@@ -169,13 +162,13 @@ public class ReflectionCaculator
                         if (relationEndPoint == VectorRelation.Left)
                         {
                             AddPoint(left, points);
-                          //  SpawnGO(left, i);
+                            SpawnGO(left, i);
 
                         }
                         else if (relationEndPoint == VectorRelation.Right)
                         {
                             AddPoint(right, points);
-                           // SpawnGO(right, i);
+                            SpawnGO(right, i);
 
                         }
                     }

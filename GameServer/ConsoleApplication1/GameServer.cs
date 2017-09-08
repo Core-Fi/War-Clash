@@ -90,9 +90,9 @@ internal class GameServer
 
     internal void OnPeerConnect()
     {
-        Start();
-        return;
-        if (this.NetManager.PeersCount == 1 && !started)
+        //Start();
+        //return;
+        if (this.NetManager.PeersCount == 2 && !started)
         {
             var timer = new Timer(e => { Start(); }, null, 3000, System.Threading.Timeout.Infinite);
         }
@@ -100,6 +100,7 @@ internal class GameServer
 
     internal void Start()
     {
+        Console.WriteLine("Game Start");
         started = true;
         frameCount = 0;
         readers.Clear();
