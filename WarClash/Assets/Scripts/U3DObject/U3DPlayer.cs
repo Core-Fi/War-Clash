@@ -26,7 +26,7 @@ class U3DPlayer : U3DCharacter
            // logicGo.transform.position = logicPosi;
             float speed = this.Character.GetAttributeValue(AttributeType.MaxSpeed).ToFloat();
             float distance = Vector3.Distance(logicPosi, Transform.position);
-            Transform.position = Vector3.Lerp(Transform.position, logicPosi, Time.deltaTime*4);
+            Transform.position = Vector3.Lerp(Transform.position, logicPosi, Time.deltaTime*6);
 
             //if (distance < 0.1f)
             //{

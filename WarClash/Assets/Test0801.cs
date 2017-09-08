@@ -14,28 +14,47 @@ public enum VectorRelation
 }
 public class ReflectionCaculator 
 {
+
     public static void CaculateReflectionPoints(FixedABPath path, List<Vector3d> points)
     {
+        for (int i = 0; i < path.path.Count; i++)
+        {
+            var g = SpawnSphere((Vector3)path.path[i].position);
+            g.name = i.ToString();
+
+        }
+        Debug.LogError("Caculate Reflection Point");
         if (path.path.Count >= 2)
             SearchReflectionPointFromIndex(path.StartPoint, 0, path, points);
     }
 
-    private static void AddPoint(Vector3d point, List<Vector3d> points )
+    private static bool AddPoint(Vector3d point, List<Vector3d> points )
     {
         if (points.Count > 0)
         {
-            if(points[points.Count - 1] != point)
+            if (points[points.Count - 1] != point)
                 points.Add(point);
+            else return false;
         }
         else
             points.Add(point);
+        return true;
     }
+
+    private static int count;
     private static void SearchReflectionPointFromIndex(Vector3d startPosi, int index, FixedABPath path, List<Vector3d> points)
     {
+        count++;
+        if (count > 100)
+        {
+            return;
+        }
         var graph = AstarPath.active.graphs[0] as RecastGraph;
         bool findStartPoint = true;
         Vector3d left = new Vector3d();
         Vector3d right = new Vector3d();
+        int leftIndex = -1;
+        int rightIndex = -1;
         int startPosiIndex = -1;
         for (int i = index; i < path.path.Count; i++)
         {
@@ -59,6 +78,8 @@ public class ReflectionCaculator
                 {
                     left = Int3.ToVector3D(l);
                     right = Int3.ToVector3D(r);
+                    leftIndex = i;
+                    rightIndex = i;
                     findStartPoint = false;
                 }
                 else
@@ -70,89 +91,120 @@ public class ReflectionCaculator
                     //寻找拐点
                     if (relationR == VectorRelation.Left && relationL == VectorRelation.Left)
                     {
-                        AddPoint(left, points);
+                        bool add = AddPoint(left, points);
                         startPosi = left;
-                        startPosiIndex = i;
-                        //SpawnGO(left);
+                        startPosiIndex = leftIndex;
+                        //if (add)
+                        //    SpawnGO(left, i); 
                         break; 
                     }
                     else if (relationR == VectorRelation.Right && relationL == VectorRelation.Right)
                     {
-                        AddPoint(right, points);
+                        bool add = AddPoint(right, points);
                         startPosi = right;
-                        startPosiIndex = i;
-                        //SpawnGO(right); 
+                        startPosiIndex = rightIndex;
+                        //if (add)
+                        //    SpawnGO(left, i); 
                         break;
                     }
                     else if(relationR== VectorRelation.Equal && relationL == VectorRelation.Right)
                     {
-                        AddPoint(right, points);
+                        bool add = AddPoint(right, points);
                         startPosi = right;
-                        startPosiIndex = i;
-                        //SpawnGO(right); 
+                        startPosiIndex = rightIndex;
+                        //if (add)
+                        //    SpawnGO(left, i); 
                         break;
                     }
                     else if (relationR == VectorRelation.Equal && relationL == VectorRelation.Left)
                     {
-                        AddPoint(left, points);
+                        bool add = AddPoint(left, points);
                         startPosi = left;
-                        startPosiIndex = i;
-                        //SpawnGO(left); 
+                        startPosiIndex = leftIndex;
+                        //if (add)
+                        //    SpawnGO(left, i); 
                         break;
                     }
-                    else if (relationL == VectorRelation.Equal && relationR == VectorRelation.Left)
-                    {
-                        AddPoint(left, points);
-                        startPosi = left;
-                        startPosiIndex = i;
-                        //SpawnGO(left);
-                        break;
-                    }
-                    else if (relationL == VectorRelation.Equal && relationR == VectorRelation.Right)
-                    {
-                        AddPoint(right, points);
-                        startPosi = right;
-                        startPosiIndex = i;
-                        //SpawnGO(right);
-                        break;
-                    }
+                    //else if (relationL == VectorRelation.Equal && relationR == VectorRelation.Left)
+                    //{
+                    //    bool add = AddPoint(left, points);
+                    //    startPosi = left;
+                    //    startPosiIndex = i;
+                    //    if (add)
+                    //        SpawnGO(left, i);
+                    //    break;
+                    //}
+                    //else if (relationL == VectorRelation.Equal && relationR == VectorRelation.Right)
+                    //{
+                    //    bool add = AddPoint(right, points);
+                    //    startPosi = right;
+                    //    startPosiIndex = i;
+                    //    if(add)
+                    //        SpawnGO(right, i);
+                    //    break;
+                    //}
                     //改变左右
                     if (relationR == VectorRelation.Inside && relationL == VectorRelation.Inside)
                     {
                         left = tempL;
                         right = tempR;
+                        leftIndex = i;
+                        rightIndex = i;
                     }
                     if (relationL == VectorRelation.Inside || relationL== VectorRelation.Equal)
                     {
                         left = tempL;
+                        leftIndex = i;
+                   
                     }
                     if (relationR == VectorRelation.Inside || relationR == VectorRelation.Equal)
                     {
                         right = tempR;
+                        rightIndex = i;
                     }
-                    var relationEndPoint = GetRelation(left - startPosi, right - startPosi, path.EndPoint - startPosi);
-                    if (relationEndPoint == VectorRelation.Left)
+                    if (i == path.path.Count - 1)
                     {
-                        AddPoint(left, points);
-                    }
-                    else if (relationEndPoint == VectorRelation.Right)
-                    {
-                        AddPoint(right, points);
+                        var relationEndPoint = GetRelation(left - startPosi, right - startPosi,
+                            path.EndPoint - startPosi);
+                        if (relationEndPoint == VectorRelation.Left)
+                        {
+                            AddPoint(left, points);
+                          //  SpawnGO(left, i);
+
+                        }
+                        else if (relationEndPoint == VectorRelation.Right)
+                        {
+                            AddPoint(right, points);
+                           // SpawnGO(right, i);
+
+                        }
                     }
                 }
             }
         }
-        if(startPosiIndex!=-1)
+        Debug.Log(leftIndex+" "+rightIndex+" "+ startPosiIndex);
+
+        if (startPosiIndex != -1)
+        {
+            startPosiIndex++;
             SearchReflectionPointFromIndex(startPosi, startPosiIndex, path, points);
+        }
     }
 
-    private void SpawnGO(Vector3d posi)
+    private static  void SpawnGO(Vector3d posi, int i)
     {
         var g = GameObject.CreatePrimitive(PrimitiveType.Cube);
         g.transform.position = posi.ToVector3();
+        g.name = i.ToString();
     }
 
-    private GameObject SpawnSphere(Vector3d posi)
+    private static GameObject SpawnSphere(Vector3 posi)
+    {
+        var g = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        g.transform.position = posi;
+        return g;
+    }
+    private static  GameObject SpawnSphere(Vector3d posi)
     {
         var g = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         g.transform.position = posi.ToVector3();

@@ -17,6 +17,7 @@ namespace Logic
         public EventGroup EventGroup;
         public bool WriteToLog = true;
         public StringBuilder Writer = new StringBuilder();
+        public int RegularFrameCount;
         private float _fixedtime = 0;
         private float _timeStep;
 
@@ -25,7 +26,6 @@ namespace Logic
             OnJoystickStart,
             OnJoystickMove,
             OnJoystickEnd
-            
         }
         public void Init()
         {
@@ -39,7 +39,6 @@ namespace Logic
             SceneManager.Update();
             EventManager.Update(Time.deltaTime);
         }
-
     
         public void FixedUpdate()
         {
@@ -49,6 +48,7 @@ namespace Logic
                 return;
             }
             _fixedtime = _fixedtime - _timeStep;
+            RegularFrameCount++;
             LockFrameMgr.FixedUpdate();
         }
     }

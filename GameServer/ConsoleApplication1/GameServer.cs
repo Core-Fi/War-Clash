@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using LiteNetLib;
@@ -31,31 +32,41 @@ internal class GameServer
         while (true)
         {
             SendFrameData();
-            Thread.Sleep(100);
+            Thread.Sleep(1000/15);
         }
     }
+
     private void SendFrameData()
     {
         if (!started)return;
         while (accessing)
         { }
         accessing = true;
-        while (readers.Count > 0)
+        var frameCountBytes = BitConverter.GetBytes(frameCount);
+        List<byte> toSendBytes = new List<byte>();
+        builder.Clear();
+        if (readers.Count > 0)
+        {
+            toSendBytes.AddRange(BitConverter.GetBytes((short) 0));
+            toSendBytes.AddRange(frameCountBytes);
+            while (readers.Count > 0)
             {
                 var r = readers.Dequeue();
-                var bytes = r;
-                byte[] newBytes = new byte[bytes.Length + 2];
-                var frameCountBytes = BitConverter.GetBytes(frameCount);
-                Array.Copy(bytes, 0, newBytes, 0, 2);
-                Array.Copy(frameCountBytes, 0, newBytes, 2, 2);
-                int msgid = BitConverter.ToInt16(newBytes, 0);
-                Array.Copy(bytes, 2, newBytes, 4, bytes.Length - 2);
-
-                this.NetManager.SendToAll(newBytes, SendOptions.ReliableOrdered);
-                builder.Append("Send Msg " + msgid + " " + newBytes.Length + " at frame " + frameCount + " ");
-                builder.AppendLine();
-                Console.WriteLine("Send Msg " + msgid + " " + newBytes.Length + " at frame " + frameCount + " ");
+                toSendBytes.AddRange(r);
+                var msgid = BitConverter.ToInt16(r, 0);
+                builder.Append(msgid+" at "+ frameCount);
             }
+            Console.WriteLine(builder.ToString());
+            this.NetManager.SendToAll(toSendBytes.ToArray(), SendOptions.ReliableOrdered);
+        }
+        else
+        {
+            toSendBytes.AddRange(BitConverter.GetBytes((short)0));
+            toSendBytes.AddRange(frameCountBytes);
+            builder.Append(0 + " at " + frameCount);
+           // Console.WriteLine(builder.ToString());
+            this.NetManager.SendToAll(toSendBytes.ToArray(), SendOptions.ReliableOrdered);
+        }
         accessing = false;
         frameCount++;
     }

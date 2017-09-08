@@ -26,10 +26,7 @@ namespace Logic
 
         public virtual void WriteToLog(StringBuilder writer)
         {
-
             writer.Append(Frame);
-          
-           
         }
         public virtual void OnExecute()
         {
@@ -44,7 +41,6 @@ namespace Logic
         }
         public virtual void Deserialize(NetDataReader reader)
         {
-            Frame = reader.GetShort();
         }
     }
 
@@ -96,7 +92,7 @@ namespace Logic
 
         public override void Serialize(NetDataWriter writer)
         {
-            var msgid = (int) NetEventList.PlayerMoveMsg ;
+            var msgid = (int)LockFrameMgr.LockFrameEvent.PlayerMoveMsg ;
             writer.Put((short)msgid);
             base.Serialize(writer);
         }
@@ -122,7 +118,7 @@ namespace Logic
 
         public override void Serialize(NetDataWriter writer)
         {
-            var msgid = (int)NetEventList.PlayerStopMsg ;
+            var msgid = (int)LockFrameMgr.LockFrameEvent.PlayerStopMsg ;
             writer.Put((short)msgid);
             base.Serialize(writer);
         }
@@ -153,7 +149,7 @@ namespace Logic
 
         public override void Serialize(NetDataWriter writer)
         {
-            var msgid = (int)NetEventList.PlayerRotateMsg ;
+            var msgid = (int)LockFrameMgr.LockFrameEvent.PlayerRotateMsg ;
             writer.Put((short)msgid);
             base.Serialize(writer);
             writer.Put(Forward.x);
@@ -181,7 +177,7 @@ namespace Logic
         public override void Serialize(NetDataWriter writer)
         {
 
-            var msgid = (int)NetEventList.CreateNpc ;
+            var msgid = (int)LockFrameMgr.LockFrameEvent.CreateNpc ;
             writer.Put((short)msgid);
             base.Serialize(writer);
         }
@@ -205,7 +201,7 @@ namespace Logic
         public override void Serialize(NetDataWriter writer)
         {
            
-            var msgid = (int)NetEventList.CreatePlayer ;
+            var msgid = (int)LockFrameMgr.LockFrameEvent.CreatePlayer ;
             writer.Put((short)msgid);
             base.Serialize(writer);
         }

@@ -12,7 +12,7 @@ class GameNetManager : Manager
     
     public GameNetManager()
     {
-        this.ListenEvent((int)UIEventList.SendNetMsg, SendMsg);
+        this.ListenEvent(UIEventList.SendNetMsg.ToInt(), SendMsg);
         _netManger = new NetManager(new ClientListenner(), "myapp1");
         _netManger.Start();
         _netManger.Connect("127.0.0.1", 9050);
@@ -52,8 +52,7 @@ class ClientListenner : INetEventListener
     public void OnNetworkReceive(NetPeer peer, NetDataReader reader)
     {
         var msgId = reader.GetShort();
-        UnityEngine.Debug.Log((NetEventList)msgId);
-        EventDispatcher.FireEvent((int)msgId, this, EventGroup.NewArg< EventSingleArgs < NetDataReader > ,NetDataReader >(reader));
+        EventDispatcher.FireEvent(msgId, this, EventGroup.NewArg< EventSingleArgs < NetDataReader > ,NetDataReader >(reader));
     }
 
     public void OnNetworkReceiveUnconnected(NetEndPoint remoteEndPoint, NetDataReader reader, UnconnectedMessageType messageType)

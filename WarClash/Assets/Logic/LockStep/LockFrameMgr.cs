@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using FastCollections;
 using LiteNetLib.Utils;
 using Lockstep;
 using Logic.Skill;
@@ -12,81 +13,81 @@ namespace Logic
 {
     public class LockFrameMgr
     {
-        private Dictionary<int, Action<NetDataReader>> lockstepCommandDic = new Dictionary<int, Action<NetDataReader>>
+        public enum LockFrameEvent
         {
-        }; 
+            LockStepFrame,
+            SaveToLog,
+            BattleStart,
+            PlayerMoveMsg,
+            PlayerStopMsg,
+            PlayerRotateMsg,
+            CreatePlayer,
+            CreateNpc
+        }
         public static readonly int FixedFrameRate = 15;
+
+        public int ServerFrameCount
+        {
+            get { return _serverFrameCount; }
+        }
+        public int LocalFrameCount
+        {
+            get { return _localFrameCount; }
+        }
+        private readonly Dictionary<int, Action<int, NetDataReader>> _lockstepCommandDic = new Dictionary<int, Action<int, NetDataReader>>(); 
         private int _serverFrameCount;
         private int _localFrameCount;
         private int m_PingAverage;
         private int m_PingVariance;
         private List<int> m_pingRecords = new List<int>();
-        private readonly Queue<LinkedListNode<LockFrameCommand>> _cachCmds = new Queue<LinkedListNode<LockFrameCommand>>(); 
-        private readonly LinkedList<LockFrameCommand> _frames = new LinkedList<LockFrameCommand>();
-
+        private readonly FastQueue<LockFrameCommand> _frames = new FastQueue<LockFrameCommand>();
         public LockFrameMgr ()
         {
             EventDispatcher.ListenEvent((int)NetEventList.LockStepMsg, OnGetLockstepMsg);
-            lockstepCommandDic.Add((int)NetEventList.BattleStart, (e) => _localFrameCount=0);
-            lockstepCommandDic.Add((int)NetEventList.PlayerMoveMsg, OnGetReceiveLockstepMsg<MoveCommand>);
-            lockstepCommandDic.Add((int)NetEventList.PlayerRotateMsg, OnGetReceiveLockstepMsg<ChangeForwardCommand>);
-            lockstepCommandDic.Add((int)NetEventList.PlayerStopMsg, OnGetReceiveLockstepMsg<StopCommand>);
-            lockstepCommandDic.Add((int)NetEventList.CreatePlayer, OnGetReceiveLockstepMsg<CreatePlayerCommand>);
-            lockstepCommandDic.Add((int)NetEventList.CreateNpc, OnGetReceiveLockstepMsg<CreateNpcCommand>);
-            lockstepCommandDic.Add((int)NetEventList.SaveToLog, (e) => { File.WriteAllText(Application.dataPath+"/log.txt", LogicCore.SP.Writer.ToString()); });
+            _lockstepCommandDic.Add((int)LockFrameEvent.BattleStart, (i, e) => _localFrameCount=0);
+            _lockstepCommandDic.Add((int)LockFrameEvent.PlayerMoveMsg, OnGetReceiveLockstepMsg<MoveCommand>);
+            _lockstepCommandDic.Add((int)LockFrameEvent.PlayerRotateMsg, OnGetReceiveLockstepMsg<ChangeForwardCommand>);
+            _lockstepCommandDic.Add((int)LockFrameEvent.PlayerStopMsg, OnGetReceiveLockstepMsg<StopCommand>);
+            _lockstepCommandDic.Add((int)LockFrameEvent.CreatePlayer, OnGetReceiveLockstepMsg<CreatePlayerCommand>);
+            _lockstepCommandDic.Add((int)LockFrameEvent.CreateNpc, OnGetReceiveLockstepMsg<CreateNpcCommand>);
+            _lockstepCommandDic.Add((int)LockFrameEvent.SaveToLog, (i, e) => { File.WriteAllText(Application.dataPath+"/log.txt", LogicCore.SP.Writer.ToString()); });
         }
 
         private void OnGetLockstepMsg(object o, EventMsg e)
         {
             var msg = e as EventSingleArgs<NetDataReader>;
             var reader = msg.value;
+            var frameCount = reader.GetShort();
+            _serverFrameCount = Mathf.Max(_serverFrameCount, frameCount);
+            Debug.Log("receive frame data "+_serverFrameCount);
             while (reader.Position<msg.value.Data.Length-1)
             {
                 var cmdId = reader.GetShort();
-                lockstepCommandDic[cmdId].Invoke(reader);
+                _lockstepCommandDic[cmdId].Invoke(frameCount, reader);
             }
         }
-
-        private void OnGetReceiveLockstepMsg<T>(NetDataReader reader) where T : LockFrameCommand
+        private void OnGetReceiveLockstepMsg<T>(int frame, NetDataReader reader) where T : LockFrameCommand
         {
             var cmd = Pool.SP.Get<T>();
+            cmd.Frame = frame;
             cmd.Deserialize(reader);
-            AddFrameCommand(cmd);
+            _frames.Add(cmd);
         }
-       
         public void SendCommand(LockFrameCommand cmd)
         {
             NetDataWriter w = new NetDataWriter(true);
             cmd.Serialize(w);
-            EventDispatcher.FireEvent((int)UIEventList.SendNetMsg, this, EventGroup.NewArg<EventSingleArgs<NetDataWriter>, NetDataWriter>(w));
-        }
-        private void AddFrameCommand(LockFrameCommand cmd)
-        {
-            LinkedListNode<LockFrameCommand> cmdNode = null;
-            if (_cachCmds.Count > 0)
-            {
-                cmdNode = _cachCmds.Dequeue();
-                cmdNode.Value = cmd;
-            }
-            else
-            {
-                cmdNode = new LinkedListNode<LockFrameCommand>(cmd);
-            }
-            _frames.AddLast(cmdNode);
-            _serverFrameCount = Mathf.Max(_serverFrameCount, cmd.Frame);
+            EventDispatcher.FireEvent(UIEventList.SendNetMsg.ToInt(), this, EventGroup.NewArg<EventSingleArgs<NetDataWriter>, NetDataWriter>(w));
         }
         private int record = 0;
         public void FixedUpdate()
         {
-            if (_localFrameCount > _serverFrameCount && _serverFrameCount>0) return;
-            while (_frames.First!=null && _frames.First.Value.Frame==_localFrameCount)
+            if (_localFrameCount > _serverFrameCount || _serverFrameCount==0) return;
+            while (_frames.Count>0 && _frames.Peek().Frame==_localFrameCount)
             {
-                _frames.First.Value.Execute();
-                _frames.First.Value = null;
-                _cachCmds.Enqueue(_frames.First);
-                _frames.RemoveFirst();
+                var cmd = _frames.Pop();
+                cmd.Execute();
             }
-
             LogicCore.SP.SceneManager.FixedUpdate();
             EventManager.FixedUpdate();
             _localFrameCount++;

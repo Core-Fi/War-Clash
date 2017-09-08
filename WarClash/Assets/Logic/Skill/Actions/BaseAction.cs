@@ -60,7 +60,7 @@ namespace Logic.Skill.Actions
         public virtual void Execute(SceneObject sender, SceneObject reciever, object data)
         {
             string str = reciever == null ? "" : reciever.ToString();
-            UnityEngine.Debug.Log(sender.ToString()+"  "+str+"  "+GetType()+"  "+ LogicCore.SP.RealFixedFrame);
+            UnityEngine.Debug.Log(sender.ToString()+"  "+str+"  "+GetType()+"  "+ LogicCore.SP.LockFrameMgr.LocalFrameCount);
         }
     }
    

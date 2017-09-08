@@ -13,30 +13,39 @@ public class Test_06_11 : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        mesh = GetComponent<MeshFilter>().mesh;
-        vertexs = new Vector3[mesh.vertices.Length];
-        string str = File.ReadAllText(Application.dataPath + "/" + gameObject.name + ".json");
-        VAData o = Newtonsoft.Json.JsonConvert.DeserializeObject<VAData>(str);
-        foreach (var item in o.dic)
-        {
-            Transform t = GetChild(transform.parent, item.Key);
-            if (t != null)
-            {
-                t_l[t] = item.Value;
+        int a = 0;
+        //mesh = GetComponent<MeshFilter>().mesh;
+        //vertexs = new Vector3[mesh.vertices.Length];
+        //string str = File.ReadAllText(Application.dataPath + "/" + gameObject.name + ".json");
+        //VAData o = Newtonsoft.Json.JsonConvert.DeserializeObject<VAData>(str);
+        //foreach (var item in o.dic)
+        //{
+        //    Transform t = GetChild(transform.parent, item.Key);
+        //    if (t != null)
+        //    {
+        //        t_l[t] = item.Value;
 
-                t_o[t] = new List<Vector3>();
-                for (int i = 0; i < item.Value.Count; i++)
-                {
-                    VAData.V v = o.offset[item.Key][i];
-                    t_o[t].Add(new Vector3(v.x, v.y, v.z));
-                }
-                t_m[t] = t.localToWorldMatrix;
-            }
-            else
-            {
-                Debug.LogError(item.Key);
-            }
-        }
+        //        t_o[t] = new List<Vector3>();
+        //        for (int i = 0; i < item.Value.Count; i++)
+        //        {
+        //            VAData.V v = o.offset[item.Key][i];
+        //            t_o[t].Add(new Vector3(v.x, v.y, v.z));
+        //        }
+        //        t_m[t] = t.localToWorldMatrix;
+        //    }
+        //    else
+        //    {
+        //        Debug.LogError(item.Key);
+        //    }
+        //}
+    }
+    private void Test(int a, int b)
+    {
+        Debug.LogError(a+"  "+b);
+    }
+    void Update()
+    {
+        var i = UIEventList.SendNetMsg.ToInt();
     }
     public Transform GetChild(Transform parent, string name)
     {
@@ -62,7 +71,7 @@ public class Test_06_11 : MonoBehaviour
     }
     Vector3[] vertexs;
     // Update is called once per frame
-    void Update()
+    void Update1()
     {
         Matrix4x4 transfrom_w2lm = transform.worldToLocalMatrix;
         foreach (var item in t_l)

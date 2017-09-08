@@ -58,6 +58,7 @@ public class MoveToTargetAction : Brainiac.Action
         if (target != null)
         {
             FixedABPath path = FixedABPath.Construct(base.SceneObject.Position, target.Position, OnCaculated);
+            Debug.LogError(base.SceneObject.Position+"  "+target.Position);
             AstarPath.StartPath(path);
         }
     }

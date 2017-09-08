@@ -1,29 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
-
-public enum UIEventList
-{
-    PreLoadResource = 10000,
-    //5000开始
-    ShowUI = 50000,
-    HideUI,
-    OnShowUI,
-    OnHideUI,
-
-    SendNetMsg = 60000,
-}
-
 public enum NetEventList
 {
     LockStepMsg,
-    LockStepFrame,
-    SaveToLog,
-    BattleStart,
-    PlayerMoveMsg,
-    PlayerStopMsg,
-    PlayerRotateMsg,
-    CreatePlayer,
-    CreateNpc
 }
+
+public enum UIEventList
+{
+    SendNetMsg,
+    ShowUI,
+    HideUI,
+    OnShowUI,
+    OnHideUI,
+}
+
+public static class EventMsgUtility
+{
+    public static int ToInt(this NetEventList e)
+    {
+        return (int)(e);
+    }
+    public static int ToInt(this UIEventList e)
+    {
+        return (int)e +  10000;
+    }
+}
+

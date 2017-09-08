@@ -14,12 +14,15 @@ public class Test_6_13 : MonoBehaviour
     public List<Action> actions = new List<Action>();
     private bool caculated = false;
     // Use this for initialization
-    void Start () {
-     
+    void Start ()
+    {
         //string str1 = Md5(Application.dataPath + "/data1.bytes");
         //string str2 = Md5(Application.dataPath + "/data2.bytes");
         //Debug.LogError(str1.Equals(str2));
     }
+
+ 
+    
     List<Vector3d> list = new List<Vector3d>(); 
     void OnCaculate(Pathfinding.Path path)
     {
@@ -27,11 +30,6 @@ public class Test_6_13 : MonoBehaviour
         caculated = true;
         list.Clear();
         ReflectionCaculator.CaculateReflectionPoints(path as FixedABPath, list);
-        for (int i = 0; i < list.Count; i++)
-        {
-            var c = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            c.transform.position = list[i].ToVector3();
-        }
     }
     public string Md5(string filename)
     {
@@ -73,7 +71,7 @@ public class Test_6_13 : MonoBehaviour
         {
             var sw = new System.Diagnostics.Stopwatch();
             sw.Start();
-            FixedABPath path = FixedABPath.Construct(new Vector3d(A.position), new Vector3d(B.position), OnCaculate);
+            FixedABPath path = FixedABPath.Construct(new Vector3d(A.position), new Vector3d(B.position), null);
             path.CacualteNow();
             OnCaculate(path);
             //  AstarPath.StartPath(path);

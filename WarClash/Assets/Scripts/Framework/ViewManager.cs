@@ -14,8 +14,8 @@ class ViewManager : Manager
     private readonly List<PendingViewInfo> _waitingForLoadView = new List<PendingViewInfo>(1);  
     public ViewManager()
     {
-        ListenEvent((int)UIEventList.ShowUI, ShowUI);
-        ListenEvent((int)UIEventList.HideUI, HideUI);
+        ListenEvent(UIEventList.ShowUI.ToInt(), ShowUI);
+        ListenEvent(UIEventList.HideUI.ToInt(), HideUI);
     }
 
     private void HideUI(object sender, EventMsg e)

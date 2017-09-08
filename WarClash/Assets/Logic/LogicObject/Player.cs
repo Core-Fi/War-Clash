@@ -56,14 +56,19 @@ class Player : Character
         IsPressing = true;
     }
 
-    internal override void OnUpdate(float deltaTime)
+    internal override void OnFixedUpdate(long deltaTime)
     {
-        base.OnUpdate(deltaTime);
+        base.OnFixedUpdate(deltaTime);
         if (IsPressing)
         {
             var cmd = Pool.SP.Get<MoveCommand>();
             cmd.Sender = Id;
             LogicCore.SP.LockFrameMgr.SendCommand(cmd);
         }
+    }
+
+    internal override void OnUpdate(float deltaTime)
+    {
+        base.OnUpdate(deltaTime);
     }
 }

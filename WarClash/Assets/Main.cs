@@ -32,13 +32,13 @@ public class Main : MonoBehaviour {
         //p.Team = Team.Team1;
         //p.Position = new Lockstep.Vector3d(new Vector3(-3, 0, 0));
 
-        EventDispatcher.FireEvent((int)UIEventList.ShowUI, this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("UI-JoyStick.prefab", typeof(BattleView), null));
+        EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("UI-JoyStick.prefab", typeof(BattleView), null));
     }
 
     void OnGUI()
     {
         GUILayout.BeginVertical();
-        GUILayout.Label(LogicCore.SP.fixedtime.ToString("0.00")+"  "+ LogicCore.SP.RealFixedFrame.ToString()+"   "+ (LogicCore.SP.RealFixedFrame/(float)LockFrameMgr.FixedFrameRate).ToString("00.00")+"  "+Time.time.ToString("00.00"));
+        GUILayout.Label(LogicCore.SP.LockFrameMgr.LocalFrameCount+"  "+ LogicCore.SP.LockFrameMgr.ServerFrameCount + "  "+Time.time.ToString("00.00")+" "+(LogicCore.SP.RegularFrameCount/ (float)LockFrameMgr.FixedFrameRate).ToString("00.00"));
         if (GUILayout.Button( "NewP"))
         {
             LogicCore.SP.LockFrameMgr.SendCommand(new CreatePlayerCommand{Sender = 100});
@@ -51,7 +51,7 @@ public class Main : MonoBehaviour {
         {
             NetDataWriter w = new NetDataWriter();
             w.Put((short)1);
-            EventDispatcher.FireEvent((int)UIEventList.SendNetMsg,this, EventGroup.NewArg< EventSingleArgs <NetDataWriter> , NetDataWriter>(w));
+            EventDispatcher.FireEvent(UIEventList.SendNetMsg.ToInt(),this, EventGroup.NewArg< EventSingleArgs <NetDataWriter> , NetDataWriter>(w));
         }
         GUILayout.EndVertical();
         //if (GUI.Button(new Rect(0, 0, 300, 50), "GC"))
@@ -79,7 +79,7 @@ public class Main : MonoBehaviour {
     {
 	    if (!a && Time.time > 0.01f)
 	    {
-            EventDispatcher.FireEvent((int)UIEventList.ShowUI, this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("NextBattleUI.prefab", typeof(BattleView), null));
+            EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("NextBattleUI.prefab", typeof(BattleView), null));
 	        a = true;
 	    }
         managerDriver.Update();

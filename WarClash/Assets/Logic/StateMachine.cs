@@ -89,13 +89,13 @@ namespace Logic
         {
             Vector3d posi = Character.Forward;
             posi.Mul(Character.AttributeManager[AttributeType.Speed]);
-            posi.Mul(FixedMath.One.Div(LockFrameMgr.FixedFrameRate));
+            posi.Div(LockFrameMgr.FixedFrameRate);
+            Debug.Log("move at "+LogicCore.SP.LockFrameMgr.LocalFrameCount);
             var finalPosi = Character.Position + posi;
             var fp = AstarPath.active.GetNearest(finalPosi);
             var b = (fp.node as MeshNode).ContainsPoint(Vector3d.ToInt3(finalPosi));
             if (LogicCore.SP.WriteToLog)
             {
-                LogicCore.SP.Writer.Append(LogicCore.SP.RealFixedFrame+"  "+ Character.Position.ToStringRaw()+ "  "+finalPosi.ToStringRaw()+"  "+b+"  "+fp.node.NodeIndex+"  "+ fp.constFixedClampedPosition.ToStringRaw());
                 LogicCore.SP.Writer.AppendLine();
             }
             if (b)
