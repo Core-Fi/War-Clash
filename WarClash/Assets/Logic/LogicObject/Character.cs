@@ -42,6 +42,17 @@ namespace Logic.LogicObject
                     Dead();
             }
         }
+
+        public bool ReleaseSkill(int id)
+        {
+            if (!SkillManager.IsRunningSkill)
+            {
+                SkillManager.ReleaseSkill(id);
+                return true;
+            }
+            else
+                return false;
+        }
         public bool ReleaseSkill(string path)
         {
             if (!SkillManager.IsRunningSkill)
@@ -91,13 +102,11 @@ namespace Logic.LogicObject
         internal override void OnFixedUpdate(long deltaTime)
         {
             base.OnFixedUpdate(deltaTime);
+            SkillManager.FixedUpdate();
         }
 
         internal override void OnUpdate(float deltaTime)
         {
-          
-            SkillManager.Update(deltaTime);
-          
             base.OnUpdate(deltaTime);
         }
 

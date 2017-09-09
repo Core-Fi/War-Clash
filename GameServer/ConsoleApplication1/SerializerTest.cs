@@ -176,7 +176,7 @@ namespace LibSample
                 {
                     Console.WriteLine("ConnectedPeersList: id={0}, ep={1}", netPeer.ConnectId, netPeer.EndPoint);
                 }
-                gs.OnPeerConnect();
+                gs.OnPeerConnect(peer);
             }
 
             public void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)

@@ -47,7 +47,7 @@ namespace Logic.Skill
             this.sourceData = skill;
             this.m_RunningData = srd;
             this.finishAction = finishAction;
-            m_CurrentTLIndex = 0;
+            m_CurrentTLIndex = -1;
             isRunning = true;
             for (int i = 0; i < m_TimeLineCount; i++)
             {
@@ -58,6 +58,10 @@ namespace Logic.Skill
         }
         public void Breath(float deltaTime)
         {
+            if (m_CurrentTLIndex == -1)
+            {
+                EnterNextTimeLine();
+            }
             var timeLine = timelines[m_CurrentTLIndex];
             if (timeLine.m_TimeLineStatus == TimeLineStatus.Finished)
             {
@@ -65,7 +69,6 @@ namespace Logic.Skill
                 {
                     EnterNextTimeLine();
                     Breath(deltaTime);
-                    return;
                 }
             }
             else
@@ -73,7 +76,7 @@ namespace Logic.Skill
                 deltaTime = timeLine.Breath(deltaTime);
                 if (m_CurrentTLIndex == m_TimeLineCount - 1 && timeLine.m_TimeLineStatus == TimeLineStatus.Finished)
                 {
-                    OnFinish();
+                    Finish();
                 }
                 else
                 {
@@ -85,7 +88,31 @@ namespace Logic.Skill
                 }
             }
         }
+        internal void FixedBreath()
+        {
+            if (m_CurrentTLIndex == -1)
+            {
+                EnterNextTimeLine();
+            }
+            var timeLine = timelines[m_CurrentTLIndex];
+            timeLine.FixedBreath();
+            if (timeLine.m_TimeLineStatus == TimeLineStatus.Finished)
+            {
+                if (m_CurrentTLIndex == m_TimeLineCount - 1)
+                {
+                    Finish();
+                }
+                else
+                {
+                    EnterNextTimeLine();
+                }
+            }
+        }
 
+        private void Finish()
+        {
+            OnFinish();
+        }
         public virtual void OnFinish()
         {
             for (int i = 0; i < timelines.Count; i++)
@@ -115,7 +142,10 @@ namespace Logic.Skill
         }
         public void EnterNextTimeLine()
         {
-            Pool.SP.Recycle(timelines[m_CurrentTLIndex]);
+            if (m_CurrentTLIndex != -1)
+            {
+                Pool.SP.Recycle(timelines[m_CurrentTLIndex]);
+            }
             m_CurrentTLIndex++;
             timelines[m_CurrentTLIndex].Enter();
         }

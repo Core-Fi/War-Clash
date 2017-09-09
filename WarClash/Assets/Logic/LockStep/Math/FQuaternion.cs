@@ -53,6 +53,23 @@ public class FixedQuaternion
             return FixedMath.Sqrt(x.Mul(x) + y.Mul(y) + z.Mul(z) + w.Mul(w));
         }
     }
+    public long lengthSquared
+    {
+        get
+        {
+            return x.Mul(x) + y.Mul(y) + z.Mul(z) + w.Mul(w);
+        }
+    }
+    public static FixedQuaternion Inverse(FixedQuaternion rotation)
+    {
+        long lengthSq = rotation.lengthSquared;
+        if (lengthSq != 0)
+        {
+            long i = FixedMath.One.Div(lengthSq);
+            return new FixedQuaternion(rotation.x.Mul(-i), rotation.y.Mul(-i), rotation.z.Mul(-i), rotation.w.Mul(i));
+        }
+        return rotation;
+    }
     public static FixedQuaternion Normalize(FixedQuaternion q)
     {
         FixedQuaternion result;

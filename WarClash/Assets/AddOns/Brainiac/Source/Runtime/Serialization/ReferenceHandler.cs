@@ -28,7 +28,7 @@ namespace Brainiac.Serialization {
 			return id;
 		}
 
-		/** If an object is serialized elsewhere, you can set a custom id in the writer and the reader to be able to serialize references to it.
+		/** If an object is serialized elsewhere, you can set a custom Id in the writer and the reader to be able to serialize references to it.
 		 * Use negative IDs to avoid collisions with the default ones.
 		 */
 		public void SetCustomID (System.Object val, int id) {
@@ -99,7 +99,7 @@ namespace Brainiac.Serialization {
 			return mapping.TryGetValue (id, out result);
 		}
 
-		/** If an object is serialized elsewhere, you can set a custom id in the writer and the reader to be able to serialize references to it.
+		/** If an object is serialized elsewhere, you can set a custom Id in the writer and the reader to be able to serialize references to it.
 		 * Use negative IDs to avoid collisions with the default ones.
 		 */
 		public void SetCustomID (System.Object val, int id) {
@@ -118,7 +118,7 @@ namespace Brainiac.Serialization {
 				delayedSetters[id] = new List<KeyValuePair<MemberInfo, object>> ();
 			}
 
-			//System.Console.WriteLine ("Adding delayed setter for " + id);
+			//System.Console.WriteLine ("Adding delayed setter for " + Id);
 			delayedSetters[id].Add (new KeyValuePair<MemberInfo, object> (memberInfo, val));
 		}
 
@@ -131,7 +131,7 @@ namespace Brainiac.Serialization {
 				deepDelayedSetters[id] = new List<DeepLazySetter> ();
 			}
 
-			//System.Console.WriteLine ("Adding delayed setter for " + id);
+			//System.Console.WriteLine ("Adding delayed setter for " + Id);
 			deepDelayedSetters[id].Add (new DeepLazySetter { parentClass = parentClass, child = child, member = memberInfo });
 		}
 
@@ -149,7 +149,7 @@ namespace Brainiac.Serialization {
 				delayedDictSetters[id] = new List<KeyValuePair<string, IDictionary>> ();
 			}
 
-			//System.Console.WriteLine ("Adding delayed setter for " + id);
+			//System.Console.WriteLine ("Adding delayed setter for " + Id);
 			delayedDictSetters[id].Add (new KeyValuePair<string, IDictionary> (key, dict));
 		}
 
@@ -163,7 +163,7 @@ namespace Brainiac.Serialization {
 				delayedListSetters[id] = new List<KeyValuePair<int, IList>> ();
 			}
 
-			//System.Console.WriteLine ("Adding delayed setter for " + id);
+			//System.Console.WriteLine ("Adding delayed setter for " + Id);
 			delayedListSetters[id].Add (new KeyValuePair<int, IList> (index, list));
 		}
 

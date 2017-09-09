@@ -33,6 +33,7 @@ public class Main : MonoBehaviour {
         //p.Position = new Lockstep.Vector3d(new Vector3(-3, 0, 0));
 
         EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("UI-JoyStick.prefab", typeof(BattleView), null));
+        EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("BattleUI.prefab", typeof(BattleView), null));
     }
 
     void OnGUI()
@@ -77,11 +78,6 @@ public class Main : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-	    if (!a && Time.time > 0.01f)
-	    {
-            EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("NextBattleUI.prefab", typeof(BattleView), null));
-	        a = true;
-	    }
         managerDriver.Update();
         u3dSceneManager.Update();
         Logic.LogicCore.SP.Update(Time.deltaTime);

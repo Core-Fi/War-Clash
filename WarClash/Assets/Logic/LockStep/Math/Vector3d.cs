@@ -145,6 +145,20 @@ namespace Lockstep
             return FixedMath.Sqrt(tX + tY + tZ);
 
         }
+
+        public static long SqrDistance(Vector3d a, Vector3d b)
+        {
+            long tX = b.x - a.x;
+            tX *= tX;
+            tX >>= FixedMath.SHIFT_AMOUNT;
+            long tY = b.y - a.y;
+            tY *= tY;
+            tY >>= FixedMath.SHIFT_AMOUNT;
+            long tZ = b.z - a.z;
+            tZ *= tZ;
+            tZ >>= FixedMath.SHIFT_AMOUNT;
+            return tX + tY + tZ;
+        }
         public long Distance (Vector3d other) {
             long tX = other.x - x;
             tX *= tX;

@@ -6,18 +6,20 @@ using Logic.LogicObject;
 
 public class BattleUI : MonoBehaviour {
 
-    public UnityEngine.UI.Button btn;
+    public UnityEngine.UI.Button atk_btn;
 	// Use this for initialization
 	void Start () {
-		
-        btn.onClick.AddListener(OnButtonClick);
+
+        atk_btn.onClick.AddListener(OnButtonClick);
 
 
 	}
     private void OnButtonClick()
     {
-        var npc = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Npc>();
-        npc.Position = new Lockstep.Vector3d(new Vector3(Random.Range(-10,10),0, 0));
+        var cmd = Pool.SP.Get<ReleaseSkillCommand>();
+        cmd.Id = 1;
+        cmd.Sender = LogicCore.SP.SceneManager.currentScene.GetObject<MainPlayer>().Id;
+        LogicCore.SP.LockFrameMgr.SendCommand(cmd);
     }
 	// Update is called once per frame
 	void Update () {

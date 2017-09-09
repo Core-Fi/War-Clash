@@ -692,7 +692,7 @@ namespace Brainiac.Serialization
 									value = null;
 								}
 							} else {
-								throw new JsonDeserializationException ("Expected " + memberType.Name + " but got a string. It looked like a reference, but the id could not be parsed: '"+str+"'", index);
+								throw new JsonDeserializationException ("Expected " + memberType.Name + " but got a string. It looked like a reference, but the Id could not be parsed: '"+str+"'", index);
 							}
 						} else {
 							throw new JsonDeserializationException ("Expected " + memberType.Name + " but got a string. This stage should not have been reached.", index);
@@ -816,7 +816,7 @@ namespace Brainiac.Serialization
 								value = null;
 							}
 						} else {
-							throw new System.Exception ("Expected " + arrayItemType.Name + " but got a string. It looked like a reference, but the id could not be parsed: '"+value+"'");
+							throw new System.Exception ("Expected " + arrayItemType.Name + " but got a string. It looked like a reference, but the Id could not be parsed: '"+value+"'");
 						}
 					} else {
 						throw new System.Exception ("Should not be reached");

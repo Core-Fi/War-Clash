@@ -20,6 +20,7 @@ public class MoveToTargetAction : Brainiac.Action
     private List<Vector3d> _path;
     private int _pathIndex = 0;
     private Stage stage;
+    private Vector3d previousPosi;
     public override void OnStart(AIAgent agent)
     {
         base.OnStart(agent);
@@ -50,12 +51,17 @@ public class MoveToTargetAction : Brainiac.Action
     }
     private void OnTargetPosiChanged(object sender, EventMsg e)
     {
-        CacualtePath();
+        var curPosi = target.Position;
+        if (Vector3d.SqrDistance(curPosi, previousPosi) > 1)
+        {
+            CacualtePath();
+        }
     }
     private void CacualtePath()
     {
         if (target != null)
         {
+            previousPosi = target.Position;
             _path.Clear();
             FixedABPath path = FixedABPath.Construct(base.SceneObject.Position, target.Position, null);
             path.CacualteNow();

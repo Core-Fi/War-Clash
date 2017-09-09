@@ -67,7 +67,7 @@ namespace Pathfinding.Serialization {
 
 			if (id == -1) return null;
 			GraphNode node = id2NodeMapping[id];
-			if (node == null) throw new Exception("Invalid id ("+id+")");
+			if (node == null) throw new Exception("Invalid Id ("+id+")");
 			return node;
 		}
 

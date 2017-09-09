@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
+using Lockstep;
 using UnityEngine;
 
 public static class Utility
@@ -83,6 +84,62 @@ public static class Utility
                 } while (count > 0);
                 return memory.ToArray();
             }
+        }
+    }
+
+    public static bool PositionIsInRect(FixedRect rect, Vector3d basePosition, FixedQuaternion baseQuaternion, Vector3d posi)
+    {
+        var relativeP = posi - basePosition;
+        var rotateRelativeP = FixedQuaternion.Inverse(baseQuaternion) * relativeP;
+        return rect.ContainsPoint(rotateRelativeP);
+    }
+
+    public static bool PositionIsInFan(Vector3d basePosi, long radius, int angle, FixedQuaternion baseQuaternion, Vector3d posi)
+    {
+        var radiusSqr = radius.Mul(radius);
+        var relativeP = posi-basePosi;
+        if (radiusSqr > relativeP.sqrMagnitude)
+        {
+            var rotateRelativeP = FixedQuaternion.Inverse(baseQuaternion) * posi;
+            var cosSqr = Vector3d.Dot(rotateRelativeP.Normalize(), new Vector3d(0, 0, FixedMath.One));
+            var realCos = FixedMath.Trig.Cos(FixedMath.One.Div(180).Mul(FixedMath.Pi).Mul(angle/2));
+            var realCosSqr = realCos.Mul(realCos);
+            if (relativeP.z > 0)
+            {
+                if (angle > 180)
+                    return true;
+                return realCosSqr < cosSqr;
+            }
+            else
+            {
+                if (angle < 180)
+                    return false;
+                else
+                {
+                    return realCosSqr > cosSqr;
+                }
+            }
+               
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public struct FixedRect
+    {
+        public Vector3d center;
+        public long width;
+        public long height;
+        public bool ContainsPoint(Vector3d p)
+        {
+            var relativeP = p - center;
+            if (relativeP.x < width && relativeP.x > -width && relativeP.z > -height && relativeP.z < height)
+            {
+                return true;
+            }
+            else return false;
         }
     }
 }

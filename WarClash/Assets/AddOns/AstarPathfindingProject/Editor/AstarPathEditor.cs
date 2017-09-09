@@ -1119,8 +1119,8 @@ public class AstarPathEditor : Editor {
 			GUILayout.Label(new GUIContent("Advanced"), EditorStyles.boldLabel);
 
 			script.minAreaSize = EditorGUILayout.IntField(new GUIContent("Min Area Size",
-					"The minimum number of nodes an area must have to be granted an unique area id. 2^17 area ids are available (131072)."+
-					"This merges small areas to use the same area id and helps keeping the area count below 131072. Usually this is not required. [default = 0]"), script.minAreaSize);
+					"The minimum number of nodes an area must have to be granted an unique area Id. 2^17 area ids are available (131072)."+
+					"This merges small areas to use the same area Id and helps keeping the area count below 131072. Usually this is not required. [default = 0]"), script.minAreaSize);
 
 			DrawHeuristicOptimizationSettings();
 

@@ -1923,7 +1923,7 @@ public class AstarPath : MonoBehaviour {
 			AstarLog(smallAreasDetected +" small areas were detected (fewer than "+minAreaSize+" nodes)," +
 				"these might have the same IDs as other areas, but it shouldn't affect pathfinding in any significant way (you might get All Nodes Searched as a reason for path failure)." +
 				"\nWhich areas are defined as 'small' is controlled by the 'Min Area Size' variable, it can be changed in the A* inspector-->Settings-->Min Area Size" +
-				"\nThe small areas will use the area id "+ GraphNode.MaxAreaIndex);
+				"\nThe small areas will use the area Id "+ GraphNode.MaxAreaIndex);
 		}
 
 		Pathfinding.Util.ListPool<GraphNode>.Release(smallAreaList);

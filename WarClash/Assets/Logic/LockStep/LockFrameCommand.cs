@@ -66,13 +66,27 @@ namespace Logic
     }
     public class ReleaseSkillCommand : PlayerOperateCommand
     {
-        public Vector3 position;
-        public int receiver;
-        public int id;
+        public Vector3 Position;
+        public int Receiver;
+        public int Id;
         public override void OnExecute()
         {
             var c = LogicCore.SP.SceneManager.currentScene.GetObject<Character>(Sender);
-           // c.ReleaseSkill(path);
+            c.ReleaseSkill(Id);
+        }
+
+        public override void Deserialize(NetDataReader reader)
+        {
+            base.Deserialize(reader);
+            Id = reader.GetInt();
+        }
+
+        public override void Serialize(NetDataWriter writer)
+        {
+            var msgid = (int)LockFrameMgr.LockFrameEvent.ReleaseSkill;
+            writer.Put((short)msgid);
+            base.Serialize(writer);
+            writer.Put(Id);
         }
     }
 
@@ -176,8 +190,31 @@ namespace Logic
 
         public override void Serialize(NetDataWriter writer)
         {
-
             var msgid = (int)LockFrameMgr.LockFrameEvent.CreateNpc ;
+            writer.Put((short)msgid);
+            base.Serialize(writer);
+        }
+    }
+    public class CreateMainPlayerCommand : PlayerOperateCommand
+    {
+        public override void OnExecute()
+        {
+            var mainPlayer = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<MainPlayer>(Sender);
+            Debug.Log("Create Main Player "+Sender);
+            mainPlayer.Position = new Vector3d(-Vector3.left * 6);
+        }
+        public override void WriteToLog(StringBuilder writer)
+        {
+            base.WriteToLog(writer);
+        }
+        public override void Deserialize(NetDataReader reader)
+        {
+            base.Deserialize(reader);
+        }
+
+        public override void Serialize(NetDataWriter writer)
+        {
+            var msgid = (int)LockFrameMgr.LockFrameEvent.CreatePlayer;
             writer.Put((short)msgid);
             base.Serialize(writer);
         }
@@ -187,6 +224,7 @@ namespace Logic
         public override void OnExecute()
         {
             var player = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Player>(Sender);
+            Debug.Log("Create Remote Player " + Sender);
             player.Position = new Vector3d(-Vector3.left*6);
         }
         public override void WriteToLog(StringBuilder writer)

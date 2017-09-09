@@ -28,12 +28,11 @@ namespace Logic.Skill
             }
             else
             {
-                skill = Logic.Skill.SkillUtility.GetTimelineGroup<Skill>("Skills/" + path);
+                skill = Logic.Skill.SkillUtility.GetTimelineGroup<Skill>(path);
                 Skills[path] = skill;
             }
             return skill;
         }
-
         public RuntimeSkill RunningSkill { get; private set; }
         private Character so;
 
@@ -68,6 +67,14 @@ namespace Logic.Skill
         {
             this.so = so;
         }
+        internal void ReleaseSkill(int id)
+        {
+            if(skill_index.Count==0)
+                LoadSkillIndexFiles();
+            RuntimeData srd = new RuntimeData(so, null, null);
+            string path = skill_index[id];
+            ReleaseSkill(path, srd);
+        }
         internal void ReleaseSkill(string path)
         {
             RuntimeData srd = new RuntimeData(so, null, null);
@@ -93,12 +100,18 @@ namespace Logic.Skill
             }
         }
 
+        internal void FixedUpdate()
+        {
+            if (RunningSkill != null)
+            {
+                RunningSkill.FixedBreath();
+            }
+        }
         internal void OnFinish()
         {
             so.EventGroup.FireEvent((int)Character.CharacterEvent.Endskill, so, EventGroup.NewArg<EventSingleArgs<string>, string>(RunningSkill.sourceData.path));
             Pool.SP.Recycle(RunningSkill);
             RunningSkill = null;
         }
-
     }
 }

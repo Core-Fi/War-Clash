@@ -21,8 +21,10 @@ namespace Logic
             PlayerMoveMsg,
             PlayerStopMsg,
             PlayerRotateMsg,
+            CreateMainPlayer,
             CreatePlayer,
-            CreateNpc
+            CreateNpc,
+            ReleaseSkill
         }
         public static readonly int FixedFrameRate = 15;
 
@@ -46,6 +48,8 @@ namespace Logic
             EventDispatcher.ListenEvent((int)NetEventList.LockStepMsg, OnGetLockstepMsg);
             _lockstepCommandDic.Add((int)LockFrameEvent.BattleStart, (i, e) => _localFrameCount=0);
             _lockstepCommandDic.Add((int)LockFrameEvent.PlayerMoveMsg, OnGetReceiveLockstepMsg<MoveCommand>);
+            _lockstepCommandDic.Add((int)LockFrameEvent.ReleaseSkill, OnGetReceiveLockstepMsg<ReleaseSkillCommand>);
+            _lockstepCommandDic.Add((int)LockFrameEvent.CreateMainPlayer, OnGetReceiveLockstepMsg<CreateMainPlayerCommand>);
             _lockstepCommandDic.Add((int)LockFrameEvent.PlayerRotateMsg, OnGetReceiveLockstepMsg<ChangeForwardCommand>);
             _lockstepCommandDic.Add((int)LockFrameEvent.PlayerStopMsg, OnGetReceiveLockstepMsg<StopCommand>);
             _lockstepCommandDic.Add((int)LockFrameEvent.CreatePlayer, OnGetReceiveLockstepMsg<CreatePlayerCommand>);
@@ -59,7 +63,6 @@ namespace Logic
             var reader = msg.value;
             var frameCount = reader.GetShort();
             _serverFrameCount = Mathf.Max(_serverFrameCount, frameCount);
-            Debug.Log("receive frame data "+_serverFrameCount);
             while (reader.Position<msg.value.Data.Length-1)
             {
                 var cmdId = reader.GetShort();
@@ -70,11 +73,13 @@ namespace Logic
         {
             var cmd = Pool.SP.Get<T>();
             cmd.Frame = frame;
+            Debug.Log("Receive Msg " + cmd.GetType() + " " + Time.time);
             cmd.Deserialize(reader);
             _frames.Add(cmd);
         }
         public void SendCommand(LockFrameCommand cmd)
         {
+            Debug.Log("Send Msg "+cmd.GetType()+" "+Time.time);
             NetDataWriter w = new NetDataWriter(true);
             cmd.Serialize(w);
             EventDispatcher.FireEvent(UIEventList.SendNetMsg.ToInt(), this, EventGroup.NewArg<EventSingleArgs<NetDataWriter>, NetDataWriter>(w));
@@ -82,16 +87,19 @@ namespace Logic
         private int record = 0;
         public void FixedUpdate()
         {
-            if (_localFrameCount > _serverFrameCount || _serverFrameCount==0) return;
-            while (_frames.Count>0 && _frames.Peek().Frame==_localFrameCount)
+            for (int i = 0; i < 2; i++)
             {
-                var cmd = _frames.Pop();
-                cmd.Execute();
+                if (_localFrameCount > _serverFrameCount || _serverFrameCount == 0) return;
+                while (_frames.Count > 0 && _frames.Peek().Frame == _localFrameCount)
+                {
+                    var cmd = _frames.Pop();
+                    cmd.Execute();
+                }
+                LogicCore.SP.SceneManager.FixedUpdate();
+                EventManager.FixedUpdate();
+                _localFrameCount++;
             }
-            LogicCore.SP.SceneManager.FixedUpdate();
-            EventManager.FixedUpdate();
-            _localFrameCount++;
-
+          
 
             record++;
             if (record%2 == 0)

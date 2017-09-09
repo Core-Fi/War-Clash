@@ -11,7 +11,8 @@ class LogicObjectCorresponding
     {
         {typeof(Npc), typeof(U3DNpc)},
         {typeof(BarackBuilding), typeof(U3DBarackBuilding)},
-        {typeof(Player), typeof(U3DPlayer) }
+        {typeof(Player), typeof(U3DPlayer) },
+          {typeof(MainPlayer), typeof(U3DMainPlayer) }
 
     };
 

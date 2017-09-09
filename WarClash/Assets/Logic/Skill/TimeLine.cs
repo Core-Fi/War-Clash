@@ -61,7 +61,7 @@ namespace Logic.Skill
     {
         public TimeLineStatus m_TimeLineStatus;
         public TimeLine timeLine { get; private set; }
-        public int m_Duration { get; private set; }
+        public float m_Duration { get; private set; }
         public float m_Times { get; private set; }
         private RuntimeData m_RunningData;
         private int m_curActionIndex;
@@ -79,6 +79,43 @@ namespace Logic.Skill
         {
             m_TimeLineStatus = TimeLineStatus.Running;
         }
+        public void FixedBreath()
+        {
+            this.OnFixedBreath();
+            for (int i = m_curActionIndex; i < timeLine.BaseActions.Count; i++)
+            {
+                if (timeLine.BaseActions[i].ExecuteFrameIndex <= m_Duration)
+                {
+                    timeLine.BaseActions[i].Execute(m_RunningData.sender, m_RunningData.receiver, m_RunningData.data);
+                    m_curActionIndex++;
+                }
+            }
+            m_Duration++;
+            if (m_Duration >= timeLine.FrameCount)
+            {
+                m_Times++;
+                m_Duration = 0;
+                m_curActionIndex = 0;
+                if (m_Times >= timeLine.Times)
+                {
+                    Finish();
+                }
+                else
+                {
+                    OnTimeLineEnd();
+                    return;
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        protected virtual void OnFixedBreath()
+        {
+
+        }
 
         public float Breath(float deltaTime)
         {
@@ -91,7 +128,7 @@ namespace Logic.Skill
                     m_curActionIndex++;
                 }
             }
-            m_Duration ++;
+            m_Duration+=deltaTime;
             if (m_Duration >= timeLine.FrameCount)
             {
                 m_Times++;
@@ -119,6 +156,7 @@ namespace Logic.Skill
                 return 0;
             }
         }
+
         public virtual void OnBreath(float deltaTime)
         {
 

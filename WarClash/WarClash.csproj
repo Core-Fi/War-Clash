@@ -333,6 +333,7 @@
     <Compile Include="Assets\Logic\LogicObject\Building.cs" />
     <Compile Include="Assets\Logic\LogicObject\Character.cs" />
     <Compile Include="Assets\Logic\LogicObject\MainBaseBuilding.cs" />
+    <Compile Include="Assets\Logic\LogicObject\MainPlayer.cs" />
     <Compile Include="Assets\Logic\LogicObject\Npc.cs" />
     <Compile Include="Assets\Logic\LogicObject\Player.cs" />
     <Compile Include="Assets\Logic\LogicObject\Projectile.cs" />
@@ -396,6 +397,7 @@
     <Compile Include="Assets\Scripts\U3DObject\U3DBarackBuilding.cs" />
     <Compile Include="Assets\Scripts\U3DObject\U3DBuilding.cs" />
     <Compile Include="Assets\Scripts\U3DObject\U3DCharacter.cs" />
+    <Compile Include="Assets\Scripts\U3DObject\U3DMainPlayer.cs" />
     <Compile Include="Assets\Scripts\U3DObject\U3DNpc.cs" />
     <Compile Include="Assets\Scripts\U3DObject\U3DPlayer.cs" />
     <Compile Include="Assets\Scripts\U3DObject\U3DProjectile.cs" />

@@ -390,7 +390,7 @@ public class Seeker : MonoBehaviour, ISerializationCallbackReceiver {
 		path = p;
 		tmpPathCallback = callback;
 
-		// Save the path id so we can make sure that if we cancel a path (see above) it should not have been recycled yet.
+		// Save the path Id so we can make sure that if we cancel a path (see above) it should not have been recycled yet.
 		lastPathID = path.pathID;
 
 		// Pre process the path

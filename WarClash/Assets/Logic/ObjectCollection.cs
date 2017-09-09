@@ -230,6 +230,31 @@ namespace Logic.Objects
         {
             
         }
+        public TDeriveTValue GetObject<TDeriveTValue>() where TDeriveTValue : class, TValue
+        {
+            Type type = typeof(TDeriveTValue);
+            Dictionary<TKey, ValuePack<TValue>> val;
+            if (objectColl.TryGetValue(type, out val))
+            {
+                ValuePack<TValue> valPack = val.First().Value;
+                if (valPack.Enable)
+                {
+                    return valPack.Val as TDeriveTValue;
+                }
+                else return null;
+            }
+            if (IsTraversing)
+            {
+                foreach (Pair<TKey, TValue> pair in delayAdd)
+                {
+                    if (pair.val is TDeriveTValue)
+                    {
+                        return pair.val as TDeriveTValue;
+                    }
+                }
+            }
+            return null;
+        }
         public TDeriveTValue GetObject<TDeriveTValue>(TKey key) where TDeriveTValue : class, TValue
         {
             Type type = typeof(TDeriveTValue);

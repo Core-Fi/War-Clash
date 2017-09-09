@@ -671,7 +671,7 @@ namespace Pathfinding {
 				else text.AppendLine("NULL");
 			}
 
-			text.Append("\nPath Number ").Append(pathID).Append(" (unique id)");
+			text.Append("\nPath Number ").Append(pathID).Append(" (unique Id)");
 		}
 
 		/** Returns a string with information about it.

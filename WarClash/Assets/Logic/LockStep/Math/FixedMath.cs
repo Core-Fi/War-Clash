@@ -492,7 +492,12 @@ namespace Lockstep
 			public static long Cos(long theta)
 			{
 				long sin = Sin(theta);
-				return FixedMath.Sqrt(FixedMath.One - (sin.Mul(sin))) * (sin>0?-1:1);
+			    int factor = 1;
+                if (theta > FixedMath.Pi/2 && theta < FixedMath.Pi*3/2)
+                {
+                    factor = -1;
+                }
+				return FixedMath.Sqrt(FixedMath.One - (sin.Mul(sin))) * (factor);
 			}
 			public static long SinToCos(long sin)
 			{

@@ -1,7 +1,7 @@
 {
   "$type": "Logic.Skill.Skill, Assembly-CSharp",
-  "Name": null,
-  "ID": 0,
+  "Name": "",
+  "ID": 1,
   "TimeLines": {
     "$type": "System.Collections.Generic.List`1[[Logic.Skill.TimeLine, Assembly-CSharp]], mscorlib",
     "$values": [

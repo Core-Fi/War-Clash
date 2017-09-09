@@ -21,7 +21,6 @@ class GameNetManager : Manager
     public void SendMsg(object sender, EventMsg e)
     {
         var msg = e as EventSingleArgs<NetDataWriter>;
-
         _netManger.SendToAll(msg.value, SendOptions.ReliableOrdered);
     }
     public override void OnUpdate()
@@ -62,6 +61,7 @@ class ClientListenner : INetEventListener
 
     public void OnPeerConnected(NetPeer peer)
     {
+        
     }
 
     public void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)

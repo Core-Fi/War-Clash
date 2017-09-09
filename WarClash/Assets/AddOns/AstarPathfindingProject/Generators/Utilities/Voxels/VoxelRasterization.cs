@@ -110,7 +110,7 @@ namespace Pathfinding.Voxels {
 		public const int RC_CONTOUR_TESS_WALL_EDGES = 0x01; // Tessellate wall edges
 		public const int RC_CONTOUR_TESS_AREA_EDGES = 0x02; // Tessellate edges between areas.
 
-		/** Mask used with contours to extract region id. */
+		/** Mask used with contours to extract region Id. */
 		public const int ContourRegMask = 0xffff;
 
 		#endregion /** @} */

@@ -9,10 +9,3 @@ interface  ICommand
     void Execute();
 }
 
-class ReleaseSkillCommand : ICommand
-{
-    public void Execute()
-    {
-     
-    }
-}
