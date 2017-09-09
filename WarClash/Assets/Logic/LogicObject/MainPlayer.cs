@@ -9,7 +9,7 @@ namespace Logic.LogicObject
 {
     class MainPlayer : Player
     {
-        private bool IsPressing;
+        private bool _isPressing;
         internal override void ListenEvents()
         {
             base.ListenEvents();
@@ -20,7 +20,7 @@ namespace Logic.LogicObject
 
         private void OnJoystickEnd(object sender, EventMsg e)
         {
-            IsPressing = false;
+            _isPressing = false;
             var cmd = Pool.SP.Get<StopCommand>();
             cmd.Sender = Id;
             LogicCore.SP.LockFrameMgr.SendCommand(cmd);
@@ -46,13 +46,13 @@ namespace Logic.LogicObject
 
         private void OnJoystickStart(object sender, EventMsg e)
         {
-            IsPressing = true;
+            _isPressing = true;
         }
 
         internal override void OnFixedUpdate(long deltaTime)
         {
             base.OnFixedUpdate(deltaTime);
-            if (IsPressing)
+            if (_isPressing)
             {
                 var cmd = Pool.SP.Get<MoveCommand>();
                 cmd.Sender = Id;

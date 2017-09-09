@@ -127,7 +127,7 @@ internal class GameServer
         var player = new Client(peer);
         player.id = 100 + ID;
         clients.Add(player);
-        if (this.NetManager.PeersCount == 1 && !started)
+        if (this.NetManager.PeersCount == 2 && !started)
         {
             var timer = new Timer(e => { Start(); }, null, 3000, System.Threading.Timeout.Infinite);
         }
