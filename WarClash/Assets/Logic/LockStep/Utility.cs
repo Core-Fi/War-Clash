@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace LockStep
 {
     public static class Utility
     {
-        
         public static Vector3d Add(this Vector3d a, Vector3d b)
         {
             Vector3d v = a;

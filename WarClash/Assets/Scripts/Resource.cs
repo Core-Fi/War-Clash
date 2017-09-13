@@ -6,7 +6,7 @@ using System.Text;
 using UnityEngine;
 using Object = UnityEngine.Object;
 [Serializable]
-public struct BundleInfo
+public struct AssetInfo
 {
     public string BundleName;
     public string AssetPath;
@@ -85,7 +85,7 @@ class Resource
 {
     public static string BaseUrl;
     public static AssetBundleManifest Manifest;
-    public static Dictionary<string, BundleInfo> AssetsInfos; 
+    public static Dictionary<string, AssetInfo> AssetsInfos; 
     private static readonly List<BundleLoader> LoadingList = new List<BundleLoader>();
     private static readonly Dictionary<string,Dictionary<string, Object>> BundleNameAssets = new Dictionary<string, Dictionary<string, Object>>(); 
     private static readonly Dictionary<string, AssetBundle> LoadedBundles = new Dictionary<string, AssetBundle>(); 
@@ -141,7 +141,7 @@ class Resource
     {
         LoadingList.Add(l);
     }
-    public static BundleInfo GetBundleInfo(string assetName)
+    public static AssetInfo GetBundleInfo(string assetName)
     {
         if (AssetsInfos.ContainsKey(assetName))
         {
@@ -166,7 +166,11 @@ class Resource
     }
     private static void LoadManifest()
     {
+#if UNITY_ANDROID
+        BaseUrl = Path.Combine(Application.streamingAssetsPath, @"\AB\");
+#else
         BaseUrl = System.IO.Path.Combine(Application.dataPath,@"..\AB\");
+#endif
         var bundle = AssetBundle.LoadFromFile(BaseUrl + "AB");
         Manifest = bundle.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
         bundle.Unload(false);
@@ -174,10 +178,10 @@ class Resource
         {
             throw new System.Exception("Manifest not found ");
         }
-        var txt = File.ReadAllBytes(BaseUrl + "assetInfos.txt");
+        var txt = Utility.ReadByteFromStreamingAsset(BaseUrl + "assetInfos.txt");
         byte[] decompress = Utility.Decompress(txt);
         var destr = Encoding.UTF8.GetString(decompress);
-        AssetsInfos = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, BundleInfo>>(destr);
+        AssetsInfos = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, AssetInfo>>(destr);
         if (AssetsInfos == null)
         {
             throw new System.Exception("BundleAssetsDic not found ");

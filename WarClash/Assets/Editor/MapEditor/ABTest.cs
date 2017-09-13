@@ -17,7 +17,8 @@ public class ABTest : Editor
     [MenuItem("Tools/BuildAssetBundle(Win)")]
     public static void BuildAb()
     {
-        var assetInfosInBundle = new Dictionary<string, BundleInfo>();
+        var assetInfosInBundle = new Dictionary<string, AssetInfo>();
+        var assetBundleHash = new Dictionary<string, string>();;
         ClearAbName();
         SetAssetBundleName();
         var path = Path.Combine(Application.dataPath, @"..\AB");
@@ -25,17 +26,24 @@ public class ABTest : Editor
         var bundles = manifest.GetAllAssetBundles();
         for (var i = 0; i < bundles.Length; i++)
         {
+            var hash = manifest.GetAssetBundleHash(bundles[i]);
+            assetBundleHash.Add(bundles[i], hash.ToString());
             var allAssets = AssetDatabase.GetAssetPathsFromAssetBundle(bundles[i]);
             for (var j = 0; j < allAssets.Length; j++)
             {
                 var fileName = Path.GetFileName(allAssets[j]);
-                assetInfosInBundle[fileName] = new BundleInfo() {AssetPath = allAssets[j].ToLower(), BundleName = bundles[i]};
+                assetInfosInBundle[fileName] = new AssetInfo() {AssetPath = allAssets[j].ToLower(), BundleName = bundles[i]};
             }
         }
         var txt = Newtonsoft.Json.JsonConvert.SerializeObject(assetInfosInBundle, Formatting.Indented);
         byte[] text = Encoding.UTF8.GetBytes(txt);
         byte[] compress = Compress(text);
         File.WriteAllBytes(path + @"/assetInfos.txt", compress);
+
+        var assetBundleHashTxt = Newtonsoft.Json.JsonConvert.SerializeObject(assetBundleHash, Formatting.Indented);
+        byte[] hashText = Encoding.UTF8.GetBytes(assetBundleHashTxt);
+        byte[] compressHash = Compress(hashText);
+        File.WriteAllBytes(path + @"/assetBundleHash.txt", compressHash);
     }
     public static byte[] Compress(byte[] raw)
     {

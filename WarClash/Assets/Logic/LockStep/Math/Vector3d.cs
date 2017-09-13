@@ -45,6 +45,14 @@ namespace Lockstep
             z = z.Div(magnitude);
             return this;
         }
+
+        public Vector3d Scale(Vector3d v)
+        {
+            this.x = this.x.Mul(v.x);
+            this.y = this.x.Mul(v.y);
+            this.z = this.x.Mul(v.z);
+            return this;
+        }
         public Vector2d ToVector2d () {
             return new Vector2d(x,y);
         }

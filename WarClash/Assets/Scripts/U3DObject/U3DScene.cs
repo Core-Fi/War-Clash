@@ -12,7 +12,7 @@ using UnityEngine.AI;
 
 public class U3DScene : ObjectCollection<int, U3DSceneObject>
 {
-    public Scene Scene;
+    private Scene Scene;
     public U3DScene()
     {
     }
@@ -30,33 +30,7 @@ public class U3DScene : ObjectCollection<int, U3DSceneObject>
         AsyncOperation asyn = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("scene01");
         yield return asyn;
         OnInit();
-        var graph = AstarPath.active.graphs[0] as RecastGraph;
-        //var v = new Vector3(10, 0, 11);
-        //var fnode = graph.GetNearestForce(new Vector3d(v), NNConstraint.Default);
-        //var node = graph.GetNearestForce(v, NNConstraint.Default);
-        //Debug.LogError("----------------- " + v + "  " + fnode.node.NodeIndex + "  " + node.node.NodeIndex);
-
-        int wrong = 0;
-        for (int i = 0; i < 100; i++)
-        {
-            var v = new Vector3(UnityEngine.Random.Range(0, 100), 0, UnityEngine.Random.Range(0, 100));
-            var fnode = graph.GetNearestForce(new Vector3d(v), NNConstraint.Default);
-            var node = graph.GetNearestForce(v, NNConstraint.Default);
-            if (fnode.node != null && node.node != null)
-            {
-                //   Debug.LogError(fnode.constFixedClampedPosition+"   "+node.constClampedPosition);
-                if (fnode.node.NodeIndex != node.node.NodeIndex)
-                {
-                    Debug.LogError("----------------- " + v + "  " + fnode.node.NodeIndex + "  " + node.node.NodeIndex);
-                    wrong++;
-                }
-            }
-        }
-        Debug.LogError(wrong);
-
-       
-        //Debug.LogError(rawData.vertices.Length);
-
+        
     }
     protected virtual void OnInit()
     {

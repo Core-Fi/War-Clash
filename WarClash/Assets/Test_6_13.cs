@@ -16,8 +16,6 @@ public class Test_6_13 : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-     
-
         //string str1 = Md5(Application.dataPath + "/data1.bytes");
         //string str2 = Md5(Application.dataPath + "/data2.bytes");
         //Debug.LogError(str1.Equals(str2));
@@ -78,10 +76,10 @@ public class Test_6_13 : MonoBehaviour
         Utility.FixedRect rect = new Utility.FixedRect
         {
             center = posi,
-            width = FixedMath.Half,
-            height = FixedMath.Half
+            width = FixedMath.One,
+            height = FixedMath.One*2
         };
-        var contains = Utility.PositionIsInFan(posi, FixedMath.One, 90, fixedQuaternion, new Vector3d(B.position));
+        var contains = Utility.PositionIsInRect(rect, posi, fixedQuaternion, new Vector3d(B.position));
         if (contains)
         {
             Debug.Log("Contains Congras");

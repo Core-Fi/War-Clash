@@ -60,7 +60,7 @@ namespace Pathfinding {
 
 		public Int3 startIntPoint; /**< Start point in integer coordinates */
 
-	    private bool fixedMath;
+		private bool fixedMath;
 		/** Calculate partial path if the target node cannot be reached.
 		 * If the target node cannot be reached, the node which was closest (given by heuristic) will be chosen as target node
 		 * and a partial path will be returned.
@@ -102,41 +102,41 @@ namespace Pathfinding {
 			return p;
 		}
 
-	    public static ABPath Construct(Vector3d start, Vector3d end, OnPathDelegate callback = null)
-	    {
-	        var p = PathPool.GetPath<ABPath>();
-	        p.Setup(start, end, callback);
-	        return p;
-	    }
-        protected void Setup(Vector3d start, Vector3d end, OnPathDelegate callbackDelegate)
-        {
-            fixedMath = true;
-            callback = callbackDelegate;
-            UpdateStartEnd(start, end);
-        }
-        protected void Setup (Vector3 start, Vector3 end, OnPathDelegate callbackDelegate) {
+		public static ABPath Construct(Vector3d start, Vector3d end, OnPathDelegate callback = null)
+		{
+			var p = PathPool.GetPath<ABPath>();
+			p.Setup(start, end, callback);
+			return p;
+		}
+		protected void Setup(Vector3d start, Vector3d end, OnPathDelegate callbackDelegate)
+		{
+			fixedMath = true;
 			callback = callbackDelegate;
 			UpdateStartEnd(start, end);
 		}
-        protected void UpdateStartEnd(Vector3d start, Vector3d end)
-        {
-            startIntPoint = Vector3d.ToInt3(start);
-            hTarget = Vector3d.ToInt3(end);
-        }
+		protected void Setup (Vector3 start, Vector3 end, OnPathDelegate callbackDelegate) {
+			callback = callbackDelegate;
+			UpdateStartEnd(start, end);
+		}
+		protected void UpdateStartEnd(Vector3d start, Vector3d end)
+		{
+			startIntPoint = Vector3d.ToInt3(start);
+			hTarget = Vector3d.ToInt3(end);
+		}
 
-        /** @} */
+		/** @} */
 
-        /** Sets the start and end points.
+		/** Sets the start and end points.
 		 * Sets #originalStartPoint, #originalEndPoint, #startPoint, #endPoint, #startIntPoint and #hTarget (to \a end ) */
-        protected void UpdateStartEnd (Vector3 start, Vector3 end) {
+		protected void UpdateStartEnd (Vector3 start, Vector3 end) {
 			originalStartPoint = start;
 			originalEndPoint = end;
 
 			startPoint = start;
-            endPoint = end;
+			endPoint = end;
 
 			startIntPoint = (Int3)start;
-            hTarget = (Int3)end;
+			hTarget = (Int3)end;
 		}
 
 		public override uint GetConnectionSpecialCost (GraphNode a, GraphNode b, uint currentCost) {
@@ -195,7 +195,7 @@ namespace Pathfinding {
 
 			//Initialize the NNConstraint
 			nnConstraint.tags = enabledTags;
-		    NNInfo startNNInfo = AstarPath.active.GetNearest(startPoint, nnConstraint, startHint);
+			NNInfo startNNInfo = AstarPath.active.GetNearest(startPoint, nnConstraint, startHint);
 			//Tell the NNConstraint which node was found as the start node if it is a PathNNConstraint and not a normal NNConstraint
 			var pathNNConstraint = nnConstraint as PathNNConstraint;
 			if (pathNNConstraint != null) {

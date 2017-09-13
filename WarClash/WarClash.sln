@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2015
+# Visual Studio 2017
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarClash.Plugins", "WarClash.Plugins.csproj", "{6F76A764-7AAE-CA91-81D7-D8BF6D4425B7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarClash", "WarClash.csproj", "{307C3509-C8E2-A9A3-20A2-24634A2E8EFA}"

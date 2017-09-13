@@ -1,8 +1,8 @@
 ﻿using System;
 using LiteNetLib.Utils;
-using Lockstep;
 using Logic;
 using Logic.LogicObject;
+using Logic.Skill;
 using UnityEngine;
 
 public class Main : MonoBehaviour {
@@ -15,6 +15,7 @@ public class Main : MonoBehaviour {
     {
         SP = this;
         managerDriver = new ManagerDriver();
+        SkillManager.LoadSkillIndexFiles();
     }
 	// Use this for initialization
 	void Start ()

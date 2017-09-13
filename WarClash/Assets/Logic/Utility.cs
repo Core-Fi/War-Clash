@@ -9,7 +9,7 @@ using UnityEngine;
 
 public static class Utility
 {
-    public static StringBuilder stringbuilder = new StringBuilder();
+    public static StringBuilder Stringbuilder = new StringBuilder();
 
     public static void Clear(this StringBuilder builder)
     {
@@ -44,22 +44,37 @@ public static class Utility
 
     public static byte[] ReadByteFromStreamingAsset(string path)
     {
-        stringbuilder.Clear();
-        stringbuilder.Append(Application.streamingAssetsPath);
-        stringbuilder.Append("/");
-        stringbuilder.Append(path);
-        byte[] bytes = File.ReadAllBytes(stringbuilder.ToString());
+        var filePath = Path.Combine(Application.streamingAssetsPath, path);
+#if UNITY_ANDROID
+        UnityEngine.Networking.UnityWebRequest www = UnityEngine.Networking.UnityWebRequest.Get(filePath);
+        www.Send();
+        while (!www.isDone)
+        {
+           return www.downloadHandler.data;
+        }
+#endif
+        byte[] bytes = File.ReadAllBytes(filePath);
         return bytes;
     }
 
     public static string ReadStringFromStreamingAsset(string path)
     {
-        stringbuilder.Clear();
-        stringbuilder.Append(Application.streamingAssetsPath);
-        stringbuilder.Append("/");
-        stringbuilder.Append(path);
-        string str = File.ReadAllText(stringbuilder.ToString());
-        return str;
+        Utility.Stringbuilder.Clear();
+        Utility.Stringbuilder.Append(Application.streamingAssetsPath);
+        Utility.Stringbuilder.Append("/");
+        Utility.Stringbuilder.Append(path);
+#if UNITY_ANDROID
+         UnityEngine.Networking.UnityWebRequest www = UnityEngine.Networking.UnityWebRequest.Get(Utility.Stringbuilder.ToString());
+        www.Send();
+        while (!www.isDone)
+        {
+            string text = www.downloadHandler.text;
+            www.Dispose();
+            return text;
+        }
+#endif
+        string text = File.ReadAllText(Utility.Stringbuilder.ToString());
+        return text;
     }
 
     public static byte[] Decompress(byte[] gzip)
@@ -89,6 +104,18 @@ public static class Utility
 
     public static bool PositionIsInRect(FixedRect rect, Vector3d basePosition, FixedQuaternion baseQuaternion, Vector3d posi)
     {
+#if UNITY_EDITOR
+        Vector3d leftDown = baseQuaternion * (rect.center+new Vector3d(-rect.width/2, 0, -rect.height / 2)) + basePosition;
+        Vector3d rightDown = baseQuaternion * (rect.center + new Vector3d(rect.width / 2, 0, -rect.height / 2)) + basePosition;
+        Vector3d leftUp = baseQuaternion * (rect.center + new Vector3d(-rect.width / 2, 0, rect.height / 2)) + basePosition;
+        Vector3d rightUp = baseQuaternion * (rect.center + new Vector3d(rect.width / 2, 0, rect.height / 2)) + basePosition;
+
+        Debug.DrawLine(leftDown.ToVector3(), leftUp.ToVector3(), Color.green, 1);
+        Debug.DrawLine(leftUp.ToVector3(), rightUp.ToVector3(), Color.green, 1);
+        Debug.DrawLine(rightUp.ToVector3(), rightDown.ToVector3(), Color.green, 1);
+        Debug.DrawLine(rightDown.ToVector3(), leftDown.ToVector3(), Color.green, 1);
+
+#endif
         var relativeP = posi - basePosition;
         var rotateRelativeP = FixedQuaternion.Inverse(baseQuaternion) * relativeP;
         return rect.ContainsPoint(rotateRelativeP);
@@ -96,19 +123,32 @@ public static class Utility
 
     public static bool PositionIsInFan(Vector3d basePosi, long radius, int angle, FixedQuaternion baseQuaternion, Vector3d posi)
     {
+#if UNITY_EDITOR
+        var p1_sin = FixedMath.Trig.Sin(FixedMath.One.Div(180).Mul(FixedMath.Pi).Mul(angle/2));
+        var p1_cos = FixedMath.Trig.Cos(FixedMath.One.Div(180).Mul(FixedMath.Pi).Mul(angle / 2));
+        var p1 = new Vector3d(p1_sin.Mul(radius), 0, p1_cos.Mul(radius));
+        var worldP1 = baseQuaternion*p1 + basePosi;
+
+        var p2_sin = FixedMath.Trig.Sin(FixedMath.One.Div(180).Mul(FixedMath.Pi).Mul(-angle / 2));
+        var p2_cos = FixedMath.Trig.Cos(FixedMath.One.Div(180).Mul(FixedMath.Pi).Mul(-angle / 2));
+        var p2 = new Vector3d(p2_sin.Mul(radius), 0, p2_cos.Mul(radius));
+        var worldP2 = baseQuaternion * p2 + basePosi;
+        Debug.DrawLine(basePosi.ToVector3(), worldP1.ToVector3(), Color.green, 1);
+        Debug.DrawLine(basePosi.ToVector3(), worldP2.ToVector3(), Color.green, 1);
+
+#endif
         var radiusSqr = radius.Mul(radius);
         var relativeP = posi-basePosi;
         if (radiusSqr > relativeP.sqrMagnitude)
         {
             var rotateRelativeP = FixedQuaternion.Inverse(baseQuaternion) * posi;
-            var cosSqr = Vector3d.Dot(rotateRelativeP.Normalize(), new Vector3d(0, 0, FixedMath.One));
+            var cos = Vector3d.Dot(rotateRelativeP.Normalize(), new Vector3d(0, 0, FixedMath.One));
             var realCos = FixedMath.Trig.Cos(FixedMath.One.Div(180).Mul(FixedMath.Pi).Mul(angle/2));
-            var realCosSqr = realCos.Mul(realCos);
             if (relativeP.z > 0)
             {
                 if (angle > 180)
                     return true;
-                return realCosSqr < cosSqr;
+                return realCos < cos;
             }
             else
             {
@@ -116,7 +156,7 @@ public static class Utility
                     return false;
                 else
                 {
-                    return realCosSqr > cosSqr;
+                    return realCos > cos;
                 }
             }
                
@@ -135,7 +175,7 @@ public static class Utility
         public bool ContainsPoint(Vector3d p)
         {
             var relativeP = p - center;
-            if (relativeP.x < width && relativeP.x > -width && relativeP.z > -height && relativeP.z < height)
+            if (relativeP.x < width/2 && relativeP.x > -width/2 && relativeP.z > -height/2 && relativeP.z < height/2)
             {
                 return true;
             }

@@ -26,7 +26,6 @@ namespace Logic.LogicObject
         internal void Init()
         {
             EventGroup = new EventGroup();
-
         }
         public T CreateSceneObject<T>(int id) where T : SceneObject
         {
