@@ -27,9 +27,25 @@
             },
             {
               "$type": "Logic.Skill.Actions.PlayAnimationAction, Assembly-CSharp",
-              "animaitonName": "Footman_Attack",
+              "animaitonName": "attack",
               "stopCondition": 0,
               "playTarget": 0,
+              "ExecuteFrameIndex": 0
+            },
+            {
+              "$type": "Logic.Skill.Actions.CreateProjectileAction, Assembly-CSharp",
+              "distance": 1000,
+              "time": 2000,
+              "hitCount": 0,
+              "hitEvent": 1,
+              "dieEvent": 0,
+              "cac": {
+                "$type": "Logic.CustomAnimationCurve, Assembly-CSharp",
+                "keyframes": {
+                  "$type": "Logic.CustomKeyframe[], Assembly-CSharp",
+                  "$values": []
+                }
+              },
               "ExecuteFrameIndex": 0
             }
           ]

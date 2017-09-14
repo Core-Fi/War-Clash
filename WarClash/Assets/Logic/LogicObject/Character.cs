@@ -64,6 +64,17 @@ namespace Logic.LogicObject
                 return false;
       //      StateMachine.Start(new MoveState() {dir = new Lockstep.Vector3d(Vector3.forward), speed = Lockstep.FixedMath.One * 2 });
         }
+
+        public bool ReleaseSkill(int id, SceneObject target)
+        {
+            if (!SkillManager.IsRunningSkill && !IsDeath())
+            {
+                SkillManager.ReleaseSkill(id, target);
+                return true;
+            }
+            else
+                return false;
+        }
         public bool ReleaseSkill(string path, SceneObject target)
         {
             if (!SkillManager.IsRunningSkill && !IsDeath())
@@ -85,7 +96,7 @@ namespace Logic.LogicObject
         }
         public virtual void OnDeath()
         {
-            EventManager.AddEvent("1.event", new RuntimeData() { sender = this });
+            EventManager.AddEvent(1, new RuntimeData() { sender = this });
         }
         public bool IsRunningSkill
         {

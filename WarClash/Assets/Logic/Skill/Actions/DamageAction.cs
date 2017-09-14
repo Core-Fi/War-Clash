@@ -45,7 +45,8 @@ namespace Logic.Skill.Actions
                         return false;
                     });
                 }
-                character.Hp = character.Hp.Sub(Damage.value*FixedMath.One);
+                if(character!=null)
+                    character.Hp = character.Hp.Sub(Damage.value*FixedMath.One);
             }
         }
 

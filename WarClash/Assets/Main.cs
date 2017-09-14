@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class Main : MonoBehaviour {
 
+
     public Transform Uiparent;
     public static Main SP;
     private U3DSceneManager u3dSceneManager;
@@ -41,13 +42,21 @@ public class Main : MonoBehaviour {
     {
         GUILayout.BeginVertical();
         GUILayout.Label(LogicCore.SP.LockFrameMgr.LocalFrameCount+"  "+ LogicCore.SP.LockFrameMgr.ServerFrameCount + "  "+Time.time.ToString("00.00")+" "+(LogicCore.SP.RegularFrameCount/ (float)LockFrameMgr.FixedFrameRate).ToString("00.00"));
+        if (GUILayout.Button("NewMainPlayer"))
+        {
+            LogicCore.SP.LockFrameMgr.SendCommand(new CreateMainPlayerCommand() { Sender = 100 });
+        }
         if (GUILayout.Button( "NewP"))
         {
-            LogicCore.SP.LockFrameMgr.SendCommand(new CreatePlayerCommand{Sender = 100});
+            LogicCore.SP.LockFrameMgr.SendCommand(new CreatePlayerCommand{Sender = 101});
         }
         if (GUILayout.Button("NewNpc"))
         {
             LogicCore.SP.LockFrameMgr.SendCommand(new CreateNpcCommand() { Sender = 103 });
+        }
+        if (GUILayout.Button("CreateBarack"))
+        {
+            LogicCore.SP.LockFrameMgr.SendCommand(new CreateBarackCommand() { Sender = 100 });
         }
         if (GUILayout.Button("SaveLog"))
         {
@@ -55,6 +64,7 @@ public class Main : MonoBehaviour {
             w.Put((short)1);
             EventDispatcher.FireEvent(UIEventList.SendNetMsg.ToInt(),this, EventGroup.NewArg< EventSingleArgs <NetDataWriter> , NetDataWriter>(w));
         }
+
         GUILayout.EndVertical();
         //if (GUI.Button(new Rect(0, 0, 300, 50), "GC"))
         //{

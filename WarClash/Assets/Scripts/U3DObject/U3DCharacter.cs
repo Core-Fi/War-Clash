@@ -42,19 +42,17 @@ public class U3DCharacter : U3DSceneObject{
 
     public override void OnLoadedRes(string name, Object obj)
     {
-        Go = Object.Instantiate(obj) as GameObject;
-        Go.name = So.ToString();
-        Go.transform.position = Character.Position.ToVector3();
+        base.OnLoadedRes(name, obj);
         SetSpeed();
         animator = Go.GetComponent<Animator>();
-        base.OnLoadedRes(name, obj);
+        
     }
 
     public void SetSpeed()
     {
         long speed = Character.AttributeManager[AttributeType.Speed];
         if(animator!=null)
-            animator.SetInteger("Speed", speed.ToInt());
+            animator.SetFloat("Speed", speed.ToFloat());
     }
     private void OnSkillEnd(object sender, EventMsg e)
     {

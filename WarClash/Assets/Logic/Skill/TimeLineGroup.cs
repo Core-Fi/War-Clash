@@ -112,6 +112,7 @@ namespace Logic.Skill
         private void Finish()
         {
             OnFinish();
+            isRunning = false;
         }
         public virtual void OnFinish()
         {

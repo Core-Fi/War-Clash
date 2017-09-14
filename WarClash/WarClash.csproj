@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>5.6.2f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -340,6 +342,7 @@
     <Compile Include="Assets\FingerGestures\Utils\MoveToFinger.cs" />
     <Compile Include="Assets\Logic\Attribute.cs" />
     <Compile Include="Assets\Logic\Command\Command.cs" />
+    <Compile Include="Assets\Logic\Config\BuildingConf.cs" />
     <Compile Include="Assets\Logic\EventArgs.cs" />
     <Compile Include="Assets\Logic\EventGroup.cs" />
     <Compile Include="Assets\Logic\FastCollections-master\BiDictionary.cs" />
@@ -381,6 +384,9 @@
     <Compile Include="Assets\Logic\LogicObject\Projectile.cs" />
     <Compile Include="Assets\Logic\LogicObject\Scene.cs" />
     <Compile Include="Assets\Logic\LogicObject\SceneObject.cs" />
+    <Compile Include="Assets\Logic\LogicObject\Tower.cs" />
+    <Compile Include="Assets\Logic\Map\Map.cs" />
+    <Compile Include="Assets\Logic\Map\MapItem.cs" />
     <Compile Include="Assets\Logic\ObjectCollection.cs" />
     <Compile Include="Assets\Logic\PoolManager.cs" />
     <Compile Include="Assets\Logic\SceneManager.cs" />

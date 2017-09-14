@@ -13,13 +13,12 @@ public class U3DNpc : U3DCharacter{
     {
         base.OnInit();
         Npc = So as Npc;
-        Resource.LoadAsset("Footman_prefab.prefab", OnLoadedRes);
+        Resource.LoadAsset("WK_archer.prefab", OnLoadedRes);
     }
 
     public override void OnLoadedRes(string name, Object obj)
     {
         base.OnLoadedRes(name, obj);
-      
         _navMeshAgent = Go.GetComponent<NavMeshAgent>();
     }
 

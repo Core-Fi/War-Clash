@@ -33,6 +33,15 @@ namespace Logic.LogicObject
             AddSceneObject(id, t);
             return t;
         }
+
+        public T CreateSceneObject<T>(CreateInfo createInfo) where T : SceneObject
+        {
+            T t = Activator.CreateInstance<T>();
+            t.Position = createInfo.Position;
+            t.Forward = createInfo.Forward;
+            AddSceneObject(createInfo.Id, t);
+            return t;
+        }
         public T CreateSceneObject<T>() where T : SceneObject
         {
             T t = Activator.CreateInstance<T>();

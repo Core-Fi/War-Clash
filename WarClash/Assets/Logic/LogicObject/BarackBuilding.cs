@@ -29,7 +29,7 @@ namespace Logic.LogicObject
             {
                 _curTime = 0;
                 var npc1 = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Npc>();
-                npc1.Team = this.Team;
+                npc1.Team = Team.Team2;
                 npc1.Position = Position;
                 count ++;
             }

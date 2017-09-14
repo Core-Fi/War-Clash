@@ -124,10 +124,12 @@ internal class GameServer
 
     internal void OnPeerConnect(NetPeer peer)
     {
+        clients.Clear();
         var player = new Client(peer);
         player.id = 100 + ID;
         clients.Add(player);
-        if (this.NetManager.PeersCount == 2 && !started)
+
+        if (this.NetManager.PeersCount == 1 )//&& !started)
         {
             var timer = new Timer(e => { Start(); }, null, 3000, System.Threading.Timeout.Infinite);
         }

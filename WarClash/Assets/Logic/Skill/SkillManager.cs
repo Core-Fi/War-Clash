@@ -80,10 +80,25 @@ namespace Logic.Skill
             RuntimeData srd = new RuntimeData(so, null, null);
             ReleaseSkill(path, srd);
         }
+        internal void ReleaseSkill(int id, SceneObject target)
+        {
+            RuntimeData srd = new RuntimeData(so, target, null);
+            ReleaseSkill(id, srd);
+        }
         internal void ReleaseSkill(string path, SceneObject target)
         {
             RuntimeData srd = new RuntimeData(so, target, null);
             ReleaseSkill(path, srd);
+        }
+        private void ReleaseSkill(int id, RuntimeData srd)
+        {
+            if (skill_index.Count == 0)
+                LoadSkillIndexFiles();
+            string path = skill_index[id];
+            var skill = GetSkill(path);
+            RunningSkill = Pool.SP.Get(typeof(RuntimeSkill)) as RuntimeSkill;
+            RunningSkill.Init(skill, srd, OnFinish);
+            this.so.EventGroup.FireEvent((int)Character.CharacterEvent.Startskill, so, EventGroup.NewArg<EventSingleArgs<string>, string>(path));
         }
         private void ReleaseSkill(string path, RuntimeData srd)
         {

@@ -21,8 +21,6 @@ class U3DBarackBuilding : U3DBuilding
 
     public override void OnLoadedRes(string name, Object obj)
     {
-        Go = Object.Instantiate(obj) as GameObject;
-        Go.transform.position = Building.Position.ToVector3();
         base.OnLoadedRes(name, obj);
     }
 }

@@ -13,8 +13,8 @@
           "$type": "System.Collections.Generic.List`1[[Logic.Skill.Actions.BaseAction, Assembly-CSharp]], mscorlib",
           "$values": [
             {
-              "$type": "Logic.Skill.Actions.PlayAnimationAction, Assembly-CSharp",
-              "animaitonName": "Footman_Death",
+              "$type": "Logic.Skill.Actions.PlayFXAction, Assembly-CSharp",
+              "FXName": "hit.prefab",
               "stopCondition": 0,
               "playTarget": 0,
               "ExecuteFrameIndex": 0

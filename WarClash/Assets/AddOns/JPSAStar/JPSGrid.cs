@@ -1073,6 +1073,11 @@ public class Grid
 		}
 	}
 
+    public bool IsWalkable(Point p)
+    {
+        var node = this.gridNodes[pointToIndex(p)];
+        return  !node.isObstacle;
+    }
 	public List< Point > getPath( Point start, Point goal, List<Point> path)
 	{
 		PriorityQueue< PathfindingNode, float > open_set = new PriorityQueue< PathfindingNode, float >();

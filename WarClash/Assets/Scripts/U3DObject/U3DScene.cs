@@ -45,10 +45,10 @@ public class U3DScene : ObjectCollection<int, U3DSceneObject>
 
     private void OnRemoveSceneObject(object sender, EventMsg e)
     {
-        EventSingleArgs<SceneObject> msg = e as EventSingleArgs<SceneObject>;
-        U3DSceneObject uso = GetObject(msg.value.Id);
+        EventSingleArgs<int> msg = e as EventSingleArgs<int>;
+        U3DSceneObject uso = GetObject(msg.value);
         uso.Destroy();
-        RemoveObject(msg.value.Id);
+        RemoveObject(msg.value);
     }
 
     private void OnAddSceneObject(object sender, EventMsg e)

@@ -37,7 +37,7 @@ namespace Logic
         public void Update(float deltaTime)
         {
             SceneManager.Update();
-            EventManager.Update(Time.deltaTime);
+           // EventManager.Update(Time.deltaTime);
         }
     
         public void FixedUpdate()

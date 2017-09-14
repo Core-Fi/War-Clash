@@ -9,39 +9,42 @@ namespace Logic.Skill
 {
     public class EventManager
     {
-        private static Dictionary<string, Logic.Skill.Event> events = new Dictionary<string, Logic.Skill.Event>();
+        private static Dictionary<int, Logic.Skill.Event> events = new Dictionary<int, Logic.Skill.Event>();
         private static List<RuntimeEvent> runtimeEvents = new List<RuntimeEvent>();
         private static Dictionary<int, string> event_index = new Dictionary<int, string>();
 
-        public static void LoadSkillIndexFiles()
+        public static void LoadEventIndexFiles()
         {
             event_index = Logic.Skill.SkillUtility.LoadIndexFile("/Events");
         }
-        //private static Dictionary<string, RuntimeSkill> runtimeskills = new Dictionary<string, RuntimeSkill>();
-        private static Logic.Skill.Event GetEvent(string path)
-        {
-            Logic.Skill.Event _event = null;
-            if (events.ContainsKey(path))
-            {
-                _event = events[path];
-            }
-            else
-            {
-                _event = SkillUtility.GetTimelineGroup<Event>("Events/" + path);
-                events[path] = _event;
-            }
-            return _event;
-        }
-        public static void AddEvent(int id)
-        {
 
-        }
-        public static void AddEvent(string path, RuntimeData runnignData)
+        private static string GetEventPath(int id)
         {
-            if(string.IsNullOrEmpty(path)) return;
-            var skill = GetEvent(path);
+            if (event_index.Count == 0)
+            {
+                LoadEventIndexFiles();
+            }
+            var path = event_index[id];
+            return path;
+        }
+        //private static Dictionary<string, RuntimeSkill> runtimeskills = new Dictionary<string, RuntimeSkill>();
+        private static Logic.Skill.Event GetEvent(int id)
+        {
+            Event e;
+            if (events.TryGetValue(id, out e))
+            {
+                return e;
+            }
+            var path = GetEventPath(id);
+            e = SkillUtility.GetTimelineGroup<Event>(path);
+            events[id] = e;
+            return e;
+        }
+        public static void AddEvent(int id, RuntimeData runnignData)
+        {
+            var skill = GetEvent(id);
             RuntimeEvent re = new RuntimeEvent();
-            re.Init(skill, runnignData, null);
+            re.Init(skill, runnignData, OnFinish);
             runtimeEvents.Add(re);
         }
         public static void Update(float deltaTime)
@@ -49,10 +52,23 @@ namespace Logic.Skill
             for (int i = 0; i < runtimeEvents.Count; i++)
             {
                 runtimeEvents[i].Breath(deltaTime);
+                if (!runtimeEvents[i].isRunning)
+                {
+                    runtimeEvents.RemoveAt(i);
+                    i--;
+                }
             }
         }
 
         public static void FixedUpdate()
+        {
+            for (int i = 0; i < runtimeEvents.Count; i++)
+            {
+                runtimeEvents[i].FixedBreath();
+            }
+        }
+
+        private static void OnFinish()
         {
             
         }

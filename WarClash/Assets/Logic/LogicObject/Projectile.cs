@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Lockstep;
 using Logic.Skill;
 using Logic.Skill.Actions;
 using UnityEngine;
@@ -12,63 +13,75 @@ namespace Logic.LogicObject
     {
         public enum ProjectileEvent 
         {
-            ONHIT = 200
+            OnHit = 200
         }
-        private int hitCount;
-        private List<Character> targets = new List<Character>();
-        public SceneObject previousSo { get; private set; }
-        public SceneObject sender { get; private set; }
-        public SceneObject receiver { get; private set; }
-        public object data { get; private set; }
-        public CreateProjectileAction projectileAction { get; private set; }
-
+        //private int hitCount;
+        //private List<Character> targets = new List<Character>();
+      //  public SceneObject PreviousSo { get; private set; }
+        public SceneObject Sender { get; private set; }
+        public SceneObject Receiver { get; private set; }
+        public object Data { get; private set; }
+        public CreateProjectileAction ProjectileAction { get; private set; }
+        private Vector3d _moveDir;
+        private long _speed;
+        private Vector3d _initPosi;
+        private long _distance;
         internal virtual void SetValue(CreateProjectileAction action, SceneObject sender, SceneObject receiver, object data)
         {
-            projectileAction = action;
-            this.sender = sender;
-            this.receiver = receiver;
-            this.data = data;
+            ProjectileAction = action;
+            this.Sender = sender;
+            this.Receiver = receiver;
+            this.Data = data;
+            Position = sender.Position;
+            _speed = (FixedMath.One * action.distance / 100).Div(action.time*FixedMath.One/1000);
+            if (this.Receiver == null)
+            {
+                _distance = (FixedMath.One * action.distance / 100);
+                _initPosi = sender.Position;
+                _moveDir = sender.Forward;
+                this.Forward = _moveDir;
+            }
         }
         
-        public bool SetTarget()
-        {
-            List<Character> allPlayers = new List<Character>(LogicCore.SP.SceneManager.currentScene.Count<Character>());
+        //public bool SetTarget()
+        //{
+        //    List<Character> allPlayers = new List<Character>(LogicCore.SP.SceneManager.currentScene.Count<Character>());
 
-            LogicCore.SP.SceneManager.currentScene.ForEachDo<Character>((character) =>
-            {
-                if (character != sender && !targets.Contains(character))
-                {
-                   allPlayers.Add(character);
-                }
-            });
-            if (allPlayers.Count > 0)
-            {
-                //allPlayers.Sort((a, b) =>
-                //{
-                //    Lockstep.Vector3d
-                //    return (int) (Vector3.Distance(a.Position, this.Position)*100) -
-                //           (int) (Vector3.Distance(b.Position, this.Position)*100);
-                //});
-                previousSo = receiver;
-                receiver = allPlayers[0];
-                targets.Add(allPlayers[0]);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        //    LogicCore.SP.SceneManager.currentScene.ForEachDo<Character>((character) =>
+        //    {
+        //        if (character != sender && !targets.Contains(character))
+        //        {
+        //           allPlayers.Add(character);
+        //        }
+        //    });
+        //    if (allPlayers.Count > 0)
+        //    {
+        //        //allPlayers.Sort((a, b) =>
+        //        //{
+        //        //    Lockstep.Vector3d
+        //        //    return (int) (Vector3.Distance(a.Position, this.Position)*100) -
+        //        //           (int) (Vector3.Distance(b.Position, this.Position)*100);
+        //        //});
+        //        previousSo = receiver;
+        //        receiver = allPlayers[0];
+        //        targets.Add(allPlayers[0]);
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
         internal override void OnInit()
         {
             base.OnInit();
         }
-        float XZDistance(Vector3 a, Vector3 b)
-        {
-            a.y = 0;
-            b.y = 0;
-            return Vector3.Distance(a, b);
-        }
+        //float XZDistance(Vector3 a, Vector3 b)
+        //{
+        //    a.y = 0;
+        //    b.y = 0;
+        //    return Vector3.Distance(a, b);
+        //}
         internal override void OnUpdate(float deltaTime)
         {
             base.OnUpdate(deltaTime);
@@ -92,16 +105,33 @@ namespace Logic.LogicObject
             //}
         }
 
+        internal override void OnFixedUpdate(long deltaTime)
+        {
+            base.OnFixedUpdate(deltaTime);
+            if (Receiver != null)
+            {
+                this.Forward = (Receiver.Position - Position).Normalize();
+                Position += Forward.Mul(_speed).Mul(FixedMath.One.Div(LockFrameMgr.FixedFrameRate));
+                if (Vector3d.SqrDistance(Position, Receiver.Position) < FixedMath.One)
+                {
+                    OnHit();
+                }
+            }
+            else
+            {
+                Position += Forward .Mul( _speed) .Mul(FixedMath.One.Div(LockFrameMgr.FixedFrameRate));
+                if (Vector3d.SqrDistance(Position, _initPosi) > _distance.Mul(_distance))
+                {
+                    OnHit();
+                }
+            }
+        }
+
         public void OnHit()
         {
-            hitCount++;
-            EventManager.AddEvent(projectileAction.hitEventEffectPath, new RuntimeData(sender, receiver, data));
-            EventGroup.FireEvent((int)ProjectileEvent.ONHIT, this, null);
-            bool hasTarget = SetTarget();
-            if (hitCount > projectileAction.hitCount || !hasTarget)
-            {
-                LogicCore.SP.SceneManager.currentScene.RemoveSceneObject(this.Id);
-            }
+            EventManager.AddEvent(ProjectileAction.hitEvent, new RuntimeData(Sender, Receiver, Data));
+            EventGroup.FireEvent((int)ProjectileEvent.OnHit, this, null);
+            LogicCore.SP.SceneManager.currentScene.RemoveSceneObject(this.Id);
         }
 
     }

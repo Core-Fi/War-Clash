@@ -17,12 +17,12 @@ public class ReflectionCaculator
 
     public static void CaculateReflectionPoints(FixedABPath path, List<Vector3d> points)
     {
-        for (int i = 0; i < path.path.Count; i++)
-        {
-            var g = SpawnSphere((Vector3)path.path[i].position);
-            g.name = i.ToString();
+        //for (int i = 0; i < path.path.Count; i++)
+        //{
+        //    var g = SpawnSphere((Vector3)path.path[i].position);
+        //    g.name = i.ToString();
 
-        }
+        //}
         if (path.path.Count >= 2)
             SearchReflectionPointFromIndex(path.StartPoint, 0, path, points);
     }
@@ -186,9 +186,9 @@ public class ReflectionCaculator
 
     private static  void SpawnGO(Vector3d posi, int i)
     {
-        var g = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        g.transform.position = posi.ToVector3();
-        g.name = i.ToString();
+        //var g = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        //g.transform.position = posi.ToVector3();
+        //g.name = i.ToString();
     }
 
     private static GameObject SpawnSphere(Vector3 posi)

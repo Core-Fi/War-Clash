@@ -12,11 +12,11 @@ namespace Logic.Skill.Actions
     public class ReleaseEvent : BaseAction
     {
         [Display("事件效果")]
-        public string path { get; private set; }
+        public int EventId { get; private set; }
 
         public override void Execute(SceneObject sender, SceneObject reciever, object data)
         {
-            EventManager.AddEvent(path, new RuntimeData(sender, reciever, data));
+            EventManager.AddEvent(EventId, new RuntimeData(sender, reciever, data));
             base.Execute(sender, reciever, data);
         }
     }

@@ -17,6 +17,12 @@ namespace Logic.LogicObject
         Neutral
     }
 
+    public struct CreateInfo
+    {
+        public int Id;
+        public Vector3d Position;
+        public Vector3d Forward;
+    }
     public abstract class SceneObject: IUpdate, IFixedUpdate
     {
         public enum SceneObjectEvent
@@ -35,7 +41,8 @@ namespace Logic.LogicObject
                 if (_position != value)
                 {
                     _position = value;
-                    EventGroup.FireEvent((int)SceneObjectEvent.Positionchange, this, null);
+                    if(EventGroup!=null)
+                        EventGroup.FireEvent((int)SceneObjectEvent.Positionchange, this, null);
                 }
             }
         }

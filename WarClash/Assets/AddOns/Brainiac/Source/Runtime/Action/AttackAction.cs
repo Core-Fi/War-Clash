@@ -10,7 +10,7 @@ public class AttackAction : Brainiac.Action
 {
     private Character _self;
     [BTProperty("SkillPath")]
-    public MemoryVar skillPath;
+    public MemoryVar skillid;
 
     private Character target = null;
     private bool isRunningSkill = false;
@@ -34,8 +34,7 @@ public class AttackAction : Brainiac.Action
         {
             if (isRunningSkill == false)
             {
-                string path = skillPath.AsString;
-                bool rst = _self.ReleaseSkill(path, target);
+                bool rst = _self.ReleaseSkill(skillid.AsInt.Value, target);
                 if (!rst)
                     return BehaviourNodeStatus.Failure;
                 else

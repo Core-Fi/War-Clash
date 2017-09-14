@@ -9,7 +9,7 @@ class U3DPlayer : U3DCharacter
     public override void OnInit()
     {
         base.OnInit();
-        Resource.LoadAsset("Footman_prefab.prefab", OnLoadedRes);
+        Resource.LoadAsset("WK_heavy_infantry.prefab", OnLoadedRes);
        // logicGo = GameObject.CreatePrimitive(PrimitiveType.Cube);
     }
 
@@ -23,6 +23,7 @@ class U3DPlayer : U3DCharacter
         if (Go != null)
         {
             var logicPosi = Character.Position.ToVector3();
+            var logicForward = Character.Forward.ToVector3();
            // logicGo.transform.position = logicPosi;
             float speed = this.Character.GetAttributeValue(AttributeType.MaxSpeed).ToFloat();
             float distance = Vector3.Distance(logicPosi, Transform.position);
@@ -46,14 +47,15 @@ class U3DPlayer : U3DCharacter
             //        Transform.position += additive;
             //    }
             //}
-            if (Vector3.Distance(logicPosi, Transform.position) > 0.1f)
-            {
-                var tempForward = (logicPosi - Transform.position).normalized;
-                if (Transform.forward != tempForward)
-                {
-                       Transform.forward = tempForward;
-                }
-            }
+            Transform.forward = Vector3.Lerp(Transform.forward, logicForward, Time.deltaTime * 6);
+            //if (Vector3.Distance(logicPosi, Transform.position) > 0.1f)
+            //{
+            //    var tempForward = (logicPosi - Transform.position).normalized;
+            //    if (Transform.forward != tempForward)
+            //    {
+            //           Transform.forward = tempForward;
+            //    }
+            //}
             
           
         }

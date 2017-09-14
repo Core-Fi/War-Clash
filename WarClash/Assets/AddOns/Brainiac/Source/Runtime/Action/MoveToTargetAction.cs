@@ -38,7 +38,6 @@ public class MoveToTargetAction : Brainiac.Action
             SceneObject.AttributeManager.SetBase(AttributeType.Speed, speed);
             target.EventGroup.ListenEvent((int)SceneObject.SceneObjectEvent.Positionchange, OnTargetPosiChanged);
         }
-        stage = Stage.CaculatingPath;
     }
     protected override void OnExit(AIAgent agent)
     {
@@ -79,7 +78,6 @@ public class MoveToTargetAction : Brainiac.Action
 	{
         if(target != null && _path!=null)
         {
-            if (stage == Stage.CaculatingPath) return BehaviourNodeStatus.Running;
             long distance = Vector3d.Distance(target.Position, agent.SceneObject.Position);
             if(distance<FixedMath.One)
             {

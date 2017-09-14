@@ -89,6 +89,11 @@ public class JPSAStar : MonoBehaviour
         }
     }
 
+    public bool IsWalkable(Vector3d v)
+    {
+        Point p = V3DToPoint(v);
+        return _jpsGrid.IsWalkable(p);
+    }
     public Vector3d PointToV3D(Point p)
     {
       return  new Vector3d(FixedMath.One * p.column * Size/100, 0, FixedMath.One * p.row * Size/100) 

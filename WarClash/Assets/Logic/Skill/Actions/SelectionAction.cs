@@ -19,14 +19,14 @@ namespace Logic.Skill.Actions
     public class RectSelectionAction : BaseSelectionAction
     {
         [Display("事件效果路径")]
-        public string path { get; private set; }
+        public int EventId { get; private set; }
 
         public override void Execute(SceneObject sender, SceneObject reciever, object data)
         {
             LogicCore.SP.SceneManager.currentScene.ForEachDo<Character>((so) =>
             {
                 if(so != sender)
-                    EventManager.AddEvent(path, new RuntimeData(sender, so, data));
+                    EventManager.AddEvent(EventId, new RuntimeData(sender, so, data));
             });
             base.Execute(sender, reciever, data);
         }

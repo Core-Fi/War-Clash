@@ -171,6 +171,32 @@ namespace Logic
             writer.Put(Forward.z);
         }
     }
+
+    public class CreateBarackCommand : PlayerOperateCommand
+    {
+        public override void OnExecute()
+        {
+            var senderSo = LogicCore.SP.SceneManager.currentScene.GetObject<SceneObject>(Sender);
+            var barack = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<BarackBuilding>();
+            barack.Team = senderSo.Team;
+            barack.Position = new Vector3d(Vector3.left * 6);
+        }
+        public override void WriteToLog(StringBuilder writer)
+        {
+            base.WriteToLog(writer);
+        }
+        public override void Deserialize(NetDataReader reader)
+        {
+            base.Deserialize(reader);
+        }
+
+        public override void Serialize(NetDataWriter writer)
+        {
+            var msgid = (int)LockFrameMgr.LockFrameEvent.CreateBarack;
+            writer.Put((short)msgid);
+            base.Serialize(writer);
+        }
+    }
     public class CreateNpcCommand : PlayerOperateCommand
     {
         public override void OnExecute()
@@ -200,7 +226,7 @@ namespace Logic
         public override void OnExecute()
         {
             var mainPlayer = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<MainPlayer>(Sender);
-            Debug.Log("Create Main Player "+Sender);
+            mainPlayer.Team = Team.Team1;
             mainPlayer.Position = new Vector3d(-Vector3.left * 6);
         }
         public override void WriteToLog(StringBuilder writer)

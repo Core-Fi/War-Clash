@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Logic.Config;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public class MapEditor : EditorWindow {
     {
         MapEditor window = (MapEditor)EditorWindow.GetWindow(typeof(MapEditor));
         window.Show();
+
     }
 
     public int width;
@@ -21,6 +23,11 @@ public class MapEditor : EditorWindow {
     {
         string temp ;
         GUILayout.BeginVertical();
+        if (GUILayout.Button("CreateBuildingConf"))
+        {
+            var buildingConf = ScriptableObject.CreateInstance<BuildingConf>();
+            AssetDatabase.CreateAsset(buildingConf, "Assets/RequiredResources/Conf/buildingConf.asset");
+        }
         GUILayout.BeginHorizontal();
         GUILayout.Label("宽度");
         temp = GUILayout.TextField(width.ToString(), GUILayout.MinWidth(100));

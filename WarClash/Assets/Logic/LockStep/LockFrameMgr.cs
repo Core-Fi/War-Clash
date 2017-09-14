@@ -1,4 +1,5 @@
-﻿using System;
+﻿#define LocalDebug
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,7 +25,8 @@ namespace Logic
             CreateMainPlayer,
             CreatePlayer,
             CreateNpc,
-            ReleaseSkill
+            ReleaseSkill,
+            CreateBarack
         }
         public static readonly int FixedFrameRate = 15;
 
@@ -79,6 +81,11 @@ namespace Logic
         }
         public void SendCommand(LockFrameCommand cmd)
         {
+#if LocalDebug
+            cmd.Execute();
+            return;
+#endif
+           
             Debug.Log("Send Msg "+cmd.GetType()+" "+Time.time);
             NetDataWriter w = new NetDataWriter(true);
             cmd.Serialize(w);
@@ -87,6 +94,9 @@ namespace Logic
         private int record = 0;
         public void FixedUpdate()
         {
+#if LocalDebug
+           _serverFrameCount++;
+#endif
             for (int i = 0; i < 2; i++)
             {
                 if (_localFrameCount > _serverFrameCount || _serverFrameCount == 0) return;

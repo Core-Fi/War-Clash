@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Logic.LogicObject;
-
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Logic
@@ -79,23 +79,29 @@ namespace Logic.Skill.Actions
     public class CreateProjectileAction : BaseAction
     {
         [Display("距离")]
+        [JsonProperty]
         public int distance { get; private set; }
 
-        [Display("时间")]
-        public float time { get; private set; }
+        [Display("时间(毫秒)")]
+        [JsonProperty]
+        public int time { get; private set; }
         [Display("弹跳次数")]
+        [JsonProperty]
         public int hitCount { get; private set; }
 
         [Display("碰撞事件效果")]
-        public string hitEventEffectPath { get; private set; }
+        [JsonProperty]
+        public int hitEvent { get; private set; }
         [Display("死亡事件效果")]
-        public string dieEventEffectPath { get; private set; }
+        [JsonProperty]
+        public int dieEvent { get; private set; }
         [Display("曲线")]
+        [JsonProperty]
         public CustomAnimationCurve cac { get; private set; }
 
         public override void Execute(SceneObject sender, SceneObject reciever, object data)
         {
-            var projectile = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Projectile>();
+            var projectile = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Projectile>(new CreateInfo{Id = IDManager.SP.GetID(), Position = sender.Position, Forward = sender.Forward});
             projectile.SetValue(this, sender, reciever, data);
             base.Execute(sender, reciever, data);
         }
