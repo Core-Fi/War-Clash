@@ -16,7 +16,6 @@ public class Main : MonoBehaviour {
     {
         SP = this;
         managerDriver = new ManagerDriver();
-        SkillManager.LoadSkillIndexFiles();
     }
 	// Use this for initialization
 	void Start ()
@@ -25,15 +24,6 @@ public class Main : MonoBehaviour {
         Logic.LogicCore.SP.Init();
         u3dSceneManager = new U3DSceneManager();
         Logic.LogicCore.SP.SceneManager.SwitchScene(new Scene());
-
-        //var b = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<BarackBuilding>();
-        //b.Team = Team.Team1; 
-        //b.Position = new Lockstep.Vector3d(new Vector3(0, 0, 0));
-
-        //var p = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Player>();
-        //p.Team = Team.Team1;
-        //p.Position = new Lockstep.Vector3d(new Vector3(-3, 0, 0));
-
         EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("UI-JoyStick.prefab", typeof(BattleView), null));
         EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("BattleUI.prefab", typeof(BattleView), null));
     }

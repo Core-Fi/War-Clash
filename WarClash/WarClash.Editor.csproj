@@ -130,6 +130,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>Assets\Plugins\JsonNet\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>Assets\Plugins\ProtoBuf\protobuf-net.dll</HintPath>
+    </Reference>
     <Reference Include="Assembly-UnityScript">
       <HintPath>Library\ScriptAssemblies\Assembly-UnityScript.dll</HintPath>
     </Reference>
@@ -142,10 +145,6 @@
     <ProjectReference Include="WarClash.csproj">
       <Project>{307C3509-C8E2-A9A3-20A2-24634A2E8EFA}</Project>
       <Name>WarClash</Name>
-    </ProjectReference>
-    <ProjectReference Include="WarClash.Editor.Plugins.csproj">
-      <Project>{BC4E929E-0E5E-4FD3-4459-EB33F1F40C44}</Project>
-      <Name>WarClash.Editor.Plugins</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -259,6 +258,7 @@
     <None Include="Assets\AddOns\ConsolePro\Readme.txt" />
     <None Include="Assets\FingerGestures\Doc\Readme.txt" />
     <None Include="Assets\Plugins\PathologicalGames\readme.txt" />
+    <None Include="Assets\Plugins\ProtoBuf\protobuf-net.xml" />
     <None Include="Assets\Shader\Editor\Grid.shader" />
     <None Include="Assets\Specular.shader" />
     <None Include="Assets\StreamingAssets\AB\assets\specular.shader" />

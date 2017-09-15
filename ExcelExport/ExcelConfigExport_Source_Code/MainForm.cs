@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Reflection;
-using Excel = Microsoft.Office.Interop.Excel;
 using System.Collections;
 using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
-
+using NPOI;
 namespace ExcelConfigExport
 {
     public partial class MainForm : Form
@@ -39,7 +38,6 @@ namespace ExcelConfigExport
         }
 
         #region Logical Members
-
         private Excel._Application m_ExcelApp;
         private Excel.WorkbookClass m_Workbook;
         private Hashtable m_WorksheetMap;

@@ -88,6 +88,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>Assets\Plugins\JsonNet\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>Assets\Plugins\ProtoBuf\protobuf-net.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Plugins\FingerGestures\Components\Base\AveragedGestureRecognizer.cs" />
@@ -154,6 +157,7 @@
     <None Include="Assets\AddOns\ConsolePro\Readme.txt" />
     <None Include="Assets\FingerGestures\Doc\Readme.txt" />
     <None Include="Assets\Plugins\PathologicalGames\readme.txt" />
+    <None Include="Assets\Plugins\ProtoBuf\protobuf-net.xml" />
     <None Include="Assets\Shader\Editor\Grid.shader" />
     <None Include="Assets\Specular.shader" />
     <None Include="Assets\StreamingAssets\AB\assets\specular.shader" />

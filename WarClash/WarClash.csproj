@@ -90,6 +90,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>Assets\Plugins\JsonNet\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>Assets\Plugins\ProtoBuf\protobuf-net.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="WarClash.Plugins.csproj">
@@ -343,6 +346,7 @@
     <Compile Include="Assets\Logic\Attribute.cs" />
     <Compile Include="Assets\Logic\Command\Command.cs" />
     <Compile Include="Assets\Logic\Config\BuildingConf.cs" />
+    <Compile Include="Assets\Logic\Config\ConfigManager.cs" />
     <Compile Include="Assets\Logic\EventArgs.cs" />
     <Compile Include="Assets\Logic\EventGroup.cs" />
     <Compile Include="Assets\Logic\FastCollections-master\BiDictionary.cs" />
@@ -482,6 +486,7 @@
     <None Include="Assets\AddOns\ConsolePro\Readme.txt" />
     <None Include="Assets\FingerGestures\Doc\Readme.txt" />
     <None Include="Assets\Plugins\PathologicalGames\readme.txt" />
+    <None Include="Assets\Plugins\ProtoBuf\protobuf-net.xml" />
     <None Include="Assets\Shader\Editor\Grid.shader" />
     <None Include="Assets\Specular.shader" />
     <None Include="Assets\StreamingAssets\AB\assets\specular.shader" />

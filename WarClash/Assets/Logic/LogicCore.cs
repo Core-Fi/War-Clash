@@ -6,6 +6,8 @@ using Logic.LogicObject;
 using Logic.Skill;
 using Lockstep;
 using System.IO;
+using Config;
+using Logic.Config;
 using UnityEngine;
 
 namespace Logic
@@ -29,6 +31,7 @@ namespace Logic
         }
         public void Init()
         {
+            ConfigMap<BuildingConf_ARRAY>.LoadBuildingConf();
             LockFrameMgr = new LockFrameMgr();
             SceneManager = new SceneManager();
             EventGroup = new EventGroup();
