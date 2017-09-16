@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using System;
 using System.IO;
+using Logic.Skill;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Utilities;
 using UnityEngine.SceneManagement;
@@ -67,23 +68,15 @@ public class MapEditor : EditorWindow {
         if (GUILayout.Button("生成地图信息"))
         {
             var items = GameObject.FindObjectsOfType<MapItemBehaviour>();
-            Dictionary<Type, Dictionary<int, MapItem>> mapDic = new Dictionary<Type, Dictionary<int, MapItem>>();
-            Dictionary<Type, int> index = new Dictionary<Type, int>();
+            Dictionary<int, MapItem> mapDic = new Dictionary<int, MapItem>();
             foreach (var mapItemBehaviour in items)
             {
                 if(mapItemBehaviour.MapItem == null) continue;
-                Type t = mapItemBehaviour.MapItem.GetType();
-                if (!mapDic.ContainsKey(t))
-                {
-                    var typeCount = mapDic.Count + 1;
-                    mapDic.Add(t, new Dictionary<int, MapItem>());
-                    index.Add(t, typeCount);
-                }
-                var count = index[t]*1000 + mapDic[t].Count+1;
+                var count =mapDic.Count+1;
                 mapItemBehaviour.MapItem.Id = count;
-                mapDic[t].Add(count, mapItemBehaviour.MapItem);
+                mapDic.Add(count, mapItemBehaviour.MapItem);
             }
-            var str = Newtonsoft.Json.JsonConvert.SerializeObject(mapDic, Formatting.Indented);
+            var str = Newtonsoft.Json.JsonConvert.SerializeObject(mapDic, Formatting.Indented, SkillUtility.settings);
             var scene = SceneManager.GetActiveScene();
             File.WriteAllText(Application.streamingAssetsPath+"/Map/"+scene.name+".map", str);
         }

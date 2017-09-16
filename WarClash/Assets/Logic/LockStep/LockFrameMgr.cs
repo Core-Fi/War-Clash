@@ -1,4 +1,4 @@
-﻿#define LocalDebug
+﻿//#define LocalDebug
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,7 +26,7 @@ namespace Logic
             CreatePlayer,
             CreateNpc,
             ReleaseSkill,
-            CreateBarack
+            CreateBuilding
         }
         public static readonly int FixedFrameRate = 15;
 
@@ -48,7 +48,7 @@ namespace Logic
         public LockFrameMgr ()
         {
             EventDispatcher.ListenEvent((int)NetEventList.LockStepMsg, OnGetLockstepMsg);
-            _lockstepCommandDic.Add((int)LockFrameEvent.BattleStart, (i, e) => _localFrameCount=0);
+            _lockstepCommandDic.Add((int)LockFrameEvent.BattleStart, OnBattleStart);
             _lockstepCommandDic.Add((int)LockFrameEvent.PlayerMoveMsg, OnGetReceiveLockstepMsg<MoveCommand>);
             _lockstepCommandDic.Add((int)LockFrameEvent.ReleaseSkill, OnGetReceiveLockstepMsg<ReleaseSkillCommand>);
             _lockstepCommandDic.Add((int)LockFrameEvent.CreateMainPlayer, OnGetReceiveLockstepMsg<CreateMainPlayerCommand>);
@@ -56,6 +56,7 @@ namespace Logic
             _lockstepCommandDic.Add((int)LockFrameEvent.PlayerStopMsg, OnGetReceiveLockstepMsg<StopCommand>);
             _lockstepCommandDic.Add((int)LockFrameEvent.CreatePlayer, OnGetReceiveLockstepMsg<CreatePlayerCommand>);
             _lockstepCommandDic.Add((int)LockFrameEvent.CreateNpc, OnGetReceiveLockstepMsg<CreateNpcCommand>);
+            _lockstepCommandDic.Add((int)LockFrameEvent.CreateBuilding, OnGetReceiveLockstepMsg<CreateBuildingCommand>);
             _lockstepCommandDic.Add((int)LockFrameEvent.SaveToLog, (i, e) => { File.WriteAllText(Application.dataPath+"/log.txt", LogicCore.SP.Writer.ToString()); });
         }
 
@@ -71,11 +72,17 @@ namespace Logic
                 _lockstepCommandDic[cmdId].Invoke(frameCount, reader);
             }
         }
+
+        private void OnBattleStart(int frame, NetDataReader reader)
+        {
+            _localFrameCount = 0;
+            var randomSeed = reader.GetInt();
+            UnityEngine.Random.InitState(randomSeed);
+        }
         private void OnGetReceiveLockstepMsg<T>(int frame, NetDataReader reader) where T : LockFrameCommand
         {
             var cmd = Pool.SP.Get<T>();
             cmd.Frame = frame;
-            Debug.Log("Receive Msg " + cmd.GetType() + " " + Time.time);
             cmd.Deserialize(reader);
             _frames.Add(cmd);
         }
@@ -86,7 +93,6 @@ namespace Logic
             return;
 #endif
            
-            Debug.Log("Send Msg "+cmd.GetType()+" "+Time.time);
             NetDataWriter w = new NetDataWriter(true);
             cmd.Serialize(w);
             EventDispatcher.FireEvent(UIEventList.SendNetMsg.ToInt(), this, EventGroup.NewArg<EventSingleArgs<NetDataWriter>, NetDataWriter>(w));

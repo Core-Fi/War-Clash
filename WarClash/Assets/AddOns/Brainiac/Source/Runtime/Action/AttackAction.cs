@@ -13,7 +13,7 @@ public class AttackAction : Brainiac.Action
     public MemoryVar skillid;
 
     private Character target = null;
-    private bool isRunningSkill = false;
+    private bool _releaseSkillSuccess = false;
     public override void OnStart(AIAgent agent)
     {
         base.OnStart(agent);
@@ -24,34 +24,44 @@ public class AttackAction : Brainiac.Action
     {
         base.OnReset();
         target = null;
-        isRunningSkill = false;
     }
-    protected override BehaviourNodeStatus OnExecute(AIAgent agent)
+
+    protected override void OnEnter(AIAgent agent)
     {
+        base.OnEnter(agent);
         if (target == null)
             target = agent.Blackboard.GetItem("Target") as Character;
         if (target != null)
         {
-            if (isRunningSkill == false)
+            _releaseSkillSuccess = _self.ReleaseSkill(skillid.AsInt.Value, target);
+        }
+        else
+        {
+            _releaseSkillSuccess = false;
+        }
+    }
+
+    protected override void OnExit(AIAgent agent)
+    {
+        base.OnExit(agent);
+    }
+
+    protected override BehaviourNodeStatus OnExecute(AIAgent agent)
+    {
+        if (_releaseSkillSuccess)
+        {
+            if (_self.IsRunningSkill)
             {
-                bool rst = _self.ReleaseSkill(skillid.AsInt.Value, target);
-                if (!rst)
-                    return BehaviourNodeStatus.Failure;
-                else
-                    isRunningSkill = true;
+                return BehaviourNodeStatus.Running;
             }
-            if(isRunningSkill)
+            else
             {
-                if(_self.IsRunningSkill)
-                {
-                    return BehaviourNodeStatus.Running;
-                }
-                else
-                {
-                    return BehaviourNodeStatus.Success;
-                }
+                return BehaviourNodeStatus.Success;
             }
         }
-        return BehaviourNodeStatus.Failure;
+        else
+        {
+            return BehaviourNodeStatus.Failure;
+        }
     }
 }

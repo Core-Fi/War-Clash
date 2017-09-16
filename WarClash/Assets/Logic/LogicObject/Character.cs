@@ -97,7 +97,7 @@ namespace Logic.LogicObject
         }
         public virtual void OnDeath()
         {
-            EventManager.AddEvent(1, new RuntimeData() { sender = this });
+            EventManager.AddEvent(2, new RuntimeData() { sender = this });
         }
         public bool IsRunningSkill
         {

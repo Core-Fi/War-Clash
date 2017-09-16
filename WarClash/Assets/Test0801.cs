@@ -175,8 +175,6 @@ public class ReflectionCaculator
                 }
             }
         }
-        Debug.Log(leftIndex+" "+rightIndex+" "+ startPosiIndex);
-
         if (startPosiIndex != -1)
         {
             startPosiIndex++;

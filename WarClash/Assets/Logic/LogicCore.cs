@@ -17,7 +17,7 @@ namespace Logic
         public SceneManager SceneManager;
         public LockFrameMgr LockFrameMgr;
         public EventGroup EventGroup;
-        public bool WriteToLog = true;
+        public bool WriteToLog = false;
         public StringBuilder Writer = new StringBuilder();
         private float _fixedtime = 0;
         private float _timeStep;

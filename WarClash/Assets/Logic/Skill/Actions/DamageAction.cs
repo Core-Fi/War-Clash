@@ -48,6 +48,10 @@ namespace Logic.Skill.Actions
                 if(character!=null)
                     character.Hp = character.Hp.Sub(Damage.value*FixedMath.One);
             }
+            else
+            {
+                character.Hp = character.Hp.Sub(Damage.value * FixedMath.One);
+            }
         }
 
     }

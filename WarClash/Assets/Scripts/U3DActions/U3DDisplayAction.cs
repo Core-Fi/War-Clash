@@ -35,6 +35,7 @@ public class U3DDisplayActionManager
     {
         Type targetType = U3DDisplayAction.LogicDisplayActions[action.GetType()];
         U3DDisplayAction u3dDisplayAction = Pool.SP.Get(targetType) as U3DDisplayAction;
+        displayActions.Add(u3dDisplayAction);
         u3dDisplayAction.Action = action;
         u3dDisplayAction.Execute(u3dCharacter, null, null);
     }

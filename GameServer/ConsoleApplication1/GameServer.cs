@@ -124,12 +124,11 @@ internal class GameServer
 
     internal void OnPeerConnect(NetPeer peer)
     {
-        clients.Clear();
         var player = new Client(peer);
-        player.id = 100 + ID;
+        player.id = 1 + ID;
         clients.Add(player);
 
-        if (this.NetManager.PeersCount == 1 )//&& !started)
+        if (this.NetManager.PeersCount == 2&& !started)
         {
             var timer = new Timer(e => { Start(); }, null, 3000, System.Threading.Timeout.Infinite);
         }
@@ -142,8 +141,10 @@ internal class GameServer
         started = true;
         frameCount = 0;
         readers.Clear();
-        byte[] cmd = BitConverter.GetBytes((short) LockFrameEvent.BattleStart);
-        readers.Enqueue(cmd);
+        List<byte> battleStartCmd = new List<byte>();
+        battleStartCmd.AddRange(BitConverter.GetBytes((short) LockFrameEvent.BattleStart));
+        battleStartCmd.AddRange(BitConverter.GetBytes(1000));
+        readers.Enqueue(battleStartCmd.ToArray());
         for (int i = 0; i < clients.Count; i++)
         {
             var client = clients[i];

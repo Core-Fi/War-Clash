@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Config;
 using Lockstep;
+using Logic.Config;
 
 namespace Logic.LogicObject
 {
@@ -14,7 +16,7 @@ namespace Logic.LogicObject
         internal override void OnInit(CreateInfo createInfo)
         {
             base.OnInit(createInfo);
-            _timeout = FixedMath.One/2;
+            _timeout = FixedMath.One*3;
         }
         
         internal override void OnUpdate(float deltaTime)
@@ -24,13 +26,16 @@ namespace Logic.LogicObject
 
         internal override void OnFixedUpdate(long deltaTime)
         {
-            _curTime += deltaTime;
-            if (_curTime > _timeout && count<1)
+            _curTime += FixedMath.One/15;
+            if (_curTime > _timeout)
             {
                 _curTime = 0;
-                var npc1 = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Npc>();
-                npc1.Team = Team.Team2;
-                npc1.Position = Position;
+                var npc1 = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Npc>(new NpcCreateInfo
+                {
+                    Position = Position,
+                    NpcId = Conf.ArmyId,
+                    Team = Team
+                });
                 count ++;
             }
             base.OnFixedUpdate(deltaTime);

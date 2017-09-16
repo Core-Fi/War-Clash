@@ -250,6 +250,7 @@ namespace BrainiacEditor
 				for(int i = 0; i < m_navigationHistory.Size; i++)
 				{
 					BTAsset asset = m_navigationHistory.GetAssetAt(i);
+                    if(asset == null)continue;
 					GUIStyle style;
 					Vector2 size;
 
@@ -310,7 +311,9 @@ namespace BrainiacEditor
 
 		private void DrawFooter(Rect screenRect)
 		{
-			string behaviourTreePath = AssetDatabase.GetAssetPath(m_btAsset).Substring(7);
+		    var path = AssetDatabase.GetAssetPath(m_btAsset);
+            if(string.IsNullOrEmpty(path))return;
+            string behaviourTreePath = path.Substring(7);
 			EditorGUI.LabelField(screenRect, behaviourTreePath, BTEditorStyle.EditorFooter);
 		}
 

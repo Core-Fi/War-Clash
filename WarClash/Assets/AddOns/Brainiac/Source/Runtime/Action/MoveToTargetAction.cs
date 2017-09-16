@@ -3,6 +3,7 @@ using Logic.LogicObject;
 using Lockstep;
 using Logic;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using LockStep;
 using Pathfinding;
 using UnityEngine;
@@ -86,8 +87,17 @@ public class MoveToTargetAction : Brainiac.Action
     }
     protected override BehaviourNodeStatus OnExecute(AIAgent agent)
 	{
-        if(target != null && _path!=null)
+        if(target != null && !target.IsDeath() && _path!=null)
         {
+            if (LogicCore.SP.WriteToLog)
+            {
+                LogicCore.SP.Writer.Append(SceneObject.Id);
+                LogicCore.SP.Writer.Append(SceneObject.Position.ToStringRaw());
+                LogicCore.SP.Writer.Append("    ");
+                LogicCore.SP.Writer.Append(SceneObject.Forward.ToStringRaw());
+                LogicCore.SP.Writer.AppendLine();
+            }
+            
             long distance = Vector3d.Distance(target.Position, agent.SceneObject.Position);
             if(distance< GetRange())
             {

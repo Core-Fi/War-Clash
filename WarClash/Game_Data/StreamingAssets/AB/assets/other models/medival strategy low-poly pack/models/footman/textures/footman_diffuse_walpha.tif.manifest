@@ -1,0 +1,16 @@
+ManifestFileVersion: 0
+CRC: 4163987318
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: da64c493403444dd6edf35619f55d0e9
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: c1642440719609290a7e09a50a7286f4
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+Assets:
+- Assets/Other Models/Medival Strategy Low-Poly Pack/Models/Footman/Textures/Footman_diffuse_wAlpha.tif
+Dependencies: []

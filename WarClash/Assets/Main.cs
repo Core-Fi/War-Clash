@@ -4,7 +4,7 @@ using Logic;
 using Logic.LogicObject;
 using Logic.Skill;
 using UnityEngine;
-
+using Random = UnityEngine.Random;
 public class Main : MonoBehaviour {
 
 
@@ -16,6 +16,7 @@ public class Main : MonoBehaviour {
     {
         SP = this;
         managerDriver = new ManagerDriver();
+        Random.InitState(1000);
     }
 	// Use this for initialization
 	void Start ()
@@ -44,9 +45,20 @@ public class Main : MonoBehaviour {
         {
             LogicCore.SP.LockFrameMgr.SendCommand(new CreateNpcCommand(){NpcId = 1001});
         }
-        if (GUILayout.Button("CreateBarack"))
+        if (GUILayout.Button("CreateBarack1"))
         {
-            LogicCore.SP.LockFrameMgr.SendCommand(new CreateBarackCommand());
+            var mp = LogicCore.SP.SceneManager.currentScene.GetObject<MainPlayer>();
+            LogicCore.SP.LockFrameMgr.SendCommand(new CreateBuildingCommand{ MapItemId = 1, Sender = mp.Id});
+        }
+        if (GUILayout.Button("CreateBarack2"))
+        {
+            var mp = LogicCore.SP.SceneManager.currentScene.GetObject<MainPlayer>();
+            if(mp!=null)
+                LogicCore.SP.LockFrameMgr.SendCommand(new CreateBuildingCommand { MapItemId = 2, Sender = mp.Id });
+            else
+            {
+                LogicCore.SP.LockFrameMgr.SendCommand(new CreateBuildingCommand { MapItemId = 2});
+            }
         }
         if (GUILayout.Button("SaveLog"))
         {

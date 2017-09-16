@@ -22,11 +22,16 @@ namespace Logic.LogicObject
         public int Id;
         public Vector3d Position;
         public Vector3d Forward;
+        public Team Team;
     }
 
     public class NpcCreateInfo : CreateInfo
     {
         public int NpcId;
+    }
+    public class BuildingCreateInfo : CreateInfo
+    {
+        public int BuildingId;
     }
     public abstract class SceneObject: IUpdate, IFixedUpdate
     {
@@ -91,6 +96,7 @@ namespace Logic.LogicObject
             AttributeManager.New(AttributeType.Hp, Lockstep.FixedMath.One * 100);
             AttributeManager.OnAttributeChange += OnAttributeChange;
             Position = createInfo.Position;
+            Team = createInfo.Team;
             if(createInfo.Forward.sqrMagnitude == 0)
                 createInfo.Forward = new Vector3d(Vector3.forward);
             Forward = createInfo.Forward;

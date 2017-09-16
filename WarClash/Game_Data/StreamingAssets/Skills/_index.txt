@@ -1,0 +1,7 @@
+{
+  "$type": "System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[System.String, mscorlib]], mscorlib",
+  "0": "\\Skills\\att.skill",
+  "121": "\\Skills\\att.skill",
+  "2": "\\Skills\\2.skill",
+  "1": "\\Skills\\1.skill"
+}

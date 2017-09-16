@@ -127,6 +127,10 @@ namespace Logic.Objects
                 {
                     delayAdd.Add(new Pair<TKey, TValue>(key, val));
                 }
+                else
+                {
+                    
+                }
             }
             else
             {
@@ -236,10 +240,17 @@ namespace Logic.Objects
             Dictionary<TKey, ValuePack<TValue>> val;
             if (objectColl.TryGetValue(type, out val))
             {
-                ValuePack<TValue> valPack = val.First().Value;
-                if (valPack.Enable)
+                if (val.Count > 0)
                 {
-                    return valPack.Val as TDeriveTValue;
+                    ValuePack<TValue> valPack = val.First().Value;
+                    if (valPack.Enable)
+                    {
+                        return valPack.Val as TDeriveTValue;
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
                 else return null;
             }

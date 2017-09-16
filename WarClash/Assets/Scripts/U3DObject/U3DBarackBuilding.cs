@@ -1,11 +1,14 @@
-﻿using UnityEngine;
+﻿using Logic.LogicObject;
+using UnityEngine;
 
 class U3DBarackBuilding : U3DBuilding
 {
+    private BarackBuilding barackBuilding;
     public override void OnInit()
     {
         base.OnInit();
-        Resource.LoadAsset("Barrack.prefab", OnLoadedRes);
+        barackBuilding = So as BarackBuilding;
+        Resource.LoadAsset(barackBuilding.Conf.ResPath, OnLoadedRes);
     }
     public override void ListenEvents()
     {

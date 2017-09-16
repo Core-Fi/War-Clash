@@ -36,13 +36,25 @@ namespace Logic.LogicObject
             EventGroup = new EventGroup();
             MapConfig = Logic.Map.Map.Deserialize(Name);
         }
+
+        public Building CreateBuilding(BuildingCreateInfo createInfo)
+        {
+            var bType = Building.BuildingId_Type[createInfo.BuildingId];
+            var b = CreateSceneObject(bType, createInfo);
+            return b as Building;
+        }
         public T CreateSceneObject<T>(int id) where T : SceneObject
         {
-            T t = Activator.CreateInstance<T>();
-            AddSceneObject(new CreateInfo(){Id = id}, t);
+            var t = CreateSceneObject<T>(new CreateInfo() {Id = id});
             return t;
         }
 
+        public object CreateSceneObject(Type type, CreateInfo createInfo)
+        {
+            object o = Activator.CreateInstance(type);
+            AddSceneObject(createInfo, o as SceneObject);
+            return o;
+        }
         public T CreateSceneObject<T>(CreateInfo createInfo) where T : SceneObject
         {
             T t = Activator.CreateInstance<T>();
@@ -63,6 +75,10 @@ namespace Logic.LogicObject
         }
         private void AddSceneObject(CreateInfo createInfo, SceneObject so)
         {
+            if (createInfo.Id == 0)
+            {
+                createInfo.Id = IDManager.SP.GetID();
+            }
             so.Id = createInfo.Id;
             so.Init(createInfo);
             so.ListenEvents();

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using LiteNetLib.Utils;
 using Lockstep;
+using Logic.Map;
 using UnityEngine;
 
 namespace Logic
@@ -172,14 +173,24 @@ namespace Logic
         }
     }
 
-    public class CreateBarackCommand : PlayerOperateCommand
+    public class CreateBuildingCommand : PlayerOperateCommand
     {
+        public int MapItemId;
         public override void OnExecute()
         {
+            var mapItem = LogicCore.SP.SceneManager.currentScene.MapConfig.MapDic[MapItemId] as MapBuildingItem;
             var senderSo = LogicCore.SP.SceneManager.currentScene.GetObject<SceneObject>(Sender);
-            var barack = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<BarackBuilding>();
-            barack.Team = senderSo.Team;
-            barack.Position = new Vector3d(Vector3.left * 6);
+            var barack = LogicCore.SP.SceneManager.currentScene.CreateBuilding(new BuildingCreateInfo
+            {
+                BuildingId = mapItem.BuildingId,
+                Position = mapItem.Position
+            });
+            if(senderSo!=null)
+                barack.Team = senderSo.Team;
+            else
+            {
+                barack.Team = Team.Team2;
+            }
         }
         public override void WriteToLog(StringBuilder writer)
         {
@@ -188,13 +199,15 @@ namespace Logic
         public override void Deserialize(NetDataReader reader)
         {
             base.Deserialize(reader);
+            MapItemId = reader.GetInt();
         }
 
         public override void Serialize(NetDataWriter writer)
         {
-            var msgid = (int)LockFrameMgr.LockFrameEvent.CreateBarack;
+            var msgid = (int)LockFrameMgr.LockFrameEvent.CreateBuilding;
             writer.Put((short)msgid);
             base.Serialize(writer);
+            writer.Put(MapItemId);
         }
     }
     public class CreateNpcCommand : PlayerOperateCommand
@@ -213,6 +226,7 @@ namespace Logic
         public override void Deserialize(NetDataReader reader)
         {
             base.Deserialize(reader);
+            NpcId = reader.GetInt();
         }
 
         public override void Serialize(NetDataWriter writer)
@@ -220,6 +234,7 @@ namespace Logic
             var msgid = (int)LockFrameMgr.LockFrameEvent.CreateNpc ;
             writer.Put((short)msgid);
             base.Serialize(writer);
+            writer.Put(NpcId);
         }
     }
     public class CreateMainPlayerCommand : PlayerOperateCommand
@@ -237,6 +252,7 @@ namespace Logic
         public override void Deserialize(NetDataReader reader)
         {
             base.Deserialize(reader);
+
         }
 
         public override void Serialize(NetDataWriter writer)
@@ -251,8 +267,8 @@ namespace Logic
         public override void OnExecute()
         {
             var player = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Player>(Sender);
-            Debug.Log("Create Remote Player " + Sender);
             player.Position = new Vector3d(-Vector3.left*6);
+            player.Team = Team.Team2;
         }
         public override void WriteToLog(StringBuilder writer)
         {

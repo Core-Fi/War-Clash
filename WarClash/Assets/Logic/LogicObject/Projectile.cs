@@ -113,7 +113,7 @@ namespace Logic.LogicObject
             {
                 this.Forward = (Receiver.Position - Position).Normalize();
                 Position += Forward.Mul(_speed).Mul(FixedMath.One.Div(LockFrameMgr.FixedFrameRate));
-                if (Vector3d.SqrDistance(Position, Receiver.Position) < FixedMath.Half)
+                if (Vector3d.SqrDistance(Position, Receiver.Position) < FixedMath.Half/5)
                 {
                     OnHit(Receiver);
                 }
