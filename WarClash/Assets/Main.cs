@@ -23,7 +23,7 @@ public class Main : MonoBehaviour {
         DonotDestroy();
         Logic.LogicCore.SP.Init();
         u3dSceneManager = new U3DSceneManager();
-        Logic.LogicCore.SP.SceneManager.SwitchScene(new Scene());
+        Logic.LogicCore.SP.SceneManager.SwitchScene(new Scene("scene01"));
         EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("UI-JoyStick.prefab", typeof(BattleView), null));
         EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("BattleUI.prefab", typeof(BattleView), null));
     }
@@ -31,22 +31,22 @@ public class Main : MonoBehaviour {
     void OnGUI()
     {
         GUILayout.BeginVertical();
-        GUILayout.Label(LogicCore.SP.LockFrameMgr.LocalFrameCount+"  "+ LogicCore.SP.LockFrameMgr.ServerFrameCount + "  "+Time.time.ToString("00.00")+" "+(LogicCore.SP.RegularFrameCount/ (float)LockFrameMgr.FixedFrameRate).ToString("00.00"));
+        GUILayout.Label(LogicCore.SP.LockFrameMgr.LocalFrameCount+"  "+ LogicCore.SP.LockFrameMgr.ServerFrameCount);
         if (GUILayout.Button("NewMainPlayer"))
         {
-            LogicCore.SP.LockFrameMgr.SendCommand(new CreateMainPlayerCommand() { Sender = 100 });
+            LogicCore.SP.LockFrameMgr.SendCommand(new CreateMainPlayerCommand() );
         }
         if (GUILayout.Button( "NewP"))
         {
-            LogicCore.SP.LockFrameMgr.SendCommand(new CreatePlayerCommand{Sender = 101});
+            LogicCore.SP.LockFrameMgr.SendCommand(new CreatePlayerCommand());
         }
         if (GUILayout.Button("NewNpc"))
         {
-            LogicCore.SP.LockFrameMgr.SendCommand(new CreateNpcCommand() { Sender = 103 });
+            LogicCore.SP.LockFrameMgr.SendCommand(new CreateNpcCommand(){NpcId = 1001});
         }
         if (GUILayout.Button("CreateBarack"))
         {
-            LogicCore.SP.LockFrameMgr.SendCommand(new CreateBarackCommand() { Sender = 100 });
+            LogicCore.SP.LockFrameMgr.SendCommand(new CreateBarackCommand());
         }
         if (GUILayout.Button("SaveLog"))
         {

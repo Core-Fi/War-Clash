@@ -11,9 +11,9 @@ public class Building : SceneObject
         OnCreate = 1000
     }
     
-    internal override void OnInit()
+    internal override void OnInit(CreateInfo createInfo)
     {
-        base.OnInit();
+        base.OnInit(createInfo);
 
     }
     internal override void ListenEvents()

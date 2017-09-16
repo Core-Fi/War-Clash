@@ -1,0 +1,18 @@
+{
+  "Logic.Map.MapBuildingItem, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null": {
+    "1001": {
+      "BuildingId": 1001,
+      "Id": 1001,
+      "Position": {
+        "x": 0,
+        "y": 0,
+        "z": 1776025
+      },
+      "Forward": {
+        "x": 0,
+        "y": 0,
+        "z": 65536
+      }
+    }
+  }
+}

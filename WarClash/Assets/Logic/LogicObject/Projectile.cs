@@ -42,7 +42,7 @@ namespace Logic.LogicObject
                 this.Forward = _moveDir;
             }
         }
-        
+
         //public bool SetTarget()
         //{
         //    List<Character> allPlayers = new List<Character>(LogicCore.SP.SceneManager.currentScene.Count<Character>());
@@ -72,9 +72,10 @@ namespace Logic.LogicObject
         //        return false;
         //    }
         //}
-        internal override void OnInit()
+        internal override void OnInit(CreateInfo createInfo)
         {
-            base.OnInit();
+            base.OnInit(createInfo);
+
         }
         //float XZDistance(Vector3 a, Vector3 b)
         //{
@@ -112,9 +113,9 @@ namespace Logic.LogicObject
             {
                 this.Forward = (Receiver.Position - Position).Normalize();
                 Position += Forward.Mul(_speed).Mul(FixedMath.One.Div(LockFrameMgr.FixedFrameRate));
-                if (Vector3d.SqrDistance(Position, Receiver.Position) < FixedMath.One)
+                if (Vector3d.SqrDistance(Position, Receiver.Position) < FixedMath.Half)
                 {
-                    OnHit();
+                    OnHit(Receiver);
                 }
             }
             else
@@ -122,14 +123,24 @@ namespace Logic.LogicObject
                 Position += Forward .Mul( _speed) .Mul(FixedMath.One.Div(LockFrameMgr.FixedFrameRate));
                 if (Vector3d.SqrDistance(Position, _initPosi) > _distance.Mul(_distance))
                 {
-                    OnHit();
+                    OnHit(null);
+                }
+                else
+                {
+                    LogicCore.SP.SceneManager.currentScene.ForEachDo<Player>((p) =>
+                    {
+                        if (Vector3d.SqrDistance(Position, p.Position) < FixedMath.One / 5)
+                        {
+                            OnHit(p);
+                        }
+                    });
                 }
             }
         }
 
-        public void OnHit()
+        public void OnHit(SceneObject receiver)
         {
-            EventManager.AddEvent(ProjectileAction.hitEvent, new RuntimeData(Sender, Receiver, Data));
+            EventManager.AddEvent(ProjectileAction.hitEvent, new RuntimeData(Sender, receiver, Data));
             EventGroup.FireEvent((int)ProjectileEvent.OnHit, this, null);
             LogicCore.SP.SceneManager.currentScene.RemoveSceneObject(this.Id);
         }

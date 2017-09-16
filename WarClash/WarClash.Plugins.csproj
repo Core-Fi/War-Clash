@@ -91,6 +91,9 @@
     <Reference Include="protobuf-net">
       <HintPath>Assets\Plugins\ProtoBuf\protobuf-net.dll</HintPath>
     </Reference>
+    <Reference Include="DisableLogging">
+      <HintPath>Assets\Plugins\Tiinoo\DisableLogging\Dlls\DisableLogging.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Plugins\FingerGestures\Components\Base\AveragedGestureRecognizer.cs" />

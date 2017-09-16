@@ -17,11 +17,16 @@ namespace Logic.LogicObject
         Neutral
     }
 
-    public struct CreateInfo
+    public class CreateInfo
     {
         public int Id;
         public Vector3d Position;
         public Vector3d Forward;
+    }
+
+    public class NpcCreateInfo : CreateInfo
+    {
+        public int NpcId;
     }
     public abstract class SceneObject: IUpdate, IFixedUpdate
     {
@@ -79,13 +84,17 @@ namespace Logic.LogicObject
         {
 
         }
-        internal void Init()
+        internal void Init(CreateInfo createInfo)
         {
             EventGroup = new EventGroup();
             AttributeManager = new AttributeManager();
             AttributeManager.New(AttributeType.Hp, Lockstep.FixedMath.One * 100);
             AttributeManager.OnAttributeChange += OnAttributeChange;
-            OnInit();
+            Position = createInfo.Position;
+            if(createInfo.Forward.sqrMagnitude == 0)
+                createInfo.Forward = new Vector3d(Vector3.forward);
+            Forward = createInfo.Forward;
+            OnInit(createInfo);
         }
         public virtual void OnAttributeChange(AttributeType at, long old, long newValue)
         {
@@ -100,7 +109,7 @@ namespace Logic.LogicObject
         {
             return AttributeManager[at];
         }
-        internal virtual void OnInit()
+        internal virtual void OnInit(CreateInfo createInfo)
         {
             
         }

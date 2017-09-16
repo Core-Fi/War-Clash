@@ -7,9 +7,10 @@ namespace Logic.LogicObject
 {
     class Tower : Building
     {
-        internal override void OnInit()
+        internal override void OnInit(CreateInfo createInfo)
         {
-            base.OnInit();
+            base.OnInit(createInfo);
+
         }
         internal override void ListenEvents()
         {

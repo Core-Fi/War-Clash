@@ -1,6 +1,0 @@
-D:\War-Clash\ExcelExport\ExcelConfigExport_Source_Code\obj\Debug\ExcelConfigExport.csprojResolveAssemblyReference.cache
-D:\War-Clash\ExcelExport\ExcelConfigExport_Source_Code\obj\Debug\ExcelConfigExport.csproj.ResolveComReference.cache
-D:\War-Clash\ExcelExport\ExcelConfigExport_Source_Code\obj\Debug\ExcelConfigExport.MainForm.resources
-D:\War-Clash\ExcelExport\ExcelConfigExport_Source_Code\obj\Debug\ExcelConfigExport.Properties.Resources.resources
-D:\War-Clash\ExcelExport\ExcelConfigExport_Source_Code\obj\Debug\ExcelConfigExport.csproj.GenerateResource.Cache
-D:\War-Clash\ExcelExport\ExcelConfigExport_Source_Code\obj\Debug\ExcelConfigExport.csproj.CoreCompileInputs.cache

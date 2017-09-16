@@ -19,7 +19,6 @@ namespace Logic
         public EventGroup EventGroup;
         public bool WriteToLog = true;
         public StringBuilder Writer = new StringBuilder();
-        public int RegularFrameCount;
         private float _fixedtime = 0;
         private float _timeStep;
 
@@ -32,6 +31,8 @@ namespace Logic
         public void Init()
         {
             ConfigMap<BuildingConf_ARRAY>.LoadBuildingConf();
+            ConfigMap<ArmyConf_ARRAY>.LoadArmyConf();
+
             LockFrameMgr = new LockFrameMgr();
             SceneManager = new SceneManager();
             EventGroup = new EventGroup();
@@ -51,7 +52,6 @@ namespace Logic
                 return;
             }
             _fixedtime = _fixedtime - _timeStep;
-            RegularFrameCount++;
             LockFrameMgr.FixedUpdate();
         }
     }

@@ -20,7 +20,7 @@ public class U3DScene : ObjectCollection<int, U3DSceneObject>
     {
         this.Scene = scene;
         ListenEvents();
-        UnityEngine.SceneManagement.SceneManager.LoadScene("scene01");
+        UnityEngine.SceneManagement.SceneManager.LoadScene(Scene.Name);
         Main.SP.StartCoroutine(LoadScene());
     }
 

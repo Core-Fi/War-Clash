@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections; using FastCollections;
+using Newtonsoft.Json;
 using Pathfinding;
 
 namespace Lockstep
@@ -126,7 +128,7 @@ namespace Lockstep
             v.Add(b*nagtive);
             return v;
         }
-
+        [JsonIgnore]
         public long sqrMagnitude {
             get { return this.x.Mul(x) + this.y.Mul(y) + this.z.Mul(z); }
         }
@@ -193,7 +195,9 @@ namespace Lockstep
         {
             return new Vector3d((lhs.y .Mul( rhs.z) - lhs.z.Mul(rhs.y)), (lhs.z.Mul(rhs.x) - lhs.x.Mul(rhs.z)), (lhs.x.Mul(rhs.y) - lhs.y.Mul(rhs.x)));
         }
+        [JsonIgnore]
         public long LongStateHash {get {return (x * 31 + y * 7 + z * 11);}}
+        [JsonIgnore]
         public int StateHash {get {return (int)(LongStateHash % int.MaxValue);}}
 
         public override string ToString()

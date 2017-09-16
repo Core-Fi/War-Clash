@@ -7,7 +7,7 @@ namespace Logic
 {
     public class IDManager : Singleton<IDManager>
     {
-        private int CurID = 0;
+        private int CurID = 1;
         private Queue<int> IdPool = new Queue<int>(); 
         public int GetID()
         {

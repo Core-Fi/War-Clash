@@ -11,9 +11,9 @@ namespace Logic.LogicObject
         private long _timeout;
         private long _curTime;
         private int count;
-        internal override void OnInit()
+        internal override void OnInit(CreateInfo createInfo)
         {
-            base.OnInit();
+            base.OnInit(createInfo);
             _timeout = FixedMath.One/2;
         }
         

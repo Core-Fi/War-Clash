@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from: goods_info.proto
+// Generated from: GOODS_INFO.proto
 namespace Config
 {
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"GOODS_INFO")]

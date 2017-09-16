@@ -13,7 +13,7 @@ public class U3DNpc : U3DCharacter{
     {
         base.OnInit();
         Npc = So as Npc;
-        Resource.LoadAsset("WK_archer.prefab", OnLoadedRes);
+        Resource.LoadAsset(Npc.Conf.ResPath, OnLoadedRes);
     }
 
     public override void OnLoadedRes(string name, Object obj)

@@ -199,9 +199,10 @@ namespace Logic
     }
     public class CreateNpcCommand : PlayerOperateCommand
     {
+        public int NpcId;
         public override void OnExecute()
         {
-            var npc = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Npc>(Sender);
+            var npc = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Npc>(new NpcCreateInfo{Id = IDManager.SP.GetID(), NpcId = NpcId });
             npc.Team = Team.Team2;
             npc.Position = new Vector3d(Vector3.left * 6);
         }

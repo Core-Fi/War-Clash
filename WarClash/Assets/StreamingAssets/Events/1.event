@@ -16,7 +16,7 @@
               "$type": "Logic.Skill.Actions.PlayFXAction, Assembly-CSharp",
               "FXName": "hit.prefab",
               "stopCondition": 0,
-              "playTarget": 0,
+              "playTarget": 1,
               "ExecuteFrameIndex": 0
             }
           ]

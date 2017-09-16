@@ -133,6 +133,9 @@
     <Reference Include="protobuf-net">
       <HintPath>Assets\Plugins\ProtoBuf\protobuf-net.dll</HintPath>
     </Reference>
+    <Reference Include="DisableLogging">
+      <HintPath>Assets\Plugins\Tiinoo\DisableLogging\Dlls\DisableLogging.dll</HintPath>
+    </Reference>
     <Reference Include="Assembly-UnityScript">
       <HintPath>Library\ScriptAssemblies\Assembly-UnityScript.dll</HintPath>
     </Reference>
@@ -212,10 +215,6 @@
     <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Inspectors\RunBehaviourInspector.cs" />
     <Compile Include="Assets\AddOns\Brainiac\Source\Editor\Inspectors\ServiceInspector.cs" />
     <Compile Include="Assets\AddOns\JPSAStar\Editor\JPSStarEditor.cs" />
-    <Compile Include="Assets\Editor\MapEditor\ABTest.cs" />
-    <Compile Include="Assets\Editor\MapEditor\InspectorOfMapEdit.cs" />
-    <Compile Include="Assets\Editor\MapEditor\MapEditor.cs" />
-    <Compile Include="Assets\Editor\MapEditor\TerrianEditor.cs" />
     <Compile Include="Assets\Editor\NavMesh\NavMeshEditor.cs" />
     <Compile Include="Assets\Editor\PathologicalGames\Common\PGEditorUtils.cs" />
     <Compile Include="Assets\Editor\PathologicalGames\PoolManager\PreRuntimePoolItemInspector.cs" />
@@ -234,6 +233,11 @@
     <Compile Include="Assets\Editor\SkillEditor\SkillEditTempData.cs" />
     <Compile Include="Assets\Editor\SkillEditor\SkillEditorUtility.cs" />
     <Compile Include="Assets\Editor\Test0711Inspector.cs" />
+    <Compile Include="Assets\MapEditor\Editor\ABTest.cs" />
+    <Compile Include="Assets\MapEditor\Editor\InspectorOfMapEdit.cs" />
+    <Compile Include="Assets\MapEditor\Editor\MapEditor.cs" />
+    <Compile Include="Assets\MapEditor\Editor\MapItemInspector.cs" />
+    <Compile Include="Assets\MapEditor\Editor\TerrianEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AddOns\AstarPathfindingProject\Editor\EditorAssets\Materials\Navmesh.shader" />

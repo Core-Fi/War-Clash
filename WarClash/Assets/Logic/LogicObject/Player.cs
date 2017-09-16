@@ -13,9 +13,9 @@ namespace Logic.LogicObject
     {
         public StateMachine StateMachine { get; private set; }
 
-        internal override void OnInit()
+        internal override void OnInit(CreateInfo createInfo)
         {
-            base.OnInit();
+            base.OnInit(createInfo);
             StateMachine = new StateMachine(this);
         }
 

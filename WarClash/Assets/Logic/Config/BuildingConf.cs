@@ -15,17 +15,17 @@ namespace Config
   {
     public BuildingConf() {}
     
-    private uint _Id;
+    private int _Id;
     [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"Id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public uint Id
+    public int Id
     {
       get { return _Id; }
       set { _Id = value; }
     }
-    private uint _ArmyId = (uint)0;
+    private int _ArmyId = (int)0;
     [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"ArmyId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue((uint)0)]
-    public uint ArmyId
+    [global::System.ComponentModel.DefaultValue((int)0)]
+    public int ArmyId
     {
       get { return _ArmyId; }
       set { _ArmyId = value; }

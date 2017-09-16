@@ -21,8 +21,9 @@ namespace Logic.LogicObject
         public SkillManager SkillManager { get; private set; }
         public AIAgent AiAgent { get; protected set; }
 
-        internal override void OnInit()
+        internal override void OnInit(CreateInfo createInfo)
         {
+            base.OnInit(createInfo);
             SkillManager = new SkillManager(this);
             AttributeManager.New(AttributeType.Speed, 0);
             AttributeManager.New(AttributeType.MaxSpeed, Lockstep.FixedMath.One * 2);
