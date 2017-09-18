@@ -9,7 +9,7 @@ class U3DPlayer : U3DCharacter
     public override void OnInit()
     {
         base.OnInit();
-        Resource.LoadAsset("WK_heavy_infantry.prefab", OnLoadedRes);
+        AssetResources.LoadAsset("WK_heavy_infantry.prefab", OnLoadedRes);
        // logicGo = GameObject.CreatePrimitive(PrimitiveType.Cube);
     }
 

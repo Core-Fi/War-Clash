@@ -13,7 +13,7 @@ public class U3DNpc : U3DCharacter{
     {
         base.OnInit();
         Npc = So as Npc;
-        Resource.LoadAsset(Npc.Conf.ResPath, OnLoadedRes);
+        AssetResources.LoadAsset(Npc.Conf.ResPath, OnLoadedRes);
     }
 
     public override void OnLoadedRes(string name, Object obj)

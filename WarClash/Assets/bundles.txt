@@ -1,9 +1,0 @@
-Farm01-flower-03.png  battle
-Prefabs/Footman_prefab.prefab  prefabs/footman_prefab.prefab
-Prefabs/Footman_prefab_copy.prefab  prefabs/footman_prefab_copy.prefab
-Prefabs/OrcWarrior_prefab.prefab  prefabs/orcwarrior_prefab.prefab
-Prefabs/Stronghold.prefab  prefabs/stronghold.prefab
-Scene/Scene01/Scene01.unity  scene/scene01/scene01.unity
-UI/BattleUI.prefab  ui/battleui.prefab
-UI/NextBattleUI.prefab  ui/nextbattleui.prefab
-

@@ -32,7 +32,7 @@ class ViewManager : Manager
         Type t = msg.value2;
         object para = msg.value3;
         _waitingForLoadView.Add(new PendingViewInfo() {UiName = uiName, UiType = t, Param = para});
-        Resource.LoadAsset(uiName, OnLoadUI);
+        AssetResources.LoadAsset(uiName, OnLoadUI);
     }
 
     private void OnLoadUI(string uiName, UnityEngine.Object obj)

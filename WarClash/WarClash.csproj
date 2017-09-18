@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>5.6.2f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -443,7 +445,7 @@
     <Compile Include="Assets\Scripts\MapEdit.cs" />
     <Compile Include="Assets\Scripts\MapEditCopy.cs" />
     <Compile Include="Assets\Scripts\NavPath.cs" />
-    <Compile Include="Assets\Scripts\Resource.cs" />
+    <Compile Include="Assets\Scripts\AssetResources.cs" />
     <Compile Include="Assets\Scripts\Test0719.cs" />
     <Compile Include="Assets\Scripts\Test0726.cs" />
     <Compile Include="Assets\Scripts\U3DActions\U3DDisplayAction.cs" />
@@ -465,6 +467,7 @@
     <Compile Include="Assets\Scripts\UIJoyStick.cs" />
     <Compile Include="Assets\Test0711.cs" />
     <Compile Include="Assets\Test0801.cs" />
+    <Compile Include="Assets\Test918.cs" />
     <Compile Include="Assets\Test_06_11.cs" />
     <Compile Include="Assets\Test_6_13.cs" />
   </ItemGroup>
@@ -498,12 +501,7 @@
     <None Include="Assets\StreamingAssets\Events\_index.txt" />
     <None Include="Assets\StreamingAssets\Skills\_index.txt" />
     <None Include="Assets\StreamingAssets\map.txt" />
-    <None Include="Assets\bundles.txt" />
-    <None Include="Assets\data1_str.txt" />
-    <None Include="Assets\data2_str.txt" />
-    <None Include="Assets\graph.txt" />
     <None Include="Assets\log.txt" />
-    <None Include="Assets\meshData.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

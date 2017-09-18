@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Brainiac;
 using Lockstep;
+using Logic;
 using Logic.LogicObject;
 
 [AddNodeMenu("Action/SearchEnemy")]
@@ -29,6 +30,10 @@ public class SearchEnemy : Brainiac.Action
 	{
         enemyList.Clear();
         Logic.LogicCore.SP.SceneManager.currentScene.ForEachDo<SceneObject>(_searchEnemy);
+	    if (LogicCore.SP.WriteToLog)
+	    {
+	        LogicCore.SP.Writer.AppendLine(UnityEngine.Random.Range(0, 1000).ToString());
+	    }
 	    SceneObject target = null;
 	    if (enemyList.Count > 0)
 	    {

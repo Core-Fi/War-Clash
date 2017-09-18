@@ -13,7 +13,7 @@ public class U3DPlayFXAction : U3DDisplayAction
     {
         _playFxAction = this.Action as PlayFXAction;
         _sender = sender;
-        Resource.LoadAsset(_playFxAction.FXName, OnLoadRes);
+        AssetResources.LoadAsset(_playFxAction.FXName, OnLoadRes);
     }
 
     private void OnLoadRes(string name, UnityEngine.Object obj)

@@ -167,12 +167,7 @@
     <None Include="Assets\StreamingAssets\Events\_index.txt" />
     <None Include="Assets\StreamingAssets\Skills\_index.txt" />
     <None Include="Assets\StreamingAssets\map.txt" />
-    <None Include="Assets\bundles.txt" />
-    <None Include="Assets\data1_str.txt" />
-    <None Include="Assets\data2_str.txt" />
-    <None Include="Assets\graph.txt" />
     <None Include="Assets\log.txt" />
-    <None Include="Assets\meshData.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

@@ -8,7 +8,7 @@ class U3DBarackBuilding : U3DBuilding
     {
         base.OnInit();
         barackBuilding = So as BarackBuilding;
-        Resource.LoadAsset(barackBuilding.Conf.ResPath, OnLoadedRes);
+        AssetResources.LoadAsset(barackBuilding.Conf.ResPath, OnLoadedRes);
     }
     public override void ListenEvents()
     {

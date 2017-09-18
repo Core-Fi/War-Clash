@@ -1,6 +1,6 @@
 1000
-0  1  Logic.CreatePlayerCommand  
-0  2  Logic.CreateMainPlayerCommand  
+0  1  Logic.CreateMainPlayerCommand  
+0  2  Logic.CreatePlayerCommand  
 33  2  Logic.CreateBuildingCommand  
 66  1  Logic.CreateBuildingCommand  
 683

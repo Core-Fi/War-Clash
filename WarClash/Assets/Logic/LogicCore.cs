@@ -17,7 +17,7 @@ namespace Logic
         public SceneManager SceneManager;
         public LockFrameMgr LockFrameMgr;
         public EventGroup EventGroup;
-        public bool WriteToLog = false;
+        public bool WriteToLog = true;
         public StringBuilder Writer = new StringBuilder();
         private float _fixedtime = 0;
         private float _timeStep;
@@ -27,6 +27,20 @@ namespace Logic
             OnJoystickStart,
             OnJoystickMove,
             OnJoystickEnd
+        }
+        public void Write(object o)
+        {
+            if (WriteToLog)
+            {
+                Writer.AppendLine(o.ToString());
+            }
+        }
+        public void Write(string str)
+        {
+            if (WriteToLog)
+            {
+                Writer.AppendLine(str);
+            }
         }
         public void Init()
         {

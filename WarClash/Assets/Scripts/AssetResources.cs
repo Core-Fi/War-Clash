@@ -31,23 +31,35 @@ class BundleLoader : IPool
     private string[] dependencies;
     private int count;
     private Object[] depenObjs;
-    public void Start(string bundleName, Action<string, AssetBundle> onLoadFinish)
+
+    private bool loadNow;
+   // private bool 
+    public void Start(string bundleName, Action<string, AssetBundle> onLoadFinish, bool now = false)
     {
+        this.loadNow = now;
         this.BundleName = bundleName;
         LoadCoroutine = LoadMainAsset();
-        dependencies = Resource.Manifest.GetAllDependencies(bundleName);
-        Resource.AddLoadingLoader(this);
+        dependencies = AssetResources.Manifest.GetAllDependencies(bundleName);
+        AssetResources.AddLoadingLoader(this);
         if (dependencies.Length > 0)
         {
             depenObjs = new Object[dependencies.Length];
             for (int i = dependencies.Length-1; i >= 0; i--)
             {
-                Resource.LoadBundle(dependencies[i], OnDependencyLoadFinish);
+                AssetResources.LoadBundle(dependencies[i], OnDependencyLoadFinish, loadNow);
             }
         }
         else
         {
-            Main.SP.StartCoroutine(LoadCoroutine);
+            if (loadNow)
+            {
+                LoadMainAssetNow();
+            }
+            else
+            {
+                Main.SP.StartCoroutine(LoadCoroutine);
+            }
+           
         }
     }
     public void OnDependencyLoadFinish(string dPath, Object bundle)
@@ -55,18 +67,33 @@ class BundleLoader : IPool
         count ++;
         if(count == dependencies.Length)
         {
-            Main.SP.StartCoroutine(LoadCoroutine);
+            if (loadNow)
+            {
+                LoadMainAssetNow();
+            }
+            else
+            {
+                Main.SP.StartCoroutine(LoadCoroutine);
+            }
         }
     }
     //System.Diagnostics.Stopwatch sw = new Stopwatch();
     //sw.Start();
     IEnumerator LoadMainAsset()
     {
-        var asyn = AssetBundle.LoadFromFileAsync(Resource.BaseUrl+BundleName);
+        var asyn = AssetBundle.LoadFromFileAsync(AssetResources.BaseUrl+BundleName);
         yield return asyn.assetBundle;
         var assetsReq = asyn.assetBundle.LoadAllAssetsAsync();
         yield return assetsReq;
-        Resource.RemoveFinishedLoader(this, BundleName, assetsReq.allAssets, asyn.assetBundle);
+        AssetResources.RemoveFinishedLoader(this, BundleName, assetsReq.allAssets, asyn.assetBundle);
+        Pool.SP.Recycle(this);
+    }
+
+    void LoadMainAssetNow()
+    {
+        var assetBundle = AssetBundle.LoadFromFile(AssetResources.BaseUrl + BundleName);
+        var assetsReq = assetBundle.LoadAllAssets();
+        AssetResources.RemoveFinishedLoader(this, BundleName, assetsReq, assetBundle);
         Pool.SP.Recycle(this);
     }
     public void Reset()
@@ -76,12 +103,11 @@ class BundleLoader : IPool
         depenObjs = null;
         BundleName = null;
         OnLoadFinish = null;
-        Main.SP.StopCoroutine(LoadCoroutine);
     }
 }
 
 
-class Resource
+class AssetResources
 {
     public static string BaseUrl;
     public static AssetBundleManifest Manifest;
@@ -117,7 +143,7 @@ class Resource
             string waitingBundleName = string.Empty;
             if (w.WaitingType == WaitingType.Asset)
             {
-                var bundleInfo = GetBundleInfo(w.Name);
+                var bundleInfo = GetAssetInfo(w.Name);
                 if (bundleInfo.BundleName.Equals(bundleName))
                 {
                     WaitingList.RemoveAt(i);
@@ -141,7 +167,7 @@ class Resource
     {
         LoadingList.Add(l);
     }
-    public static AssetInfo GetBundleInfo(string assetName)
+    public static AssetInfo GetAssetInfo(string assetName)
     {
         if (AssetsInfos.ContainsKey(assetName))
         {
@@ -187,16 +213,16 @@ class Resource
             throw new System.Exception("BundleAssetsDic not found ");
         }
     }
-    public static void LoadAsset(string assetName, System.Action<string, UnityEngine.Object> action)
+    public static void LoadAsset(string assetName, System.Action<string, UnityEngine.Object> action, bool now=false)
     {
         if (Manifest == null)
         {
             LoadManifest();
         }
-        var bundleInfo =  GetBundleInfo(assetName);
-        if (BundleNameAssets.ContainsKey(bundleInfo.BundleName))
+        var assetInfo =  GetAssetInfo(assetName);
+        if (BundleNameAssets.ContainsKey(assetInfo.BundleName))
         {
-            action.Invoke(assetName, BundleNameAssets[bundleInfo.BundleName][bundleInfo.AssetPath]);
+            action.Invoke(assetName, BundleNameAssets[assetInfo.BundleName][assetInfo.AssetPath]);
         }
         else if (IsLoading(assetName, WaitingType.Asset))
         {
@@ -206,11 +232,11 @@ class Resource
         {
             WaitingList.Add(new WaitingBundle() { Action = action, Name = assetName, WaitingType = WaitingType.Asset});
             var loader = Pool.SP.Get(typeof(BundleLoader)) as BundleLoader;
-            loader.Start(bundleInfo.BundleName, null);
+            loader.Start(assetInfo.BundleName, null, now);
         }
     }
 
-    public static void LoadBundle(string bundleName, System.Action<string, UnityEngine.Object> action)
+    public static void LoadBundle(string bundleName, System.Action<string, UnityEngine.Object> action, bool now = false)
     {
         if (Manifest == null)
         {
@@ -228,7 +254,7 @@ class Resource
         {
             WaitingList.Add(new WaitingBundle() { Action = action, Name = bundleName, WaitingType = WaitingType.Bundle });
             var loader = Pool.SP.Get(typeof(BundleLoader)) as BundleLoader;
-            loader.Start(bundleName, null);
+            loader.Start(bundleName, null, now);
         }
     }
     private static bool IsLoading(string name, WaitingType wt)
@@ -236,7 +262,7 @@ class Resource
         string bundleName = string.Empty;
         if (wt == WaitingType.Asset)
         {
-            var bundleInfo = GetBundleInfo(name);
+            var bundleInfo = GetAssetInfo(name);
             bundleName = bundleInfo.BundleName;
         }
         else

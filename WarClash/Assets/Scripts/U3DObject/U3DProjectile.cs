@@ -10,7 +10,7 @@ public class U3DProjectile : U3DSceneObject
     {
         base.OnInit();
         _projectile = So as Projectile;
-        Resource.LoadAsset("Barrel.prefab", OnLoadedRes);
+        AssetResources.LoadAsset("Barrel.prefab", OnLoadedRes);
     }
     public override void OnUpdate()
     {

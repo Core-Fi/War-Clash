@@ -77,6 +77,8 @@ namespace Logic
         {
             _localFrameCount = 0;
             var randomSeed = reader.GetInt();
+            LogicCore.SP.Write(randomSeed.ToString());
+            DLog.Log(randomSeed.ToString(), Color.blue);
             UnityEngine.Random.InitState(randomSeed);
         }
         private void OnGetReceiveLockstepMsg<T>(int frame, NetDataReader reader) where T : LockFrameCommand
@@ -117,13 +119,13 @@ namespace Logic
             }
           
 
-            record++;
-            if (record%2 == 0)
-            {
-                m_pingRecords.Add(UnityEngine.Random.Range(200, 300));
-                PingVariance();
-                PingVariance2();
-            }
+            //record++;
+            //if (record%2 == 0)
+            //{
+            //    m_pingRecords.Add(UnityEngine.Random.Range(200, 300));
+            //    PingVariance();
+            //    PingVariance2();
+            //}
         }
         public void PingVariance()
         {

@@ -20,7 +20,7 @@ namespace Logic.LogicObject
             var bt = UnityEditor.AssetDatabase.LoadAssetAtPath<BTAsset>("Assets/RequiredResources/BT/" + Conf.BT);
             OnBtLoad(Conf.BT, bt);
 #else
-            Resource.LoadAsset(Conf.BT, OnBtLoad);
+            AssetResources.LoadAsset(Conf.BT, OnBtLoad, true);
 #endif
         }
         internal override void ListenEvents()
