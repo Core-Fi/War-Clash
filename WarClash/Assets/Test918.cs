@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Test918 : MonoBehaviour
 {
@@ -15,10 +18,13 @@ public class Test918 : MonoBehaviour
     {
     }
 
+    private Action a;
+    private int k = 0;
     // Update is called once per frame
-    void Update () {
-	    DLog.Log(RandomRange(0,1000).ToString());	
-	}
+    void Update ()
+    {
+        DOTween.To(() => { return transform.position; }, value => transform.position = value, Vector3.forward * 100, 2);
+    }
 
     int RandomRange(int s, int e)
     {

@@ -17,7 +17,9 @@ namespace BrainiacEditor
         {
             if(EditorApplication.isPlaying)
             {
+                
                 LogicObject lo = (LogicObject)target;
+               
                 var c = (lo.so as Character);
                 if (c != null && c.AiAgent != null)
                 {
@@ -49,13 +51,24 @@ namespace BrainiacEditor
 		
 		public override void OnInspectorGUI()
 		{
+		    LogicObject lo = (LogicObject)target;
+            if (EditorApplication.isPlaying)
+		    {
+		        if (!lo.ShowAttrs && GUILayout.Button("ShowAttributes"))
+		        {
+		            lo.ShowAttrs = true;
+		        }
+		        if (lo.ShowAttrs && GUILayout.Button("HideAttributes"))
+		        {
+		            lo.ShowAttrs = false;
+		        }
+            }
 			serializedObject.Update();
 
 			GUI.enabled = !EditorApplication.isPlaying;
 			GUI.color = Color.white;
 
 			serializedObject.ApplyModifiedProperties();
-            LogicObject lo = (LogicObject)target;
 		    var c = (lo.so as Character);
             if (c != null && c.AiAgent != null)
             {

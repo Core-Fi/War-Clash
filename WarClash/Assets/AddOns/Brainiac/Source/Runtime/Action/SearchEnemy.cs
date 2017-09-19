@@ -30,10 +30,6 @@ public class SearchEnemy : Brainiac.Action
 	{
         enemyList.Clear();
         Logic.LogicCore.SP.SceneManager.currentScene.ForEachDo<SceneObject>(_searchEnemy);
-	    if (LogicCore.SP.WriteToLog)
-	    {
-	        LogicCore.SP.Writer.AppendLine(UnityEngine.Random.Range(0, 1000).ToString());
-	    }
 	    SceneObject target = null;
 	    if (enemyList.Count > 0)
 	    {
@@ -52,16 +48,20 @@ public class SearchEnemy : Brainiac.Action
 	                }
 	            }
 	        }
+	        int s =UnityEngine.Random.Range(0, 100);
+	        int rand = LogicCore.SP.LockFrameMgr.RandomRange(0, enemyList.Count - 1);
+            target = enemyList[rand];
+            LogicCore.SP.Write(rand.ToString());
 	        //int index = UnityEngine.Random.Range(0, enemyList.Count - 1);
-         //   target = enemyList[index];
+	        //   target = enemyList[index];
 	    }
         if(target!=null)
         {
-            agent.Blackboard.SetItem("Target", target);
+            agent.Blackboard.SetItem("target", target);
             return BehaviourNodeStatus.Success;
         }else
         {
-            agent.Blackboard.SetItem("Target", null);
+            agent.Blackboard.SetItem("target", null);
             return BehaviourNodeStatus.Failure;
         }
 	}

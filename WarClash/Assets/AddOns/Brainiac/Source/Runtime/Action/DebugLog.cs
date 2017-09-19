@@ -47,20 +47,21 @@ namespace Brainiac
 
 		protected override BehaviourNodeStatus OnExecute(AIAgent agent)
 		{
+#if UNITY_EDITOR
 			switch (m_level)
 			{
 				case LogLevel.Info:
-					Debug.Log(m_message);
+					DLog.Log(m_message);
 					break;
 				case LogLevel.Warning:
-					Debug.LogWarning(m_message);
+				    DLog.LogWarning(m_message);
 					break;
 				case LogLevel.Error:
-					Debug.LogError(m_message);
+				    DLog.LogError(m_message);
 					break;
 			}
-
-			return BehaviourNodeStatus.Success;
+#endif
+            return BehaviourNodeStatus.Success;
 		}
 	}
 }

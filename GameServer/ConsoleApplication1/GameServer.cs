@@ -159,7 +159,7 @@ internal class GameServer
                 if (i != j)
                 {
                     var remoteClient = clients[j];
-                    willSendBytes.Clear();
+                    willSendBytes .Clear();
                     msgId = (short)LockFrameEvent.CreatePlayer;
                     willSendBytes.AddRange(BitConverter.GetBytes(msgId));
                     willSendBytes.AddRange(BitConverter.GetBytes(client.id));

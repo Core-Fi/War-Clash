@@ -45,7 +45,9 @@ namespace Logic.LogicObject
         }
         public T CreateSceneObject<T>(int id) where T : SceneObject
         {
-            var t = CreateSceneObject<T>(new CreateInfo() {Id = id});
+            var createInfo = Pool.SP.Get<CreateInfo>();
+            createInfo.Id = id;
+            var t = CreateSceneObject<T>(createInfo);
             return t;
         }
 

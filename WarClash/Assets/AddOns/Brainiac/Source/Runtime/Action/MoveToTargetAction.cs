@@ -32,7 +32,7 @@ public class MoveToTargetAction : Brainiac.Action
     protected override void OnEnter(AIAgent agent)
     {
         base.OnStart(agent);
-        target = agent.Blackboard.GetItem("Target") as Character;
+        target = agent.Blackboard.GetItem("target") as Character;
         CacualtePath();
         if (target != null)
         {

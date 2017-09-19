@@ -16,7 +16,7 @@ namespace Logic.LogicObject
         internal override void OnInit(CreateInfo createInfo)
         {
             base.OnInit(createInfo);
-            _timeout = FixedMath.One*3;
+            _timeout = FixedMath.One*5;
         }
         
         internal override void OnUpdate(float deltaTime)
@@ -27,15 +27,14 @@ namespace Logic.LogicObject
         internal override void OnFixedUpdate(long deltaTime)
         {
             _curTime += FixedMath.One/15;
-            if (_curTime > _timeout)
+            if (_curTime > _timeout && count<1)
             {
                 _curTime = 0;
-                var npc1 = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Npc>(new NpcCreateInfo
-                {
-                    Position = Position,
-                    NpcId = Conf.ArmyId,
-                    Team = Team
-                });
+                var createInfo = Pool.SP.Get<NpcCreateInfo>();
+                createInfo.Position = Position;
+                createInfo.NpcId = Conf.ArmyId;
+                createInfo.Team = Team;
+                var npc1 = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Npc>(createInfo);
                 count ++;
             }
             base.OnFixedUpdate(deltaTime);

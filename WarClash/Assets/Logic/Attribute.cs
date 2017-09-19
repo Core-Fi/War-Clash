@@ -120,7 +120,12 @@ namespace Logic
     {
         private readonly Dictionary<int, CharacterAttribute> _attributes = new Dictionary<int, CharacterAttribute>();
         public Action<AttributeType, long, long> OnAttributeChange;
-
+#if UNITY_EDITOR
+        public Dictionary<int, CharacterAttribute> Attributes
+        {
+            get { return _attributes; }
+        }
+#endif
         public long this[AttributeType at]
         {
             get

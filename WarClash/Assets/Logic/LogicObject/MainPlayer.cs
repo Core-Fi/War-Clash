@@ -10,6 +10,20 @@ namespace Logic.LogicObject
     class MainPlayer : Player
     {
         private bool _isPressing;
+        public static MainPlayer SP { get; private set; }
+
+        internal override void OnInit(CreateInfo createInfo)
+        {
+            base.OnInit(createInfo);
+            SP = this;
+        }
+
+        internal override void OnDispose()
+        {
+            SP = null;
+            base.OnDispose();
+        }
+
         internal override void ListenEvents()
         {
             base.ListenEvents();

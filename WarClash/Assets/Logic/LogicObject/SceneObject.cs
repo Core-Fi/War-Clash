@@ -17,12 +17,20 @@ namespace Logic.LogicObject
         Neutral
     }
 
-    public class CreateInfo
+    public class CreateInfo : IPool
     {
         public int Id;
         public Vector3d Position;
         public Vector3d Forward;
         public Team Team;
+
+        public virtual void Reset()
+        {
+            Position = new Vector3d();
+            Forward = new Vector3d();
+            Team = Team.Neutral;
+            Id = 0;
+        }
     }
 
     public class NpcCreateInfo : CreateInfo
@@ -101,6 +109,8 @@ namespace Logic.LogicObject
                 createInfo.Forward = new Vector3d(Vector3.forward);
             Forward = createInfo.Forward;
             OnInit(createInfo);
+            Pool.SP.Recycle(createInfo);
+            createInfo = null;
         }
         public virtual void OnAttributeChange(AttributeType at, long old, long newValue)
         {

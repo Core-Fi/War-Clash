@@ -173,6 +173,36 @@ namespace Logic
         }
     }
 
+    public class ChangeStrategyCommand : PlayerOperateCommand
+    {
+        public byte Strategy;
+        public override void OnExecute()
+        {
+            base.OnExecute();
+            var player = LogicCore.SP.SceneManager.currentScene.GetObject<Player>(Sender);
+            var strategy = (LockFrameMgr.Strategy)Strategy;
+            if (strategy == LockFrameMgr.Strategy.FollowPlayer)
+            {
+                LogicCore.SP.SceneManager.currentScene.ForEachDo<Npc>((c) =>
+                {
+                    c.AiAgent.Blackboard.SetItem("strategy", (int)strategy);   
+                });
+            }
+        }
+        public override void Deserialize(NetDataReader reader)
+        {
+            base.Deserialize(reader);
+            Strategy = reader.GetByte();
+        }
+
+        public override void Serialize(NetDataWriter writer)
+        {
+            var msgid = (int)LockFrameMgr.LockFrameEvent.CreateBuilding;
+            writer.Put((short)msgid);
+            base.Serialize(writer);
+            writer.Put(Strategy);
+        }
+    }
     public class CreateBuildingCommand : PlayerOperateCommand
     {
         public int MapItemId;
@@ -180,11 +210,10 @@ namespace Logic
         {
             var mapItem = LogicCore.SP.SceneManager.currentScene.MapConfig.MapDic[MapItemId] as MapBuildingItem;
             var senderSo = LogicCore.SP.SceneManager.currentScene.GetObject<SceneObject>(Sender);
-            var barack = LogicCore.SP.SceneManager.currentScene.CreateBuilding(new BuildingCreateInfo
-            {
-                BuildingId = mapItem.BuildingId,
-                Position = mapItem.Position
-            });
+            var createInfo = Pool.SP.Get<BuildingCreateInfo>();
+            createInfo.BuildingId = mapItem.BuildingId;
+            createInfo.Position = mapItem.Position;
+            var barack = LogicCore.SP.SceneManager.currentScene.CreateBuilding(createInfo);
             if(senderSo!=null)
                 barack.Team = senderSo.Team;
             else
@@ -215,7 +244,9 @@ namespace Logic
         public int NpcId;
         public override void OnExecute()
         {
-            var npc = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Npc>(new NpcCreateInfo{Id = IDManager.SP.GetID(), NpcId = NpcId });
+            var createInfo = Pool.SP.Get<NpcCreateInfo>();
+            createInfo.NpcId = NpcId;
+            var npc = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Npc>(createInfo);
             npc.Team = Team.Team2;
             npc.Position = new Vector3d(Vector3.left * 6);
         }

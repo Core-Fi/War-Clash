@@ -1,13 +1,16 @@
 ﻿using System;
+using DG.Tweening;
 using LiteNetLib.Utils;
 using Logic;
 using Logic.LogicObject;
 using Logic.Skill;
 using UnityEngine;
 using Random = UnityEngine.Random;
-public class Main : MonoBehaviour {
-
-
+public class Main : MonoBehaviour
+{
+#if UNITY_EDITOR
+    public bool ShowShortCut = true;
+#endif
     public Transform Uiparent;
     public static Main SP;
     private U3DSceneManager u3dSceneManager;
@@ -28,9 +31,10 @@ public class Main : MonoBehaviour {
         EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("UI-JoyStick.prefab", typeof(BattleView), null));
         EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("BattleUI.prefab", typeof(BattleView), null));
     }
-
+#if UNITY_EDITOR
     void OnGUI()
     {
+        if (!ShowShortCut) return;
         GUILayout.BeginVertical();
         GUILayout.Label(LogicCore.SP.LockFrameMgr.LocalFrameCount+"  "+ LogicCore.SP.LockFrameMgr.ServerFrameCount);
         if (GUILayout.Button("NewMainPlayer"))
@@ -78,6 +82,7 @@ public class Main : MonoBehaviour {
         //    Resource.UnloadBundles();
         //}
     }
+#endif
     void DonotDestroy()
     {
         var objs = GameObject.FindGameObjectsWithTag("NotDestroy");

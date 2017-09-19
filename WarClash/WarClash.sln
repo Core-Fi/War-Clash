@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarClash.Plugins", "WarClas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarClash", "WarClash.csproj", "{307C3509-C8E2-A9A3-20A2-24634A2E8EFA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarClash.Editor.Plugins", "WarClash.Editor.Plugins.csproj", "{BC4E929E-0E5E-4FD3-4459-EB33F1F40C44}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarClash.Editor", "WarClash.Editor.csproj", "{B4F288E2-0CED-2297-3E2E-01BEC01D85E0}"
 EndProject
 Global
@@ -21,6 +23,10 @@ Global
 		{307C3509-C8E2-A9A3-20A2-24634A2E8EFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{307C3509-C8E2-A9A3-20A2-24634A2E8EFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{307C3509-C8E2-A9A3-20A2-24634A2E8EFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC4E929E-0E5E-4FD3-4459-EB33F1F40C44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC4E929E-0E5E-4FD3-4459-EB33F1F40C44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC4E929E-0E5E-4FD3-4459-EB33F1F40C44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC4E929E-0E5E-4FD3-4459-EB33F1F40C44}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B4F288E2-0CED-2297-3E2E-01BEC01D85E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B4F288E2-0CED-2297-3E2E-01BEC01D85E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4F288E2-0CED-2297-3E2E-01BEC01D85E0}.Release|Any CPU.ActiveCfg = Release|Any CPU

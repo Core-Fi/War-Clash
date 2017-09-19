@@ -101,7 +101,11 @@ namespace Logic.Skill.Actions
 
         public override void Execute(SceneObject sender, SceneObject reciever, object data)
         {
-            var projectile = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Projectile>(new CreateInfo{Id = IDManager.SP.GetID(), Position = sender.Position, Forward = sender.Forward});
+            var createInfo = Pool.SP.Get<CreateInfo>();
+            createInfo.Id = IDManager.SP.GetID();
+            createInfo.Position = sender.Position;
+            createInfo.Forward = sender.Forward;
+            var projectile = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Projectile>(createInfo);
             projectile.SetValue(this, sender, reciever, data);
             base.Execute(sender, reciever, data);
         }

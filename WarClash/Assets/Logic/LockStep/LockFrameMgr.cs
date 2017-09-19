@@ -1,4 +1,4 @@
-﻿//#define LocalDebug
+﻿#define LocalDebug
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,7 +14,11 @@ namespace Logic
 {
     public class LockFrameMgr
     {
-        public enum LockFrameEvent
+        public enum Strategy : byte
+        {
+            FollowPlayer = 1,
+        }
+        public enum LockFrameEvent : short
         {
             LockStepFrame,
             SaveToLog,
@@ -26,10 +30,11 @@ namespace Logic
             CreatePlayer,
             CreateNpc,
             ReleaseSkill,
-            CreateBuilding
+            CreateBuilding,
+            StrategyCmd,
         }
         public static readonly int FixedFrameRate = 15;
-
+        
         public int ServerFrameCount
         {
             get { return _serverFrameCount; }
@@ -45,6 +50,7 @@ namespace Logic
         private int m_PingVariance;
         private List<int> m_pingRecords = new List<int>();
         private readonly FastQueue<LockFrameCommand> _frames = new FastQueue<LockFrameCommand>();
+        private int randomSeed;
         public LockFrameMgr ()
         {
             EventDispatcher.ListenEvent((int)NetEventList.LockStepMsg, OnGetLockstepMsg);
@@ -57,6 +63,7 @@ namespace Logic
             _lockstepCommandDic.Add((int)LockFrameEvent.CreatePlayer, OnGetReceiveLockstepMsg<CreatePlayerCommand>);
             _lockstepCommandDic.Add((int)LockFrameEvent.CreateNpc, OnGetReceiveLockstepMsg<CreateNpcCommand>);
             _lockstepCommandDic.Add((int)LockFrameEvent.CreateBuilding, OnGetReceiveLockstepMsg<CreateBuildingCommand>);
+            _lockstepCommandDic.Add((int)LockFrameEvent.StrategyCmd, OnGetReceiveLockstepMsg<ChangeStrategyCommand>);
             _lockstepCommandDic.Add((int)LockFrameEvent.SaveToLog, (i, e) => { File.WriteAllText(Application.dataPath+"/log.txt", LogicCore.SP.Writer.ToString()); });
         }
 
@@ -76,10 +83,9 @@ namespace Logic
         private void OnBattleStart(int frame, NetDataReader reader)
         {
             _localFrameCount = 0;
-            var randomSeed = reader.GetInt();
+            randomSeed = reader.GetInt();
             LogicCore.SP.Write(randomSeed.ToString());
-            DLog.Log(randomSeed.ToString(), Color.blue);
-            UnityEngine.Random.InitState(randomSeed);
+          
         }
         private void OnGetReceiveLockstepMsg<T>(int frame, NetDataReader reader) where T : LockFrameCommand
         {
@@ -94,7 +100,6 @@ namespace Logic
             cmd.Execute();
             return;
 #endif
-           
             NetDataWriter w = new NetDataWriter(true);
             cmd.Serialize(w);
             EventDispatcher.FireEvent(UIEventList.SendNetMsg.ToInt(), this, EventGroup.NewArg<EventSingleArgs<NetDataWriter>, NetDataWriter>(w));
@@ -126,6 +131,11 @@ namespace Logic
             //    PingVariance();
             //    PingVariance2();
             //}
+        }
+        public int RandomRange(int s, int e)
+        {
+            UnityEngine.Random.InitState(randomSeed++);
+            return UnityEngine.Random.Range(s, e);
         }
         public void PingVariance()
         {
