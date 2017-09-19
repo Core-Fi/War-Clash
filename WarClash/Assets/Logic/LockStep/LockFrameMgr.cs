@@ -17,6 +17,8 @@ namespace Logic
         public enum Strategy : byte
         {
             FollowPlayer = 1,
+            AttackEnemy = 2,
+            AttackEnemyBuilding = 3,
         }
         public enum LockFrameEvent : short
         {

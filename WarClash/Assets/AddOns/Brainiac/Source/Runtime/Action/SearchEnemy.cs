@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using Brainiac;
+using Brainiac.Serialization;
 using Lockstep;
 using Logic;
 using Logic.LogicObject;
@@ -10,12 +11,17 @@ using Logic.LogicObject;
 public class SearchEnemy : Brainiac.Action
 {
     private SceneObject _self;
-    private List<SceneObject> enemyList = new List<SceneObject>(4); 
+    private List<SceneObject> enemyList = new List<SceneObject>(4);
+    [BTProperty("建筑当做目标")]
+    public MemoryVar Building;
+    [BTProperty("敌人当做目标")]
+    public MemoryVar Enemy;
     public override void OnStart(AIAgent agent)
     {
         base.OnStart(agent);
         _self = agent.SceneObject;
         _searchEnemy = Search;
+        
     }
     private Logic.Objects.ObjectCollection<int, SceneObject>.VoidAction<SceneObject> _searchEnemy;
     private void Search(SceneObject c)
