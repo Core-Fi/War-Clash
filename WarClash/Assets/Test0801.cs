@@ -182,7 +182,7 @@ public class ReflectionCaculator
         }
     }
 
-    private static  void SpawnGO(Vector3d posi, int i)
+    private static void SpawnGO(Vector3d posi, int i)
     {
         //var g = GameObject.CreatePrimitive(PrimitiveType.Cube);
         //g.transform.position = posi.ToVector3();

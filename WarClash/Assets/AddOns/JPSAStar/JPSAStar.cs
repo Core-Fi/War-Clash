@@ -31,8 +31,9 @@ public class JPSAStar : MonoBehaviour
     void Awake()
     {
         var scene = SceneManager.GetActiveScene();
-        Data = Utility.ReadByteFromStreamingAsset("Map/" + scene.name + ".map");
+        Data = Utility.ReadByteFromStreamingAsset("Map/" + scene.name + "_jps.map");
         GenerateGrid();
+        active = this;
     }
 
     Vector3 ToPosi(Point p)
@@ -79,6 +80,7 @@ public class JPSAStar : MonoBehaviour
    
     public void GetPath(Vector3d start, Vector3d end, List<Vector3d> list)
     {
+        list.Clear();
         var startP = V3DToPoint(start);
         var endP = V3DToPoint(end);
         _points.Clear();
@@ -87,6 +89,13 @@ public class JPSAStar : MonoBehaviour
         {
             list.Add(PointToV3D(points[i]));
         }
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (i != 0)
+            {
+                Debug.DrawLine(list[i-1].ToVector3()+Vector3.up, list[i].ToVector3() + Vector3.up, Color.green, 10);
+            }
+        }
     }
 
     public bool IsWalkable(Vector3d v)
@@ -94,6 +103,7 @@ public class JPSAStar : MonoBehaviour
         Point p = V3DToPoint(v);
         return _jpsGrid.IsWalkable(p);
     }
+
     public Vector3d PointToV3D(Point p)
     {
       return  new Vector3d(FixedMath.One * p.column * Size/100, 0, FixedMath.One * p.row * Size/100) 

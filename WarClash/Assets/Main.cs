@@ -19,7 +19,6 @@ public class Main : MonoBehaviour
     {
         SP = this;
         managerDriver = new ManagerDriver();
-        Random.InitState(1000);
     }
 	// Use this for initialization
 	void Start ()
@@ -27,7 +26,7 @@ public class Main : MonoBehaviour
         DonotDestroy();
         Logic.LogicCore.SP.Init();
         u3dSceneManager = new U3DSceneManager();
-        Logic.LogicCore.SP.SceneManager.SwitchScene(new Scene("scene01"));
+        Logic.LogicCore.SP.SceneManager.SwitchScene(new Scene("scene02"));
         EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("UI-JoyStick.prefab", typeof(BattleView), null));
         EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("BattleUI.prefab", typeof(BattleView), null));
     }

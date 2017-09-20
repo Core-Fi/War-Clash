@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.Collections;
 using System.Linq;
+using Lockstep;
 
 public enum eDirections
 {
@@ -757,8 +758,8 @@ public class Grid
 		}
 	}
 
-	static readonly float SQRT_2 = Mathf.Sqrt( 2 );
-	static readonly float SQRT_2_MINUS_1 = Mathf.Sqrt( 2 ) - 1.0f;
+	static readonly long SQRT_2 = FixedMath.Sqrt(FixedMath.One*2);
+	static readonly long SQRT_2_MINUS_1 = FixedMath.Sqrt(FixedMath.One * 2) - FixedMath.One;
 
 	internal static int octileHeuristic( int curr_row, int curr_column, int goal_row, int goal_column )
 	{
@@ -766,7 +767,7 @@ public class Grid
 		int row_dist = goal_row - curr_row;
 		int column_dist = goal_column - curr_column;
 
-		heuristic = (int) ( Mathf.Max( row_dist, column_dist ) + SQRT_2_MINUS_1 * Mathf.Min( row_dist, column_dist ) );
+		heuristic =  ( Mathf.Max( row_dist, column_dist )*FixedMath.One + (SQRT_2_MINUS_1 * Mathf.Min( row_dist, column_dist ))).ToInt();
 
 		return heuristic;
 	}
@@ -934,7 +935,7 @@ public class Grid
 
 	public IEnumerator getPathAsync( Point start, Point goal , List<Point> list)
 	{
-		PriorityQueue< PathfindingNode, float > open_set = new PriorityQueue< PathfindingNode, float >();
+		PriorityQueue< PathfindingNode, int > open_set = new PriorityQueue< PathfindingNode, int>();
 		bool found_path = false;
 		PathfindReturn return_status = new PathfindReturn();
 
@@ -1004,8 +1005,10 @@ public class Grid
 						min_diff );
 
 					// givenCost = curNode->givenCost + (SQRT2 * DiffNodes(curNode, newSuccessor));
-					given_cost = curr_node.givenCost + (int)( SQRT_2 * Point.diff( curr_node.pos, new_successor.pos ) );
-				}
+					given_cost = curr_node.givenCost + ( SQRT_2 * Point.diff( curr_node.pos, new_successor.pos ) ).ToInt();
+                    var origi = curr_node.givenCost + (Mathf.Sqrt(2) * Point.diff(curr_node.pos, new_successor.pos));
+                    Debug.Log(origi+"  "+given_cost);
+                }
 				else if ( jp_node.jpDistances[ (int) dir ] > 0 )
 				{
 					// Jump Point in this direction
@@ -1022,7 +1025,7 @@ public class Grid
 					// if (diagonal direction) { givenCost *= SQRT2; }
 					if ( isDiagonal( dir ) )
 					{
-						given_cost = (int)( given_cost * SQRT_2 );
+						given_cost = ( given_cost * SQRT_2 ).ToInt();
 					}
 
 					// givenCost += curNode->givenCost;
@@ -1080,7 +1083,7 @@ public class Grid
     }
 	public List< Point > getPath( Point start, Point goal, List<Point> path)
 	{
-		PriorityQueue< PathfindingNode, float > open_set = new PriorityQueue< PathfindingNode, float >();
+		PriorityQueue< PathfindingNode, int > open_set = new PriorityQueue< PathfindingNode, int >();
 
 		ResetPathfindingNodeData();
 		PathfindingNode starting_node = this.pathfindingNodes[ pointToIndex( start ) ];
@@ -1140,7 +1143,7 @@ public class Grid
 						min_diff );
 
 					// givenCost = curNode->givenCost + (SQRT2 * DiffNodes(curNode, newSuccessor));
-					given_cost = curr_node.givenCost + (int)( SQRT_2 * Point.diff( curr_node.pos, new_successor.pos ) );
+					given_cost = curr_node.givenCost + ( SQRT_2 * Point.diff( curr_node.pos, new_successor.pos ) ).ToInt();
 				}
 				else if ( jp_node.jpDistances[ (int) dir ] > 0 )
 				{
@@ -1158,7 +1161,7 @@ public class Grid
 					// if (diagonal direction) { givenCost *= SQRT2; }
 					if ( isDiagonal( dir ) )
 					{
-						given_cost = (int)( given_cost * SQRT_2 );
+						given_cost = ( given_cost * SQRT_2 ).ToInt();
 					}
 
 					// givenCost += curNode->givenCost;

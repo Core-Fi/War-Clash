@@ -60,16 +60,19 @@ public class MoveToTargetAction : Brainiac.Action
     }
     private void CacualtePath()
     {
-        if (target != null)
+        long distance = Vector3d.Distance(target.Position, SceneObject.Position);
+        if (target != null && distance > GetRange())
         {
             previousPosi = target.Position;
-            _path.Clear();
-            FixedABPath path = FixedABPath.Construct(base.SceneObject.Position, target.Position, null);
-            path.CacualteNow();
-            ReflectionCaculator.CaculateReflectionPoints(path, _path);
-            _path.Add(path.EndPoint);
-            stage = Stage.StartMove;
-            _pathIndex = 0;
+            //navimesh的接口 先注释
+            //_path.Clear();
+            //FixedABPath path = FixedABPath.Construct(base.SceneObject.Position, target.Position, null);
+            //path.CacualteNow();
+            //ReflectionCaculator.CaculateReflectionPoints(path, _path);
+            //_path.Add(path.EndPoint);
+
+            JPSAStar.active.GetPath(SceneObject.Position, target.Position, _path);
+            _pathIndex = 1;
             Vector3d moveDirection = (_path[_pathIndex] - SceneObject.Position).Normalize();
             SceneObject.Forward = moveDirection;
             stage = Stage.Moving;
@@ -89,6 +92,7 @@ public class MoveToTargetAction : Brainiac.Action
 	{
         if(target != null && !target.IsDeath() && _path!=null)
         {
+#if UNITY_EDITOR
             if (LogicCore.SP.WriteToLog)
             {
                 LogicCore.SP.Writer.Append(SceneObject.Id);
@@ -97,7 +101,7 @@ public class MoveToTargetAction : Brainiac.Action
                 LogicCore.SP.Writer.Append(SceneObject.Forward.ToStringRaw());
                 LogicCore.SP.Writer.AppendLine();
             }
-            
+#endif
             long distance = Vector3d.Distance(target.Position, agent.SceneObject.Position);
             if(distance< GetRange())
             {

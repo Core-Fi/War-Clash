@@ -450,6 +450,7 @@
     <Compile Include="Assets\Scripts\Common\EnumOrderAttribute.cs" />
     <Compile Include="Assets\Scripts\Common\NavmeshLayer.cs" />
     <Compile Include="Assets\Scripts\Common\ParticleControl.cs" />
+    <Compile Include="Assets\Scripts\Common\StaticRVOManager.cs" />
     <Compile Include="Assets\Scripts\Framework\BattleView.cs" />
     <Compile Include="Assets\Scripts\Framework\Controller.cs" />
     <Compile Include="Assets\Scripts\Framework\EventDispatcher.cs" />

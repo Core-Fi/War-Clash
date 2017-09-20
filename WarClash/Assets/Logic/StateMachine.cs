@@ -91,8 +91,9 @@ namespace Logic
             posi.Mul(Character.AttributeManager[AttributeType.Speed]);
             posi.Div(LockFrameMgr.FixedFrameRate);
             var finalPosi = Character.Position + posi;
-            var fp = AstarPath.active.GetNearest(finalPosi);
-            var b = (fp.node as MeshNode).ContainsPoint(Vector3d.ToInt3(finalPosi));
+            //var fp = AstarPath.active.GetNearest(finalPosi);
+            //var b = (fp.node as MeshNode).ContainsPoint(Vector3d.ToInt3(finalPosi));
+            var b = JPSAStar.active.IsWalkable(finalPosi);
             if (LogicCore.SP.WriteToLog)
             {
                 LogicCore.SP.Writer.AppendLine(Character.Position.ToStringRaw()+" "+Character.Forward.ToStringRaw());
@@ -103,7 +104,7 @@ namespace Logic
             }
             else
             {
-                Character.Position = fp.constFixedClampedPosition;
+                //Character.Position = fp.constFixedClampedPosition;
                 
             }
         }

@@ -27,7 +27,7 @@ public class U3DScene : ObjectCollection<int, U3DSceneObject>
     public static bool IsFixed;
     IEnumerator LoadScene()
     {
-        AsyncOperation asyn = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("scene01");
+        AsyncOperation asyn = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(Scene.Name);
         yield return asyn;
         OnInit();
         
