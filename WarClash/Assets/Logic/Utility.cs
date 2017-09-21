@@ -166,13 +166,33 @@ public static class Utility
             return false;
         }
     }
+    public static FixedRect MinMaxRect(long xmin, long ymin, long xmax, long ymax)
+    {
+        return new FixedRect(xmin, ymin, xmax - xmin, ymax - ymin);
+    }
 
     public struct FixedRect
     {
-        public Vector3d center;
+        public Vector2d center;
+        public long xMin;
+        public long yMin;
+        public long xMax;
+        public long yMax;
         public long width;
         public long height;
-        public bool ContainsPoint(Vector3d p)
+
+        public FixedRect(long xmin, long ymin, long width, long height)
+        {
+            xMin = xmin;
+            yMin = ymin;
+            this.width = width;
+            this.height = height;
+            xMax = xmin + width;
+            yMax = ymin + height;
+            center.x = xmin + width / 2;
+            center.y = ymin + height / 2;
+        }
+        public bool ContainsPoint(Vector2d p)
         {
             var relativeP = p - center;
             if (relativeP.x < width/2 && relativeP.x > -width/2 && relativeP.z > -height/2 && relativeP.z < height/2)

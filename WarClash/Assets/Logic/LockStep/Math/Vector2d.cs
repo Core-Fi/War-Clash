@@ -99,19 +99,20 @@ namespace Lockstep
 		/// <summary>
 		/// Normalize this vector.
 		/// </summary>
-		public void Normalize()
+		public Vector2d Normalize()
 		{
 			tempMag = this.Magnitude();
 			if (tempMag == 0)
 			{
-				return;
+				return Vector2d.zero;
 			}
 			else if (tempMag == FixedMath.One)
 			{
-				return;
+				return Vector2d.zero;
 			}
 			this.x = (this.x << FixedMath.SHIFT_AMOUNT) / tempMag;
 			this.y = (this.y << FixedMath.SHIFT_AMOUNT) / tempMag;
+		    return this;
 		}
 
 		public void Normalize(out long mag)
@@ -454,8 +455,12 @@ namespace Lockstep
 		{
 			return new Vector2d(v1.x - v2.x, v1.y - v2.y);
 		}
+	    public static Vector2d operator -(Vector2d v1)
+	    {
+	        return new Vector2d(-v1.x , -v1.y);
+	    }
 
-		public static Vector2d operator *(Vector2d v1, long mag)
+        public static Vector2d operator *(Vector2d v1, long mag)
 		{
 			return new Vector2d((v1.x * mag) >> FixedMath.SHIFT_AMOUNT, (v1.y * mag) >> FixedMath.SHIFT_AMOUNT);
 		}
@@ -464,8 +469,16 @@ namespace Lockstep
 		{
 			return new Vector2d((v1.x * mag), (v1.y * mag));
 		}
+	    public static Vector2d operator *(int mag, Vector2d v1)
+	    {
+	        return new Vector2d((v1.x * mag), (v1.y * mag));
+	    }
+        public static long operator *(Vector2d v1, Vector2d v2)
+	    {
+	        return v1.Dot(v2);
+	    }
 
-		public static Vector2d operator /(Vector2d v1, long div)
+        public static Vector2d operator /(Vector2d v1, long div)
 		{
 			return new Vector2d(((v1.x << FixedMath.SHIFT_AMOUNT) / div), (v1.y << FixedMath.SHIFT_AMOUNT) / div);
 		}
@@ -518,6 +531,11 @@ namespace Lockstep
 			this.x = reader.ReadLong();
 			this.y = reader.ReadLong();
 		}
+
+	    public Vector2d Div(long wLength)
+	    {
+	        return new Vector2d(this.x.Div(wLength), this.y.Div(wLength));
+	    }
 	}
 
 

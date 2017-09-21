@@ -334,6 +334,10 @@
     <Compile Include="Assets\AddOns\JPSAStar\JPSAStar.cs" />
     <Compile Include="Assets\AddOns\JPSAStar\JPSGrid.cs" />
     <Compile Include="Assets\AddOns\JPSAStar\PriorityQueue.cs" />
+    <Compile Include="Assets\AddOns\RVO\RVOAgent.cs" />
+    <Compile Include="Assets\AddOns\RVO\Line.cs" />
+    <Compile Include="Assets\AddOns\RVO\RVOFixedQuadtree.cs" />
+    <Compile Include="Assets\AddOns\RVO\RVOMath.cs" />
     <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenAnimation.cs" />
     <Compile Include="Assets\FingerGestures\Doc\FingerEvent.cs" />
     <Compile Include="Assets\FingerGestures\Samples\Scripts\AdvancedPinchRotationSample.cs" />
