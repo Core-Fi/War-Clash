@@ -105,10 +105,10 @@ public static class Utility
     public static bool PositionIsInRect(FixedRect rect, Vector3d basePosition, FixedQuaternion baseQuaternion, Vector3d posi)
     {
 #if UNITY_EDITOR
-        Vector3d leftDown = baseQuaternion * (rect.center+new Vector3d(-rect.width/2, 0, -rect.height / 2)) + basePosition;
-        Vector3d rightDown = baseQuaternion * (rect.center + new Vector3d(rect.width / 2, 0, -rect.height / 2)) + basePosition;
-        Vector3d leftUp = baseQuaternion * (rect.center + new Vector3d(-rect.width / 2, 0, rect.height / 2)) + basePosition;
-        Vector3d rightUp = baseQuaternion * (rect.center + new Vector3d(rect.width / 2, 0, rect.height / 2)) + basePosition;
+        Vector3d leftDown = baseQuaternion * (new Vector3d(rect.center)+new Vector3d(-rect.width/2, 0, -rect.height / 2)) + basePosition;
+        Vector3d rightDown = baseQuaternion * (new Vector3d(rect.center) + new Vector3d(rect.width / 2, 0, -rect.height / 2)) + basePosition;
+        Vector3d leftUp = baseQuaternion * (new Vector3d(rect.center) + new Vector3d(-rect.width / 2, 0, rect.height / 2)) + basePosition;
+        Vector3d rightUp = baseQuaternion * (new Vector3d(rect.center) + new Vector3d(rect.width / 2, 0, rect.height / 2)) + basePosition;
 
         Debug.DrawLine(leftDown.ToVector3(), leftUp.ToVector3(), Color.green, 1);
         Debug.DrawLine(leftUp.ToVector3(), rightUp.ToVector3(), Color.green, 1);
@@ -192,10 +192,19 @@ public static class Utility
             center.x = xmin + width / 2;
             center.y = ymin + height / 2;
         }
+        public bool ContainsPoint(Vector3d p)
+        {
+            var relativeP = new Vector2d(p.x,p.z) - center;
+            if (relativeP.x < width/2 && relativeP.x > -width/2 && relativeP.y > -height/2 && relativeP.y < height/2)
+            {
+                return true;
+            }
+            else return false;
+        }
         public bool ContainsPoint(Vector2d p)
         {
             var relativeP = p - center;
-            if (relativeP.x < width/2 && relativeP.x > -width/2 && relativeP.z > -height/2 && relativeP.z < height/2)
+            if (relativeP.x < width/2 && relativeP.x > -width/2 && relativeP.y > -height/2 && relativeP.y < height/2)
             {
                 return true;
             }

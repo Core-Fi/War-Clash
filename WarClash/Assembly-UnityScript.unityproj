@@ -6,10 +6,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{EF8B5D5F-BC69-B3FA-8052-A40F53EC8455}</ProjectGuid>
+    <ProjectGuid>{9163B7CB-94D6-C6D9-D8E9-730BCE066CDC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
+    <AssemblyName>Assembly-UnityScript</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>Assets</BaseDirectory>
@@ -46,68 +46,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Plugins\FingerGestures\Components\Base\AveragedGestureRecognizer.cs" />
-     <Compile Include="Assets\Plugins\FingerGestures\Components\Base\FGComponent.cs" />
-     <Compile Include="Assets\Plugins\FingerGestures\Components\Base\GestureRecognizer.cs" />
-     <Compile Include="Assets\Plugins\FingerGestures\Components\Base\MultiFingerGestureRecognizer.cs" />
-     <Compile Include="Assets\Plugins\FingerGestures\Components\DragGestureRecognizer.cs" />
-     <Compile Include="Assets\Plugins\FingerGestures\Components\FingerMotionDetector.cs" />
-     <Compile Include="Assets\Plugins\FingerGestures\Components\LongPressGestureRecognizer.cs" />
-     <Compile Include="Assets\Plugins\FingerGestures\Components\MousePinchGestureRecognizer.cs" />
-     <Compile Include="Assets\Plugins\FingerGestures\Components\PinchGestureRecognizer.cs" />
-     <Compile Include="Assets\Plugins\FingerGestures\Components\RotationGestureRecognizer.cs" />
-     <Compile Include="Assets\Plugins\FingerGestures\Components\SwipeGestureRecognizer.cs" />
-     <Compile Include="Assets\Plugins\FingerGestures\Components\TapGestureRecognizer.cs" />
-     <Compile Include="Assets\Plugins\FingerGestures\FingerGestures.cs" />
-     <Compile Include="Assets\Plugins\FingerGestures\FingerGesturesInitializer.cs" />
-     <Compile Include="Assets\Plugins\FingerGestures\FingerGesturesPrefabs.cs" />
-     <Compile Include="Assets\Plugins\FingerGestures\MouseGestures.cs" />
-     <Compile Include="Assets\Plugins\FingerGestures\TouchScreenGestures.cs" />
-     <Compile Include="Assets\Plugins\Net\INetEventListener.cs" />
-     <Compile Include="Assets\Plugins\Net\NatPunchModule.cs" />
-     <Compile Include="Assets\Plugins\Net\NetConstants.cs" />
-     <Compile Include="Assets\Plugins\Net\NetDebug.cs" />
-     <Compile Include="Assets\Plugins\Net\NetEndPoint.cs" />
-     <Compile Include="Assets\Plugins\Net\NetManager.cs" />
-     <Compile Include="Assets\Plugins\Net\NetPacket.cs" />
-     <Compile Include="Assets\Plugins\Net\NetPacketPool.cs" />
-     <Compile Include="Assets\Plugins\Net\NetPeer.cs" />
-     <Compile Include="Assets\Plugins\Net\NetPeerCollection.cs" />
-     <Compile Include="Assets\Plugins\Net\NetSocket.cs" />
-     <Compile Include="Assets\Plugins\Net\NetThread.cs" />
-     <Compile Include="Assets\Plugins\Net\NetUtils.cs" />
-     <Compile Include="Assets\Plugins\Net\ReliableChannel.cs" />
-     <Compile Include="Assets\Plugins\Net\SequencedChannel.cs" />
-     <Compile Include="Assets\Plugins\Net\SimpleChannel.cs" />
-     <Compile Include="Assets\Plugins\Net\Utils\FastBitConverter.cs" />
-     <Compile Include="Assets\Plugins\Net\Utils\NetDataReader.cs" />
-     <Compile Include="Assets\Plugins\Net\Utils\NetDataWriter.cs" />
-     <Compile Include="Assets\Plugins\Net\Utils\NetSerializer.cs" />
-     <Compile Include="Assets\Plugins\PathologicalGames\PoolManager\PoolManager.cs" />
-     <Compile Include="Assets\Plugins\PathologicalGames\PoolManager\PreRuntimePoolItem.cs" />
-     <Compile Include="Assets\Plugins\PathologicalGames\PoolManager\SpawnPool.cs" />
-     <Compile Include="Assets\Plugins\Quick\Engine\Classes\QColor.cs" />
-     <Compile Include="Assets\Plugins\Quick\Engine\Classes\QColors.cs" />
-     <Compile Include="Assets\Plugins\Quick\Engine\Classes\QResources.cs" />
-     <Compile Include="Assets\Plugins\Quick\Engine\Common\Singleton.cs" />
-     <Compile Include="Assets\Plugins\Quick\Engine\Extensions\ArrayAndListExtensions.cs" />
-     <Compile Include="Assets\Plugins\Quick\Engine\Extensions\AudioExtensions.cs" />
-     <Compile Include="Assets\Plugins\Quick\Engine\Extensions\BoolExtensions.cs" />
-     <Compile Include="Assets\Plugins\Quick\Engine\Extensions\CameraExtensions.cs" />
-     <Compile Include="Assets\Plugins\Quick\Engine\Extensions\ColorExtensions.cs" />
-     <Compile Include="Assets\Plugins\Quick\Engine\Extensions\DateTimeExtensions.cs" />
-     <Compile Include="Assets\Plugins\Quick\Engine\Extensions\DictionaryExtenstions.cs" />
-     <Compile Include="Assets\Plugins\Quick\Engine\Extensions\FloatExtensions.cs" />
-     <Compile Include="Assets\Plugins\Quick\Engine\Extensions\IListExtensions.cs" />
-     <Compile Include="Assets\Plugins\Quick\Engine\Extensions\RectTransformExtensions.cs" />
-     <Compile Include="Assets\Plugins\Quick\Engine\Extensions\StringExtensions.cs" />
-     <Compile Include="Assets\Plugins\Quick\Engine\Extensions\TransformExtensions.cs" />
-     <Compile Include="Assets\Plugins\Quick\Engine\Extensions\VectorExtensions.cs" />
-     <Compile Include="Assets\Plugins\Quick\Engine\IO\File.cs" />
-     <Compile Include="Assets\Plugins\Quick\Engine\Utils\QAssets.cs" />
-     <Compile Include="Assets\Plugins\Quick\Engine\Utils\QEmailValidator.cs" />
-     <Compile Include="Assets\Plugins\Quick\Engine\Utils\QIPValidator.cs" />
-     <Compile Include="Assets\Plugins\Quick\Engine\Utils\QReflection.cs" />
+     <Compile Include="Assets\FingerGestures\Samples\Scripts\PickObject.js" />
+     <Compile Include="Assets\FingerGestures\Samples\Scripts\TapToPickObject.js" />
+     <Compile Include="Assets\FingerGestures\SkeletonCode\JavascriptSkeleton.js" />
      <None Include="Assets\Specular.shader" />
      <None Include="Assets\Demigiant\DOTweenPro\readme.txt" />
      <None Include="Assets\AddOns\AstarPathfindingProject\Editor\EditorAssets\Materials\Navmesh.shader" />
@@ -203,6 +144,10 @@
  <Reference Include="DisableLogging">
  <HintPath>/Users/chaoyuezhao/Documents/GitHub/War-Clash/WarClash/Assets/Plugins/Tiinoo/DisableLogging/Dlls/DisableLogging.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{EF8B5D5F-BC69-B3FA-8052-A40F53EC8455}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

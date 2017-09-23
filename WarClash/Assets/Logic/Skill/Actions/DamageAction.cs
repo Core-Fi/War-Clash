@@ -35,7 +35,7 @@ namespace Logic.Skill.Actions
                 {
                     character = LogicCore.SP.SceneManager.currentScene.ForEachDo<Player>((p) =>
                     {
-                        if (p!=sender && p.Hp>0 && Utility.PositionIsInRect(new Utility.FixedRect() {center = new Vector3d(),
+                        if (p!=sender && p.Hp>0 && Utility.PositionIsInRect(new Utility.FixedRect() {center = new Vector2d(),
                             width = FixedMath.One*2,
                             height = FixedMath.One*2}, sender.Position, FixedQuaternion.identity,
                             p.Position))

@@ -75,7 +75,7 @@ public class Test_6_13 : MonoBehaviour
         var posi = new Vector3d(A.transform.position);
         Utility.FixedRect rect = new Utility.FixedRect
         {
-            center = posi,
+            center = new Vector2d( posi.x, posi.z),
             width = FixedMath.One,
             height = FixedMath.One*2
         };

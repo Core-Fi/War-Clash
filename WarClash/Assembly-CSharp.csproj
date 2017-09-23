@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_2;UNITY_5_6;UNITY_5;UNITY_64;UNITY_ANALYTICS;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_0;UNITY_5_6;UNITY_5;UNITY_64;UNITY_ANALYTICS;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_STANDALONE_OSX;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_GAMECENTER;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_VR;ENABLE_CLUSTERINPUT;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE;dUI_DoozyUI</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
@@ -39,10 +39,10 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
-      <HintPath>C:/Program Files/Unity5.6/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
-      <HintPath>C:/Program Files/Unity5.6/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -186,10 +186,13 @@
      <Compile Include="Assets\AddOns\AstarPathfindingProject\changelog.cs" />
      <Compile Include="Assets\AddOns\Brainiac\Move.cs" />
      <Compile Include="Assets\AddOns\Brainiac\Source\Runtime\Action\AttackAction.cs" />
+     <Compile Include="Assets\AddOns\Brainiac\Source\Runtime\Action\CheckBlackboardAction.cs" />
      <Compile Include="Assets\AddOns\Brainiac\Source\Runtime\Action\DebugLog.cs" />
+     <Compile Include="Assets\AddOns\Brainiac\Source\Runtime\Action\EmptyAction.cs" />
      <Compile Include="Assets\AddOns\Brainiac\Source\Runtime\Action\MoveToTargetAction.cs" />
      <Compile Include="Assets\AddOns\Brainiac\Source\Runtime\Action\RunBehaviour.cs" />
      <Compile Include="Assets\AddOns\Brainiac\Source\Runtime\Action\SearchEnemy.cs" />
+     <Compile Include="Assets\AddOns\Brainiac\Source\Runtime\Action\SetMainPlayerAsTarget.cs" />
      <Compile Include="Assets\AddOns\Brainiac\Source\Runtime\Action\Wait.cs" />
      <Compile Include="Assets\AddOns\Brainiac\Source\Runtime\Action\YieldOneFrame.cs" />
      <Compile Include="Assets\AddOns\Brainiac\Source\Runtime\Composite\Parallel.cs" />
@@ -255,6 +258,11 @@
      <Compile Include="Assets\AddOns\JPSAStar\JPSAStar.cs" />
      <Compile Include="Assets\AddOns\JPSAStar\JPSGrid.cs" />
      <Compile Include="Assets\AddOns\JPSAStar\PriorityQueue.cs" />
+     <Compile Include="Assets\AddOns\RVO\Line.cs" />
+     <Compile Include="Assets\AddOns\RVO\RVOAgent.cs" />
+     <Compile Include="Assets\AddOns\RVO\RVOFixedQuadtree.cs" />
+     <Compile Include="Assets\AddOns\RVO\RVOMath.cs" />
+     <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenAnimation.cs" />
      <Compile Include="Assets\FingerGestures\Doc\FingerEvent.cs" />
      <Compile Include="Assets\FingerGestures\Samples\Scripts\AdvancedPinchRotationSample.cs" />
      <Compile Include="Assets\FingerGestures\Samples\Scripts\FingerEventsSamplePart1.cs" />
@@ -293,7 +301,7 @@
      <Compile Include="Assets\Logic\Config\ArmyConf.cs" />
      <Compile Include="Assets\Logic\Config\BuildingConf.cs" />
      <Compile Include="Assets\Logic\Config\ConfigManager.cs" />
-     <Compile Include="Assets\Logic\Config\GOODS_INFO.cs" />
+     <Compile Include="Assets\Logic\Config\goods_info.cs" />
      <Compile Include="Assets\Logic\EventArgs.cs" />
      <Compile Include="Assets\Logic\EventGroup.cs" />
      <Compile Include="Assets\Logic\FastCollections-master\BiDictionary.cs" />
@@ -364,9 +372,13 @@
      <Compile Include="Assets\Logic\StateMachine.cs" />
      <Compile Include="Assets\Logic\Utility.cs" />
      <Compile Include="Assets\Main.cs" />
+     <Compile Include="Assets\MapEditor\MapItemBehaviour.cs" />
+     <Compile Include="Assets\Scripts\AssetResources.cs" />
      <Compile Include="Assets\Scripts\Box.cs" />
      <Compile Include="Assets\Scripts\Common\EnumOrderAttribute.cs" />
      <Compile Include="Assets\Scripts\Common\NavmeshLayer.cs" />
+     <Compile Include="Assets\Scripts\Common\ParticleControl.cs" />
+     <Compile Include="Assets\Scripts\Common\StaticRVOManager.cs" />
      <Compile Include="Assets\Scripts\Framework\BattleView.cs" />
      <Compile Include="Assets\Scripts\Framework\Controller.cs" />
      <Compile Include="Assets\Scripts\Framework\EventDispatcher.cs" />
@@ -385,7 +397,6 @@
      <Compile Include="Assets\Scripts\MapEdit.cs" />
      <Compile Include="Assets\Scripts\MapEditCopy.cs" />
      <Compile Include="Assets\Scripts\NavPath.cs" />
-     <Compile Include="Assets\Scripts\Resource.cs" />
      <Compile Include="Assets\Scripts\Test0719.cs" />
      <Compile Include="Assets\Scripts\Test0726.cs" />
      <Compile Include="Assets\Scripts\U3DActions\U3DDisplayAction.cs" />
@@ -407,81 +418,103 @@
      <Compile Include="Assets\Scripts\UIJoyStick.cs" />
      <Compile Include="Assets\Test0711.cs" />
      <Compile Include="Assets\Test0801.cs" />
+     <Compile Include="Assets\Test918.cs" />
      <Compile Include="Assets\Test_06_11.cs" />
      <Compile Include="Assets\Test_6_13.cs" />
      <None Include="Assets\Specular.shader" />
+     <None Include="Assets\Demigiant\DOTweenPro\readme.txt" />
      <None Include="Assets\AddOns\AstarPathfindingProject\Editor\EditorAssets\Materials\Navmesh.shader" />
-     <None Include="Assets\bundles.txt" />
      <None Include="Assets\AddOns\Brainiac\Source\Resources\Brainiac\Templates\Constraint.txt" />
      <None Include="Assets\log.txt" />
      <None Include="Assets\AddOns\Brainiac\Source\Resources\Brainiac\Templates\Decorator.txt" />
      <None Include="Assets\FingerGestures\Doc\Readme.txt" />
+     <None Include="Assets\Demigiant\DOTween\DOTween50.xml" />
      <None Include="Assets\AddOns\AstarPathfindingProject\Plugins\DotNetZip\DotNetZipLicense.txt" />
      <None Include="Assets\AddOns\AstarPathfindingProject\Plugins\Poly2Tri\Poly2TriLicense.txt" />
      <None Include="Assets\AddOns\AstarPathfindingProject\ExampleScenes\Materials\Projector Multiply.shader" />
-     <None Include="Assets\graph.txt" />
      <None Include="Assets\AddOns\Brainiac\Source\Resources\Brainiac\Templates\Composite.txt" />
      <None Include="Assets\Plugins\ProtoBuf\protobuf-net.xml" />
      <None Include="Assets\AddOns\Brainiac\Source\Resources\Brainiac\Templates\Action.txt" />
      <None Include="Assets\AddOns\AstarPathfindingProject\ExampleScenes\Materials\DiffuseAlwaysVisible.shader" />
-     <None Include="Assets\data2_str.txt" />
+     <None Include="Assets\Demigiant\DOTween\DOTween46.xml" />
      <None Include="Assets\StreamingAssets\Skills\_index.txt" />
      <None Include="Assets\AddOns\AstarPathfindingProject\Plugins\dependencies.txt" />
      <None Include="Assets\AddOns\AstarPathfindingProject\ExampleScenes\_Example Scenes.txt" />
      <None Include="Assets\StreamingAssets\Events\_index.txt" />
      <None Include="Assets\AddOns\Brainiac\Source\Resources\Brainiac\Templates\Service.txt" />
+     <None Include="Assets\Demigiant\DemiLib\DemiLib.xml" />
      <None Include="Assets\AddOns\AstarPathfindingProject\Readme_upgrading.txt" />
      <None Include="Assets\AddOns\AstarPathfindingProject\Plugins\Clipper\ClipperLicense.txt" />
      <None Include="Assets\AddOns\AstarPathfindingProject\ExampleScenes\Materials\Projector Light.shader" />
      <None Include="Assets\AddOns\ConsolePro\Readme.txt" />
+     <None Include="Assets\Demigiant\DOTween\readme.txt" />
      <None Include="Assets\AddOns\AstarPathfindingProject\ExampleScenes\Example8_PathTypes\SquareShader.shader" />
      <None Include="Assets\AddOns\AstarPathfindingProject\Readme.txt" />
+     <None Include="Assets\Demigiant\DOTween\DOTween43.xml" />
      <None Include="Assets\Shader\Editor\Grid.shader" />
      <None Include="Assets\StreamingAssets\AB\assets\specular.shader" />
      <None Include="Assets\StreamingAssets\map.txt" />
      <None Include="Assets\AddOns\AstarPathfindingProject\Editor\EditorAssets\Materials\NavmeshOutline.shader" />
-     <None Include="Assets\meshData.txt" />
-     <None Include="Assets\data1_str.txt" />
+     <None Include="Assets\graph.txt" />
+     <None Include="Assets\Demigiant\readme_DOTweenPro.txt" />
      <None Include="Assets\AddOns\AstarPathfindingProject\link.xml" />
      <None Include="Assets\Plugins\PathologicalGames\readme.txt" />
  <Reference Include="UnityEngine.UI">
- <HintPath>C:/Program Files/Unity5.6/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
- <HintPath>C:/Program Files/Unity5.6/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.TestRunner">
- <HintPath>C:/Program Files/Unity5.6/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
  </Reference>
  <Reference Include="nunit.framework">
- <HintPath>C:/Program Files/Unity5.6/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/nunit.framework.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Analytics">
- <HintPath>C:/Program Files/Unity5.6/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.HoloLens">
- <HintPath>C:/Program Files/Unity5.6/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.VR">
- <HintPath>C:/Program Files/Unity5.6/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
  </Reference>
  <Reference Include="Pathfinding.ClipperLib">
- <HintPath>D:/War-Clash/WarClash/Assets/AddOns/AstarPathfindingProject/Plugins/Clipper/Pathfinding.ClipperLib.dll</HintPath>
+ <HintPath>/Users/chaoyuezhao/Documents/GitHub/War-Clash/WarClash/Assets/AddOns/AstarPathfindingProject/Plugins/Clipper/Pathfinding.ClipperLib.dll</HintPath>
  </Reference>
  <Reference Include="Pathfinding.Ionic.Zip.Reduced">
- <HintPath>D:/War-Clash/WarClash/Assets/AddOns/AstarPathfindingProject/Plugins/DotNetZip/Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
+ <HintPath>/Users/chaoyuezhao/Documents/GitHub/War-Clash/WarClash/Assets/AddOns/AstarPathfindingProject/Plugins/DotNetZip/Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
  </Reference>
  <Reference Include="Pathfinding.Poly2Tri">
- <HintPath>D:/War-Clash/WarClash/Assets/AddOns/AstarPathfindingProject/Plugins/Poly2Tri/Pathfinding.Poly2Tri.dll</HintPath>
+ <HintPath>/Users/chaoyuezhao/Documents/GitHub/War-Clash/WarClash/Assets/AddOns/AstarPathfindingProject/Plugins/Poly2Tri/Pathfinding.Poly2Tri.dll</HintPath>
+ </Reference>
+ <Reference Include="DemiLib">
+ <HintPath>/Users/chaoyuezhao/Documents/GitHub/War-Clash/WarClash/Assets/Demigiant/DemiLib/DemiLib.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTween">
+ <HintPath>/Users/chaoyuezhao/Documents/GitHub/War-Clash/WarClash/Assets/Demigiant/DOTween/DOTween.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTween43">
+ <HintPath>/Users/chaoyuezhao/Documents/GitHub/War-Clash/WarClash/Assets/Demigiant/DOTween/DOTween43.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTween46">
+ <HintPath>/Users/chaoyuezhao/Documents/GitHub/War-Clash/WarClash/Assets/Demigiant/DOTween/DOTween46.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTween50">
+ <HintPath>/Users/chaoyuezhao/Documents/GitHub/War-Clash/WarClash/Assets/Demigiant/DOTween/DOTween50.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTweenPro">
+ <HintPath>/Users/chaoyuezhao/Documents/GitHub/War-Clash/WarClash/Assets/Demigiant/DOTweenPro/DOTweenPro.dll</HintPath>
  </Reference>
  <Reference Include="Newtonsoft.Json">
- <HintPath>D:/War-Clash/WarClash/Assets/Plugins/JsonNet/Newtonsoft.Json.dll</HintPath>
+ <HintPath>/Users/chaoyuezhao/Documents/GitHub/War-Clash/WarClash/Assets/Plugins/JsonNet/Newtonsoft.Json.dll</HintPath>
  </Reference>
  <Reference Include="protobuf-net">
- <HintPath>D:/War-Clash/WarClash/Assets/Plugins/ProtoBuf/protobuf-net.dll</HintPath>
+ <HintPath>/Users/chaoyuezhao/Documents/GitHub/War-Clash/WarClash/Assets/Plugins/ProtoBuf/protobuf-net.dll</HintPath>
  </Reference>
  <Reference Include="DisableLogging">
- <HintPath>D:/War-Clash/WarClash/Assets/Plugins/Tiinoo/DisableLogging/Dlls/DisableLogging.dll</HintPath>
+ <HintPath>/Users/chaoyuezhao/Documents/GitHub/War-Clash/WarClash/Assets/Plugins/Tiinoo/DisableLogging/Dlls/DisableLogging.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
