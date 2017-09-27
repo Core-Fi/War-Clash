@@ -31,9 +31,8 @@
  */
 
 using System;
-using Lockstep;
 
-namespace FixedRVO
+namespace RVO
 {
     /**
      * <summary>Contains functions and constants used in multiple classes.
@@ -54,7 +53,7 @@ namespace FixedRVO
          * computed.</param>
          * <returns>The length of the two-dimensional vector.</returns>
          */
-        public static float abs(Vector2d vector)
+        public static float abs(Vector2 vector)
         {
             return sqrt(absSq(vector));
         }
@@ -68,9 +67,9 @@ namespace FixedRVO
          * <param name="vector">The two-dimensional vector whose squared length
          * is to be computed.</param>
          */
-        public static long absSq(Vector2d vector)
+        public static float absSq(Vector2 vector)
         {
-            return vector.Dot(vector);
+            return vector * vector;
         }
 
         /**
@@ -82,9 +81,9 @@ namespace FixedRVO
          * <param name="vector">The two-dimensional vector whose normalization
          * is to be computed.</param>
          */
-        public static Vector2d normalize(Vector2d vector)
+        public static Vector2 normalize(Vector2 vector)
         {
-            return vector.Normalize();
+            return vector / abs(vector);
         }
 
         /**
@@ -97,12 +96,12 @@ namespace FixedRVO
          *
          * <param name="vector1">The top row of the two-dimensional square
          * matrix.</param>
-         * <param name="Vector2d">The bottom row of the two-dimensional square
+         * <param name="vector2">The bottom row of the two-dimensional square
          * matrix.</param>
          */
-        internal static long det(Vector2d vector1, Vector2d vector2)
+        internal static float det(Vector2 vector1, Vector2 vector2)
         {
-            return vector1.x.Mul(vector2.y) - vector1.y.Mul(vector2.x);
+            return vector1.x_ * vector2.y_ - vector1.y_ * vector2.x_;
         }
 
         /**
@@ -113,26 +112,26 @@ namespace FixedRVO
          * </returns>
          *
          * <param name="vector1">The first endpoint of the line segment.</param>
-         * <param name="Vector2d">The second endpoint of the line segment.
+         * <param name="vector2">The second endpoint of the line segment.
          * </param>
          * <param name="vector3">The point to which the squared distance is to
          * be calculated.</param>
          */
-        internal static float distSqPointLineSegment(Vector2d vector1, Vector2d Vector2, Vector2d vector3)
+        internal static float distSqPointLineSegment(Vector2 vector1, Vector2 vector2, Vector2 vector3)
         {
-            long r = ((vector3 - vector1) .Dot (Vector2 - vector1)) .Div(absSq(Vector2 - vector1));
+            float r = ((vector3 - vector1) * (vector2 - vector1)) / absSq(vector2 - vector1);
 
-            if (r < 0)
+            if (r < 0.0f)
             {
                 return absSq(vector3 - vector1);
             }
 
             if (r > 1.0f)
             {
-                return absSq(vector3 - Vector2);
+                return absSq(vector3 - vector2);
             }
 
-            return absSq(vector3 - (vector1 + (Vector2 - vector1).Mul(r)));
+            return absSq(vector3 - (vector1 + r * (vector2 - vector1)));
         }
 
         /**
@@ -143,7 +142,7 @@ namespace FixedRVO
          * <param name="scalar">The float of which to compute the absolute
          * value.</param>
          */
-        internal static long fabs(long scalar)
+        internal static float fabs(float scalar)
         {
             return Math.Abs(scalar);
         }
@@ -160,7 +159,7 @@ namespace FixedRVO
          * <param name="c">The point to which the signed distance is to be
          * calculated.</param>
          */
-        internal static float leftOf(Vector2d a, Vector2d b, Vector2d c)
+        internal static float leftOf(Vector2 a, Vector2 b, Vector2 c)
         {
             return det(a - c, b - a);
         }
@@ -172,9 +171,9 @@ namespace FixedRVO
          *
          * <param name="scalar">The float to be squared.</param>
          */
-        internal static long sqr(long scalar)
+        internal static float sqr(float scalar)
         {
-            return scalar.Mul(scalar);
+            return scalar * scalar;
         }
 
         /**
@@ -185,9 +184,9 @@ namespace FixedRVO
          * <param name="scalar">The float of which to compute the square root.
          * </param>
          */
-        internal static long sqrt(long scalar)
+        internal static float sqrt(float scalar)
         {
-            return FixedMath.Sqrt(scalar);
+            return (float)Math.Sqrt(scalar);
         }
     }
 }

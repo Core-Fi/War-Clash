@@ -171,6 +171,15 @@ public static class Utility
         return new FixedRect(xmin, ymin, xmax - xmin, ymax - ymin);
     }
 
+    public static long Min(long a, long b)
+    {
+        return a > b ? b : a;
+    }
+
+    public static long Max(long a, long b)
+    {
+        return a < b ? b : a;
+    }
     public struct FixedRect
     {
         public Vector2d center;

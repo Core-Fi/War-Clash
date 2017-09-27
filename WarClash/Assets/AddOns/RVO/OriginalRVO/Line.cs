@@ -30,16 +30,14 @@
  * <http://gamma.cs.unc.edu/RVO2/>
  */
 
-using Lockstep;
-
-namespace FixedRVO
+namespace RVO
 {
     /**
      * <summary>Defines a directed line.</summary>
      */
     public struct Line
     {
-        public Vector2d direction;
-        public Vector2d point;
+        public Vector2 direction;
+        public Vector2 point;
     }
 }

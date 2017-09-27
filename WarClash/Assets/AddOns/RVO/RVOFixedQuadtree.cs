@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using FixedRVO;
 using Lockstep;
 using Pathfinding.RVO.Sampled;
 
@@ -17,18 +18,18 @@ namespace RVO {
 			public int child10;
 			public int child11;
 			public byte count;
-			public RVOAgent linkedList;
+			public RVOFixedAgent linkedList;
 
-			public void Add (RVOAgent rvoAgent) {
-				rvoAgent.next = linkedList;
-				linkedList = rvoAgent;
+			public void Add (RVOFixedAgent rvoFixedAgent) {
+				rvoFixedAgent.next = linkedList;
+				linkedList = rvoFixedAgent;
 			}
 
 			public void Distribute (Node[] nodes, Utility.FixedRect r) {
 				Vector2d c = r.center;
 
 				while (linkedList != null) {
-					RVOAgent nx = linkedList.next;
+					RVOFixedAgent nx = linkedList.next;
 					if (linkedList.position.x > c.x) {
 						if (linkedList.position.z > c.y) {
 							nodes[child11].Add(linkedList);
@@ -75,14 +76,14 @@ namespace RVO {
 			return filledNodes-1;
 		}
 
-		public void Insert (RVOAgent rvoAgent) {
+		public void Insert (RVOFixedAgent rvoFixedAgent) {
 			int i = 0;
 			Utility.FixedRect r = bounds;
-			Vector2d p = new Vector2d(rvoAgent.position.x, rvoAgent.position.z);
+			Vector2d p = new Vector2d(rvoFixedAgent.position.x, rvoFixedAgent.position.z);
 
-			rvoAgent.next = null;
+			rvoFixedAgent.next = null;
 
-			maxRadius = System.Math.Max(rvoAgent.radius, maxRadius);
+			maxRadius = System.Math.Max(rvoFixedAgent.radius, maxRadius);
 
 			int depth = 0;
 
@@ -92,7 +93,7 @@ namespace RVO {
 				if (nodes[i].child00 == i) {
 					// Leaf node. Break at depth 10 in case lots of agents ( > LeafSize ) are in the same spot
 					if (nodes[i].count < LeafSize || depth > 10) {
-						nodes[i].Add(rvoAgent);
+						nodes[i].Add(rvoFixedAgent);
 						nodes[i].count++;
 						break;
 					} else {
@@ -132,16 +133,16 @@ namespace RVO {
 			}
 		}
 
-		public void Query (Vector2d p, long radius, RVOAgent rvoAgent) {
-			QueryRec(0, p, radius, rvoAgent, bounds);
+		public void Query (Vector2d p, long radius, RVOFixedAgent rvoFixedAgent) {
+			QueryRec(0, p, radius, rvoFixedAgent, bounds);
 		}
 
-		long QueryRec (int i, Vector2d p, long radius, RVOAgent rvoAgent, Utility.FixedRect r) {
+		long QueryRec (int i, Vector2d p, long radius, RVOFixedAgent rvoFixedAgent, Utility.FixedRect r) {
 			if (nodes[i].child00 == i) {
 				// Leaf node
-				RVOAgent a = nodes[i].linkedList;
+				RVOFixedAgent a = nodes[i].linkedList;
 				while (a != null) {
-				    var v = rvoAgent.InsertAgentNeighbour(a, radius.Mul(radius));
+				    var v = rvoFixedAgent.InsertAgentNeighbour(a, radius.Mul(radius));
 				    if (v < radius * radius)
 				    {
 				        radius = FixedMath.Sqrt(v);
@@ -159,19 +160,19 @@ namespace RVO {
 				Vector2d c = r.center;
 				if (p.x-radius < c.x) {
 					if (p.y-radius < c.y) {
-						radius = QueryRec(nodes[i].child00, p, radius, rvoAgent, Utility.MinMaxRect(r.xMin, r.yMin, c.x, c.y));
+						radius = QueryRec(nodes[i].child00, p, radius, rvoFixedAgent, Utility.MinMaxRect(r.xMin, r.yMin, c.x, c.y));
 					}
 					if (p.y+radius > c.y) {
-						radius = QueryRec(nodes[i].child01, p, radius, rvoAgent, Utility.MinMaxRect(r.xMin, c.y, c.x, r.yMax));
+						radius = QueryRec(nodes[i].child01, p, radius, rvoFixedAgent, Utility.MinMaxRect(r.xMin, c.y, c.x, r.yMax));
 					}
 				}
 
 				if (p.x+radius > c.x) {
 					if (p.y-radius < c.y) {
-						radius = QueryRec(nodes[i].child10, p, radius, rvoAgent, Utility.MinMaxRect(c.x, r.yMin, r.xMax, c.y));
+						radius = QueryRec(nodes[i].child10, p, radius, rvoFixedAgent, Utility.MinMaxRect(c.x, r.yMin, r.xMax, c.y));
 					}
 					if (p.y+radius > c.y) {
-						radius = QueryRec(nodes[i].child11, p, radius, rvoAgent, Utility.MinMaxRect(c.x, c.y, r.xMax, r.yMax));
+						radius = QueryRec(nodes[i].child11, p, radius, rvoFixedAgent, Utility.MinMaxRect(c.x, c.y, r.xMax, r.yMax));
 					}
 				}
 			}
@@ -198,7 +199,7 @@ namespace RVO {
 				DebugDrawRec(nodes[i].child00, Utility.MinMaxRect(r.xMin, r.yMin, c.x, c.y));
 			}
 
-			RVOAgent a = nodes[i].linkedList;
+			RVOFixedAgent a = nodes[i].linkedList;
 			while (a != null) {
 				Debug.DrawLine(nodes[i].linkedList.position.ToVector3()+Vector3.up, a.position.ToVector3()+Vector3.up, new Color(1, 1, 0, 0.5f));
 				a = a.next;

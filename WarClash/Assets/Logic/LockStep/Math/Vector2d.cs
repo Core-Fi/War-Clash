@@ -175,9 +175,7 @@ namespace Lockstep
 
 	    public Vector2d Mul(long a)
 	    {
-	        x = x.Mul(a);
-	        y = y.Mul(a);
-	        return this;
+	        return new Vector2d(x.Mul(a), y.Mul(a));
 	    }
 		public void Rotate(long cos, long sin)
 		{

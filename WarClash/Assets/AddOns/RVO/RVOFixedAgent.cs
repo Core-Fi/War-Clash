@@ -33,35 +33,47 @@ using System;
 using System.Collections.Generic;
 using Lockstep;
 using Pathfinding.RVO;
+using UnityEngine;
 
-namespace RVO
+namespace FixedRVO
 {
     /**
      * <summary>Defines an agent in the simulation.</summary>
      */
-    public class RVOAgent
+    public class RVOFixedAgent
     {
-        internal RVOAgent next;
+        public RVOFixedAgent next;
         public Vector3d position;
-        internal IList<KeyValuePair<long, RVOAgent>> agentNeighbors_ = new List<KeyValuePair<long, RVOAgent>>();
-        internal IList<Line> orcaLines_ = new List<Line>();
-        internal Vector2d position_;
-        internal Vector2d prefVelocity_;
-        internal Vector2d velocity_;
-        internal int id_ = 0;
-        internal int maxNeighbors_ = 0;
-        internal long maxSpeed_ = 0;
-        internal long neighborDist_ = 0;
-        internal long radius = 0;
-        internal long timeHorizon_ = 0;
-        internal long timeHorizonObst_ = 0;
+        public IList<KeyValuePair<long, RVOFixedAgent>> agentNeighbors_ = new List<KeyValuePair<long, RVOFixedAgent>>();
+        public IList<Line> orcaLines_ = new List<Line>();
+
+        public Vector2d position_
+        {
+            get
+            {
+                return new Vector2d(position.x, position.z);
+            }
+            set
+            {
+                position = new Vector3d(value.x, 0, value.y);
+            }
+        }
+        public Vector2d prefVelocity_;
+        public Vector2d velocity_;
+        public int id_ = 0;
+        public int maxNeighbors_ = 0;
+        public long maxSpeed_ = FixedMath.One;
+        public long neighborDist_ = 0;
+        public long radius = 0;
+        public long timeHorizon_ = FixedMath.One/15;
+        public long timeHorizonObst_ = 0;
 
         private Vector2d newVelocity_;
 
         /**
          * <summary>Computes the new velocity of this agent.</summary>
          */
-        internal void computeNewVelocity()
+        public void computeNewVelocity()
         {
             orcaLines_.Clear();
 
@@ -69,12 +81,12 @@ namespace RVO
 
             int numObstLines = orcaLines_.Count;
 
-            long invTimeHorizon = 1 / timeHorizon_;
+            long invTimeHorizon = FixedMath.One.Div(15);
             
             /* Create agent ORCA lines. */
             for (int i = 0; i < agentNeighbors_.Count; ++i)
             {
-                RVOAgent other = agentNeighbors_[i].Value;
+                RVOFixedAgent other = agentNeighbors_[i].Value;
 
                 Vector2d relativePosition = other.position_ - position_;
                 Vector2d relativeVelocity = velocity_ - other.velocity_;
@@ -126,7 +138,7 @@ namespace RVO
                 else
                 {
                     /* Collision. Project on cut-off circle of time timeStep. */
-                    long invTimeStep = FixedMath.One / 15;//改为帧频率
+                    long invTimeStep = FixedMath.One * 15;//改为帧频率
 
                     /* Vector from cutoff center to relative velocity. */
                     Vector2d w = relativeVelocity -  relativePosition.Mul(invTimeStep);
@@ -139,31 +151,36 @@ namespace RVO
                 }
 
                 line.point = velocity_ + u.Mul(FixedMath.Half);
+              //  DLog.Log(line.point.ToVector2()+" point", Color.red);
                 orcaLines_.Add(line);
+              
             }
-
+          
             int lineFail = linearProgram2(orcaLines_, maxSpeed_, prefVelocity_, false, ref newVelocity_);
-
+           // DLog.Log(newVelocity_.ToString(), Color.red);
             if (lineFail < orcaLines_.Count)
             {
                 linearProgram3(orcaLines_, numObstLines, lineFail, maxSpeed_, ref newVelocity_);
             }
+         //   DLog.Log(newVelocity_.ToVector2()+"", Color.red);
+            UnityEngine.Debug.DrawLine(position.ToVector3(), (position+new Vector3d(newVelocity_.x,0, newVelocity_.y)).ToVector3(), Color.red, 1);
         }
 
-        public long InsertAgentNeighbour(RVOAgent agent, long rangeSq)
+        public long InsertAgentNeighbour(RVOFixedAgent fixedAgent, long rangeSq)
         {
-            if (this == agent) return rangeSq;
+            if (this == fixedAgent) return rangeSq;
 
             //if ((agent.layer & collidesWith) == 0) return rangeSq;
 
             //2D Dist
-            long dist = FixedMath.Sqrt(agent.position.x - position.x) + FixedMath.Sqrt(agent.position.z - position.z);
+            long dist = (fixedAgent.position.x - position.x).Mul(fixedAgent.position.x - position.x) 
+                + (fixedAgent.position.z - position.z).Mul(fixedAgent.position.z - position.z);
 
             if (dist < rangeSq)
             {
                 if (agentNeighbors_.Count < 10)
                 {
-                    agentNeighbors_.Add(new KeyValuePair<long, RVOAgent>(dist, agent));
+                    agentNeighbors_.Add(new KeyValuePair<long, RVOFixedAgent>(dist, fixedAgent));
                 }
 
                 int i = agentNeighbors_.Count - 1;
@@ -175,7 +192,7 @@ namespace RVO
                      
                         i--;
                     }
-                    agentNeighbors_[i] = new KeyValuePair<long, RVOAgent>(dist, agent);
+                    agentNeighbors_[i] = new KeyValuePair<long, RVOFixedAgent>(dist, fixedAgent);
                 }
 
                 if (agentNeighbors_.Count == 10)
@@ -189,7 +206,7 @@ namespace RVO
          * <summary>Updates the two-dimensional position and two-dimensional
          * velocity of this agent.</summary>
          */
-        internal void update()
+        public void update()
         {
             velocity_ = newVelocity_;
             position_ += velocity_ * (FixedMath.One/15);
@@ -213,19 +230,20 @@ namespace RVO
          */
         private bool linearProgram1(IList<Line> lines, int lineNo, long radius, Vector2d optVelocity, bool directionOpt, ref Vector2d result)
         {
+          
             long dotProduct = lines[lineNo].point .Dot( lines[lineNo].direction);
             long discriminant = RVOMath.sqr(dotProduct) + RVOMath.sqr(radius) - RVOMath.absSq(lines[lineNo].point);
-
-            if (discriminant < 0.0f)
+           // DLog.Log(discriminant.ToFloat() + " " + RVOMath.sqr(dotProduct).ToFloat() + " " + RVOMath.sqr(radius).ToFloat() + " " + RVOMath.absSq(lines[lineNo].point).ToFloat() + "", Color.red);
+            if (discriminant < 0)
             {
                 /* Max speed circle fully invalidates line lineNo. */
                 return false;
             }
-
+           
             long sqrtDiscriminant = RVOMath.sqrt(discriminant);
             long tLeft = -dotProduct - sqrtDiscriminant;
             long tRight = -dotProduct + sqrtDiscriminant;
-
+          //  DLog.Log(discriminant.ToFloat()+ " "+dotProduct.ToFloat()+" "+discriminant.ToFloat()+" "+tLeft.ToFloat()+" "+tRight.ToFloat(), Color.red);
             for (int i = 0; i < lineNo; ++i)
             {
                 long denominator = RVOMath.det(lines[lineNo].direction, lines[i].direction);
@@ -244,7 +262,7 @@ namespace RVO
 
                 long t = numerator.Div(denominator);
 
-                if (denominator >= 0.0f)
+                if (denominator >= 0)
                 {
                     /* Line i bounds line lineNo on the right. */
                     tRight = Math.Min(tRight, t);
@@ -293,7 +311,7 @@ namespace RVO
                     result = lines[lineNo].point +  lines[lineNo].direction * t;
                 }
             }
-
+         //   DLog.Log(result.ToString(), Color.red);
             return true;
         }
 
@@ -314,6 +332,8 @@ namespace RVO
          */
         private int linearProgram2(IList<Line> lines, long radius, Vector2d optVelocity, bool directionOpt, ref Vector2d result)
         {
+            //DLog.Log(directionOpt.ToString() + "   " + (RVOMath.absSq(optVelocity) > RVOMath.sqr(radius))
+            //, Color.red);
             if (directionOpt)
             {
                 /*
@@ -335,7 +355,8 @@ namespace RVO
 
             for (int i = 0; i < lines.Count; ++i)
             {
-                if (RVOMath.det(lines[i].direction, lines[i].point - result) > 0.0f)
+              //  DLog.Log(result+" "+ lines[i].direction.ToVector2()+" "+ lines[i].point.ToVector2()+" "+i+" "+ RVOMath.det(lines[i].direction, lines[i].point - result).ToFloat(), Color.red);
+                if (RVOMath.det(lines[i].direction, lines[i].point - result) > 0)
                 {
                     /* Result does not satisfy constraint i. Compute new optimal result. */
                     Vector2d tempResult = result;
@@ -350,6 +371,7 @@ namespace RVO
 
             return lines.Count;
         }
+        private IList<Line> projLines = new List<Line>();
 
         /**
          * <summary>Solves a two-dimensional linear program subject to linear
@@ -372,7 +394,7 @@ namespace RVO
                 if (RVOMath.det(lines[i].direction, lines[i].point - result) > distance)
                 {
                     /* Result does not satisfy constraint of line i. */
-                    IList<Line> projLines = new List<Line>();
+                    projLines.Clear();
                     for (int ii = 0; ii < numObstLines; ++ii)
                     {
                         projLines.Add(lines[ii]);
@@ -400,13 +422,13 @@ namespace RVO
                         }
                         else
                         {
-                            line.point = lines[i].point +   lines[i].direction * (RVOMath.det(lines[j].direction, lines[i].point - lines[j].point) / determinant);
+                            line.point = lines[i].point +   lines[i].direction * (RVOMath.det(lines[j].direction, lines[i].point - lines[j].point).Div(determinant));
                         }
 
                         line.direction = RVOMath.normalize(lines[j].direction - lines[i].direction);
                         projLines.Add(line);
                     }
-
+                //    DLog.Log(new Vector2d(-lines[i].direction.y, lines[i].direction.x).ToString()+" "+i, Color.red);
                     Vector2d tempResult = result;
                     if (linearProgram2(projLines, radius, new Vector2d(-lines[i].direction.y, lines[i].direction.x), true, ref result) < projLines.Count)
                     {
