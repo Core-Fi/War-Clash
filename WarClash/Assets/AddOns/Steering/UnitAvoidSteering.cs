@@ -10,11 +10,13 @@ using UnityEngine;
 
 class UnitAvoidSteering
 {
-    private long _cosAvoidAngle = FixedMath.One * 8/10;
+    private const long radiusMargin = FixedMath.One / 10;
+    private long _cosAvoidAngle = -FixedMath.One * 99/100;
     private Vector3d _selfCollisionPos;
     private Test918 self;
     public Vector3d GetDesiredSteering(Test918 t)
     {
+        _selfCollisionPos = Vector3d.zero;
         self = t;
         var units = GameObject.FindObjectsOfType<Test918>();
         List<Test918> others = new List<Test918>();
@@ -24,27 +26,29 @@ class UnitAvoidSteering
                 others.Add(units[i]);
         }
         Vector3d selfPosi = new Vector3d(t.transform.position);
-        Vector3d combinedAvoidVector = new Vector3d();
-        for (int i = 0; i < others.Count; i++)
-        {
-            Vector3d otherPosi = new Vector3d( others[i].transform.position);
-            Vector3d direction = otherPosi - selfPosi;
-            long distance = direction.sqrMagnitude;
-            if (distance > FixedMath.One*3)
-            {
-                continue;
-            }
-            else
-            {
-                long combinedRadius = FixedMath.One + FixedMath.One;
-                Vector3d otherVelocity = others[i].velocity;
-                Vector3d avoidVector = GetAvoidVector(selfPosi, t.velocity, t.normalVelocity, otherPosi, otherVelocity, combinedRadius);
-                combinedAvoidVector += avoidVector;
-            }
-        }
-        return combinedAvoidVector;
+        return Avoid(others, others.Count, self.velocity)/(FixedMath.One/30);
     }
+    private Vector3d Avoid(List<Test918> units, int unitsLength, Vector3d currentVelocity)
+    {
+        Vector3d selfPos = new Vector3d(self.transform.position); ;
+        Vector3d normalVelocity = currentVelocity.Normalize();
+        Vector3d combinedAvoidVector = Vector3d.zero;
 
+        // iterate through scanned units list
+        for (int i = 0; i < unitsLength; i++)
+        {
+            var other = units[i];
+
+            Vector3d otherPos = new Vector3d(other.transform.position);
+            long combinedRadius = FixedMath.Create(other.radius)+ radiusMargin;
+            Vector3d otherVelocity = other.velocity;
+            Vector3d avoidVector = GetAvoidVector(selfPos, currentVelocity, normalVelocity, otherPos, otherVelocity, combinedRadius);
+            combinedAvoidVector += avoidVector;
+        }
+
+        return combinedAvoidVector;
+
+    }
     private Vector3d GetAvoidVector(Vector3d selfPosi, Vector3d currentVelocity, Vector3d normalVelocity,
         Vector3d otherPosi, Vector3d otherVelocity, long combinedRadius)
     {
@@ -56,7 +60,7 @@ class UnitAvoidSteering
         if(vectorLength<=0) return Vector3d.zero;
         Vector3d avoidNormalized = (avoidDirection/(avoidMagnitude));
         Vector3d avoidVector = avoidNormalized * vectorLength;
-        float dotAngle = Vector3d.Dot(avoidNormalized, normalVelocity);
+        long dotAngle = Vector3d.Dot(avoidNormalized, normalVelocity);
         if (dotAngle <= _cosAvoidAngle)
         {
             // the collision is considered "head-on", thus we compute a perpendicular avoid vector instead
@@ -104,11 +108,11 @@ class UnitAvoidSteering
 
         // find the lowest non-negative time, since this will be where the collision time interval starts
         long time = 0;
-        if (t1 < 0f)
+        if (t1 < 0)
         {
             time = t2;
         }
-        else if (t2 < 0f)
+        else if (t2 < 0)
         {
             time = t1;
         }
@@ -118,18 +122,20 @@ class UnitAvoidSteering
         }
 
         // the collision time we want is actually 25 % within the collision
-        time += Math.Abs(t2 - t1) /4;
+       // time += Math.Abs(t2 - t1) /4;
 
         // compute actual collision positions
         Vector3d selfCollisionPos = selfPos + (currentVelocity *( time));
         Vector3d otherCollisionPos = otherPos + (otherVelocity *(time));
+        _selfCollisionPos = selfCollisionPos;
         //var selfgo = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         //var othergo = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         //selfgo.name = "self";
         //othergo.name = "other";
         //selfgo.transform.position = selfCollisionPos.ToVector3();
         //othergo.transform.position = otherCollisionPos.ToVector3();
-       // Debug.LogError("pause "+ self.name);
+        //Debug.LogError("pause " + self.name);
+        //Debug.LogError(self.name+" "+selfPos+" "+otherPos+" "+selfCollisionPos+" "+otherCollisionPos);
         // return an avoid vector from the other's collision position to this unit's collision position
         return selfCollisionPos - otherCollisionPos;
     }

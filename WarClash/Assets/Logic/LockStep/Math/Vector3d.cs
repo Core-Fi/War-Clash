@@ -59,6 +59,8 @@ namespace Lockstep
         
         public Vector3d Normalize () {
             long magnitude = FixedMath.Sqrt(x.Mul(x) + y.Mul(y) + z.Mul(z));
+            if (magnitude == 0)
+                return Vector3d.zero;
             x = x.Div(magnitude);
             y = y.Div(magnitude);
             z = z.Div(magnitude);

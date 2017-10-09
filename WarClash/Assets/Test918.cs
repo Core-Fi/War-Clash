@@ -8,46 +8,49 @@ using Random = UnityEngine.Random;
 
 public class Test918 : MonoBehaviour
 {
-    private static int randomSeed;
-    public Vector3 v3_velocity;
-
-    public Vector3d velocity
-    {
-        get
-        {
-            return new Vector3d(v3_velocity);
-        }
-    }
-
-    public Vector3d normalVelocity;
+    public Vector3 destination;
+    public Vector3d velocity;
+    public float radius = 1;
     private UnitAvoidSteering uas = new UnitAvoidSteering();
-	// Use this for initialization
-	void Start ()
-	{
-	    randomSeed = 1000;
-    }
+    private DestinaionSteering ds = new DestinaionSteering();
 
-    private void OnBtLoad(string arg1, UnityEngine.Object arg2)
+
+    private TestAvoidanceSteering tas = new TestAvoidanceSteering();
+    void Start()
     {
+        ds.Destination = new Vector3d(destination);
+        tas._unitData = this;
+        tas.Start();
     }
+  
 
     private Action a;
     private int k = 0;
     // Update is called once per frame
     void Update ()
     {
-        var desiredVelocity = uas.GetDesiredSteering(this);
-        Debug.LogError(desiredVelocity);
-        if(desiredVelocity!=Vector3d.zero)
-            transform.position += desiredVelocity.Mul(FixedMath.One / 30).ToVector3();
-        else
-            transform.position += velocity.Mul(FixedMath.One/30).ToVector3();
-    }
+        //var acce = tas.GetDesiredSteering();
+        //acce += ds.GetDesiredSteering(this).ToVector3();
+        //velocity = velocity + new Vector3d(acce * (1 / 30f));
+        var desiredAcceleration = uas.GetDesiredSteering(this);
+        desiredAcceleration += ds.GetDesiredSteering(this);
 
-    int RandomRange(int s, int e)
+        velocity = velocity + desiredAcceleration * (FixedMath.One / 30);
+        transform.position += (velocity * (FixedMath.One / 30)).ToVector3();
+    }
+}
+
+class DestinaionSteering
+{
+    public Vector3d Destination;
+
+    public Vector3d GetDesiredSteering(Test918 t)
     {
-        randomSeed++;
-        UnityEngine.Random.InitState(randomSeed);
-        return Random.Range(s, e);
+        Vector3d disiredDir = Destination - new Vector3d(t.transform.position);
+        disiredDir = disiredDir.Normalize();
+        Vector3d disiredVelocity = disiredDir * 1;
+        Vector3d disiredAcceleration = (disiredVelocity - t.velocity) / (FixedMath.One / 30);
+      //  Debug.LogError("path acce "+disiredAcceleration.ToVector3());
+        return disiredAcceleration;
     }
 }

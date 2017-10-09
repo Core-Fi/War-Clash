@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>5.6.2f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -505,6 +503,7 @@
     <Compile Include="Assets\Test925.cs" />
     <Compile Include="Assets\Test925_2.cs" />
     <Compile Include="Assets\Test926.cs" />
+    <Compile Include="Assets\TestAvoidanceSteering.cs" />
     <Compile Include="Assets\Test_06_11.cs" />
     <Compile Include="Assets\Test_6_13.cs" />
   </ItemGroup>
