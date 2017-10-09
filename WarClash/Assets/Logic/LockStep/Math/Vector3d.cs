@@ -25,6 +25,18 @@ namespace Lockstep
 		/// Up/Down
 		/// </summary>
         public long z; //Height
+
+        public long magnitude
+        {
+            get
+            {
+                return FixedMath.Sqrt(this.sqrMagnitude);
+            }
+        }
+
+        internal static Vector3d zero = new Vector3d(0,0,0);
+       
+
         public Vector3d (Vector3 vec3) {
             this.x = FixedMath.Create(vec3.x);
             this.y = FixedMath.Create(vec3.y);
@@ -113,10 +125,23 @@ namespace Lockstep
             z /= i;
             return this;
         }
+        public Vector3d Div(long f1)
+        {
+            x = x.Div(f1);
+            y = y.Div(f1);
+            z = z.Div(f1);
+            return this;
+        }
         public static Vector3d operator *(Vector3d a, long b)
         {
             Vector3d v = a;
             v.Mul(b);
+            return v;
+        }
+        public static Vector3d operator /(Vector3d a, long b)
+        {
+            Vector3d v = a;
+            v.Div(b);
             return v;
         }
         public static Vector3d operator *(Vector3d a, int b)
@@ -125,7 +150,12 @@ namespace Lockstep
             v.Mul(b);
             return v;
         }
-
+        public static Vector3d operator /(Vector3d a, int b)
+        {
+            Vector3d v = a;
+            v.Div(b);
+            return v;
+        }
         public static Vector3d operator -(Vector3d a, Vector3d b)
         {
             Vector3d v = a;
