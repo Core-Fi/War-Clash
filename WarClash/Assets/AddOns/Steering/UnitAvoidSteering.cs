@@ -3,34 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Lockstep;
+using Logic;
 using Logic.LogicObject;
 using RVO;
 using UnityEngine;
 
-
-class UnitAvoidSteering
+class UnitAvoidSteering : BaseSteering
 {
-    private const long radiusMargin = FixedMath.One / 10;
+    private const long RadiusMargin = FixedMath.One / 10;
     private long _cosAvoidAngle = -FixedMath.One * 99/100;
     private Vector3d _selfCollisionPos;
-    private Test918 self;
-    public Vector3d GetDesiredSteering(Test918 t)
+    public override Vector3d? GetDesiredSteering()
     {
         _selfCollisionPos = Vector3d.zero;
-        self = t;
-        var units = GameObject.FindObjectsOfType<Test918>();
-        List<Test918> others = new List<Test918>();
-        for (int i = 0; i < units.Length; i++)
+        List<ISteering> others = new List<ISteering>();
+        LogicCore.SP.SceneManager.currentScene.ForEachDo<Character>((c) =>
         {
-            if(units[i] != t)
-                others.Add(units[i]);
-        }
-        Vector3d selfPosi = new Vector3d(t.transform.position);
-        return Avoid(others, others.Count, self.velocity)/(FixedMath.One/30);
+            if (c != Self && Vector3d.SqrDistance(Self.Position, c.Position)<FixedMath.One*4)
+            {
+                others.Add(c);
+            }
+        });
+        if (others.Count == 0) return null;
+        return Avoid(others, others.Count, Self.Velocity).Div(LockFrameMgr.FixedFrameTime);
     }
-    private Vector3d Avoid(List<Test918> units, int unitsLength, Vector3d currentVelocity)
+    private Vector3d Avoid(List<ISteering> units, int unitsLength, Vector3d currentVelocity)
     {
-        Vector3d selfPos = new Vector3d(self.transform.position); ;
         Vector3d normalVelocity = currentVelocity.Normalize();
         Vector3d combinedAvoidVector = Vector3d.zero;
 
@@ -38,16 +36,11 @@ class UnitAvoidSteering
         for (int i = 0; i < unitsLength; i++)
         {
             var other = units[i];
-
-            Vector3d otherPos = new Vector3d(other.transform.position);
-            long combinedRadius = FixedMath.Create(other.radius)+ radiusMargin;
-            Vector3d otherVelocity = other.velocity;
-            Vector3d avoidVector = GetAvoidVector(selfPos, currentVelocity, normalVelocity, otherPos, otherVelocity, combinedRadius);
+            long combinedRadius = other.Radius+RadiusMargin;
+            Vector3d avoidVector = GetAvoidVector(Self.Position, currentVelocity, normalVelocity, other.Position, other.Velocity, combinedRadius);
             combinedAvoidVector += avoidVector;
         }
-
         return combinedAvoidVector;
-
     }
     private Vector3d GetAvoidVector(Vector3d selfPosi, Vector3d currentVelocity, Vector3d normalVelocity,
         Vector3d otherPosi, Vector3d otherVelocity, long combinedRadius)

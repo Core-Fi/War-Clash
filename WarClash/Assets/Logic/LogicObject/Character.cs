@@ -4,11 +4,17 @@ using System.Text;
 using Logic.Skill;
 using UnityEngine;
 using Brainiac;
+using Lockstep;
 
 namespace Logic.LogicObject
 {
-    public class Character : SceneObject
+    public class Character : SceneObject, ISteering
     {
+        public Vector3d Velocity { get; set; }
+        public long Speed { get { return AttributeManager[AttributeType.Speed]; }}
+        public long Radius { get; set; }
+        public Vector3d Acceleration { get; set; }
+
         public enum CharacterEvent 
         {
             Startskill = 100,
@@ -20,11 +26,13 @@ namespace Logic.LogicObject
       
         public SkillManager SkillManager { get; private set; }
         public AIAgent AiAgent { get; protected set; }
+        public SteeringManager SteeringManager { get; protected set; }
 
         internal override void OnInit(CreateInfo createInfo)
         {
             base.OnInit(createInfo);
             SkillManager = new SkillManager(this);
+            SteeringManager = new SteeringManager(this);
             AttributeManager.New(AttributeType.Speed, 0);
             AttributeManager.New(AttributeType.MaxSpeed, Lockstep.FixedMath.One * 2);
             AttributeManager.New(AttributeType.Maxhp, Lockstep.FixedMath.One * 100);
@@ -103,6 +111,9 @@ namespace Logic.LogicObject
         {
             get { return SkillManager.IsRunningSkill; }
         }
+
+       
+
         public void CancelSkill()
         {
             if (IsRunningSkill)
@@ -115,6 +126,9 @@ namespace Logic.LogicObject
         {
             base.OnFixedUpdate(deltaTime);
             SkillManager.FixedUpdate();
+            var acceleration = SteeringManager.GetDesiredAcceleration();
+            Velocity += acceleration.Mul(LockFrameMgr.FixedFrameTime);
+            Position += Velocity.Mul(LockFrameMgr.FixedFrameTime);
         }
 
         internal override void OnUpdate(float deltaTime)

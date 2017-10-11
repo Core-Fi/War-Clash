@@ -36,7 +36,7 @@ namespace Logic
             StrategyCmd,
         }
         public static readonly int FixedFrameRate = 15;
-        
+        public static readonly long FixedFrameTime = 4369;
         public int ServerFrameCount
         {
             get { return _serverFrameCount; }

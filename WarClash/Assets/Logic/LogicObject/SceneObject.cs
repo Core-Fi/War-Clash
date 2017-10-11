@@ -54,7 +54,7 @@ namespace Logic.LogicObject
         public Vector3d Position
         {
             get { return _position; }
-            internal set
+            set
             {
                 if (_position != value)
                 {

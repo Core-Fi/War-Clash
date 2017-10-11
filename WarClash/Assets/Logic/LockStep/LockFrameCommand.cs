@@ -242,6 +242,7 @@ namespace Logic
     public class CreateNpcCommand : PlayerOperateCommand
     {
         public int NpcId;
+        public static int c = 0;
         public override void OnExecute()
         {
             var createInfo = Pool.SP.Get<NpcCreateInfo>();
@@ -249,6 +250,22 @@ namespace Logic
             var npc = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Npc>(createInfo);
             npc.Team = Team.Team2;
             npc.Position = new Vector3d(Vector3.left * 6);
+            npc.Radius = FixedMath.One;
+            if (c == 0)
+            {
+                npc.Position = new Vector3d(Vector3.left * 6);
+                npc.AttributeManager.SetBase(AttributeType.Speed, npc.AttributeManager[AttributeType.MaxSpeed]);
+                npc.SteeringManager.AddSteering(new ArriveSteering(){Priority = 2, Target = new Vector3d(-Vector3.left * 6) });
+                npc.SteeringManager.AddSteering(new UnitAvoidSteering() { Priority = 1 });
+            }
+            else
+            {
+                npc.Position = new Vector3d(-Vector3.left * 6);
+                npc.AttributeManager.SetBase(AttributeType.Speed, npc.AttributeManager[AttributeType.MaxSpeed]);
+                npc.SteeringManager.AddSteering(new ArriveSteering() { Priority =2, Target = new Vector3d(Vector3.left * 6) });
+                npc.SteeringManager.AddSteering(new UnitAvoidSteering() { Priority = 1});
+            }
+            c++;
         }
         public override void WriteToLog(StringBuilder writer)
         {

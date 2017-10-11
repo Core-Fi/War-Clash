@@ -32,11 +32,11 @@ public class Test918 : MonoBehaviour
         //var acce = tas.GetDesiredSteering();
         //acce += ds.GetDesiredSteering(this).ToVector3();
         //velocity = velocity + new Vector3d(acce * (1 / 30f));
-        var desiredAcceleration = uas.GetDesiredSteering(this);
+        var desiredAcceleration = uas.GetDesiredSteering();
         desiredAcceleration += ds.GetDesiredSteering(this);
 
-        velocity = velocity + desiredAcceleration * (FixedMath.One / 30);
-        transform.position += (velocity * (FixedMath.One / 30)).ToVector3();
+        //velocity = velocity + desiredAcceleration * (FixedMath.One / 30);
+        //transform.position += (velocity * (FixedMath.One / 30)).ToVector3();
     }
 }
 
