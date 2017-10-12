@@ -184,45 +184,39 @@ namespace Logic.Objects
         }
         public void Update(float deltaTime)
         {
+            OnUpdate(deltaTime);
             traverseLevel++;
             var dic = objectColl[typeof(TValue)];
             if(dic != null)
             {
                 foreach (var item in dic)
                 {
-                    if (item.Value.Val is IUpdate)
+                    if (item.Value != null && item.Value.Val is IUpdate)
                     {
                         IUpdate so = item.Value.Val as IUpdate;
-                        if (so != null)
-                        {
-                            so.Update(deltaTime);
-                        }
+                        so.Update(deltaTime);
                     }
                 }
             }
-            OnUpdate(deltaTime);
             DecTraverseLevel();
         }
 
         public void FixedUpdate(long deltaTime)
         {
+            OnFixedUpdate(deltaTime);
             traverseLevel++;
             var dic = objectColl[typeof(TValue)];
             if (dic != null)
             {
                 foreach (var item in dic)
                 {
-                    if (item.Value.Val is IFixedUpdate)
+                    if (item.Value!=null && item.Value.Val is IFixedUpdate)
                     {
                         IFixedUpdate so = item.Value.Val as IFixedUpdate;
-                        if (so != null)
-                        {
-                            so.FixedUpdate(deltaTime);
-                        }
+                        so.FixedUpdate(deltaTime);
                     }
                 }
             }
-            OnUpdate(deltaTime);
             DecTraverseLevel();
         }
         public virtual void OnUpdate(float deltaTime)

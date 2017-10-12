@@ -7,8 +7,8 @@ using Logic.LogicObject;
 public class SteeringManager
 {
     public ISteering Self;
-    public List<BaseSteering> _steerings = new List<BaseSteering>();
-
+    private List<BaseSteering> _steerings = new List<BaseSteering>();
+    
     public SteeringManager(ISteering self)
     {
         Self = self;
@@ -64,3 +64,4 @@ public class SteeringManager
     }
 
 }
+

@@ -5,7 +5,7 @@ using System.Text;
 using Lockstep;
 using Logic.LogicObject;
 
-public interface ISteering
+public interface ISteering : IFixedAgent
 {
     Vector3d Acceleration { get;}
     Vector3d Velocity { get; }

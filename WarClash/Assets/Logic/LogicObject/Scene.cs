@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Logic.Objects;
 using System.IO;
+using Lockstep;
 using UnityEngine;
 
 namespace Logic.LogicObject
@@ -12,6 +13,7 @@ namespace Logic.LogicObject
     {
         public string Name;
         public Map.Map MapConfig;
+        public FixedQuadTree FixedQuadTree;
         public bool CanEnd()
         {
             return false;
@@ -35,6 +37,7 @@ namespace Logic.LogicObject
         {
             EventGroup = new EventGroup();
             MapConfig = Logic.Map.Map.Deserialize(Name);
+            FixedQuadTree = new FixedQuadTree();
         }
 
         public Building CreateBuilding(BuildingCreateInfo createInfo)
@@ -95,6 +98,25 @@ namespace Logic.LogicObject
 
         public override void OnFixedUpdate(long deltaTime)
         {
+            FixedQuadTree.Clear();
+            Utility.FixedRect? bounds = null;
+            ForEachDo<Character>((c) =>
+            {
+                Vector3d p = c.Position;
+                if (bounds == null)
+                {
+                    bounds = new Utility.FixedRect(p.x, p.z, 0, 0);
+                }
+                else
+                    bounds = Utility.MinMaxRect(Utility.Min(bounds.Value.xMin, p.x), Utility.Min(bounds.Value.yMin, p.z), Utility.Max(bounds.Value.xMax, p.x), Utility.Max(bounds.Value.yMax, p.z));
+            });
+            if(bounds!=null)
+                FixedQuadTree.SetBounds(bounds.Value);
+            ForEachDo<Character>((c) =>
+            {
+                FixedQuadTree.Insert(c);
+            });
+
             base.OnFixedUpdate(deltaTime);
         }
 

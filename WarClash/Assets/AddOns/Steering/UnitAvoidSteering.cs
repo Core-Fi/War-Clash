@@ -16,18 +16,11 @@ class UnitAvoidSteering : BaseSteering
     public override Vector3d? GetDesiredSteering()
     {
         _selfCollisionPos = Vector3d.zero;
-        List<ISteering> others = new List<ISteering>();
-        LogicCore.SP.SceneManager.currentScene.ForEachDo<Character>((c) =>
-        {
-            if (c != Self && Vector3d.SqrDistance(Self.Position, c.Position)<FixedMath.One*4)
-            {
-                others.Add(c);
-            }
-        });
-        if (others.Count == 0) return null;
-        return Avoid(others, others.Count, Self.Velocity).Div(LockFrameMgr.FixedFrameTime);
+        LogicCore.SP.SceneManager.currentScene.FixedQuadTree.Query(new Vector2d(Self.Position.x, Self.Position.z), FixedMath.One*2, Self);
+        if (Self.AgentNeighbors.Count == 0) return null;
+        return Avoid(Self.AgentNeighbors, Self.AgentNeighbors.Count, Self.Velocity).Div(LockFrameMgr.FixedFrameTime);
     }
-    private Vector3d Avoid(List<ISteering> units, int unitsLength, Vector3d currentVelocity)
+    private Vector3d Avoid(IList<IFixedAgent> units, int unitsLength, Vector3d currentVelocity)
     {
         Vector3d normalVelocity = currentVelocity.Normalize();
         Vector3d combinedAvoidVector = Vector3d.zero;
@@ -35,7 +28,7 @@ class UnitAvoidSteering : BaseSteering
         // iterate through scanned units list
         for (int i = 0; i < unitsLength; i++)
         {
-            var other = units[i];
+            var other = units[i] as ISteering;
             long combinedRadius = other.Radius+RadiusMargin;
             Vector3d avoidVector = GetAvoidVector(Self.Position, currentVelocity, normalVelocity, other.Position, other.Velocity, combinedRadius);
             combinedAvoidVector += avoidVector;
