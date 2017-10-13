@@ -6,31 +6,28 @@ public interface IFixedAgent
 {
     IList<IFixedAgent> AgentNeighbors { get; set; }
     IList<long> AgentNeighborSqrDists { get; set; }
-    //  IList<IFixedAgent> AgentNeighbors { get; set; }
     IFixedAgent Next { get; set; }
     Vector3d Position { get; set; }
     long InsertAgentNeighbour(IFixedAgent fixedAgent, long rangeSq);
 }
 
-/** Quadtree for quick nearest neighbour search of agents.
- */
 public class FixedQuadTree
 {
     private const int LeafSize = 10;
 
-    private Utility.FixedRect bounds;
+    private Utility.FixedRect _bounds;
 
-    private Node root;
-    private Dictionary<IFixedAgent, Node> _agentRootDic = new Dictionary<IFixedAgent, Node>();
+    private Node _root;
+    private readonly Dictionary<IFixedAgent, Node> _agentRootDic = new Dictionary<IFixedAgent, Node>();
     public void Clear()
     {
-       root = new Node();
+       _root = new Node();
     }
 
     public void SetBounds(Utility.FixedRect r)
     {
-        bounds = r;
-        root.rect = bounds;
+        _bounds = r;
+        _root.rect = _bounds;
     }
 
     private bool Remove(Node node, IFixedAgent fixedAgent)
@@ -69,9 +66,16 @@ public class FixedQuadTree
 
     public void Relocate(IFixedAgent fixedAgent)
     {
-        if (Remove(fixedAgent))
+        Node node;
+        if (_agentRootDic.TryGetValue(fixedAgent, out node))
         {
-            Insert(fixedAgent);
+            if (!node.rect.ContainsPoint(fixedAgent.Position))
+            {
+                if (Remove(node, fixedAgent))
+                {
+                    Insert(fixedAgent);
+                }
+            }
         }
     }
     private void Add(Node node, IFixedAgent fixedAgent)
@@ -108,10 +112,10 @@ public class FixedQuadTree
     }
     public void Insert(IFixedAgent fixedAgent)
     {
-        var r = bounds;
+        var r = _bounds;
         var p = new Vector2d(fixedAgent.Position.x, fixedAgent.Position.z);
         fixedAgent.Next = null;
-        var node = root;
+        var node = _root;
         while (true)
         {
             if (!node.HasChild)
@@ -162,7 +166,7 @@ public class FixedQuadTree
 
     public void Query(Vector2d p, long radius, IFixedAgent fixedAgent)
     {
-        QueryRec(root, p, radius, fixedAgent, bounds);
+        QueryRec(_root, p, radius, fixedAgent, _bounds);
     }
 
     private long QueryRec(Node node, Vector2d p, long radius, IFixedAgent fixedAgent, Utility.FixedRect r)
@@ -209,7 +213,7 @@ public class FixedQuadTree
 
     public void DebugDraw()
     {
-        DebugDrawRec(root, bounds);
+        DebugDrawRec(_root, _bounds);
     }
 
     private void DebugDrawRec(Node node, Utility.FixedRect r)

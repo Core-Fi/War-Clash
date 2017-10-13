@@ -203,8 +203,7 @@ public static class Utility
         }
         public bool ContainsPoint(Vector3d p)
         {
-            var relativeP = new Vector2d(p.x,p.z) - center;
-            if (relativeP.x < width/2 && relativeP.x > -width/2 && relativeP.y > -height/2 && relativeP.y < height/2)
+            if (p.x < xMax && p.x > xMin && p.z > yMin && p.z < yMax)
             {
                 return true;
             }
@@ -212,8 +211,7 @@ public static class Utility
         }
         public bool ContainsPoint(Vector2d p)
         {
-            var relativeP = p - center;
-            if (relativeP.x < width/2 && relativeP.x > -width/2 && relativeP.y > -height/2 && relativeP.y < height/2)
+            if (p.x < xMax && p.x > xMin && p.y > yMin && p.y < yMax)
             {
                 return true;
             }
