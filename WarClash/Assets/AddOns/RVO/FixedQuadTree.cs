@@ -16,88 +16,130 @@ public interface IFixedAgent
  */
 public class FixedQuadTree
 {
-    private const int LeafSize = 15;
+    private const int LeafSize = 10;
 
     private Utility.FixedRect bounds;
-    private int filledNodes = 1;
 
-    private Node[] nodes = new Node[42];
-
+    private Node root;
+    private Dictionary<IFixedAgent, Node> _agentRootDic = new Dictionary<IFixedAgent, Node>();
     public void Clear()
     {
-        nodes[0] = new Node();
-        filledNodes = 1;
+       root = new Node();
     }
 
     public void SetBounds(Utility.FixedRect r)
     {
         bounds = r;
+        root.rect = bounds;
     }
 
-    public int GetNodeIndex()
+    private bool Remove(Node node, IFixedAgent fixedAgent)
     {
-        if (filledNodes == nodes.Length)
+        var n = node.linkedList;
+        if (n == null) return false;
+        if (n == fixedAgent)
         {
-            var nds = new Node[nodes.Length * 2];
-            for (var i = 0; i < nodes.Length; i++) nds[i] = nodes[i];
-            nodes = nds;
+            node.linkedList = n.Next;
+            node.count--;
+            return true;
         }
-        nodes[filledNodes] = new Node();
-        nodes[filledNodes].child00 = filledNodes;
-        filledNodes++;
-        return filledNodes - 1;
+        int count = 0;
+        while (n.Next!=null && count<LeafSize+1)
+        {
+            //count++;
+            if (n.Next == fixedAgent)
+            {
+                n.Next = fixedAgent.Next;
+                node.count--;
+                return true;
+            }
+            n = n.Next;
+        }
+        return false;
+    }
+    public bool Remove(IFixedAgent fixedAgent)
+    {
+        Node node = null;
+        if (_agentRootDic.TryGetValue(fixedAgent, out node))
+        {
+            return Remove(node, fixedAgent);
+        }
+        return false;
     }
 
+    public void Relocate(IFixedAgent fixedAgent)
+    {
+        if (Remove(fixedAgent))
+        {
+            Insert(fixedAgent);
+        }
+    }
+    private void Add(Node node, IFixedAgent fixedAgent)
+    {
+        fixedAgent.Next = node.linkedList;
+        node.linkedList = fixedAgent;
+        node.count++;
+        _agentRootDic[fixedAgent] = node;
+    }
+    private void Distribute(Node node, Utility.FixedRect r)
+    {
+        var c = r.center;
+        node.child11 = new Node { rect = Utility.MinMaxRect(c.x, c.y, r.xMax, r.yMax) };
+        node.child10 = new Node { rect = Utility.MinMaxRect(c.x, r.yMin, r.xMax, c.y) };
+        node.child01 = new Node { rect = Utility.MinMaxRect(r.xMin, c.y, c.x, r.yMax) }; 
+        node.child00 = new Node { rect = Utility.MinMaxRect(r.xMin, r.yMin, c.x, c.y) }; 
+        while (node.linkedList != null)
+        {
+            var nx = node.linkedList.Next;
+            if (node.linkedList.Position.x > c.x)
+            {
+                if (node.linkedList.Position.z > c.y) Add(node.child11,node.linkedList);
+                else Add(node.child10,node.linkedList);
+            }
+            else
+            {
+                if (node.linkedList.Position.z > c.y) Add(node.child01, node.linkedList);
+                else Add(node.child00, node.linkedList);
+            }
+            node.linkedList = nx;
+        }
+        node.linkedList = null;
+        node.count = 0;
+    }
     public void Insert(IFixedAgent fixedAgent)
     {
-        var i = 0;
         var r = bounds;
         var p = new Vector2d(fixedAgent.Position.x, fixedAgent.Position.z);
-
         fixedAgent.Next = null;
-
-        var depth = 0;
-
+        var node = root;
         while (true)
         {
-            depth++;
-
-            if (nodes[i].child00 == i)
+            if (!node.HasChild)
             {
-                if (nodes[i].count < LeafSize || depth > 10)
+                if (node.count < LeafSize)
                 {
-                    nodes[i].Add(fixedAgent);
-                    nodes[i].count++;
+                    Add(node, fixedAgent);
                     break;
                 }
                 else
                 {
-                    // Split
-                    var node = nodes[i];
-                    node.child00 = GetNodeIndex();
-                    node.child01 = GetNodeIndex();
-                    node.child10 = GetNodeIndex();
-                    node.child11 = GetNodeIndex();
-                    nodes[i] = node;
-
-                    nodes[i].Distribute(nodes, r);
+                    Distribute(node, r);
                 }
+
             }
-            // Note, no else
-            if (nodes[i].child00 != i)
+            else
             {
-                // Not a leaf node
                 var c = r.center;
                 if (p.x > c.x)
                 {
                     if (p.y > c.y)
                     {
-                        i = nodes[i].child11;
+                        node = node.child11;
                         r = Utility.MinMaxRect(c.x, c.y, r.xMax, r.yMax);
                     }
                     else
                     {
-                        i = nodes[i].child10;
+                        node = node.child10;
                         r = Utility.MinMaxRect(c.x, r.yMin, r.xMax, c.y);
                     }
                 }
@@ -105,12 +147,12 @@ public class FixedQuadTree
                 {
                     if (p.y > c.y)
                     {
-                        i = nodes[i].child01;
+                        node = node.child01;
                         r = Utility.MinMaxRect(r.xMin, c.y, c.x, r.yMax);
                     }
                     else
                     {
-                        i = nodes[i].child00;
+                        node = node.child00;
                         r = Utility.MinMaxRect(r.xMin, r.yMin, c.x, c.y);
                     }
                 }
@@ -120,14 +162,15 @@ public class FixedQuadTree
 
     public void Query(Vector2d p, long radius, IFixedAgent fixedAgent)
     {
-        QueryRec(0, p, radius, fixedAgent, bounds);
+        QueryRec(root, p, radius, fixedAgent, bounds);
     }
 
-    private long QueryRec(int i, Vector2d p, long radius, IFixedAgent fixedAgent, Utility.FixedRect r)
+    private long QueryRec(Node node, Vector2d p, long radius, IFixedAgent fixedAgent, Utility.FixedRect r)
     {
-        if (nodes[i].child00 == i)
+        //找到一个子节点
+        if (!node.HasChild)
         {
-            var a = nodes[i].linkedList;
+            var a = node.linkedList;
             while (a != null)
             {
                 var v = fixedAgent.InsertAgentNeighbour(a, radius.Mul(radius));
@@ -138,25 +181,25 @@ public class FixedQuadTree
         }
         else
         {
-            // Not a leaf node
+            //搜索子节点
             var c = r.center;
             if (p.x - radius < c.x)
             {
                 if (p.y - radius < c.y)
-                    radius = QueryRec(nodes[i].child00, p, radius, fixedAgent,
+                    radius = QueryRec(node.child00, p, radius, fixedAgent,
                         Utility.MinMaxRect(r.xMin, r.yMin, c.x, c.y));
                 if (p.y + radius > c.y)
-                    radius = QueryRec(nodes[i].child01, p, radius, fixedAgent,
+                    radius = QueryRec(node.child01, p, radius, fixedAgent,
                         Utility.MinMaxRect(r.xMin, c.y, c.x, r.yMax));
             }
 
             if (p.x + radius > c.x)
             {
                 if (p.y - radius < c.y)
-                    radius = QueryRec(nodes[i].child10, p, radius, fixedAgent,
+                    radius = QueryRec(node.child10, p, radius, fixedAgent,
                         Utility.MinMaxRect(c.x, r.yMin, r.xMax, c.y));
                 if (p.y + radius > c.y)
-                    radius = QueryRec(nodes[i].child11, p, radius, fixedAgent,
+                    radius = QueryRec(node.child11, p, radius, fixedAgent,
                         Utility.MinMaxRect(c.x, c.y, r.xMax, r.yMax));
             }
         }
@@ -166,70 +209,51 @@ public class FixedQuadTree
 
     public void DebugDraw()
     {
-        DebugDrawRec(0, bounds);
+        DebugDrawRec(root, bounds);
     }
 
-    private void DebugDrawRec(int i, Utility.FixedRect r)
+    private void DebugDrawRec(Node node, Utility.FixedRect r)
     {
-        Debug.DrawLine(new Vector3(r.xMin, 0, r.yMin), new Vector3(r.xMax, 0, r.yMin), Color.white);
-        Debug.DrawLine(new Vector3(r.xMax, 0, r.yMin), new Vector3(r.xMax, 0, r.yMax), Color.white);
-        Debug.DrawLine(new Vector3(r.xMax, 0, r.yMax), new Vector3(r.xMin, 0, r.yMax), Color.white);
-        Debug.DrawLine(new Vector3(r.xMin, 0, r.yMax), new Vector3(r.xMin, 0, r.yMin), Color.white);
+        Debug.DrawLine(new Vector3(r.xMin.ToInt(), 0, r.yMin.ToInt()), new Vector3(r.xMax.ToInt(), 0, r.yMin.ToInt()), Color.white);
+        Debug.DrawLine(new Vector3(r.xMax.ToInt(), 0, r.yMin.ToInt()), new Vector3(r.xMax.ToInt(), 0, r.yMax.ToInt()), Color.white);
+        Debug.DrawLine(new Vector3(r.xMax.ToInt(), 0, r.yMax.ToInt()), new Vector3(r.xMin.ToInt(), 0, r.yMax.ToInt()), Color.white);
+        Debug.DrawLine(new Vector3(r.xMin.ToInt(), 0, r.yMax.ToInt()), new Vector3(r.xMin.ToInt(), 0, r.yMin.ToInt()), Color.white);
 
-        if (nodes[i].child00 != i)
+        if (node.child00 != null)
         {
             // Not a leaf node
             var c = r.center;
-            DebugDrawRec(nodes[i].child11, Utility.MinMaxRect(c.x, c.y, r.xMax, r.yMax));
-            DebugDrawRec(nodes[i].child10, Utility.MinMaxRect(c.x, r.yMin, r.xMax, c.y));
-            DebugDrawRec(nodes[i].child01, Utility.MinMaxRect(r.xMin, c.y, c.x, r.yMax));
-            DebugDrawRec(nodes[i].child00, Utility.MinMaxRect(r.xMin, r.yMin, c.x, c.y));
+            DebugDrawRec(node.child11, Utility.MinMaxRect(c.x, c.y, r.xMax, r.yMax));
+            DebugDrawRec(node.child10, Utility.MinMaxRect(c.x, r.yMin, r.xMax, c.y));
+            DebugDrawRec(node.child01, Utility.MinMaxRect(r.xMin, c.y, c.x, r.yMax));
+            DebugDrawRec(node.child00, Utility.MinMaxRect(r.xMin, r.yMin, c.x, c.y));
         }
 
-        var a = nodes[i].linkedList;
-        while (a != null)
+        var a = node.linkedList;
+        int count = 0;
+        while (a != null && count<LeafSize+1)
         {
-            Debug.DrawLine(nodes[i].linkedList.Position.ToVector3() + Vector3.up, a.Position.ToVector3() + Vector3.up,
+            count++;
+            Debug.DrawLine(node.linkedList.Position.ToVector3() + Vector3.up, a.Position.ToVector3() + Vector3.up,
                 new Color(1, 1, 0, 0.5f));
             a = a.Next;
+
         }
     }
 
-    private struct Node
+    public class Node
     {
-        public int child00;
-        public int child01;
-        public int child10;
-        public int child11;
+        public Node child00;
+        public Node child01;
+        public Node child10;
+        public Node child11;
         public byte count;
+        public Utility.FixedRect rect;
         public IFixedAgent linkedList;
 
-        public void Add(IFixedAgent fixedAgent)
+        public bool HasChild
         {
-            fixedAgent.Next = linkedList;
-            linkedList = fixedAgent;
-        }
-
-        public void Distribute(Node[] nodes, Utility.FixedRect r)
-        {
-            var c = r.center;
-
-            while (linkedList != null)
-            {
-                var nx = linkedList.Next;
-                if (linkedList.Position.x > c.x)
-                {
-                    if (linkedList.Position.z > c.y) nodes[child11].Add(linkedList);
-                    else nodes[child10].Add(linkedList);
-                }
-                else
-                {
-                    if (linkedList.Position.z > c.y) nodes[child01].Add(linkedList);
-                    else nodes[child00].Add(linkedList);
-                }
-                linkedList = nx;
-            }
-            count = 0;
+            get { return child00 != null; }
         }
     }
 }

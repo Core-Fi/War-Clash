@@ -51,13 +51,18 @@ namespace Lockstep
 			this.x = FixedMath.Create(vec.x);
 			this.y = FixedMath.Create(vec.z);
 		}
+	    public Vector2d(Vector3d vec)
+	    {
+	        this.x = vec.x;
+	        this.y = vec.z;
+	    }
 
-		#endregion
+        #endregion
 
 
-		#region Local Math
+        #region Local Math
 
-		public void Subtract(ref Vector2d other)
+        public void Subtract(ref Vector2d other)
 		{
 			this.x -= other.x;
 			this.y -= other.y;

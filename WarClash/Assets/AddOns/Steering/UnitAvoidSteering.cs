@@ -16,7 +16,7 @@ class UnitAvoidSteering : BaseSteering
     public override Vector3d? GetDesiredSteering()
     {
         _selfCollisionPos = Vector3d.zero;
-        LogicCore.SP.SceneManager.currentScene.FixedQuadTree.Query(new Vector2d(Self.Position.x, Self.Position.z), FixedMath.One*2, Self);
+        //LogicCore.SP.SceneManager.currentScene.FixedQuadTree.Query(new Vector2d(Self.Position.x, Self.Position.z), FixedMath.One*2, Self);
         if (Self.AgentNeighbors.Count == 0) return null;
         return Avoid(Self.AgentNeighbors, Self.AgentNeighbors.Count, Self.Velocity).Div(LockFrameMgr.FixedFrameTime);
     }
