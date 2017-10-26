@@ -41,8 +41,12 @@ public class JPSAStar : MonoBehaviour
         var v3offset = new Vector3(Offset.x/100f, 0, Offset.y/100f);
         return new Vector3(p.column*Size/100f, 0, p.row*Size/100f)+ v3offset;
     }
-   
-   
+
+    public void ChangeGrid()
+    {
+        
+    }
+    
     public void GenerateGrid()
     {
         _jpsGrid = new Grid
@@ -123,14 +127,20 @@ public class JPSAStar : MonoBehaviour
         if (Data == null || Data.Length == 0)
             return;
         var offset = new Vector3(Offset.x/100f, 0, Offset.y/100f);
-        for (int i = 0; i < RowCount; i++)
+        for (int i = 0; i < _jpsGrid.gridNodes.Length; i++)
         {
-            for (int j = 0; j < ColumnCount; j++)
+            var point = _jpsGrid.gridNodes[i].pos;
+            var posi = new Vector3(point.row * Size/100f, 0, point.column * Size/100f) + offset;
+            if (_jpsGrid.gridNodes[i].isObstacle)
             {
-                Gizmos.color = this.gizmosColors[Data[i * ColumnCount + j]];
-                Vector3 posi = new Vector3(j * Size / 100f, 0, i * Size / 100f) + offset;
-                Gizmos.DrawWireCube(posi, new Vector3(Size / 102f, 0.01f, Size / 102f));
+                Gizmos.color = Color.red;
             }
+            else
+            {
+                Gizmos.color = Color.green;
+            }
+            Gizmos.DrawWireCube(posi, new Vector3(Size/100f, 0.01f, Size/100f));
+           
         }
     }
 

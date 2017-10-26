@@ -59,7 +59,7 @@ public class Test926 : MonoBehaviour {
     void OnEnable()
     {
         //Relocate();
-
+        
     }
 }
 
