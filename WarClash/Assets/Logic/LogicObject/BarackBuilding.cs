@@ -34,7 +34,7 @@ namespace Logic.LogicObject
                 createInfo.Position = Position;
                 createInfo.NpcId = Conf.ArmyId;
                 createInfo.Team = Team;
-                var npc1 = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Npc>(createInfo);
+                var npc1 = LogicCore.SP.SceneManager.CurrentScene.CreateSceneObject<Npc>(createInfo);
                 count ++;
             }
             base.OnFixedUpdate(deltaTime);

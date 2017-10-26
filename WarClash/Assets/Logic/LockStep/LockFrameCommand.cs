@@ -72,7 +72,7 @@ namespace Logic
         public int Id;
         public override void OnExecute()
         {
-            var c = LogicCore.SP.SceneManager.currentScene.GetObject<Character>(Sender);
+            var c = LogicCore.SP.SceneManager.CurrentScene.GetObject<Character>(Sender);
             c.ReleaseSkill(Id);
         }
 
@@ -95,7 +95,7 @@ namespace Logic
     {
         public override void OnExecute()
         {
-            var player = LogicCore.SP.SceneManager.currentScene.GetObject(Sender) as Player;
+            var player = LogicCore.SP.SceneManager.CurrentScene.GetObject(Sender) as Player;
             player.StateMachine.Start<MoveState>();
             player.StateMachine.Update();
         }
@@ -122,7 +122,7 @@ namespace Logic
     {
         public override void OnExecute()
         {
-            var player = LogicCore.SP.SceneManager.currentScene.GetObject(Sender) as Player;
+            var player = LogicCore.SP.SceneManager.CurrentScene.GetObject(Sender) as Player;
             player.StateMachine.Start<IdleState>();
         }
 
@@ -144,7 +144,7 @@ namespace Logic
         public Vector3d Forward;
         public override void OnExecute()
         {
-            var player = LogicCore.SP.SceneManager.currentScene.GetObject(Sender) as Player;
+            var player = LogicCore.SP.SceneManager.CurrentScene.GetObject(Sender) as Player;
             player.Forward = Forward;
             
         }
@@ -179,11 +179,11 @@ namespace Logic
         public override void OnExecute()
         {
             base.OnExecute();
-            var player = LogicCore.SP.SceneManager.currentScene.GetObject<Player>(Sender);
+            var player = LogicCore.SP.SceneManager.CurrentScene.GetObject<Player>(Sender);
             var strategy = (LockFrameMgr.Strategy)Strategy;
             if (strategy == LockFrameMgr.Strategy.FollowPlayer)
             {
-                LogicCore.SP.SceneManager.currentScene.ForEachDo<Npc>((c) =>
+                LogicCore.SP.SceneManager.CurrentScene.ForEachDo<Npc>((c) =>
                 {
                     c.AiAgent.Blackboard.SetItem("strategy", (int)strategy);   
                 });
@@ -208,12 +208,12 @@ namespace Logic
         public int MapItemId;
         public override void OnExecute()
         {
-            var mapItem = LogicCore.SP.SceneManager.currentScene.MapConfig.MapDic[MapItemId] as MapBuildingItem;
-            var senderSo = LogicCore.SP.SceneManager.currentScene.GetObject<SceneObject>(Sender);
+            var mapItem = LogicCore.SP.SceneManager.CurrentScene.MapConfig.MapDic[MapItemId] as MapBuildingItem;
+            var senderSo = LogicCore.SP.SceneManager.CurrentScene.GetObject<SceneObject>(Sender);
             var createInfo = Pool.SP.Get<BuildingCreateInfo>();
             createInfo.BuildingId = mapItem.BuildingId;
             createInfo.Position = mapItem.Position;
-            var barack = LogicCore.SP.SceneManager.currentScene.CreateBuilding(createInfo);
+            var barack = LogicCore.SP.SceneManager.CurrentScene.CreateBuilding(createInfo);
             if(senderSo!=null)
                 barack.Team = senderSo.Team;
             else
@@ -247,7 +247,7 @@ namespace Logic
         {
             var createInfo = Pool.SP.Get<NpcCreateInfo>();
             createInfo.NpcId = NpcId;
-            var npc = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Npc>(createInfo);
+            var npc = LogicCore.SP.SceneManager.CurrentScene.CreateSceneObject<Npc>(createInfo);
             npc.Team = Team.Team2;
             npc.Position = new Vector3d(Vector3.left * 6);
             npc.Radius = FixedMath.One;
@@ -289,7 +289,7 @@ namespace Logic
     {
         public override void OnExecute()
         {
-            var mainPlayer = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<MainPlayer>(Sender);
+            var mainPlayer = LogicCore.SP.SceneManager.CurrentScene.CreateSceneObject<MainPlayer>(Sender);
             mainPlayer.Team = Team.Team1;
             mainPlayer.Position = new Vector3d(-Vector3.left * 6);
         }
@@ -314,7 +314,7 @@ namespace Logic
     {
         public override void OnExecute()
         {
-            var player = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Player>(Sender);
+            var player = LogicCore.SP.SceneManager.CurrentScene.CreateSceneObject<Player>(Sender);
             player.Position = new Vector3d(-Vector3.left*6);
             player.Team = Team.Team2;
         }

@@ -274,7 +274,17 @@ namespace Lockstep
 	        return a.Dot(b);
 	    }
 
-		public long Cross(long otherX, long otherY)
+	    public static long SqrDistance(Vector2d a, Vector2d b)
+	    {
+	        long x = a.x - b.x;
+	        long y = a.y - b.y;
+	        return x.Mul(x) + y.Mul(y);
+	    }
+	    public static long Distance(Vector2d a, Vector2d b)
+	    {
+	        return FixedMath.Sqrt(SqrDistance(a, b));
+	    }
+        public long Cross(long otherX, long otherY)
 		{
 			return (this.x * otherY - this.y * otherX) >> FixedMath.SHIFT_AMOUNT;
 		}

@@ -33,7 +33,7 @@ namespace Logic.Skill.Actions
             {
                 if (r == Range.RECT)
                 {
-                    character = LogicCore.SP.SceneManager.currentScene.ForEachDo<Player>((p) =>
+                    character = LogicCore.SP.SceneManager.CurrentScene.ForEachDo<Player>((p) =>
                     {
                         if (p!=sender && p.Hp>0 && Utility.PositionIsInRect(new Utility.FixedRect() {center = new Vector2d(),
                             width = FixedMath.One*2,

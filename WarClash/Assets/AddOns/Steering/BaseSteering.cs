@@ -18,7 +18,7 @@ public abstract class BaseSteering
     public bool Enable;
     public ISteering Self;
     public int Priority;
-    public virtual Vector3d? GetDesiredSteering()
+    public virtual Vector3d GetDesiredSteering()
     {
         return Vector3d.zero;
     }

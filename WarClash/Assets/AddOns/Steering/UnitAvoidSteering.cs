@@ -13,12 +13,15 @@ class UnitAvoidSteering : BaseSteering
     private const long RadiusMargin = FixedMath.One / 10;
     private long _cosAvoidAngle = -FixedMath.One * 99/100;
     private Vector3d _selfCollisionPos;
-    public override Vector3d? GetDesiredSteering()
+    private List<IFixedAgent> _neighbors = new List<IFixedAgent>();
+    public override Vector3d GetDesiredSteering()
     {
         _selfCollisionPos = Vector3d.zero;
-        //LogicCore.SP.SceneManager.currentScene.FixedQuadTree.Query(new Vector2d(Self.Position.x, Self.Position.z), FixedMath.One*2, Self);
-        if (Self.AgentNeighbors.Count == 0) return null;
-        return Avoid(Self.AgentNeighbors, Self.AgentNeighbors.Count, Self.Velocity).Div(LockFrameMgr.FixedFrameTime);
+        _neighbors.Clear();
+        LogicCore.SP.SceneManager.CurrentScene.FixedQuadTree.Query(Self, FixedMath.One*2, _neighbors);
+        if (_neighbors.Count == 0) return Vector3d.zero;
+        var acc = Avoid(_neighbors, _neighbors.Count, Self.Velocity).Div(LockFrameMgr.FixedFrameTime);
+        return acc;
     }
     private Vector3d Avoid(IList<IFixedAgent> units, int unitsLength, Vector3d currentVelocity)
     {
@@ -39,9 +42,8 @@ class UnitAvoidSteering : BaseSteering
         Vector3d otherPosi, Vector3d otherVelocity, long combinedRadius)
     {
         Vector3d avoidDirection = GetAvoidDirectionVector(selfPosi, currentVelocity, otherPosi, otherVelocity, combinedRadius);
-
+        if (avoidDirection.sqrMagnitude == 0) return Vector3d.zero;
         long avoidMagnitude = avoidDirection.magnitude;
-        if(avoidMagnitude == 0)return Vector3d.zero;
         long vectorLength = combinedRadius / 2;
         if(vectorLength<=0) return Vector3d.zero;
         Vector3d avoidNormalized = (avoidDirection/(avoidMagnitude));

@@ -127,7 +127,7 @@ namespace Logic.LogicObject
                 }
                 else
                 {
-                    LogicCore.SP.SceneManager.currentScene.ForEachDo<Player>((p) =>
+                    LogicCore.SP.SceneManager.CurrentScene.ForEachDo<Player>((p) =>
                     {
                         if (Vector3d.SqrDistance(Position, p.Position) < FixedMath.One / 5)
                         {
@@ -142,7 +142,7 @@ namespace Logic.LogicObject
         {
             EventManager.AddEvent(ProjectileAction.hitEvent, new RuntimeData(Sender, receiver, Data));
             EventGroup.FireEvent((int)ProjectileEvent.OnHit, this, null);
-            LogicCore.SP.SceneManager.currentScene.RemoveSceneObject(this.Id);
+            LogicCore.SP.SceneManager.CurrentScene.RemoveSceneObject(this.Id);
         }
 
     }

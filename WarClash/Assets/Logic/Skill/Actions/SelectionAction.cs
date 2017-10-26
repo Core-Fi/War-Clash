@@ -23,7 +23,7 @@ namespace Logic.Skill.Actions
 
         public override void Execute(SceneObject sender, SceneObject reciever, object data)
         {
-            LogicCore.SP.SceneManager.currentScene.ForEachDo<Character>((so) =>
+            LogicCore.SP.SceneManager.CurrentScene.ForEachDo<Character>((so) =>
             {
                 if(so != sender)
                     EventManager.AddEvent(EventId, new RuntimeData(sender, so, data));

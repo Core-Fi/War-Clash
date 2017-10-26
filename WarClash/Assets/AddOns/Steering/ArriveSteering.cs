@@ -10,10 +10,11 @@ class ArriveSteering : BaseSteering
 {
     public Vector3d Target;
 
-    public override Vector3d? GetDesiredSteering()
+    public override Vector3d GetDesiredSteering()
     {
         Vector3d dir = Target - Self.Position;
         Vector3d desiredVelocity = dir.Normalize()*Self.Speed;
-        return (desiredVelocity - Self.Velocity).Div(LockFrameMgr.FixedFrameTime);
+        var acc = (desiredVelocity - Self.Velocity).Div(LockFrameMgr.FixedFrameTime);
+        return acc;
     }
 }

@@ -50,12 +50,12 @@ public class Main : MonoBehaviour
         }
         if (GUILayout.Button("CreateBarack1"))
         {
-            var mp = LogicCore.SP.SceneManager.currentScene.GetObject<MainPlayer>();
+            var mp = LogicCore.SP.SceneManager.CurrentScene.GetObject<MainPlayer>();
             LogicCore.SP.LockFrameMgr.SendCommand(new CreateBuildingCommand{ MapItemId = 1, Sender = mp.Id});
         }
         if (GUILayout.Button("CreateBarack2"))
         {
-            var mp = LogicCore.SP.SceneManager.currentScene.GetObject<MainPlayer>();
+            var mp = LogicCore.SP.SceneManager.CurrentScene.GetObject<MainPlayer>();
             if(mp!=null)
                 LogicCore.SP.LockFrameMgr.SendCommand(new CreateBuildingCommand { MapItemId = 2, Sender = mp.Id });
             else

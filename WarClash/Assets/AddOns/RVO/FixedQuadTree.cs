@@ -210,7 +210,103 @@ public class FixedQuadTree
 
         return radius;
     }
+    public void Query(IFixedAgent fixedAgent, long radius, List<IFixedAgent> fixedAgents)
+    {
+        fixedAgents.Clear();
+        QueryRec(_root, fixedAgent, radius, fixedAgents, _bounds);
+    }
 
+    private long QueryRec(Node node, IFixedAgent fixedAgent, long radius, List<IFixedAgent> fixedAgents, Utility.FixedRect r)
+    {
+        Vector2d p = new Vector2d(fixedAgent.Position.x, fixedAgent.Position.z);
+        //找到一个子节点
+        if (!node.HasChild)
+        {
+            var a = node.linkedList;
+            while (a != null)
+            {
+                if (a!=fixedAgent && Vector2d.SqrDistance(p, new Vector2d(a.Position.x, a.Position.z)) < radius.Mul(radius))
+                {
+                    fixedAgents.Add(a);
+                }
+                a = a.Next;
+            }
+        }
+        else
+        {
+            //搜索子节点
+            var c = r.center;
+            if (p.x - radius < c.x)
+            {
+                if (p.y - radius < c.y)
+                    radius = QueryRec(node.child00, p, radius, fixedAgent,
+                        Utility.MinMaxRect(r.xMin, r.yMin, c.x, c.y));
+                if (p.y + radius > c.y)
+                    radius = QueryRec(node.child01, p, radius, fixedAgent,
+                        Utility.MinMaxRect(r.xMin, c.y, c.x, r.yMax));
+            }
+
+            if (p.x + radius > c.x)
+            {
+                if (p.y - radius < c.y)
+                    radius = QueryRec(node.child10, p, radius, fixedAgent,
+                        Utility.MinMaxRect(c.x, r.yMin, r.xMax, c.y));
+                if (p.y + radius > c.y)
+                    radius = QueryRec(node.child11, p, radius, fixedAgent,
+                        Utility.MinMaxRect(c.x, c.y, r.xMax, r.yMax));
+            }
+        }
+
+        return radius;
+    }
+    public void Query(Vector2d p, long radius, List<IFixedAgent> fixedAgents)
+    {
+        fixedAgents.Clear();
+        QueryRec(_root, p, radius, fixedAgents, _bounds);
+    }
+
+    private long QueryRec(Node node, Vector2d p, long radius, List<IFixedAgent> fixedAgents, Utility.FixedRect r)
+    {
+        //找到一个子节点
+        if (!node.HasChild)
+        {
+            var a = node.linkedList;
+            while (a != null)
+            {
+                if( Vector2d.SqrDistance(p, new Vector2d(a.Position.x, a.Position.z))<radius.Mul(radius))
+                {
+                    fixedAgents.Add(a);
+                }
+                a = a.Next;
+            }
+        }
+        else
+        {
+            //搜索子节点
+            var c = r.center;
+            if (p.x - radius < c.x)
+            {
+                if (p.y - radius < c.y)
+                    radius = QueryRec(node.child00, p, radius, fixedAgents,
+                        Utility.MinMaxRect(r.xMin, r.yMin, c.x, c.y));
+                if (p.y + radius > c.y)
+                    radius = QueryRec(node.child01, p, radius, fixedAgents,
+                        Utility.MinMaxRect(r.xMin, c.y, c.x, r.yMax));
+            }
+
+            if (p.x + radius > c.x)
+            {
+                if (p.y - radius < c.y)
+                    radius = QueryRec(node.child10, p, radius, fixedAgents,
+                        Utility.MinMaxRect(c.x, r.yMin, r.xMax, c.y));
+                if (p.y + radius > c.y)
+                    radius = QueryRec(node.child11, p, radius, fixedAgents,
+                        Utility.MinMaxRect(c.x, c.y, r.xMax, r.yMax));
+            }
+        }
+
+        return radius;
+    }
     public void DebugDraw()
     {
         DebugDrawRec(_root, _bounds);

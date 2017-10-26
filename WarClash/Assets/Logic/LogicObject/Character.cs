@@ -149,9 +149,6 @@ namespace Logic.LogicObject
         {
             get { return SkillManager.IsRunningSkill; }
         }
-
-       
-
         public void CancelSkill()
         {
             if (IsRunningSkill)

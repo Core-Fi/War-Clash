@@ -53,10 +53,9 @@ public class SteeringManager
         Vector3d acceleration = Vector3d.zero;
         for (int i = 0; i < _steerings.Count; i++)
         {
-            var rst = _steerings[i].GetDesiredSteering();
-            if (rst != null)
+            acceleration = _steerings[i].GetDesiredSteering();
+            if (acceleration != Vector3d.zero)
             {
-                acceleration = rst.Value;
                 break;
             }
         }

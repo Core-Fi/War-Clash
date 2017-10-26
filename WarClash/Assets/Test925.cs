@@ -8,11 +8,11 @@ using UnityEngine;
 public class Test925 : MonoBehaviour
 {
     public RVOFixedSimulator simulator;
-
     public Transform[] transforms;
     private List<RVOFixedAgent> agents = new List<RVOFixedAgent>();
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
         simulator = new RVOFixedSimulator();
 	    for (int i = 0; i < transforms.Length; i++)
 	    {

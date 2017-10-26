@@ -105,7 +105,7 @@ namespace Logic.Skill.Actions
             createInfo.Id = IDManager.SP.GetID();
             createInfo.Position = sender.Position;
             createInfo.Forward = sender.Forward;
-            var projectile = LogicCore.SP.SceneManager.currentScene.CreateSceneObject<Projectile>(createInfo);
+            var projectile = LogicCore.SP.SceneManager.CurrentScene.CreateSceneObject<Projectile>(createInfo);
             projectile.SetValue(this, sender, reciever, data);
             base.Execute(sender, reciever, data);
         }

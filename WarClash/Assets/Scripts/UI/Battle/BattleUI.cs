@@ -28,7 +28,7 @@ public class BattleUI : MonoBehaviour {
     {
         var cmd = Pool.SP.Get<ReleaseSkillCommand>();
         cmd.Id = 1;
-        cmd.Sender = LogicCore.SP.SceneManager.currentScene.GetObject<MainPlayer>().Id;
+        cmd.Sender = LogicCore.SP.SceneManager.CurrentScene.GetObject<MainPlayer>().Id;
         LogicCore.SP.LockFrameMgr.SendCommand(cmd);
     }
 	// Update is called once per frame
