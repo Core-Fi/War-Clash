@@ -212,8 +212,9 @@ namespace Logic
             var senderSo = LogicCore.SP.SceneManager.CurrentScene.GetObject<SceneObject>(Sender);
             var createInfo = Pool.SP.Get<BuildingCreateInfo>();
             createInfo.BuildingId = mapItem.BuildingId;
-            createInfo.Position = mapItem.Position;
+            createInfo.Position =Vector3d.zero;// mapItem.Position;
             var barack = LogicCore.SP.SceneManager.CurrentScene.CreateBuilding(createInfo);
+            barack.Radius = FixedMath.One;
             if(senderSo!=null)
                 barack.Team = senderSo.Team;
             else
@@ -260,9 +261,9 @@ namespace Logic
             }
             else
             {
-                npc.Position = new Vector3d(-Vector3.left * 6);
+                npc.Position = new Vector3d(Vector3.left * 6);
                 npc.AttributeManager.SetBase(AttributeType.Speed, npc.AttributeManager[AttributeType.MaxSpeed]);
-                npc.SteeringManager.AddSteering(new ArriveSteering() { Priority =2, Target = new Vector3d(Vector3.left * 6) });
+                npc.SteeringManager.AddSteering(new ArriveSteering() { Priority =2, Target = new Vector3d(-Vector3.left * 6) });
                 npc.SteeringManager.AddSteering(new UnitAvoidSteering() { Priority = 1});
             }
             c++;

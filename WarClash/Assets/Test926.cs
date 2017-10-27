@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Lockstep;
+using Logic.LogicObject;
 using UnityEngine;
 
 public class Test926 : MonoBehaviour {
 
-    FixedQuadTree tree = new FixedQuadTree();
+    FixedQuadTree<FixedAgentTest> tree = new FixedQuadTree<FixedAgentTest>();
     List<FixedAgentTest> agents = new List<FixedAgentTest>();
     private float previousTime;
 
@@ -22,7 +23,7 @@ public class Test926 : MonoBehaviour {
 	                FixedMath.One * UnityEngine.Random.Range(0, 50))
 	        };
             agents.Add(agent);
-            tree.Insert(agent);
+            tree.Insert<FixedAgentTest>(agent);
 	    }
 	    tree.Query(new Vector2d(agents[0].Position), FixedMath.One*10, agents[0]);
        
@@ -63,12 +64,13 @@ public class Test926 : MonoBehaviour {
     }
 }
 
-class FixedAgentTest : IFixedAgent
+class FixedAgentTest : SceneObject, IFixedAgent
 {
     public IList<IFixedAgent> AgentNeighbors { get; set; }
     public IList<long> AgentNeighborSqrDists { get; set; }
     public IFixedAgent Next { get; set; }
     public Vector3d Position { get; set; }
+    public long Radius { get; set; }
 
     public FixedAgentTest()
     {

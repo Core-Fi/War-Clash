@@ -13,7 +13,8 @@ namespace Logic.LogicObject
     {
         public string Name;
         public Map.Map MapConfig;
-        public FixedQuadTree FixedQuadTree;
+        public FixedQuadTree<Character> FixedQuadTree;
+        public FixedQuadTree<Building> FixedQuadTreeForBuilding;
         public bool CanEnd()
         {
             return false;
@@ -37,12 +38,15 @@ namespace Logic.LogicObject
         {
             EventGroup = new EventGroup();
             MapConfig = Logic.Map.Map.Deserialize(Name);
-            FixedQuadTree = new FixedQuadTree();
+            FixedQuadTree = new FixedQuadTree<Character>();
+            FixedQuadTreeForBuilding = new FixedQuadTree<Building>();
+            FixedQuadTree.SetBounds(new Utility.FixedRect(-FixedMath.One * 50, -FixedMath.One * 50, FixedMath.One * 100, FixedMath.One * 100));
+            FixedQuadTreeForBuilding.SetBounds(new Utility.FixedRect(-FixedMath.One * 50, -FixedMath.One * 50, FixedMath.One * 100, FixedMath.One * 100));
         }
 
         public Building CreateBuilding(BuildingCreateInfo createInfo)
         {
-            var bType = Building.BuildingId_Type[createInfo.BuildingId];
+            var bType = Building.BuildingIdType[createInfo.BuildingId];
             var b = CreateSceneObject(bType, createInfo);
             return b as Building;
         }
@@ -88,35 +92,26 @@ namespace Logic.LogicObject
             so.Init(createInfo);
             so.ListenEvents();
             this.AddObject(so.Id, so);
+            if (so is Character)
+            {
+                FixedQuadTree.Insert<Character>((Character) so);
+            }
+            else if (so is Building)
+            {
+                FixedQuadTreeForBuilding.Insert<Building>((Building) so);
+            }
             EventGroup.FireEvent((int)SceneEvent.Addsceneobject, this, EventGroup.NewArg<EventSingleArgs<SceneObject>, SceneObject>(so));
         }
 
         public override void OnUpdate(float deltaTime)
         {
             base.OnUpdate(deltaTime);
+            FixedQuadTree.DebugDraw();
+            FixedQuadTreeForBuilding.DebugDraw();
         }
 
         public override void OnFixedUpdate(long deltaTime)
         {
-            FixedQuadTree.Clear();
-            Utility.FixedRect? bounds = null;
-            ForEachDo<Character>((c) =>
-            {
-                Vector3d p = c.Position;
-                if (bounds == null)
-                {
-                    bounds = new Utility.FixedRect(p.x, p.z, 0, 0);
-                }
-                else
-                    bounds = Utility.MinMaxRect(Utility.Min(bounds.Value.xMin, p.x), Utility.Min(bounds.Value.yMin, p.z), Utility.Max(bounds.Value.xMax, p.x), Utility.Max(bounds.Value.yMax, p.z));
-            });
-            if(bounds!=null)
-                FixedQuadTree.SetBounds(bounds.Value);
-            ForEachDo<Character>((c) =>
-            {
-                FixedQuadTree.Insert(c);
-            });
-
             base.OnFixedUpdate(deltaTime);
         }
 

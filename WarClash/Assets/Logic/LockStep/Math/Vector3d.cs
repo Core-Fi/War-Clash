@@ -178,6 +178,10 @@ namespace Lockstep
         {
             return a.x != b.x || a.y != b.y || a.z != b.z;
         }
+        public static Vector3d operator -(Vector3d a)
+        {
+            return a * -1;
+        }
         public static long Distance(Vector3d a, Vector3d b)
         {
             long tX = b.x - a.x;

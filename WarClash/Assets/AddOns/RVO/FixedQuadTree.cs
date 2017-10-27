@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Lockstep;
+using Logic.LogicObject;
 using UnityEngine;
 
 public interface IFixedAgent
@@ -9,9 +10,11 @@ public interface IFixedAgent
     IFixedAgent Next { get; set; }
     Vector3d Position { get; set; }
     long InsertAgentNeighbour(IFixedAgent fixedAgent, long rangeSq);
+    long Radius { get; }
+
 }
 
-public class FixedQuadTree
+public class FixedQuadTree<T> where T: SceneObject
 {
     private const int LeafSize = 10;
 
@@ -27,6 +30,10 @@ public class FixedQuadTree
     public void SetBounds(Utility.FixedRect r)
     {
         _bounds = r;
+        if (_root == null)
+        {
+            Clear();
+        }
         _root.rect = _bounds;
     }
 
@@ -73,7 +80,7 @@ public class FixedQuadTree
             {
                 if (Remove(node, fixedAgent))
                 {
-                    Insert(fixedAgent);
+                    Insert<T>(fixedAgent);
                 }
             }
         }
@@ -110,7 +117,7 @@ public class FixedQuadTree
         node.linkedList = null;
         node.count = 0;
     }
-    public void Insert(IFixedAgent fixedAgent)
+    public void Insert<T>(IFixedAgent fixedAgent)
     {
         var r = _bounds;
         var p = new Vector2d(fixedAgent.Position.x, fixedAgent.Position.z);
@@ -212,7 +219,6 @@ public class FixedQuadTree
     }
     public void Query(IFixedAgent fixedAgent, long radius, List<IFixedAgent> fixedAgents)
     {
-        fixedAgents.Clear();
         QueryRec(_root, fixedAgent, radius, fixedAgents, _bounds);
     }
 

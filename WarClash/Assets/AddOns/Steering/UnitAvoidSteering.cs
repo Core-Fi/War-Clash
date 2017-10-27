@@ -11,29 +11,43 @@ using UnityEngine;
 class UnitAvoidSteering : BaseSteering
 {
     private const long RadiusMargin = FixedMath.One / 10;
-    private long _cosAvoidAngle = -FixedMath.One * 99/100;
+    private const long CosAvoidAngle = -FixedMath.One * 90 / 100;
     private Vector3d _selfCollisionPos;
-    private List<IFixedAgent> _neighbors = new List<IFixedAgent>();
+    private const long FovReverseAngleCos = -FixedMath.One / 2;
+    private readonly List<IFixedAgent> _neighbors = new List<IFixedAgent>();
+    public long MinimumAvoidVectorMagnitude = FixedMath.One/4;
     public override Vector3d GetDesiredSteering()
     {
+        if(Self.Velocity.sqrMagnitude<FixedMath.One/1000)
+            return Vector3d.zero;
         _selfCollisionPos = Vector3d.zero;
         _neighbors.Clear();
-        LogicCore.SP.SceneManager.CurrentScene.FixedQuadTree.Query(Self, FixedMath.One*2, _neighbors);
+        LogicCore.SP.SceneManager.CurrentScene.FixedQuadTreeForBuilding.Query(Self, FixedMath.One*2, _neighbors);
+        LogicCore.SP.SceneManager.CurrentScene.FixedQuadTree.Query(Self, FixedMath.One * 4, _neighbors);
         if (_neighbors.Count == 0) return Vector3d.zero;
-        var acc = Avoid(_neighbors, _neighbors.Count, Self.Velocity).Div(LockFrameMgr.FixedFrameTime);
+        var avoidVec = Avoid(_neighbors, _neighbors.Count, Self.Velocity);
+        if (avoidVec.sqrMagnitude < this.MinimumAvoidVectorMagnitude.Mul(MinimumAvoidVectorMagnitude))
+        {
+            return Vector3d.zero;
+        }
+        var acc = avoidVec.Div(LockFrameMgr.FixedFrameTime);
         return acc;
     }
     private Vector3d Avoid(IList<IFixedAgent> units, int unitsLength, Vector3d currentVelocity)
     {
         Vector3d normalVelocity = currentVelocity.Normalize();
         Vector3d combinedAvoidVector = Vector3d.zero;
-
-        // iterate through scanned units list
         for (int i = 0; i < unitsLength; i++)
         {
-            var other = units[i] as ISteering;
-            long combinedRadius = other.Radius+RadiusMargin;
-            Vector3d avoidVector = GetAvoidVector(Self.Position, currentVelocity, normalVelocity, other.Position, other.Velocity, combinedRadius);
+            var other = units[i] as IFixedAgent;
+            var direction = Self.Position - other.Position;
+            if (direction.sqrMagnitude> Self.Radius.Mul(Self.Radius)*4 && Vector3d.Dot(normalVelocity, (Self.Position - other.Position)) > 0)
+            {
+                continue;
+            }
+            long combinedRadius = other.Radius + RadiusMargin;
+            Vector3d avoidVector = GetAvoidVector(Self.Position, currentVelocity, normalVelocity, other.Position,
+                (other is ISteering)?(other as ISteering).Velocity : Vector3d.zero, combinedRadius);
             combinedAvoidVector += avoidVector;
         }
         return combinedAvoidVector;
@@ -49,7 +63,7 @@ class UnitAvoidSteering : BaseSteering
         Vector3d avoidNormalized = (avoidDirection/(avoidMagnitude));
         Vector3d avoidVector = avoidNormalized * vectorLength;
         long dotAngle = Vector3d.Dot(avoidNormalized, normalVelocity);
-        if (dotAngle <= _cosAvoidAngle)
+        if (dotAngle <= CosAvoidAngle)
         {
             // the collision is considered "head-on", thus we compute a perpendicular avoid vector instead
             avoidVector = new Vector3d(avoidVector.z, avoidVector.y, -avoidVector.x);
@@ -59,8 +73,8 @@ class UnitAvoidSteering : BaseSteering
             // if supposed to be preventing front-passing, then check whether we should prevent it in this case and if so compute a different avoid vector
             avoidVector = _selfCollisionPos - selfPosi;
         }
-        long collisionDistance = Math.Max(FixedMath.One, (_selfCollisionPos-selfPosi).magnitude);
-        avoidVector = avoidVector*( currentVelocity.magnitude .Div( collisionDistance));
+        long collisionDistance = Math.Max(FixedMath.One/3, (_selfCollisionPos-selfPosi).magnitude);
+        avoidVector = avoidVector*( currentVelocity.magnitude.Div( collisionDistance));
         return avoidVector;
     }
     private Vector3d GetAvoidDirectionVector(Vector3d selfPos, Vector3d currentVelocity, Vector3d otherPos, Vector3d otherVelocity, long combinedRadius)
@@ -72,14 +86,12 @@ class UnitAvoidSteering : BaseSteering
         long c = ((selfPos.x - otherPos.x).Mul(selfPos.x - otherPos.x)) +
                   ((selfPos.z - otherPos.z).Mul(selfPos.z - otherPos.z)) -
                   (combinedRadius.Mul(combinedRadius));
-
         long d = (b.Mul( b)) - (4 * a.Mul(c));
         if (d <= 0)
         {
             // if there are not 2 intersection points, then skip
             return Vector3d.zero;
         }
-
         // compute "heavy" calculations only once
         long dSqrt = FixedMath.Sqrt(d);
         long doubleA = 2 * a;

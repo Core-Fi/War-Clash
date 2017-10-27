@@ -75,6 +75,7 @@ namespace Logic.LogicObject
             AttributeManager.New(AttributeType.MaxSpeed, Lockstep.FixedMath.One * 2);
             AttributeManager.New(AttributeType.Maxhp, Lockstep.FixedMath.One * 100);
             AttributeManager.New(AttributeType.Hp, Lockstep.FixedMath.One * 300);
+            base.EventGroup.ListenEvent((int)SceneObjectEvent.Positionchange, OnPositionChange);
         }
         internal override void ListenEvents()
         {
@@ -90,6 +91,10 @@ namespace Logic.LogicObject
             }
         }
 
+        private void OnPositionChange(object sender, EventMsg e)
+        {
+            LogicCore.SP.SceneManager.CurrentScene.FixedQuadTree.Relocate(this);
+        }
         public bool ReleaseSkill(int id)
         {
             if (!SkillManager.IsRunningSkill)
@@ -111,7 +116,6 @@ namespace Logic.LogicObject
                 return false;
       //      StateMachine.Start(new MoveState() {dir = new Lockstep.Vector3d(Vector3.forward), speed = Lockstep.FixedMath.One * 2 });
         }
-
         public bool ReleaseSkill(int id, SceneObject target)
         {
             if (!SkillManager.IsRunningSkill && !IsDeath())
@@ -156,13 +160,20 @@ namespace Logic.LogicObject
                 this.SkillManager.CancelSkill();
             }
         }
-
         internal override void OnFixedUpdate(long deltaTime)
         {
             base.OnFixedUpdate(deltaTime);
             SkillManager.FixedUpdate();
             var acceleration = SteeringManager.GetDesiredAcceleration();
-            Velocity += acceleration.Mul(LockFrameMgr.FixedFrameTime);
+            if (acceleration == Vector3d.zero)
+            {
+              //  acceleration = -Velocity * 3;
+            }
+            Velocity = acceleration.Mul(LockFrameMgr.FixedFrameTime);
+            if (Velocity.sqrMagnitude>0)
+            {
+                Velocity = Velocity.Normalize() * Speed;
+            }
             Position += Velocity.Mul(LockFrameMgr.FixedFrameTime);
         }
 

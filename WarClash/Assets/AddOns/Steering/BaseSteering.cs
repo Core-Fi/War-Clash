@@ -9,9 +9,8 @@ public interface ISteering : IFixedAgent
 {
     Vector3d Acceleration { get;}
     Vector3d Velocity { get; }
-    Vector3d Position { get; }
     long Speed { get; }
-    long Radius { get;}
+   
 }
 public abstract class BaseSteering
 {
