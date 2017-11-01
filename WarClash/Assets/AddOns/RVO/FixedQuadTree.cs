@@ -5,11 +5,8 @@ using UnityEngine;
 
 public interface IFixedAgent
 {
-    IList<IFixedAgent> AgentNeighbors { get; set; }
-    IList<long> AgentNeighborSqrDists { get; set; }
     IFixedAgent Next { get; set; }
     Vector3d Position { get; set; }
-    long InsertAgentNeighbour(IFixedAgent fixedAgent, long rangeSq);
     long Radius { get; }
 
 }
@@ -171,52 +168,6 @@ public class FixedQuadTree<T> where T: SceneObject
         }
     }
 
-    public void Query(Vector2d p, long radius, IFixedAgent fixedAgent)
-    {
-        QueryRec(_root, p, radius, fixedAgent, _bounds);
-    }
-
-    private long QueryRec(Node node, Vector2d p, long radius, IFixedAgent fixedAgent, Utility.FixedRect r)
-    {
-        //找到一个子节点
-        if (!node.HasChild)
-        {
-            var a = node.linkedList;
-            while (a != null)
-            {
-                var v = fixedAgent.InsertAgentNeighbour(a, radius.Mul(radius));
-                if (v < radius.Mul(radius))
-                    radius = FixedMath.Sqrt(v);
-                a = a.Next;
-            }
-        }
-        else
-        {
-            //搜索子节点
-            var c = r.center;
-            if (p.x - radius < c.x)
-            {
-                if (p.y - radius < c.y)
-                    radius = QueryRec(node.child00, p, radius, fixedAgent,
-                        Utility.MinMaxRect(r.xMin, r.yMin, c.x, c.y));
-                if (p.y + radius > c.y)
-                    radius = QueryRec(node.child01, p, radius, fixedAgent,
-                        Utility.MinMaxRect(r.xMin, c.y, c.x, r.yMax));
-            }
-
-            if (p.x + radius > c.x)
-            {
-                if (p.y - radius < c.y)
-                    radius = QueryRec(node.child10, p, radius, fixedAgent,
-                        Utility.MinMaxRect(c.x, r.yMin, r.xMax, c.y));
-                if (p.y + radius > c.y)
-                    radius = QueryRec(node.child11, p, radius, fixedAgent,
-                        Utility.MinMaxRect(c.x, c.y, r.xMax, r.yMax));
-            }
-        }
-
-        return radius;
-    }
     public void Query(IFixedAgent fixedAgent, long radius, List<IFixedAgent> fixedAgents)
     {
         QueryRec(_root, fixedAgent, radius, fixedAgents, _bounds);
@@ -245,20 +196,20 @@ public class FixedQuadTree<T> where T: SceneObject
             if (p.x - radius < c.x)
             {
                 if (p.y - radius < c.y)
-                    radius = QueryRec(node.child00, p, radius, fixedAgent,
+                    radius = QueryRec(node.child00, fixedAgent, radius, fixedAgents,
                         Utility.MinMaxRect(r.xMin, r.yMin, c.x, c.y));
                 if (p.y + radius > c.y)
-                    radius = QueryRec(node.child01, p, radius, fixedAgent,
+                    radius = QueryRec(node.child01, fixedAgent, radius, fixedAgents,
                         Utility.MinMaxRect(r.xMin, c.y, c.x, r.yMax));
             }
 
             if (p.x + radius > c.x)
             {
                 if (p.y - radius < c.y)
-                    radius = QueryRec(node.child10, p, radius, fixedAgent,
+                    radius = QueryRec(node.child10, fixedAgent, radius, fixedAgents,
                         Utility.MinMaxRect(c.x, r.yMin, r.xMax, c.y));
                 if (p.y + radius > c.y)
-                    radius = QueryRec(node.child11, p, radius, fixedAgent,
+                    radius = QueryRec(node.child11, fixedAgent, radius, fixedAgents,
                         Utility.MinMaxRect(c.x, c.y, r.xMax, r.yMax));
             }
         }

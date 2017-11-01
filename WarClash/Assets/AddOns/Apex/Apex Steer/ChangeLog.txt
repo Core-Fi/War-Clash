@@ -1,0 +1,5 @@
+﻿v 1.0.1 
+	Bug Fixes:
+	Fixed two bugs related to the latest release of Apex Path 2.1
+
+v. 1.0 Initial Release

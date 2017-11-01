@@ -11,45 +11,15 @@ namespace Logic.LogicObject
     public class Character : SceneObject, ISteering
     {
         #region IFixedAgent Impl
-        public IList<IFixedAgent> AgentNeighbors { get; set; }
-        public IList<long> AgentNeighborSqrDists { get; set; }
         public IFixedAgent Next { get; set; }
-        public long InsertAgentNeighbour(IFixedAgent fixedAgent, long rangeSq)
-        {
-            if (this == fixedAgent) return rangeSq;
-            var dist = (fixedAgent.Position.x - Position.x).Mul(fixedAgent.Position.x - Position.x)
-                       + (fixedAgent.Position.z - Position.z).Mul(fixedAgent.Position.z - Position.z);
-            if (dist < rangeSq)
-            {
-                if (AgentNeighbors.Count < 10)
-                {
-                    AgentNeighbors.Add(fixedAgent);
-                    AgentNeighborSqrDists.Add(dist);
-                }
-                var i = AgentNeighbors.Count - 1;
-                if (dist < AgentNeighborSqrDists[i])
-                {
-                    while (i != 0 && dist < AgentNeighborSqrDists[i - 1])
-                    {
-                        AgentNeighbors[i] = AgentNeighbors[i - 1];
-                        AgentNeighborSqrDists[i] = AgentNeighborSqrDists[i - 1];
-                        i--;
-                    }
-                    AgentNeighbors[i] = fixedAgent;
-                    AgentNeighborSqrDists[i] = dist;
-                }
-
-                if (AgentNeighbors.Count == 10)
-                    rangeSq = AgentNeighborSqrDists[AgentNeighbors.Count - 1];
-            }
-            return rangeSq;
-        }
         #endregion
         #region ISteering Impl
         public Vector3d Velocity { get; set; }
         public long Speed { get { return AttributeManager[AttributeType.Speed]; } }
         public long Radius { get; set; }
         public Vector3d Acceleration { get; set; }
+        public long MaxDeceleration { get; set; }
+        public long MaxAcceleration { get; set; }
         #endregion
         public enum CharacterEvent 
         {
@@ -69,13 +39,14 @@ namespace Logic.LogicObject
             base.OnInit(createInfo);
             SkillManager = new SkillManager(this);
             SteeringManager = new SteeringManager(this);
-            AgentNeighbors = new List<IFixedAgent>();
-            AgentNeighborSqrDists = new List<long>();
             AttributeManager.New(AttributeType.Speed, 0);
             AttributeManager.New(AttributeType.MaxSpeed, Lockstep.FixedMath.One * 2);
             AttributeManager.New(AttributeType.Maxhp, Lockstep.FixedMath.One * 100);
             AttributeManager.New(AttributeType.Hp, Lockstep.FixedMath.One * 300);
             base.EventGroup.ListenEvent((int)SceneObjectEvent.Positionchange, OnPositionChange);
+            MaxAcceleration = FixedMath.Create(20);
+            MaxDeceleration = FixedMath.Create(30);
+            Radius = FixedMath.Half;
         }
         internal override void ListenEvents()
         {
@@ -153,6 +124,8 @@ namespace Logic.LogicObject
         {
             get { return SkillManager.IsRunningSkill; }
         }
+
+       
         public void CancelSkill()
         {
             if (IsRunningSkill)
@@ -164,16 +137,14 @@ namespace Logic.LogicObject
         {
             base.OnFixedUpdate(deltaTime);
             SkillManager.FixedUpdate();
-            var acceleration = SteeringManager.GetDesiredAcceleration();
-            if (acceleration == Vector3d.zero)
+            Vector3d acc;
+            var hasResult = SteeringManager.GetDesiredAcceleration(out acc);
+            if (!hasResult)
             {
-              //  acceleration = -Velocity * 3;
+                acc = Vector3d.ClampMagnitude(-Velocity / LockFrameMgr.FixedFrameTime, MaxDeceleration);
             }
-            Velocity = acceleration.Mul(LockFrameMgr.FixedFrameTime);
-            if (Velocity.sqrMagnitude>0)
-            {
-                Velocity = Velocity.Normalize() * Speed;
-            }
+            Velocity += acc.Mul(LockFrameMgr.FixedFrameTime);
+            Velocity = Vector3d.ClampMagnitude(Velocity, Speed);
             Position += Velocity.Mul(LockFrameMgr.FixedFrameTime);
         }
 

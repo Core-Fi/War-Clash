@@ -12,6 +12,7 @@ public class SteeringManager
     public SteeringManager(ISteering self)
     {
         Self = self;
+        _steeringResult = new SteeringResult();
     }
     public void AddSteering(BaseSteering steering)
     {
@@ -48,19 +49,25 @@ public class SteeringManager
             }
         }
     }
-    public Vector3d GetDesiredAcceleration()
+    public bool GetDesiredAcceleration(out Vector3d acceleration)
     {
-        Vector3d acceleration = Vector3d.zero;
+        acceleration = Vector3d.zero;
+        _steeringResult.Reset();
         for (int i = 0; i < _steerings.Count; i++)
         {
-            acceleration += _steerings[i].GetDesiredSteering();
-            if (acceleration != Vector3d.zero)
+            if (_steerings[i].Enable)
             {
-                break;
+                _steerings[i].GetDesiredSteering(_steeringResult);
+                if (_steeringResult.HasValue)
+                {
+                    acceleration = _steeringResult.DesiredSteering;
+                    return true;
+                }
             }
         }
-        return acceleration;
+        return false;
     }
 
+    private SteeringResult _steeringResult;
 }
 

@@ -25,7 +25,6 @@ using UnityEngine;
     /// The final correction vector is the old desired velocity reflected 
     /// along the calculated avoidance vector.
     /// </remarks>
-    [AddComponentMenu("UnitySteer/Steer/... for SphericalObstacles")]
     public class SphericalObstacleSteering : BaseSteering
     {
         #region Structs
@@ -88,11 +87,11 @@ using UnityEngine;
     /// are within MinTimeToCollision, and calculate a repulsion vector based
     /// on them.
     /// </remarks>
-    public override Vector3d GetDesiredSteering()
+    public override void GetDesiredSteering(SteeringResult rst)
     {
             var avoidance = Vector3.zero;
         LogicCore.SP.SceneManager.CurrentScene.FixedQuadTreeForBuilding.Query(Self, FixedMath.One * 2, _neighbors);
-        if (_neighbors.Count == 0) return Vector3d.zero;
+        if (_neighbors.Count == 0) return ;
 
         /*
          * While we could just calculate movement as (Velocity * predictionTime) 
@@ -146,8 +145,6 @@ using UnityEngine;
             Debug.DrawLine(Self.Position.ToVector3(), futurePosition, Color.blue);
             Debug.DrawLine(Self.Position.ToVector3(), Self.Position.ToVector3() + newDesired, Color.white);
 #endif
-
-            return new Vector3d(newDesired);
         }
 
         /// <summary>
@@ -244,4 +241,7 @@ using UnityEngine;
             }
         }
 #endif
+        public SphericalObstacleSteering(ISteering self) : base(self)
+        {
+        }
     }

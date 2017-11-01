@@ -61,10 +61,7 @@ namespace Lockstep
             long magnitude = FixedMath.Sqrt(x.Mul(x) + y.Mul(y) + z.Mul(z));
             if (magnitude == 0)
                 return Vector3d.zero;
-            x = x.Div(magnitude);
-            y = y.Div(magnitude);
-            z = z.Div(magnitude);
-            return this;
+            return new Vector3d(x.Div(magnitude), y.Div(magnitude), z.Div(magnitude));
         }
 
         public Vector3d Scale(Vector3d v)
@@ -93,6 +90,7 @@ namespace Lockstep
             y += other.y;
             z += other.z;
         }
+
         public static Vector3d operator +(Vector3d a, Vector3d b)
         {
             Vector3d v = a;
@@ -165,6 +163,13 @@ namespace Lockstep
             v.Add(b*nagtive);
             return v;
         }
+        public static Vector3d ClampMagnitude(Vector3d vector, long maxLength)
+        {
+            if (vector.sqrMagnitude > maxLength.Mul(maxLength))
+                return vector.Normalize() * maxLength;
+            return vector;
+        }
+
         [JsonIgnore]
         public long sqrMagnitude {
             get { return this.x.Mul(x) + this.y.Mul(y) + this.z.Mul(z); }

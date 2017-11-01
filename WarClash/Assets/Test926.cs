@@ -25,8 +25,6 @@ public class Test926 : MonoBehaviour {
             agents.Add(agent);
             tree.Insert<FixedAgentTest>(agent);
 	    }
-	    tree.Query(new Vector2d(agents[0].Position), FixedMath.One*10, agents[0]);
-       
 	}
 	
 	// Update is called once per frame
@@ -64,6 +62,17 @@ public class Test926 : MonoBehaviour {
     }
 }
 
+class SteeringTest : ISteering
+{
+    public IFixedAgent Next { get; set; }
+    public Vector3d Position { get; set; }
+    public long Radius { get;  set; }
+    public Vector3d Acceleration { get;  set; }
+    public Vector3d Velocity { get;  set; }
+    public long Speed { get;  set; }
+    public long MaxAcceleration { get;  set; }
+    public long MaxDeceleration { get;  set; }
+}
 class FixedAgentTest : SceneObject, IFixedAgent
 {
     public IList<IFixedAgent> AgentNeighbors { get; set; }
