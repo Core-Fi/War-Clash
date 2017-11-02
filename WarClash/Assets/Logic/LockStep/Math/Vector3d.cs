@@ -72,7 +72,7 @@ namespace Lockstep
             return this;
         }
         public Vector2d ToVector2d () {
-            return new Vector2d(x,y);
+            return new Vector2d(x,z);
         }
         public Vector3 ToVector3 () {
             return new Vector3(x.ToFloat(),y.ToFloat(),z.ToFloat());

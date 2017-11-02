@@ -668,17 +668,8 @@
     <Compile Include="Assets\AddOns\JPSAStar\JPSAStar.cs" />
     <Compile Include="Assets\AddOns\JPSAStar\JPSGrid.cs" />
     <Compile Include="Assets\AddOns\JPSAStar\PriorityQueue.cs" />
+    <Compile Include="Assets\AddOns\RVO\Agent.cs" />
     <Compile Include="Assets\AddOns\RVO\FixedQuadTree.cs" />
-    <Compile Include="Assets\AddOns\RVO\Line.cs" />
-    <Compile Include="Assets\AddOns\RVO\OriginalRVO\Agent.cs" />
-    <Compile Include="Assets\AddOns\RVO\OriginalRVO\Line.cs" />
-    <Compile Include="Assets\AddOns\RVO\OriginalRVO\RVOMath.cs" />
-    <Compile Include="Assets\AddOns\RVO\OriginalRVO\RVOTestQuadTree.cs" />
-    <Compile Include="Assets\AddOns\RVO\OriginalRVO\Vector2.cs" />
-    <Compile Include="Assets\AddOns\RVO\RVOFixedAgent.cs" />
-    <Compile Include="Assets\AddOns\RVO\RVOFixedQuadtree.cs" />
-    <Compile Include="Assets\AddOns\RVO\RVOFixedSimulator.cs" />
-    <Compile Include="Assets\AddOns\RVO\RVOMath.cs" />
     <Compile Include="Assets\AddOns\Steering\ArriveSteering.cs" />
     <Compile Include="Assets\AddOns\Steering\BaseSteering.cs" />
     <Compile Include="Assets\AddOns\Steering\SphericalObstacleSteering.cs" />
@@ -735,6 +726,7 @@
     <Compile Include="Assets\Logic\FastCollections-master\FastStack.cs" />
     <Compile Include="Assets\Logic\FastCollections-master\LSEnumerable.cs" />
     <Compile Include="Assets\Logic\FastCollections-master\Shortcuts.cs" />
+    <Compile Include="Assets\Logic\GridService.cs" />
     <Compile Include="Assets\Logic\ICommandData.cs" />
     <Compile Include="Assets\Logic\IDManager.cs" />
     <Compile Include="Assets\Logic\IUpdate.cs" />
@@ -842,7 +834,6 @@
     <Compile Include="Assets\Test0801.cs" />
     <Compile Include="Assets\Test918.cs" />
     <Compile Include="Assets\Test925.cs" />
-    <Compile Include="Assets\Test925_2.cs" />
     <Compile Include="Assets\Test926.cs" />
     <Compile Include="Assets\Test_06_11.cs" />
     <Compile Include="Assets\Test_6_13.cs" />

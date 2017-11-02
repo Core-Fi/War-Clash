@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Apex.PathFinding;
 using Logic.Skill;
 using UnityEngine;
 using Brainiac;
@@ -46,7 +47,6 @@ namespace Logic.LogicObject
             base.EventGroup.ListenEvent((int)SceneObjectEvent.Positionchange, OnPositionChange);
             MaxAcceleration = FixedMath.Create(20);
             MaxDeceleration = FixedMath.Create(30);
-            Radius = FixedMath.Half;
         }
         internal override void ListenEvents()
         {
@@ -145,6 +145,10 @@ namespace Logic.LogicObject
             }
             Velocity += acc.Mul(LockFrameMgr.FixedFrameTime);
             Velocity = Vector3d.ClampMagnitude(Velocity, Speed);
+            var agent = new FixedAgent(this);
+            var caculated = agent.UpdateAgent();
+            Position += Vector3d.ClampMagnitude(caculated.ToVector3d(), Speed).Mul(LockFrameMgr.FixedFrameTime);
+            return;
             Position += Velocity.Mul(LockFrameMgr.FixedFrameTime);
         }
 

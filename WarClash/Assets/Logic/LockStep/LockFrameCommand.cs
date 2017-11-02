@@ -251,20 +251,20 @@ namespace Logic
             var npc = LogicCore.SP.SceneManager.CurrentScene.CreateSceneObject<Npc>(createInfo);
             npc.Team = Team.Team2;
             npc.Position = new Vector3d(Vector3.left * 6);
-            npc.Radius = FixedMath.One/2;
+            npc.Radius = FixedMath.One/4;
             if (c == 0)
             {
                 npc.Position = new Vector3d(Vector3.left * 6);
                 npc.AttributeManager.SetBase(AttributeType.Speed, npc.AttributeManager[AttributeType.MaxSpeed]);
                 npc.SteeringManager.AddSteering(new ArriveSteering(npc){Priority = 2, Target = new Vector3d(-Vector3.left * 6) });
-                npc.SteeringManager.AddSteering(new UnitAvoidSteering(npc) { Priority = 1 });
+               // npc.SteeringManager.AddSteering(new UnitAvoidSteering(npc) { Priority = 1 });
             }
             else
             {
-                npc.Position = new Vector3d(Vector3.left * 6);
+                npc.Position = new Vector3d(-Vector3.left * 6);
                 npc.AttributeManager.SetBase(AttributeType.Speed, npc.AttributeManager[AttributeType.MaxSpeed]);
-                npc.SteeringManager.AddSteering(new ArriveSteering(npc) { Priority =2, Target = new Vector3d(-Vector3.left * 6) });
-                npc.SteeringManager.AddSteering(new UnitAvoidSteering(npc) { Priority = 1});
+                npc.SteeringManager.AddSteering(new ArriveSteering(npc) { Priority =2, Target = new Vector3d(Vector3.left * 6) });
+                //npc.SteeringManager.AddSteering(new UnitAvoidSteering(npc) { Priority = 1});
             }
             c++;
         }

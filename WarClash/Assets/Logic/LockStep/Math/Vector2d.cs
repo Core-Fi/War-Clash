@@ -400,8 +400,16 @@ namespace Lockstep
 		{
 			return new Vector2d(FixedMath.Trig.Cos(angle), FixedMath.Trig.Sin(angle));
 		}
+	    public static Vector2d rotate(Vector2d v, long cos, long sin)
+	    {
+	        return new Vector2d(cos.Mul(v.x) - sin.Mul(v.y), sin.Mul(v.x) + cos.Mul(v.y));
+	    }
 
-		public Vector2d ToDirection()
+	    internal static long det(Vector2d vector1, Vector2d vector2)
+	    {
+	        return vector1.x.Mul(vector2.y) - vector1.y.Mul(vector2.x);
+	    }
+        public Vector2d ToDirection()
 		{
 			return new Vector2d(y, x);
 		}
@@ -436,7 +444,7 @@ namespace Lockstep
 
 		public Vector3d ToVector3d(long z = 0)
 		{
-			return new Vector3d(x, y, z);
+			return new Vector3d(x, 0, y);
 		}
 
 		public Vector3 ToVector3(float z = 0f)
@@ -485,6 +493,10 @@ namespace Lockstep
 	    public static Vector2d operator *(int mag, Vector2d v1)
 	    {
 	        return new Vector2d((v1.x * mag), (v1.y * mag));
+	    }
+	    public static Vector2d operator *(long mag, Vector2d v1)
+	    {
+	        return new Vector2d((v1.x * mag) >> FixedMath.SHIFT_AMOUNT, (v1.y * mag) >> FixedMath.SHIFT_AMOUNT);
 	    }
         public static long operator *(Vector2d v1, Vector2d v2)
 	    {

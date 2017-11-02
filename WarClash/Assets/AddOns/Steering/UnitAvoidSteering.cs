@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Lockstep;
 using Logic;
-using Logic.LogicObject;
-using RVO;
-using UnityEngine;
 
 class UnitAvoidSteering : BaseSteering
 {

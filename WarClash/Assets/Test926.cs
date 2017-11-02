@@ -9,7 +9,6 @@ public class Test926 : MonoBehaviour {
     FixedQuadTree<FixedAgentTest> tree = new FixedQuadTree<FixedAgentTest>();
     List<FixedAgentTest> agents = new List<FixedAgentTest>();
     private float previousTime;
-
     private float timeout = 2;
 	// Use this for initialization
 	void Start () {

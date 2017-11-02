@@ -492,7 +492,7 @@ namespace Apex.Steering
             }
 
             //Do the movement and rotation. We do this even if velocity is 0 since some implementations require this.
-            _mover.Move(_currentVelocity, deltaTime);
+             _mover.Move(_currentVelocity, deltaTime);
             if (_currentAngularSpeed > AngularSpeedLowerLimit && _orientation.desiredOrientation.sqrMagnitude > 0f)
             {
                 _mover.Rotate(_orientation.desiredOrientation, _currentAngularSpeed, deltaTime);

@@ -48,6 +48,11 @@ public abstract class BaseSteering
     {
         this.Self = self;
     }
+
+    public virtual void Start()
+    {
+        
+    }
     public virtual void GetDesiredSteering(SteeringResult rst)
     {
         return;

@@ -135,7 +135,7 @@ namespace Apex.Steering.Behaviours
                 idx = (points.Length - 1) - _currentPatrolPointIdx;
             }
 
-            _mover.MoveTo(points[idx].position, append);
+            _mover.MoveTo(new Vector3(-15,0,0), append);
         }
     }
 }

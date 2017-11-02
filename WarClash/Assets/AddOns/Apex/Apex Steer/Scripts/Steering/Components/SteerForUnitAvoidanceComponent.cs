@@ -164,7 +164,6 @@ namespace Apex.Steering.Components
             var testAvoidVector = uas.Avoid(neighbors, neighbors.Count, self.Velocity);
             
             var fixedAvoidVector = Avoid(otherUnits, othersCount, new Vector3d(input.currentFullVelocity));
-            
             if (Vector3.Distance(avoidVector, fixedAvoidVector.ToVector3()) > 0.1f)
             {
                 Debug.LogError(avoidVector+"    "+fixedAvoidVector.ToVector3());
