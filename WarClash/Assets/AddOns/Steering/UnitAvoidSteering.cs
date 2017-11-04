@@ -15,9 +15,9 @@ class UnitAvoidSteering : BaseSteering
     private readonly List<IFixedAgent> _neighbors = new List<IFixedAgent>();
     public long MinimumAvoidVectorMagnitude = FixedMath.One/4;
 
-    public UnitAvoidSteering(ISteering self) : base(self)
-    {
-        _omniAwareRadius = self.Radius * 2;
+    protected override void OnInit()
+    { 
+        _omniAwareRadius = Self.Radius * 2;
         _cosAvoidAngle = FixedMath.Trig.Cos(FixedMath.One.Div(180).Mul(FixedMath.Pi).Mul(175));//
     }
     public override void GetDesiredSteering(SteeringResult rst)

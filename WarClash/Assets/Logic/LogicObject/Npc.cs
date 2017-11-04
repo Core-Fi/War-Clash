@@ -34,7 +34,7 @@ namespace Logic.LogicObject
             base.OnFixedUpdate(deltaTime);
             if (!IsDeath() && AiAgent!=null)
             {
-            //    AiAgent.Tick();
+                AiAgent.Tick();
             }
         }
 

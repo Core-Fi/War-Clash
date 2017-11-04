@@ -159,7 +159,8 @@ namespace Apex.Steering.Components
             self.Position = new Vector3d(_unitData.position);
             self.Radius = FixedMath.Create(_unitData.radius);
             self.Velocity = new Vector3d(_unitData.velocity);
-            UnitAvoidSteering uas = new UnitAvoidSteering(self);
+            UnitAvoidSteering uas = new UnitAvoidSteering();
+            uas.Self = self;
             uas._selfCollisionPos = Vector3d.zero;
             var testAvoidVector = uas.Avoid(neighbors, neighbors.Count, self.Velocity);
             

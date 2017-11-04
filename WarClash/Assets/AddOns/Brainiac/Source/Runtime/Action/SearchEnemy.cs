@@ -12,9 +12,9 @@ public class SearchEnemy : Brainiac.Action
 {
     private SceneObject _self;
     private List<SceneObject> enemyList = new List<SceneObject>(4);
-    [BTProperty("建筑当做目标")]
+    [BTProperty("Building As Target")]
     public MemoryVar Building;
-    [BTProperty("敌人当做目标")]
+    [BTProperty("Enemy As Target")]
     public MemoryVar Enemy;
     public override void OnStart(AIAgent agent)
     {
@@ -26,9 +26,16 @@ public class SearchEnemy : Brainiac.Action
     private Logic.Objects.ObjectCollection<int, SceneObject>.VoidAction<SceneObject> _searchEnemy;
     private void Search(SceneObject c)
     {
-        if (c != _self && c.Hp > 0 && c.Team != _self.Team && (c is Character))
+        if (c != _self && c.Hp > 0 && c.Team != _self.Team)
         {
-            enemyList.Add(c);
+            if (Building.AsBool.Value && c is Building)
+            {
+                enemyList.Add(c);
+            }
+            else if(Enemy.AsBool.Value && c is Character)
+            {
+                enemyList.Add(c);
+            }
         }
     }
 

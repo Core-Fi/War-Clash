@@ -18,11 +18,13 @@ public class MoveToTargetAction : Brainiac.Action
         StartMove,
         Moving,
     }
-    private Character target = null;
+    private SceneObject target = null;
     private List<Vector3d> _path;
     private int _pathIndex = 0;
     private Stage stage;
     private Vector3d previousPosi;
+    private bool _depart;
+    private BaseArriveSteering _baseArriveSteering;
     public override void OnStart(AIAgent agent)
     {
         base.OnStart(agent);
@@ -32,7 +34,7 @@ public class MoveToTargetAction : Brainiac.Action
     protected override void OnEnter(AIAgent agent)
     {
         base.OnStart(agent);
-        target = agent.Blackboard.GetItem("target") as Character;
+        target = agent.Blackboard.GetItem("target") as SceneObject;
         CacualtePath();
         if (target != null)
         {
@@ -40,6 +42,7 @@ public class MoveToTargetAction : Brainiac.Action
             SceneObject.AttributeManager.SetBase(AttributeType.Speed, speed);
             target.EventGroup.ListenEvent((int)SceneObject.SceneObjectEvent.Positionchange, OnTargetPosiChanged);
         }
+        _depart = false;
     }
     protected override void OnExit(AIAgent agent)
     {
@@ -72,8 +75,7 @@ public class MoveToTargetAction : Brainiac.Action
             //_path.Add(path.EndPoint);
 
             JPSAStar.active.GetPath(SceneObject.Position, target.Position, _path);
-            _pathIndex = 1;
-            Vector3d moveDirection = (_path[_pathIndex] - SceneObject.Position).Normalize();
+            Vector3d moveDirection = (_path[1] - SceneObject.Position).Normalize();
             SceneObject.Forward = moveDirection;
             stage = Stage.Moving;
         }
@@ -88,9 +90,35 @@ public class MoveToTargetAction : Brainiac.Action
         }
         else return FixedMath.One;
     }
+
+    private bool ReachPoint()
+    {
+        long distance = Vector3d.Distance(target.Position, SceneObject.Position);
+        if (distance > GetRange())
+        {
+            return false;
+        }
+        return true;
+    }
+    private void OnArrivePoint()
+    {
+        if (_pathIndex < _path.Count-1)
+        {
+            _pathIndex++;
+            AddSteering();
+        }
+    }
+
+    private void AddSteering()
+    { 
+        var npc = SceneObject as Npc;
+        _baseArriveSteering = npc.SteeringManager.AddSteering<CircularArriveSteering>();
+        Debug.LogError(_pathIndex+" "+_path.Count);
+        _baseArriveSteering.Target = _path[_pathIndex];
+    }
     protected override BehaviourNodeStatus OnExecute(AIAgent agent)
 	{
-        if(target != null && !target.IsDeath() && _path!=null)
+        if(target != null && target.Hp>0 && _path!=null)
         {
 #if UNITY_EDITOR
             if (LogicCore.SP.WriteToLog)
@@ -102,37 +130,55 @@ public class MoveToTargetAction : Brainiac.Action
                 LogicCore.SP.Writer.AppendLine();
             }
 #endif
-            long distance = Vector3d.Distance(target.Position, agent.SceneObject.Position);
-            if(distance< GetRange())
+            if (ReachPoint())
             {
                 return BehaviourNodeStatus.Success;
             }
-            long moveDistance = agent.SceneObject.GetAttributeValue(Logic.AttributeType.Speed).Mul(FixedMath.One / 15);
-            while (moveDistance > 0 && _pathIndex < _path.Count)
+            if (!_depart)
             {
-                long nextCornerDistance = Vector3d.Distance(_path[_pathIndex],
-                    agent.SceneObject.Position);
-                if (nextCornerDistance < moveDistance)
+                _depart = true;
+               OnArrivePoint();
+            }
+            else
+            {
+                if (_baseArriveSteering.Finish)
                 {
-                    agent.SceneObject.Position = _path[_pathIndex];
-                    moveDistance -= nextCornerDistance;
-                    _pathIndex++;
-                    if (_pathIndex == _path.Count)
+                    if (_pathIndex < _path.Count - 1)
                     {
-                        break;
+                        OnArrivePoint();
                     }
                     else
                     {
-                        Vector3d moveDirection = (_path[_pathIndex] - agent.SceneObject.Position).Normalize();
-                        SceneObject.Forward = moveDirection;
+                        return BehaviourNodeStatus.Success;
                     }
                 }
-                else
-                {
-                    agent.SceneObject.Position += agent.SceneObject.Forward * moveDistance;
-                    break;
-                }
             }
+            //long moveDistance = agent.SceneObject.GetAttributeValue(Logic.AttributeType.Speed).Mul(FixedMath.One / 15);
+            //while (moveDistance > 0 && _pathIndex < _path.Count)
+            //{
+            //    long nextCornerDistance = Vector3d.Distance(_path[_pathIndex],
+            //        agent.SceneObject.Position);
+            //    if (nextCornerDistance < moveDistance)
+            //    {
+            //        agent.SceneObject.Position = _path[_pathIndex];
+            //        moveDistance -= nextCornerDistance;
+            //        _pathIndex++;
+            //        if (_pathIndex == _path.Count)
+            //        {
+            //            break;
+            //        }
+            //        else
+            //        {
+            //            Vector3d moveDirection = (_path[_pathIndex] - agent.SceneObject.Position).Normalize();
+            //            SceneObject.Forward = moveDirection;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        agent.SceneObject.Position += agent.SceneObject.Forward * moveDistance;
+            //        break;
+            //    }
+            //}
             return BehaviourNodeStatus.Running;
         }
         return BehaviourNodeStatus.Failure;

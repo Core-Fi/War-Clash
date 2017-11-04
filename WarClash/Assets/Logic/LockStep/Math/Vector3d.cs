@@ -35,7 +35,6 @@ namespace Lockstep
         }
 
         internal static Vector3d zero = new Vector3d(0,0,0);
-       
 
         public Vector3d (Vector3 vec3) {
             this.x = FixedMath.Create(vec3.x);

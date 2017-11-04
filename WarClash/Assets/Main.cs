@@ -1,6 +1,7 @@
 ﻿using System;
 using DG.Tweening;
 using LiteNetLib.Utils;
+using Lockstep;
 using Logic;
 using Logic.LogicObject;
 using Logic.Skill;
@@ -8,9 +9,10 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 public class Main : MonoBehaviour
 {
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
     public bool ShowShortCut = true;
-#endif
+    public bool ShowDebug;
+//#endif
     public Transform Uiparent;
     public static Main SP;
     private U3DSceneManager u3dSceneManager;
@@ -23,10 +25,11 @@ public class Main : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+        GridService.Init(30,30, FixedMath.One);
         DonotDestroy();
         Logic.LogicCore.SP.Init();
         u3dSceneManager = new U3DSceneManager();
-        Logic.LogicCore.SP.SceneManager.SwitchScene(new Scene("scene01"));
+        Logic.LogicCore.SP.SceneManager.SwitchScene(new Scene("scene02"));
         EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("UI-JoyStick.prefab", typeof(BattleView), null));
         EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("BattleUI.prefab", typeof(BattleView), null));
     }
@@ -47,6 +50,7 @@ public class Main : MonoBehaviour
         if (GUILayout.Button("NewNpc"))
         {
             LogicCore.SP.LockFrameMgr.SendCommand(new CreateNpcCommand(){NpcId = 1001});
+  
         }
         if (GUILayout.Button("CreateBarack1"))
         {
@@ -110,5 +114,11 @@ public class Main : MonoBehaviour
         {
             manager.Dispose();
         }
+    }
+
+    void OnDrawGizmos()
+    {
+        if(Application.isPlaying)
+            GridService.DrawGizmos();
     }
 }

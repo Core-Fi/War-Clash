@@ -16,16 +16,25 @@ public class SteeringManager
     }
     public void AddSteering(BaseSteering steering)
     {
-        steering.Self = Self;
+        steering.Init(this);
         _steerings.Add(steering);
         _steerings.Sort((a, b) =>  a.Priority - b.Priority);
     }
 
     public T AddSteering<T>() where T : BaseSteering
     {
-        var t = Activator.CreateInstance<T>();
-        _steerings.Add(t);
+        var t = Activator.CreateInstance(typeof(T)) as T;
+        AddSteering(t);
         return t;
+    }
+    public bool HasSteering<T>() where T : BaseSteering
+    {
+        for (int i = 0; i < _steerings.Count; i++)
+        {
+            if (_steerings[i] is T)
+                return true;
+        }
+        return false;
     }
     public void RemoveSteering(BaseSteering steering) 
     {

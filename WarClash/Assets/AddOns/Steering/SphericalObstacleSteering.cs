@@ -241,7 +241,5 @@ using UnityEngine;
             }
         }
 #endif
-        public SphericalObstacleSteering(ISteering self) : base(self)
-        {
-        }
+
     }

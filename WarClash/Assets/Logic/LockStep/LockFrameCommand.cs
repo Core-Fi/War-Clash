@@ -146,7 +146,7 @@ namespace Logic
         {
             var player = LogicCore.SP.SceneManager.CurrentScene.GetObject(Sender) as Player;
             player.Forward = Forward;
-            
+            player.Velocity = player.Forward * player.Speed;
         }
         public override void WriteToLog(StringBuilder writer)
         {
@@ -212,7 +212,7 @@ namespace Logic
             var senderSo = LogicCore.SP.SceneManager.CurrentScene.GetObject<SceneObject>(Sender);
             var createInfo = Pool.SP.Get<BuildingCreateInfo>();
             createInfo.BuildingId = mapItem.BuildingId;
-            createInfo.Position =Vector3d.zero;// mapItem.Position;
+            createInfo.Position = new Vector3d(new Vector3(8,0,8));// mapItem.Position;
             var barack = LogicCore.SP.SceneManager.CurrentScene.CreateBuilding(createInfo);
             barack.Radius = FixedMath.One;
             if(senderSo!=null)
@@ -248,25 +248,20 @@ namespace Logic
         {
             var createInfo = Pool.SP.Get<NpcCreateInfo>();
             createInfo.NpcId = NpcId;
+            createInfo.Position =
+                new Vector3d(new Vector3(UnityEngine.Random.Range(18, 19), 0, UnityEngine.Random.Range(18, 19)));
             var npc = LogicCore.SP.SceneManager.CurrentScene.CreateSceneObject<Npc>(createInfo);
-            npc.Team = Team.Team2;
-            npc.Position = new Vector3d(Vector3.left * 6);
-            npc.Radius = FixedMath.One/4;
-            if (c == 0)
-            {
-                npc.Position = new Vector3d(Vector3.left * 6);
-                npc.AttributeManager.SetBase(AttributeType.Speed, npc.AttributeManager[AttributeType.MaxSpeed]);
-                npc.SteeringManager.AddSteering(new ArriveSteering(npc){Priority = 2, Target = new Vector3d(-Vector3.left * 6) });
-               // npc.SteeringManager.AddSteering(new UnitAvoidSteering(npc) { Priority = 1 });
-            }
-            else
-            {
-                npc.Position = new Vector3d(-Vector3.left * 6);
-                npc.AttributeManager.SetBase(AttributeType.Speed, npc.AttributeManager[AttributeType.MaxSpeed]);
-                npc.SteeringManager.AddSteering(new ArriveSteering(npc) { Priority =2, Target = new Vector3d(Vector3.left * 6) });
-                //npc.SteeringManager.AddSteering(new UnitAvoidSteering(npc) { Priority = 1});
-            }
-            c++;
+            npc.Team = Team.Team1;
+            npc.Radius = FixedMath.One/2;
+            npc.AttributeManager.SetBase(AttributeType.Speed, npc.AttributeManager[AttributeType.MaxSpeed]);
+            //var arriveSteering = npc.SteeringManager.AddSteering<ArriveSteering>(npc);
+            //arriveSteering.Priority = 2;
+            //arriveSteering.Target = new Vector3d(new Vector3(10, 0, 10));
+
+            //var seperationSteering = npc.SteeringManager.AddSteering<SeperationSteering>(npc);
+            //seperationSteering.Priority = 1;
+
+
         }
         public override void WriteToLog(StringBuilder writer)
         {
@@ -292,7 +287,8 @@ namespace Logic
         {
             var mainPlayer = LogicCore.SP.SceneManager.CurrentScene.CreateSceneObject<MainPlayer>(Sender);
             mainPlayer.Team = Team.Team1;
-            mainPlayer.Position = new Vector3d(-Vector3.left * 6);
+            mainPlayer.Position = Vector3d.zero;
+            mainPlayer.Radius = FixedMath.One/2;
         }
         public override void WriteToLog(StringBuilder writer)
         {

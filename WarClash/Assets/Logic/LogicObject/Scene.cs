@@ -106,8 +106,12 @@ namespace Logic.LogicObject
         public override void OnUpdate(float deltaTime)
         {
             base.OnUpdate(deltaTime);
-            FixedQuadTree.DebugDraw();
-            FixedQuadTreeForBuilding.DebugDraw();
+
+            if (Main.SP.ShowDebug)
+            {
+                FixedQuadTreeForBuilding.DebugDraw();
+                FixedQuadTree.DebugDraw();
+            }
         }
 
         public override void OnFixedUpdate(long deltaTime)

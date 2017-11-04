@@ -43,13 +43,28 @@ public abstract class BaseSteering
     public bool Enable = true;
     public ISteering Self;
     public int Priority;
-
-    public BaseSteering(ISteering self)
+    private SteeringManager _steeringManager;
+    protected void RemoveSteering<T>() where T:BaseSteering
     {
-        this.Self = self;
+        _steeringManager.RemoveSteering<T>();
+    }
+    public void Init(SteeringManager steeringManager)
+    {
+        Self = steeringManager.Self;
+        _steeringManager = steeringManager;
+        OnInit();
     }
 
-    public virtual void Start()
+    public void Exit()
+    {
+        OnExit();
+    }
+
+    protected virtual void OnExit()
+    {
+        
+    }
+    protected virtual void OnInit()
     {
         
     }
@@ -57,4 +72,5 @@ public abstract class BaseSteering
     {
         return;
     }
+
 }

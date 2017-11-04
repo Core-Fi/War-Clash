@@ -58,6 +58,8 @@ namespace Logic.LogicObject
             {
                 if (_position != value)
                 {
+                    //GridService.UnTagAsTaken(_position);
+                    //GridService.TagAsTaken(value);
                     _position = value;
                     if(EventGroup!=null)
                         EventGroup.FireEvent((int)SceneObjectEvent.Positionchange, this, null);
@@ -175,6 +177,7 @@ namespace Logic.LogicObject
             return sb.ToString();
         }
 
+      
         private void AppendVector3d(StringBuilder sb, Vector3d v)
         {
             sb.Append(v.x);

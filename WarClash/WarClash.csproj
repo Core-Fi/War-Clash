@@ -671,7 +671,10 @@
     <Compile Include="Assets\AddOns\RVO\Agent.cs" />
     <Compile Include="Assets\AddOns\RVO\FixedQuadTree.cs" />
     <Compile Include="Assets\AddOns\Steering\ArriveSteering.cs" />
+    <Compile Include="Assets\AddOns\Steering\BaseArriveSteering.cs" />
     <Compile Include="Assets\AddOns\Steering\BaseSteering.cs" />
+    <Compile Include="Assets\AddOns\Steering\CircularArriveSteering.cs" />
+    <Compile Include="Assets\AddOns\Steering\SeperationSteering.cs" />
     <Compile Include="Assets\AddOns\Steering\SphericalObstacleSteering.cs" />
     <Compile Include="Assets\AddOns\Steering\SteeringManager.cs" />
     <Compile Include="Assets\AddOns\Steering\UnitAvoidSteering.cs" />

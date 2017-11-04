@@ -170,7 +170,7 @@ public class FixedAgent {
                 u = (comRadius.Div(LockFrameMgr.FixedFrameTime) - vec.Magnitude()) * normVec;
             }
 
-            line.point = _self.Velocity.ToVector2d() + u / 2;
+            line.point = _fixedVecocity + u / 2;
             _fixedLines.Add(line);
         }
 

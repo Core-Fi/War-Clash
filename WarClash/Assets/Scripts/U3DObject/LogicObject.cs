@@ -36,6 +36,15 @@ public class LogicObject : MonoBehaviour {
             return _so;
         }
     }
+
+    void OnDrawGizmos()
+    {
+        if (Main.SP.ShowDebug)
+        {
+            var c = so as Character;
+            Gizmos.DrawSphere(c.Position.ToVector3(), c.Radius.ToFloat());
+        }
+    }
     private SceneObject _so;
 
 }

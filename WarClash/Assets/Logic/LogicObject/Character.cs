@@ -144,14 +144,22 @@ namespace Logic.LogicObject
                 acc = Vector3d.ClampMagnitude(-Velocity / LockFrameMgr.FixedFrameTime, MaxDeceleration);
             }
             Velocity += acc.Mul(LockFrameMgr.FixedFrameTime);
-            Velocity = Vector3d.ClampMagnitude(Velocity, Speed);
-            var agent = new FixedAgent(this);
-            var caculated = agent.UpdateAgent();
-            Position += Vector3d.ClampMagnitude(caculated.ToVector3d(), Speed).Mul(LockFrameMgr.FixedFrameTime);
-            return;
+            if (Velocity.sqrMagnitude > 100)
+            {
+                Velocity = Velocity.Normalize() * Speed;
+            }
+            //Velocity = Vector3d.ClampMagnitude(Velocity, Speed);
+
+            //if (Velocity.sqrMagnitude > 100)
+            //{
+            //    var agent = new FixedAgent(this);
+            //    var caculated = agent.UpdateAgent();
+            //    Position += Vector3d.ClampMagnitude(caculated.ToVector3d(), Speed).Mul(LockFrameMgr.FixedFrameTime);
+            //}
+            
             Position += Velocity.Mul(LockFrameMgr.FixedFrameTime);
         }
-
+       
         internal override void OnUpdate(float deltaTime)
         {
             base.OnUpdate(deltaTime);

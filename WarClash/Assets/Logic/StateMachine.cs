@@ -28,12 +28,12 @@ namespace Logic
                 }
                 else
                 {
-                    this.state.OnStop();
+                    this.state.Stop();
                 }
             }
             this.state = Pool.SP.Get<T>() as State;
             this.state.Character = Character;
-            this.state.OnStart();
+            this.state.Start();
 
         }
 
@@ -41,16 +41,31 @@ namespace Logic
         {
             if(state != null)
             {
-                state.OnUpdate();
+                state.Update();
             }
         }
     }
     public abstract class State : IPool
     {
         public Character Character;
-        public abstract void OnStart();
-        public abstract void OnUpdate();
-        public abstract void OnStop();
+
+        public void Start()
+        {
+            OnStart();
+        }
+
+        public void Update()
+        {
+            OnUpdate();
+        }
+
+        public void Stop()
+        {
+            OnStop();
+        }
+        protected abstract void OnStart();
+        protected abstract void OnUpdate();
+        protected abstract void OnStop();
         public void Reset()
         {
            
@@ -59,16 +74,16 @@ namespace Logic
 
     public class IdleState : State
     {
-        public override void OnStart()
+        protected override void OnStart()
         {
             Character.AttributeManager.SetBase(AttributeType.Speed, 0);
         }
 
-        public override void OnStop()
+        protected override void OnStop()
         {
 
         }
-        public override void OnUpdate()
+        protected override void OnUpdate()
         {
 
         }
@@ -76,16 +91,17 @@ namespace Logic
 
     public class MoveState : State
     {
-        public override void OnStart()
+        protected override void OnStart()
         {
             var speed = Character.AttributeManager[AttributeType.MaxSpeed];
             Character.AttributeManager.SetBase(AttributeType.Speed, speed);
+            Character.Velocity = Character.Forward * speed;
         }
-        public override void OnStop()
+        protected override void OnStop()
         {
             Character.AttributeManager.SetBase(AttributeType.Speed, 0);
         }
-        public override void OnUpdate()
+        protected override void OnUpdate()
         {
             Vector3d posi = Character.Forward;
             posi.Mul(Character.AttributeManager[AttributeType.Speed]);
@@ -93,7 +109,7 @@ namespace Logic
             var finalPosi = Character.Position + posi;
             //var fp = AstarPath.active.GetNearest(finalPosi);
             //var b = (fp.node as MeshNode).ContainsPoint(Vector3d.ToInt3(finalPosi));
-            var b = JPSAStar.active.IsWalkable(finalPosi);
+            var b = true;//JPSAStar.active.IsWalkable(finalPosi);
             if (LogicCore.SP.WriteToLog)
             {
                 LogicCore.SP.Writer.AppendLine(Character.Position.ToStringRaw()+" "+Character.Forward.ToStringRaw());
