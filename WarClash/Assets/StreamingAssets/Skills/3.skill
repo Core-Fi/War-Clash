@@ -1,0 +1,55 @@
+{
+  "$type": "Logic.Skill.Skill, Assembly-CSharp",
+  "Name": "tower_arrow",
+  "ID": 3,
+  "TimeLines": {
+    "$type": "System.Collections.Generic.List`1[[Logic.Skill.TimeLine, Assembly-CSharp]], mscorlib",
+    "$values": [
+      {
+        "$type": "Logic.Skill.TimeLine, Assembly-CSharp",
+        "Times": 1,
+        "FrameCount": 1,
+        "BaseActions": {
+          "$type": "System.Collections.Generic.List`1[[Logic.Skill.Actions.BaseAction, Assembly-CSharp]], mscorlib",
+          "$values": [
+            {
+              "$type": "Logic.Skill.Actions.CreateProjectileAction, Assembly-CSharp",
+              "Speed": 500,
+              "time": 3000,
+              "hitCount": 0,
+              "hitEvent": 1,
+              "dieEvent": 1,
+              "ProjectileType": 0,
+              "cac": {
+                "$type": "FixedAnimationCurve, Assembly-CSharp",
+                "Keyframes": {
+                  "$type": "System.Collections.Generic.List`1[[FixedKeyFrame, Assembly-CSharp]], mscorlib",
+                  "$values": []
+                }
+              },
+              "ExecuteFrameIndex": 0
+            }
+          ]
+        },
+        "eventTriggers": {
+          "$type": "System.Collections.Generic.List`1[[Logic.Skill.EventTrigger, Assembly-CSharp]], mscorlib",
+          "$values": []
+        }
+      },
+      {
+        "$type": "Logic.Skill.TimeLine, Assembly-CSharp",
+        "Times": 1,
+        "FrameCount": 0,
+        "BaseActions": {
+          "$type": "System.Collections.Generic.List`1[[Logic.Skill.Actions.BaseAction, Assembly-CSharp]], mscorlib",
+          "$values": []
+        },
+        "eventTriggers": {
+          "$type": "System.Collections.Generic.List`1[[Logic.Skill.EventTrigger, Assembly-CSharp]], mscorlib",
+          "$values": []
+        }
+      }
+    ]
+  },
+  "path": "3"
+}

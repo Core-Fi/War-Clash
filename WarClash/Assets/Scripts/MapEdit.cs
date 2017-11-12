@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 [SelectionBase]
 public class MapEdit : MonoBehaviour
 {
@@ -43,7 +45,8 @@ public class MapEdit : MonoBehaviour
 
     public string GetPath()
     {
-        return Application.streamingAssetsPath + "/map.txt";
+        var scene = SceneManager.GetActiveScene();
+        return Application.streamingAssetsPath + "/Map/" + scene.name + "/map.txt";
     }
     public void Generate()
     {

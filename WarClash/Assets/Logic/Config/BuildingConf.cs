@@ -28,7 +28,7 @@ namespace Config
     public int ArmyId
     {
       get { return _ArmyId; }
-      set { _ArmyId = value; }
+        private set {  _ArmyId = value; }
     }
     private string _ResPath = "";
     [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"ResPath", DataFormat = global::ProtoBuf.DataFormat.Default)]

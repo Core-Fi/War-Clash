@@ -9,7 +9,12 @@ using UnityEngine;
 
 namespace Logic.LogicObject
 {
-    public class Projectile : SceneObject
+    public enum ProjectileType
+    {
+        Stright,
+        Target,
+    }
+    public abstract class Projectile : SceneObject
     {
         public enum ProjectileEvent 
         {
@@ -21,28 +26,33 @@ namespace Logic.LogicObject
         public SceneObject Sender { get; private set; }
         public SceneObject Receiver { get; private set; }
         public object Data { get; private set; }
+        public long InitHeight = FixedMath.One * 2;
         public CreateProjectileAction ProjectileAction { get; private set; }
-        private Vector3d _moveDir;
-        private long _speed;
-        private Vector3d _initPosi;
-        private long _distance;
-        internal virtual void SetValue(CreateProjectileAction action, SceneObject sender, SceneObject receiver, object data)
+        protected long Speed;
+        protected Vector3d MoveDir;
+ 
+        public virtual void Init(CreateProjectileAction action, SceneObject sender, SceneObject receiver, object data)
         {
+            EventGroup.Clear();
             ProjectileAction = action;
             this.Sender = sender;
             this.Receiver = receiver;
             this.Data = data;
             Position = sender.Position;
-            _speed = (FixedMath.One * action.distance / 100).Div(action.time*FixedMath.One/1000);
-            if (this.Receiver == null)
-            {
-                _distance = (FixedMath.One * action.distance / 100);
-                _initPosi = sender.Position;
-                _moveDir = sender.Forward;
-                this.Forward = _moveDir;
-            }
+            Speed = (FixedMath.One * action.Speed / 100);
+            OnInit();
+            
         }
 
+        protected virtual void OnInit()
+        {
+            
+        }
+
+        protected virtual bool IsFinish()
+        {
+            return false;
+        }
         //public bool SetTarget()
         //{
         //    List<Character> allPlayers = new List<Character>(LogicCore.SP.SceneManager.currentScene.Count<Character>());
@@ -105,45 +115,72 @@ namespace Logic.LogicObject
             //    this.OnHit();
             //}
         }
-
+        
         internal override void OnFixedUpdate(long deltaTime)
         {
             base.OnFixedUpdate(deltaTime);
-            if (Receiver != null)
+            Position += Forward.Mul(Speed).Mul(FixedMath.One.Div(LockFrameMgr.FixedFrameRate));
+            if (IsFinish())
             {
-                this.Forward = (Receiver.Position - Position).Normalize();
-                Position += Forward.Mul(_speed).Mul(FixedMath.One.Div(LockFrameMgr.FixedFrameRate));
-                if (Vector3d.SqrDistance(Position, Receiver.Position) < FixedMath.Half/5)
-                {
-                    OnHit(Receiver);
-                }
-            }
-            else
-            {
-                Position += Forward .Mul( _speed) .Mul(FixedMath.One.Div(LockFrameMgr.FixedFrameRate));
-                if (Vector3d.SqrDistance(Position, _initPosi) > _distance.Mul(_distance))
-                {
-                    OnHit(null);
-                }
-                else
-                {
-                    LogicCore.SP.SceneManager.CurrentScene.ForEachDo<Player>((p) =>
-                    {
-                        if (Vector3d.SqrDistance(Position, p.Position) < FixedMath.One / 5)
-                        {
-                            OnHit(p);
-                        }
-                    });
-                }
+                OnDie();
             }
         }
 
-        public void OnHit(SceneObject receiver)
+        protected virtual void OnHit(SceneObject receiver)
         {
-            EventManager.AddEvent(ProjectileAction.hitEvent, new RuntimeData(Sender, receiver, Data));
+            EventManager.TriggerEvent(ProjectileAction.hitEvent, new RuntimeData(Sender, receiver, Data));
             EventGroup.FireEvent((int)ProjectileEvent.OnHit, this, null);
+            LogicCore.SP.SceneManager.CurrentScene.RemoveSceneObject(this.Id);
+        }
+        protected virtual void OnDie()
+        {
+            EventManager.TriggerEvent(ProjectileAction.dieEvent, new RuntimeData(Sender, null, Data));
             LogicCore.SP.SceneManager.CurrentScene.RemoveSceneObject(this.Id);
         }
 
     }
+
+    public class StrightProjectile : Projectile
+    {
+        private long _leftTime;
+        protected override void OnInit()
+        {
+            _leftTime = FixedMath.One * base.ProjectileAction.time / 1000;
+        }
+
+        internal override void OnFixedUpdate(long deltaTime)
+        {
+            _leftTime -= deltaTime;
+            LogicCore.SP.SceneManager.CurrentScene.ForEachDo<Player>((p) =>
+            {
+                if (Vector3d.SqrDistance(Position, p.Position) < FixedMath.One / 5)
+                {
+                    OnHit(p);
+                }
+            });
+            base.OnFixedUpdate(deltaTime);
+        }
+
+        protected override bool IsFinish()
+        {
+            return _leftTime <= 0;
+        }
+    }
+
+    public class TargetProjectile : Projectile
+    {
+        internal override void OnFixedUpdate(long deltaTime)
+        {
+            Forward = (Receiver.Position - Position).Normalize();
+            base.OnFixedUpdate(deltaTime);
+
+        }
+
+        protected override bool IsFinish()
+        {
+            return Vector3d.SqrDistance(Position, Receiver.Position) < FixedMath.Half / 5;
+        }
+    }
 }
+
+

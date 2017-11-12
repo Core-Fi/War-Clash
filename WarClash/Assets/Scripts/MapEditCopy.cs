@@ -16,7 +16,7 @@ public class MapEditCopy : MonoBehaviour
     private Mesh m;
     void Start()
     {
-        Matrix4x4 m;
+
         //Generate();
     }
     public void Generate()

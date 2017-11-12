@@ -1,0 +1,41 @@
+{
+  "$type": "System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[Logic.Map.MapItem, Assembly-CSharp]], mscorlib",
+  "1": {
+    "$type": "Logic.Map.MapBuildingItem, Assembly-CSharp",
+    "BuildingId": 1002,
+    "Id": 1,
+    "Position": {
+      "$type": "Lockstep.Vector3d, Assembly-CSharp",
+      "x": 195297,
+      "y": 0,
+      "z": 1061027,
+      "magnitude": 1078784
+    },
+    "Forward": {
+      "$type": "Lockstep.Vector3d, Assembly-CSharp",
+      "x": 0,
+      "y": 0,
+      "z": 65536,
+      "magnitude": 65536
+    }
+  },
+  "2": {
+    "$type": "Logic.Map.MapBuildingItem, Assembly-CSharp",
+    "BuildingId": 1002,
+    "Id": 2,
+    "Position": {
+      "$type": "Lockstep.Vector3d, Assembly-CSharp",
+      "x": 0,
+      "y": 0,
+      "z": 707788,
+      "magnitude": 707584
+    },
+    "Forward": {
+      "$type": "Lockstep.Vector3d, Assembly-CSharp",
+      "x": 0,
+      "y": 0,
+      "z": 65536,
+      "magnitude": 65536
+    }
+  }
+}

@@ -25,6 +25,9 @@ public struct FixedKeyFrame
 }
 public class FixedAnimationCurve
 {
+#if UNITY_EDITOR
+    public AnimationCurve OriginalAnimationCurve;
+#endif
     public List<FixedKeyFrame> Keyframes = new List<FixedKeyFrame>();
 
     public void AddKeyFrame(FixedKeyFrame keyFrame)

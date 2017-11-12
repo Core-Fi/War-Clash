@@ -11,6 +11,7 @@ class U3DBuilding : U3DSceneObject
     {
         base.OnInit();
         this.Building = So as Building;
+        AssetResources.LoadAsset(Building.Conf.ResPath, OnLoadedRes);
     }
     
     public override void ListenEvents()

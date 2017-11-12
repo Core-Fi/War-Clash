@@ -13,7 +13,7 @@ public class Test_06_11 : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        int a = 0;
+
         //mesh = GetComponent<MeshFilter>().mesh;
         //vertexs = new Vector3[mesh.vertices.Length];
         //string str = File.ReadAllText(Application.dataPath + "/" + gameObject.name + ".json");
@@ -45,7 +45,6 @@ public class Test_06_11 : MonoBehaviour
     }
     void Update()
     {
-        var i = UIEventList.SendNetMsg.ToInt();
     }
     public Transform GetChild(Transform parent, string name)
     {

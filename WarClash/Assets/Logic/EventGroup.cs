@@ -93,31 +93,36 @@ public class EventGroup
         e.Clear();
         dic[t].Enqueue(e);
     }
-    private Dictionary<int, EventMsgHandler> events = new Dictionary<int, EventMsgHandler>();
+    private Dictionary<int, EventMsgHandler> _events = new Dictionary<int, EventMsgHandler>();
     public void ListenEvent(int e_id, EventMsgHandler action)
     {
-        if (events.ContainsKey(e_id))
+        if (_events.ContainsKey(e_id))
         {
-            events[e_id] += action;
+            _events[e_id] += action;
         }
         else
         {
-            events[e_id] = action;      
+            _events[e_id] = action;      
         }
     }
     public void DelEvent(int e_id, EventMsgHandler action)
     {
-        if(events.ContainsKey(e_id) && events[e_id]!=null)
-            events[e_id] -= action;
+        if(_events.ContainsKey(e_id) && _events[e_id]!=null)
+            _events[e_id] -= action;
     }
 
     public void FireEvent(int e_id, object sender, EventMsg e)
     {
-        if (events.ContainsKey(e_id) && events[e_id] != null)
+        if (_events.ContainsKey(e_id) && _events[e_id] != null)
         {
-            events[e_id].Invoke(sender, e);
+            _events[e_id].Invoke(sender, e);
         }
         if (e != null)
             Return(e);
+    }
+
+    public void Clear()
+    {
+        _events.Clear();
     }
 }

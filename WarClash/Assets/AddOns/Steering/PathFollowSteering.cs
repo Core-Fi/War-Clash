@@ -29,6 +29,11 @@ class PathFollowSteering : BaseSteering
         _firstStart = true;
     }
 
+    protected override void OnStart()
+    {
+        base.OnStart();
+    }
+
     public override void GetDesiredSteering(SteeringResult rst)
     {
        
@@ -47,8 +52,9 @@ class PathFollowSteering : BaseSteering
             }
             _firstStart = false;
         }
-        if (Vector3d.SqrDistance(_target, Self.Position) < FixedMath.One /10)
+        if ( Vector3d.SqrDistance(_target, Self.Position) < FixedMath.One)
         {
+            Self.Position = _target;
             GridService.Clear(_target, Self as SceneObject);
             _index++;
             if (_index == Path.Count)
@@ -76,8 +82,9 @@ class PathFollowSteering : BaseSteering
         }
         Vector3d dir = _target - Self.Position;
         Vector3d desiredVelocity = dir.Normalize() * Self.Speed;
-        var acc = (desiredVelocity - Self.Velocity) / (LockFrameMgr.FixedFrameTime);
-        rst.DesiredSteering = acc;
+        Self.Position += desiredVelocity * LockFrameMgr.FixedFrameTime;
+        //var acc = (desiredVelocity - Self.Velocity) / (LockFrameMgr.FixedFrameTime);
+        //rst.DesiredSteering = acc;
         
         UnityEngine.Debug.DrawLine(Self.Position.ToVector3(), _target.ToVector3(), Color.red, 0.1f);
     }

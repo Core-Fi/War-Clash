@@ -40,6 +40,6 @@ public class JPSStarEditor : Editor {
         {
             jpsStar.GenerateGrid();
         }
-
     }
+
 }

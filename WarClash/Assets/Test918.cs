@@ -6,7 +6,6 @@ using DG.Tweening;
 using Lockstep;
 using Logic;
 using Pathfinding;
-using UnityEditor;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
@@ -16,16 +15,26 @@ public class Test918 : MonoBehaviour
     public float t;
     public AnimationClip clip;
     private FixedAnimationClip fclip;
+
+    public GameObject g1;
+    public GameObject g2;
+
     void Start()
     {
-        fclip = FixedAnimationClip.CreateFixedAnimationClip(clip);
-        fclip.Transform = transform;
+        //fclip = FixedAnimationClip.CreateFixedAnimationClip(clip);
+        //fclip.Transform = transform;
+        List<Vector3d> v = new List<Vector3d>();
+        JPSAStar.active.GetPath(new Vector3d(g1.transform.position), new Vector3d(g2.transform.position), v);
+        for (int i = 0; i < v.Count-1; i++)
+        {
+            Debug.DrawLine(v[i].ToVector3(), v[i+1].ToVector3(), Color.blue, 10);
+        }
     }
   
 
     void Update()
     {
-        fclip.Update();
+        //fclip.Update();
     }
     void OnEnable()
     {

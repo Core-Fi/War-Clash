@@ -145,21 +145,19 @@ public class EShowActionDetailPanel : IEElement
                                 for (int j = 0; j < val.Keyframes.Count; j++)
                                 {
                                     var ori_key = val.Keyframes[j];
-                                    keyframes[j] = new Keyframe(ori_key.time, ori_key.value, ori_key.inTangent, ori_key.outTangent);
+                                    keyframes[j] = new Keyframe(ori_key.time.ToFloat(), ori_key.value.ToFloat(), ori_key.inTangent.ToFloat(), ori_key.outTangent.ToFloat());
                                     keyframes[j].tangentMode = ori_key.tangentMode;
                                 }
                                 ac.keys = keyframes;
                             }
                             var new_val = EditorGUILayout.CurveField("", ac);
+                            val.Keyframes.Clear();
                             List<FixedKeyFrame> ckfs = new List<FixedKeyFrame>();
-                            for (int j = 0; j < ckfs.Count; j++)
+                            for (int j = 0; j < new_val.keys.Length; j++)
                             {
                                 Keyframe kf = new_val.keys[j];
-                                ckfs[j] = new FixedKeyFrame(kf.time.ToLong(), kf.value.ToLong(), kf.inTangent.ToLong(), kf.outTangent.ToLong(), kf.tangentMode);
+                                val.AddKeyFrame( new FixedKeyFrame(kf.time.ToLong(), kf.value.ToLong(), kf.inTangent.ToLong(), kf.outTangent.ToLong(), kf.tangentMode));
                             }
-
-                            val = new FixedAnimationCurve();
-                            val.Keyframes = ckfs;
                             fi.SetValue(SkillEditTempData.editingItem, val, null);
                         }
                         else if (fi.PropertyType == typeof(List<EventTrigger>))

@@ -3,12 +3,11 @@ using UnityEngine;
 
 class U3DBarackBuilding : U3DBuilding
 {
-    private BarackBuilding barackBuilding;
+    private BarackBuilding _barackBuilding;
     public override void OnInit()
     {
         base.OnInit();
-        barackBuilding = So as BarackBuilding;
-        AssetResources.LoadAsset(barackBuilding.Conf.ResPath, OnLoadedRes);
+        _barackBuilding = So as BarackBuilding;
     }
     public override void ListenEvents()
     {
@@ -18,8 +17,7 @@ class U3DBarackBuilding : U3DBuilding
     public override void OnUpdate()
     {
         base.OnUpdate();
-        if(Go!=null)
-            Go.transform.position = Building.Position.ToVector3();
+       
     }
 
     public override void OnLoadedRes(string name, Object obj)

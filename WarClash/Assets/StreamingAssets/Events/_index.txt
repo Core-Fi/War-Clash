@@ -1,6 +1,4 @@
 {
   "$type": "System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[System.String, mscorlib]], mscorlib",
-  "0": "\\Events\\1.event",
-  "1": "\\Events\\1.event",
-  "2": "/Events/death.event"
+  "1": "/Events/1.event"
 }

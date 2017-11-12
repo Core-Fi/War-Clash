@@ -26,7 +26,7 @@ namespace Logic.Skill.Actions
             LogicCore.SP.SceneManager.CurrentScene.ForEachDo<Character>((so) =>
             {
                 if(so != sender)
-                    EventManager.AddEvent(EventId, new RuntimeData(sender, so, data));
+                    EventManager.TriggerEvent(EventId, new RuntimeData(sender, so, data));
             });
             base.Execute(sender, reciever, data);
         }

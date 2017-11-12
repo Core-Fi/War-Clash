@@ -1,6 +1,6 @@
 {
   "$type": "Logic.Skill.Event, Assembly-CSharp",
-  "Name": "",
+  "Name": "onProjectileDie",
   "ID": 1,
   "TimeLines": {
     "$type": "System.Collections.Generic.List`1[[Logic.Skill.TimeLine, Assembly-CSharp]], mscorlib",
@@ -8,7 +8,7 @@
       {
         "$type": "Logic.Skill.TimeLine, Assembly-CSharp",
         "Times": 1,
-        "FrameCount": 20,
+        "FrameCount": 0,
         "BaseActions": {
           "$type": "System.Collections.Generic.List`1[[Logic.Skill.Actions.BaseAction, Assembly-CSharp]], mscorlib",
           "$values": []
@@ -33,5 +33,5 @@
       }
     ]
   },
-  "path": null
+  "path": "1"
 }

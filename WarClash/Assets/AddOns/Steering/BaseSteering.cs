@@ -55,6 +55,15 @@ public abstract class BaseSteering : IPool
         OnInit();
     }
 
+    public void Start()
+    {
+        OnStart();
+    }
+
+    protected virtual void OnStart()
+    {
+        
+    }
     public void Exit()
     {
         OnExit();

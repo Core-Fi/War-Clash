@@ -378,7 +378,6 @@
     <None Include="Assets\StreamingAssets\AB\assets\specular.shader" />
     <None Include="Assets\StreamingAssets\Events\_index.txt" />
     <None Include="Assets\StreamingAssets\Skills\_index.txt" />
-    <None Include="Assets\StreamingAssets\map.txt" />
     <None Include="Assets\graph.txt" />
     <None Include="Assets\log.txt" />
   </ItemGroup>

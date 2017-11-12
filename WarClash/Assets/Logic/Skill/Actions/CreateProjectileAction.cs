@@ -13,9 +13,9 @@ namespace Logic.Skill.Actions
     [Serializable]
     public class CreateProjectileAction : BaseAction
     {
-        [Display("距离")]
+        [Display("速度")]
         [JsonProperty]
-        public int distance { get; private set; }
+        public int Speed { get; private set; }
 
         [Display("时间(毫秒)")]
         [JsonProperty]
@@ -30,9 +30,14 @@ namespace Logic.Skill.Actions
         [Display("死亡事件效果")]
         [JsonProperty]
         public int dieEvent { get; private set; }
+        [Display("子弹类型")]
+        [JsonProperty]
+        public ProjectileType ProjectileType { get; private set; }
+
         [Display("曲线")]
         [JsonProperty]
         public FixedAnimationCurve cac { get; private set; }
+
 
         public override void Execute(SceneObject sender, SceneObject reciever, object data)
         {
@@ -40,8 +45,14 @@ namespace Logic.Skill.Actions
             createInfo.Id = IDManager.SP.GetID();
             createInfo.Position = sender.Position;
             createInfo.Forward = sender.Forward;
-            var projectile = LogicCore.SP.SceneManager.CurrentScene.CreateSceneObject<Projectile>(createInfo);
-            projectile.SetValue(this, sender, reciever, data);
+            Projectile projectile = null;
+            if (ProjectileType == ProjectileType.Stright)
+                projectile = LogicCore.SP.SceneManager.CurrentScene.CreateSceneObject<StrightProjectile>(createInfo);
+            else if(ProjectileType == ProjectileType.Target)
+            {
+                projectile = LogicCore.SP.SceneManager.CurrentScene.CreateSceneObject<TargetProjectile>(createInfo);
+            }
+            projectile.Init(this, sender, reciever, data);
             base.Execute(sender, reciever, data);
         }
     }

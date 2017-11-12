@@ -40,7 +40,7 @@ namespace Logic.Skill
             events[id] = e;
             return e;
         }
-        public static void AddEvent(int id, RuntimeData runnignData)
+        public static void TriggerEvent(int id, RuntimeData runnignData)
         {
             var skill = GetEvent(id);
             RuntimeEvent re = new RuntimeEvent();

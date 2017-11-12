@@ -15,7 +15,6 @@ public class Building : SceneObject, IFixedAgent
     public IList<long> AgentNeighborSqrDists { get; set; }
     public IFixedAgent Next { get; set; }
     public long Radius { get; set; }
-
     public long InsertAgentNeighbour(IFixedAgent fixedAgent, long rangeSq)
     {
         if (this == fixedAgent) return rangeSq;
@@ -47,9 +46,12 @@ public class Building : SceneObject, IFixedAgent
         return rangeSq;
     }
     #endregion
+    
+
     public static readonly Dictionary<int, Type> BuildingIdType = new Dictionary<int, Type>
     {
-        {1001, typeof(BarackBuilding)}
+        {1001, typeof(BarackBuilding)},
+        {1002, typeof(Tower) }
     };
     public BuildingConf Conf;
     public enum BuildingEvent

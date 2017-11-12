@@ -13,7 +13,9 @@ class LogicObjectCorresponding
         {typeof(BarackBuilding), typeof(U3DBarackBuilding)},
         {typeof(Player), typeof(U3DPlayer) },
           {typeof(MainPlayer), typeof(U3DMainPlayer) },
-        {typeof(Projectile), typeof(U3DProjectile) }
+        {typeof(StrightProjectile), typeof(U3DProjectile) },
+        {typeof(TargetProjectile), typeof(U3DProjectile) },
+        {typeof(Tower), typeof(U3DBarackBuilding) }
     };
 
 }

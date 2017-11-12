@@ -34,7 +34,7 @@ namespace Logic.Skill
             return skill;
         }
         public RuntimeSkill RunningSkill { get; private set; }
-        private Character so;
+        private SceneObject so;
 
         public bool IsRunningSkill
         {
@@ -63,7 +63,7 @@ namespace Logic.Skill
             Pool.SP.Recycle(RunningSkill);
             RunningSkill = null;
         }
-        public SkillManager(Character so)
+        public SkillManager(SceneObject so)
         {
             this.so = so;
         }
