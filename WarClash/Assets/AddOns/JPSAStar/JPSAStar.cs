@@ -130,7 +130,7 @@ public class JPSAStar : MonoBehaviour
         for (int i = 0; i < _jpsGrid.gridNodes.Length; i++)
         {
             var point = _jpsGrid.gridNodes[i].pos;
-            var posi = new Vector3(point.row * Size/100f, 0, point.column * Size/100f) + offset;
+            var posi = new Vector3(point.column * Size/100f, 0, point.row * Size/100f) + offset;
             if (_jpsGrid.gridNodes[i].isObstacle)
             {
                 Gizmos.color = Color.red;

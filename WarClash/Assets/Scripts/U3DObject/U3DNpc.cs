@@ -20,6 +20,7 @@ public class U3DNpc : U3DCharacter{
     {
         base.OnLoadedRes(name, obj);
         _navMeshAgent = Go.GetComponent<NavMeshAgent>();
+       // Go.SetActive(false);
     }
 
     public override void ListenEvents()

@@ -194,7 +194,7 @@ namespace Logic.Objects
                 {
                     if (item.Value != null && item.Value.Val is IUpdate)
                     {
-                        IUpdate so = item.Value.Val as IUpdate;
+                        IUpdate so = (IUpdate)item.Value.Val;
                         so.Update(deltaTime);
                     }
                 }
@@ -213,7 +213,7 @@ namespace Logic.Objects
                 {
                     if (item.Value!=null && item.Value.Val is IFixedUpdate)
                     {
-                        IFixedUpdate so = item.Value.Val as IFixedUpdate;
+                        IFixedUpdate so = (IFixedUpdate)item.Value.Val;
                         so.FixedUpdate(deltaTime);
                     }
                 }

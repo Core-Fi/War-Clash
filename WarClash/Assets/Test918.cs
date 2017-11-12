@@ -1,16 +1,36 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using DG.Tweening;
 using Lockstep;
+using Logic;
+using Pathfinding;
+using UnityEditor;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
 
 public class Test918 : MonoBehaviour
 {
-    public GameObject g1;
-    public GameObject g2;
+    public float t;
+    public AnimationClip clip;
+    private FixedAnimationClip fclip;
+    void Start()
+    {
+        fclip = FixedAnimationClip.CreateFixedAnimationClip(clip);
+        fclip.Transform = transform;
+    }
+  
 
+    void Update()
+    {
+        fclip.Update();
+    }
+    void OnEnable()
+    {
+        
+    }
     //RVOFixedAgent agent1 = new RVOFixedAgent();
     //RVOFixedAgent agent2 = new RVOFixedAgent();
     //RVOFixedQuadtree tree = new RVOFixedQuadtree();

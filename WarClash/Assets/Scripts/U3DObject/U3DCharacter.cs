@@ -51,7 +51,7 @@ public class U3DCharacter : U3DSceneObject{
     public void SetSpeed()
     {
         long speed = Character.AttributeManager[AttributeType.Speed];
-        if(animator!=null)
+        if(animator!=null && Go.activeSelf)
             animator.SetFloat("Speed", speed.ToFloat());
     }
     private void OnSkillEnd(object sender, EventMsg e)

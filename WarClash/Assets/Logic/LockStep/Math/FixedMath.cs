@@ -368,7 +368,15 @@ namespace Lockstep
 			return (int)(f1 >> SHIFT_AMOUNT);
 		}
 
-		public static int RoundToInt(this long f1)
+	    public static long ToLong(this int f1)
+	    {
+	        return FixedMath.Create(f1);
+	    }
+	    public static long ToLong(this float f1)
+	    {
+	        return FixedMath.Create(f1);
+	    }
+        public static int RoundToInt(this long f1)
 		{
 			return (int)((f1 + Half - 1) >> SHIFT_AMOUNT);
 		}

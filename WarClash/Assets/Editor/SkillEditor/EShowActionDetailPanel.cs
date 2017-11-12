@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using Lockstep;
 using Logic;
 using Logic.Skill;
 using UnityEditor;
@@ -130,35 +131,35 @@ public class EShowActionDetailPanel : IEElement
                             fi.SetValue(SkillEditTempData.editingItem, new_val, null);
 
                         }
-                        else if (fi.PropertyType == typeof(Logic.CustomAnimationCurve))
+                        else if (fi.PropertyType == typeof(FixedAnimationCurve))
                         {
-                            var val = fi.GetValue(SkillEditTempData.editingItem, null) as CustomAnimationCurve;
+                            var val = fi.GetValue(SkillEditTempData.editingItem, null) as FixedAnimationCurve;
                             if (val == null)
                             {
-                                val = new CustomAnimationCurve(null);
+                                val = new FixedAnimationCurve();
                             }
                             AnimationCurve ac = new AnimationCurve();
-                            if (val.keyframes != null)
+                            if (val.Keyframes.Count>0)
                             {
-                                Keyframe[] keyframes = new Keyframe[val.keyframes.Length];
-                                for (int j = 0; j < val.keyframes.Length; j++)
+                                Keyframe[] keyframes = new Keyframe[val.Keyframes.Count];
+                                for (int j = 0; j < val.Keyframes.Count; j++)
                                 {
-                                    var ori_key = val.keyframes[j];
+                                    var ori_key = val.Keyframes[j];
                                     keyframes[j] = new Keyframe(ori_key.time, ori_key.value, ori_key.inTangent, ori_key.outTangent);
                                     keyframes[j].tangentMode = ori_key.tangentMode;
                                 }
                                 ac.keys = keyframes;
                             }
                             var new_val = EditorGUILayout.CurveField("", ac);
-                            CustomKeyframe[] ckfs = new CustomKeyframe[new_val.length];
-                            for (int j = 0; j < ckfs.Length; j++)
+                            List<FixedKeyFrame> ckfs = new List<FixedKeyFrame>();
+                            for (int j = 0; j < ckfs.Count; j++)
                             {
                                 Keyframe kf = new_val.keys[j];
-                                ckfs[j] = new CustomKeyframe(kf.time, kf.value, kf.inTangent, kf.outTangent);
-                                ckfs[j].tangentMode = kf.tangentMode;
+                                ckfs[j] = new FixedKeyFrame(kf.time.ToLong(), kf.value.ToLong(), kf.inTangent.ToLong(), kf.outTangent.ToLong(), kf.tangentMode);
                             }
 
-                            val = new CustomAnimationCurve(ckfs);
+                            val = new FixedAnimationCurve();
+                            val.Keyframes = ckfs;
                             fi.SetValue(SkillEditTempData.editingItem, val, null);
                         }
                         else if (fi.PropertyType == typeof(List<EventTrigger>))

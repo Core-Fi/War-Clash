@@ -14,16 +14,19 @@ public class SteeringManager
         Self = self;
         _steeringResult = new SteeringResult();
     }
-    public void AddSteering(BaseSteering steering)
+    private void AddSteering(BaseSteering steering)
     {
         steering.Init(this);
         _steerings.Add(steering);
         _steerings.Sort((a, b) =>  a.Priority - b.Priority);
     }
 
-    public T AddSteering<T>() where T : BaseSteering
+    public T AddSteering<T>(int priority) where T : BaseSteering
     {
-        var t = Activator.CreateInstance(typeof(T)) as T;
+        if (HasSteering<T>())
+            return null;
+        var t = Pool.SP.Get<T>();// Activator.CreateInstance(typeof(T)) as T;
+        t.Priority = priority;
         AddSteering(t);
         return t;
     }
@@ -36,12 +39,13 @@ public class SteeringManager
         }
         return false;
     }
-    public void RemoveSteering(BaseSteering steering) 
+    private void RemoveSteering(BaseSteering steering) 
     {
         for (int i = 0; i < _steerings.Count; i++)
         {
             if (_steerings[i] ==  steering)
             {
+                Pool.SP.Recycle(steering);
                 _steerings.RemoveAt(i);
                 break;
             }
@@ -53,6 +57,8 @@ public class SteeringManager
         {
             if (_steerings[i] is T)
             {
+                Pool.SP.Recycle(_steerings[i]);
+                _steerings[i].Exit();
                 _steerings.RemoveAt(i);
                 break;
             }

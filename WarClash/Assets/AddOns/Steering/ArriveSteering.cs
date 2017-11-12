@@ -32,5 +32,4 @@ class ArriveSteering : BaseArriveSteering
         var acc = (desiredVelocity - Self.Velocity)/(LockFrameMgr.FixedFrameTime);
         rst.DesiredSteering = acc;
     }
-
 }

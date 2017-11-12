@@ -111,18 +111,26 @@ class GridService
         GetCoordinate(posi, out x, out y);
         UnTagAs(x, y, so, type);
     }
+
+    public static bool OnRightPlace(SceneObject so, Vector3d target, int radius)
+    {
+        int x, y;
+        GetCoordinate(so.Position, out x, out y);
+        int tx, ty;
+        GetCoordinate(target, out tx, out ty);
+        if (IsNotEmptyBy(so.Position) == so && Math.Abs(tx - x) <= radius && Math.Abs(ty - y) <= radius)
+        {
+            return true;
+        }
+        return false;
+    }
     public static bool SearchNearCircleEmptyPoint(Vector3d selfPosi, Vector3d posi, int radius, out Vector3d target)
     {
         int x, y;
         GetCoordinate(posi, out x, out y);
         int selfx, selfy;
         GetCoordinate(selfPosi, out selfx, out selfy);
-        if (IsEmpty(x, y))
-        {
-            target = new Vector3d(FixedMath.Create(x), 0, FixedMath.Create(y)) + Offset;
-            return true;
-        }
-        int searchRadius = 1+radius;
+        int searchRadius = radius;
         int nearestx = 0, nearesty = 0;
         for (int i = -searchRadius ; i <= searchRadius ; i++)
         {
@@ -188,11 +196,14 @@ class GridService
                           FixedMath.Create(nearesty + y) + Convert(nearesty, diff)) + Offset) * CellSize;
             return true;
         }
-        var randomAngle = LogicCore.SP.LockFrameMgr.RandomRange(0, 360);
-        long cos = FixedMath.Trig.Cos(FixedMath.One.Div(180).Mul(FixedMath.Pi).Mul(randomAngle));
-        long sin = FixedMath.Trig.Sin(FixedMath.One.Div(180).Mul(FixedMath.Pi).Mul(randomAngle));
-        target = new Vector3d(cos.Mul(searchRadius), 0, sin.Mul(searchRadius)) +posi + Offset;
-        return false;
+
+        //var randomAngle = LogicCore.SP.LockFrameMgr.RandomRange(0, 360);
+        //long cos = FixedMath.Trig.Cos(FixedMath.One.Div(180).Mul(FixedMath.Pi).Mul(randomAngle));
+        //long sin = FixedMath.Trig.Sin(FixedMath.One.Div(180).Mul(FixedMath.Pi).Mul(randomAngle));
+        //target = new Vector3d(cos.Mul(searchRadius), 0, sin.Mul(searchRadius)) +posi + Offset;
+
+        return SearchNearCircleEmptyPoint(selfPosi, posi, radius + 1, out target);
+
     }
 
     private static long Convert(int v, long mag)

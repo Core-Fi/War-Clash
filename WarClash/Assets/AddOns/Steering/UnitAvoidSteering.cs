@@ -25,7 +25,7 @@ class UnitAvoidSteering : BaseSteering
         _selfCollisionPos = Vector3d.zero;
         _neighbors.Clear();
         LogicCore.SP.SceneManager.CurrentScene.FixedQuadTreeForBuilding.Query(Self, FixedMath.One*6, _neighbors);
-        LogicCore.SP.SceneManager.CurrentScene.FixedQuadTree.Query(Self, FixedMath.One * 4, _neighbors);
+       // LogicCore.SP.SceneManager.CurrentScene.FixedQuadTree.Query(Self, FixedMath.One * 4, _neighbors);
         if (_neighbors.Count == 0) return ;
         var avoidVec = Avoid(_neighbors, _neighbors.Count, Self.Velocity);
         if (avoidVec.sqrMagnitude < this.MinimumAvoidVectorMagnitude.Mul(MinimumAvoidVectorMagnitude))

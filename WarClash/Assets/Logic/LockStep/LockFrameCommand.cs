@@ -214,13 +214,14 @@ namespace Logic
             createInfo.BuildingId = mapItem.BuildingId;
             createInfo.Position = new Vector3d(new Vector3(8,0,8));// mapItem.Position;
             var barack = LogicCore.SP.SceneManager.CurrentScene.CreateBuilding(createInfo);
-            barack.Radius = FixedMath.One;
+            barack.Radius = FixedMath.One*3;
             if(senderSo!=null)
                 barack.Team = senderSo.Team;
             else
             {
                 barack.Team = Team.Team2;
             }
+            GridService.TagAs(barack.Position, barack, NodeType.BeTaken);
         }
         public override void WriteToLog(StringBuilder writer)
         {
@@ -254,7 +255,7 @@ namespace Logic
             npc.Team = Team.Team1;
             npc.Radius = FixedMath.One/2;
             npc.AttributeManager.SetBase(AttributeType.Speed, npc.AttributeManager[AttributeType.MaxSpeed]);
-            //var arriveSteering = npc.SteeringManager.AddSteering<ArriveSteering>(npc);
+            var unitAvoid = npc.SteeringManager.AddSteering<UnitAvoidSteering>(1);
             //arriveSteering.Priority = 2;
             //arriveSteering.Target = new Vector3d(new Vector3(10, 0, 10));
 

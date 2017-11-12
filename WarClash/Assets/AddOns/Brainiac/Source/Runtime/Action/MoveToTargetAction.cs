@@ -19,30 +19,38 @@ public class MoveToTargetAction : Brainiac.Action
         Moving,
     }
     private SceneObject target = null;
+    private Npc _npc;
     private List<Vector3d> _path;
     private int _pathIndex = 0;
     private Stage stage;
     private Vector3d previousPosi;
     private bool _depart;
-    private BaseArriveSteering _baseArriveSteering;
+    private PathFollowSteering _pathFollowSteering;
+    private bool _onRightPlace;
     public override void OnStart(AIAgent agent)
     {
         base.OnStart(agent);
          _path = new List<Vector3d>(5);
+        _npc = agent.SceneObject as Npc;
     }
 
     protected override void OnEnter(AIAgent agent)
     {
         base.OnStart(agent);
+        _onRightPlace = false;
         target = agent.Blackboard.GetItem("target") as SceneObject;
-        CacualtePath();
         if (target != null)
         {
             var speed = SceneObject.AttributeManager[AttributeType.MaxSpeed];
             SceneObject.AttributeManager.SetBase(AttributeType.Speed, speed);
             target.EventGroup.ListenEvent((int)SceneObject.SceneObjectEvent.Positionchange, OnTargetPosiChanged);
         }
-        _depart = false;
+        _onRightPlace = OnRightPlace();
+        if (!_onRightPlace)
+        {
+            _pathFollowSteering = _npc.SteeringManager.AddSteering<PathFollowSteering>(2);
+            CacualtePath();
+        }
     }
     protected override void OnExit(AIAgent agent)
     {
@@ -51,6 +59,7 @@ public class MoveToTargetAction : Brainiac.Action
             target.EventGroup.DelEvent((int)SceneObject.SceneObjectEvent.Positionchange, OnTargetPosiChanged);
         }
         SceneObject.AttributeManager.SetBase(AttributeType.Speed, 0);
+        _npc.SteeringManager.RemoveSteering<PathFollowSteering>();
         base.OnExit(agent);
     }
     private void OnTargetPosiChanged(object sender, EventMsg e)
@@ -61,10 +70,19 @@ public class MoveToTargetAction : Brainiac.Action
             CacualtePath();
         }
     }
+
+    private bool OnRightPlace()
+    {
+        return GridService.OnRightPlace(_npc, target.Position, _npc.Conf.AtkRange / 100);
+    }
     private void CacualtePath()
     {
-        long distance = Vector3d.Distance(target.Position, SceneObject.Position);
-        if (target != null && distance > GetRange())
+        if (OnRightPlace())
+        {
+            return;
+        }
+      //  long distance = Vector3d.Distance(target.Position, SceneObject.Position);
+        if (target != null )//&& distance > GetRange())
         {
             previousPosi = target.Position;
             //navimesh的接口 先注释
@@ -77,7 +95,9 @@ public class MoveToTargetAction : Brainiac.Action
             JPSAStar.active.GetPath(SceneObject.Position, target.Position, _path);
             Vector3d moveDirection = (_path[1] - SceneObject.Position).Normalize();
             SceneObject.Forward = moveDirection;
-            stage = Stage.Moving;
+            _pathFollowSteering.Formation = Formation.Circle;
+            _pathFollowSteering.Path = _path;
+            _pathFollowSteering.Radius = 2;//_npc.Conf.AtkRange / 100;
         }
     }
 
@@ -91,34 +111,9 @@ public class MoveToTargetAction : Brainiac.Action
         else return FixedMath.One;
     }
 
-    private bool ReachPoint()
-    {
-        long distance = Vector3d.Distance(target.Position, SceneObject.Position);
-        if (distance > GetRange())
-        {
-            return false;
-        }
-        return true;
-    }
-    private void OnArrivePoint()
-    {
-        if (_pathIndex < _path.Count-1)
-        {
-            _pathIndex++;
-            AddSteering();
-        }
-    }
-
-    private void AddSteering()
-    { 
-        var npc = SceneObject as Npc;
-        _baseArriveSteering = npc.SteeringManager.AddSteering<CircularArriveSteering>();
-        Debug.LogError(_pathIndex+" "+_path.Count);
-        _baseArriveSteering.Target = _path[_pathIndex];
-    }
     protected override BehaviourNodeStatus OnExecute(AIAgent agent)
 	{
-        if(target != null && target.Hp>0 && _path!=null)
+        if(target != null && target.Hp>0 && _path.Count>0)
         {
 #if UNITY_EDITOR
             if (LogicCore.SP.WriteToLog)
@@ -130,28 +125,11 @@ public class MoveToTargetAction : Brainiac.Action
                 LogicCore.SP.Writer.AppendLine();
             }
 #endif
-            if (ReachPoint())
+            if(_onRightPlace)
+                return BehaviourNodeStatus.Success;
+            if (_pathFollowSteering.Finish)
             {
                 return BehaviourNodeStatus.Success;
-            }
-            if (!_depart)
-            {
-                _depart = true;
-               OnArrivePoint();
-            }
-            else
-            {
-                if (_baseArriveSteering.Finish)
-                {
-                    if (_pathIndex < _path.Count - 1)
-                    {
-                        OnArrivePoint();
-                    }
-                    else
-                    {
-                        return BehaviourNodeStatus.Success;
-                    }
-                }
             }
             //long moveDistance = agent.SceneObject.GetAttributeValue(Logic.AttributeType.Speed).Mul(FixedMath.One / 15);
             //while (moveDistance > 0 && _pathIndex < _path.Count)

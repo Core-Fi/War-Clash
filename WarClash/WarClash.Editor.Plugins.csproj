@@ -233,6 +233,7 @@
     <None Include="Assets\Plugins\PathologicalGames\readme.txt" />
     <None Include="Assets\Plugins\ProtoBuf\protobuf-net.xml" />
     <None Include="Assets\Shader\Editor\Grid.shader" />
+    <None Include="Assets\Shader\Grid.shader" />
     <None Include="Assets\Specular.shader" />
     <None Include="Assets\StreamingAssets\AB\assets\specular.shader" />
     <None Include="Assets\StreamingAssets\Events\_index.txt" />

@@ -38,7 +38,7 @@ public interface ISteering : IFixedAgent
     long MaxAcceleration { get; }
     long MaxDeceleration { get; }
 }
-public abstract class BaseSteering
+public abstract class BaseSteering : IPool
 {
     public bool Enable = true;
     public ISteering Self;
@@ -73,4 +73,8 @@ public abstract class BaseSteering
         return;
     }
 
+    public void Reset()
+    {
+        
+    }
 }
