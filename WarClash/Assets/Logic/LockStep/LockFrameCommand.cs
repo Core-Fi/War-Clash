@@ -205,14 +205,14 @@ namespace Logic
     }
     public class CreateBuildingCommand : PlayerOperateCommand
     {
-        public int MapItemId;
+        public int BuildingId;
+        public Vector3d Position;
         public override void OnExecute()
         {
-            var mapItem = LogicCore.SP.SceneManager.CurrentScene.MapConfig.MapDic[MapItemId] as MapBuildingItem;
             var senderSo = LogicCore.SP.SceneManager.CurrentScene.GetObject<SceneObject>(Sender);
             var createInfo = Pool.SP.Get<BuildingCreateInfo>();
-            createInfo.BuildingId = mapItem.BuildingId;
-            createInfo.Position = new Vector3d(new Vector3(8,0,8));// mapItem.Position;
+            createInfo.BuildingId = BuildingId;
+            createInfo.Position = Position;// mapItem.Position;
             var barack = LogicCore.SP.SceneManager.CurrentScene.CreateBuilding(createInfo);
             barack.Radius = FixedMath.One*3;
             if(senderSo!=null)
@@ -222,6 +222,7 @@ namespace Logic
                 barack.Team = Team.Team2;
             }
             GridService.TagAs(barack.Position, barack, NodeType.BeTaken);
+            JPSAStar.active.SetUnWalkable(barack.Position);
         }
         public override void WriteToLog(StringBuilder writer)
         {
@@ -230,7 +231,7 @@ namespace Logic
         public override void Deserialize(NetDataReader reader)
         {
             base.Deserialize(reader);
-            MapItemId = reader.GetInt();
+            BuildingId = reader.GetInt();
         }
 
         public override void Serialize(NetDataWriter writer)
@@ -238,7 +239,7 @@ namespace Logic
             var msgid = (int)LockFrameMgr.LockFrameEvent.CreateBuilding;
             writer.Put((short)msgid);
             base.Serialize(writer);
-            writer.Put(MapItemId);
+            writer.Put(BuildingId);
         }
     }
     public class CreateNpcCommand : PlayerOperateCommand
@@ -250,12 +251,14 @@ namespace Logic
             var createInfo = Pool.SP.Get<NpcCreateInfo>();
             createInfo.NpcId = NpcId;
             createInfo.Position =
-                new Vector3d(new Vector3(UnityEngine.Random.Range(18, 19), 0, UnityEngine.Random.Range(18, 19)));
+                new Vector3d(new Vector3(UnityEngine.Random.Range(10, 11), 0, UnityEngine.Random.Range(10, 11)));
             var npc = LogicCore.SP.SceneManager.CurrentScene.CreateSceneObject<Npc>(createInfo);
             npc.Team = Team.Team1;
             npc.Radius = FixedMath.One/2;
             npc.AttributeManager.SetBase(AttributeType.Speed, npc.AttributeManager[AttributeType.MaxSpeed]);
-            var unitAvoid = npc.SteeringManager.AddSteering<UnitAvoidSteering>(1);
+            npc.Forward = (Vector3d.zero - npc.Position).Normalize();
+            var arrive = npc.SteeringManager.AddSteering<PathFollowSteering>(1);
+            arrive.Path = new List<Vector3d>{Vector3d.zero};
             //arriveSteering.Priority = 2;
             //arriveSteering.Target = new Vector3d(new Vector3(10, 0, 10));
 
@@ -314,7 +317,7 @@ namespace Logic
         {
             var player = LogicCore.SP.SceneManager.CurrentScene.CreateSceneObject<Player>(Sender);
             player.Position = new Vector3d(-Vector3.left*6);
-            player.Team = Team.Team2;
+            player.Team = Team.Team1;
         }
         public override void WriteToLog(StringBuilder writer)
         {

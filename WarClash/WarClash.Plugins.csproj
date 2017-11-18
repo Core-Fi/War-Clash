@@ -103,6 +103,9 @@
     <Reference Include="DOTweenPro">
       <HintPath>Assets\Demigiant\DOTweenPro\DOTweenPro.dll</HintPath>
     </Reference>
+    <Reference Include="Google.Protobuf">
+      <HintPath>Assets\Plugins\Google.Protobuf.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Assets\Plugins\JsonNet\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -178,9 +181,6 @@
     <Compile Include="Assets\Plugins\Quick\Engine\Utils\QReflection.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\AddOns\Apex\Apex Path\ChangeLog.txt" />
-    <None Include="Assets\AddOns\Apex\Apex Path\Getting Started.txt" />
-    <None Include="Assets\AddOns\Apex\Apex Steer\ChangeLog.txt" />
     <None Include="Assets\AddOns\AstarPathfindingProject\Editor\EditorAssets\Materials\Navmesh.shader" />
     <None Include="Assets\AddOns\AstarPathfindingProject\Editor\EditorAssets\Materials\NavmeshOutline.shader" />
     <None Include="Assets\AddOns\AstarPathfindingProject\ExampleScenes\Example8_PathTypes\SquareShader.shader" />
@@ -214,6 +214,7 @@
     <None Include="Assets\Demigiant\DemiLib\Editor\DemiEditor.XML" />
     <None Include="Assets\Demigiant\readme_DOTweenPro.txt" />
     <None Include="Assets\FingerGestures\Doc\Readme.txt" />
+    <None Include="Assets\Plugins\Google.Protobuf.xml" />
     <None Include="Assets\Plugins\PathologicalGames\readme.txt" />
     <None Include="Assets\Plugins\ProtoBuf\protobuf-net.xml" />
     <None Include="Assets\Shader\Editor\Grid.shader" />

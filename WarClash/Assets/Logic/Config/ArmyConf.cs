@@ -54,6 +54,14 @@ namespace Config
       get { return _AtkRange; }
       set { _AtkRange = value; }
     }
+    private int _WaringRange = (int)0;
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"WaringRange", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue((int)0)]
+    public int WaringRange
+    {
+      get { return _WaringRange; }
+      set { _WaringRange = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }

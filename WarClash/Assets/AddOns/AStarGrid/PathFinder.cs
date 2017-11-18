@@ -76,6 +76,14 @@ namespace AStar
                     : new sbyte[,] { { 0, -1 }, { 1, 0 }, { 0, 1 }, { -1, 0 } };
         }
 
+        public bool IsWalkable(Point point)
+        {
+            return (_grid[point.X, point.Y] & (byte)JPSAStar.NodeType.UnWalkable) == 0;
+        }
+        public void SetUnWalkable(Point point)
+        {
+             _grid[point.X, point.Y] = (byte)JPSAStar.NodeType.UnWalkable;
+        }
         public List<PathFinderNode> FindPath(Point start, Point end)
         {
             lock (this)
@@ -143,9 +151,9 @@ namespace AStar
                         {
                             continue;
                         }
-
+                        var v = _grid[newLocationX, newLocationY];
                         // Unbreakeable?
-                        if (_grid[newLocationX, newLocationY] == 0)
+                        if ((v & (byte)JPSAStar.NodeType.UnWalkable)> 0)
                         {
                             continue;
                         }

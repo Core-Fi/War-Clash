@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using AStar;
 using Lockstep;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -24,18 +25,75 @@ public class JPSAStar : MonoBehaviour
     public int Size;
     [SerializeField]
     public Vector2 Offset;
+
+    public Vector2d FixedOffset;
     [NonSerialized]
     public byte[] Data;
     private List<Point> _points = new List<Point>(8);
     private Grid _jpsGrid;
+    private PathFinder _astarPathFinder;
     void Awake()
     {
+        FixedOffset = new Vector2d((int)Offset.x * FixedMath.One / 100, (int)Offset.y * FixedMath.One / 100);
         var scene = SceneManager.GetActiveScene();
         Data = Utility.ReadByteFromStreamingAsset("Map/" + scene.name + "_jps.map");
         GenerateGrid();
+        byte[,] astarGrid = new byte[RowCount, ColumnCount];
+        for (int i = 0; i < Data.Length; i++)
+        {
+            var x = i % ColumnCount;
+            var y = i / ColumnCount;
+            astarGrid[x, y] = Data[i];//((Data[i] & (byte)JPSAStar.NodeType.UnWalkable)>0)?(byte)0: (byte)1;
+        }
+        _astarPathFinder = new PathFinder(astarGrid);
         active = this;
+        GridService.Init(64, 64, FixedMath.One);
     }
 
+    public void SetUnWalkable(Vector3d v)
+    {
+        var p = V2P(v);
+        _astarPathFinder.SetUnWalkable(p);
+    }
+    public void AStarFindPath(Vector3d start, Vector3d end, List<PathFinderNode> list)
+    {
+        var startP = V2P(start);
+        var endP = V2P(end);
+        var ol = _astarPathFinder.FindPath(startP, endP);
+        if (ol != null)
+        {
+            for (int i = 0; i < ol.Count; i++)
+            {
+                if (i == 0)
+                {
+                    list.Add(ol[i]);
+                }
+                else
+                {
+                    var n = list[list.Count - 1];
+                    if (n.X != ol[i].X && n.Y != ol[i].Y)
+                    {
+                        list.Add(ol[i]);
+                    }
+                }
+            }
+        }
+    }
+
+    public AStar.Point V2P(Vector3d v)
+    {
+        var convertedx = (v.x - FixedOffset.x);
+        var convertedy = (v.z - FixedOffset.y);
+        var x = convertedx.ToInt() / (Size / 100);
+        var y = convertedy.ToInt() / (Size / 100);
+        return new AStar.Point(x, y);
+    }
+
+    public Vector3d P2V(AStar.PathFinderNode p)
+    {
+        return new Vector3d(FixedMath.One * p.X * Size / 100, 0, FixedMath.One * p.Y * Size / 100)
+               + new Vector3d(FixedMath.One * (int)Offset.x / 100, 0, FixedMath.One * (int)Offset.y / 100);
+    }
     Vector3 ToPosi(Point p)
     {
         var v3offset = new Vector3(Offset.x/100f, 0, Offset.y/100f);
@@ -104,8 +162,8 @@ public class JPSAStar : MonoBehaviour
 
     public bool IsWalkable(Vector3d v)
     {
-        Point p = V3DToPoint(v);
-        return _jpsGrid.IsWalkable(p);
+        var p = V2P(v);
+        return _astarPathFinder.IsWalkable(p);
     }
 
     public Vector3d PointToV3D(Point p)
@@ -127,20 +185,41 @@ public class JPSAStar : MonoBehaviour
         if (Data == null || Data.Length == 0)
             return;
         var offset = new Vector3(Offset.x/100f, 0, Offset.y/100f);
+        var posi = Vector3.zero;
         for (int i = 0; i < _jpsGrid.gridNodes.Length; i++)
         {
             var point = _jpsGrid.gridNodes[i].pos;
-            var posi = new Vector3(point.column * Size/100f, 0, point.row * Size/100f) + offset;
+            posi = new Vector3(point.column * Size/100f, 0, point.row * Size/100f) + offset;
             if (_jpsGrid.gridNodes[i].isObstacle)
             {
-                Gizmos.color = Color.red;
+                Gizmos.color = Color.red/2;
             }
             else
             {
-                Gizmos.color = Color.green;
+                Gizmos.color = Color.green/2;
             }
-            Gizmos.DrawWireCube(posi, new Vector3(Size/100f, 0.01f, Size/100f));
+       //     Gizmos.DrawWireCube(posi, new Vector3(Size/100f, 0.01f, Size/100f));
            
+        }
+
+        if (_astarPathFinder != null)
+        {
+            for (int i = 0; i <RowCount; i++)
+            {
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    posi = new Vector3(j * Size / 100f, 0, i * Size / 100f) + offset;
+                    if (!_astarPathFinder.IsWalkable(new AStar.Point(j, i)))
+                    {
+                        Gizmos.color = Color.red;
+                    }
+                    else
+                    {
+                        Gizmos.color = Color.green;
+                    }
+                    Gizmos.DrawWireCube(posi, new Vector3(Size / 100f, 0.01f, Size / 100f));
+                }
+            }
         }
     }
 

@@ -28,7 +28,7 @@ namespace Config
     public int ArmyId
     {
       get { return _ArmyId; }
-        private set {  _ArmyId = value; }
+      set { _ArmyId = value; }
     }
     private string _ResPath = "";
     [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"ResPath", DataFormat = global::ProtoBuf.DataFormat.Default)]
@@ -37,6 +37,22 @@ namespace Config
     {
       get { return _ResPath; }
       set { _ResPath = value; }
+    }
+    private int _Param1 = (int)0;
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"Param1", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue((int)0)]
+    public int Param1
+    {
+      get { return _Param1; }
+      set { _Param1 = value; }
+    }
+    private string _Param2 = "";
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"Param2", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string Param2
+    {
+      get { return _Param2; }
+      set { _Param2 = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)

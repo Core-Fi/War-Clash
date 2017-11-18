@@ -13,7 +13,7 @@ public class U3DProjectile : U3DSceneObject
     {
         base.OnInit();
         _projectile = So as Projectile;
-        AssetResources.LoadAsset("Barrel.prefab", OnLoadedRes);
+        AssetResources.LoadAsset("arrow.prefab", OnLoadedRes);
         _curHeight = _projectile.InitHeight.ToFloat();
     }
     public override void OnUpdate()

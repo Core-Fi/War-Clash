@@ -154,6 +154,9 @@
     <Reference Include="DOTweenProEditor">
       <HintPath>Assets\Demigiant\DOTweenPro\Editor\DOTweenProEditor.dll</HintPath>
     </Reference>
+    <Reference Include="Google.Protobuf">
+      <HintPath>Assets\Plugins\Google.Protobuf.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Assets\Plugins\JsonNet\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -182,67 +185,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\ApexComponentMasterEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\ArrivalBaseEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\AttributePropertyDrawer.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\AttributesUtilityWindow.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\DefaultArrivalComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\DefaultHeightNavigatorEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\DefaultOrientationComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\DefaultSpeedComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\DefaultSteeringComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\DynamicObstacleEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\EditorAsync.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\EditorUtilities.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\GameServicesInitializerComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\GridComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\GridFieldUtilityWindow.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\GridPortalComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\GridVisualizerEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\HeightNavigationCapabilitiesPropertyDrawer.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\HumanoidSpeedComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\InputReceiverBasicEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\LabelPropertyDrawer.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\LayerMappingComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\LoadBalancerComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\LoadBalancerPerformanceVisualizerEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\MaxCheckedPropertyDrawer.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\MenuExtentions.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\MinCheckedPropertyDrawer.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\NavigationSettingsComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\OrientationComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\PathOptionsComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\PathServiceComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\PathVisualizerEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\ProductsWindow.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\RangeXPropertyDrawer.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\SpeedComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\SteerForPathComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\SteerableUnitComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\SteeringComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\TerrainHeightMapEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\UnitComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\VersionUpgrader.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\Versioning\ApexPath.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\Versioning\ApexProductAttribute.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\Versioning\ApexSettings.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\Versioning\IconInfo.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\Versioning\ProductInfo.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\Versioning\ProductManager.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\Versioning\ProductStatus.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Path\Editor\Versioning\ProductType.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Steer\Editor\DefaultSteerForFormationEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Steer\Editor\NavigationSettingsComponentEditorSteering.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Steer\Editor\PathVisualizerEditorSteering.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Steer\Editor\SteerForBlockedCellRepulsionComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Steer\Editor\SteerForContainmentComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Steer\Editor\SteerForSeparationComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Steer\Editor\SteerForUnitAvoidanceComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Steer\Editor\SteeringScannerEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Steer\Editor\VectorFieldManagerComponentEditor.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Steer\Editor\VectorFieldOptionsPropertyDrawer.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Steer\Editor\VersionUpgraderSteer.cs" />
-    <Compile Include="Assets\AddOns\Apex\Apex Steer\Editor\Versioning\ApexSteer.cs" />
     <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\AnimationLinkEditor.cs" />
     <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\AstarPathEditor.cs" />
     <Compile Include="Assets\AddOns\AstarPathfindingProject\Editor\AstarUpdateChecker.cs" />
@@ -334,9 +276,6 @@
     <Compile Include="Assets\MapEditor\Editor\TerrianEditor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\AddOns\Apex\Apex Path\ChangeLog.txt" />
-    <None Include="Assets\AddOns\Apex\Apex Path\Getting Started.txt" />
-    <None Include="Assets\AddOns\Apex\Apex Steer\ChangeLog.txt" />
     <None Include="Assets\AddOns\AstarPathfindingProject\Editor\EditorAssets\Materials\Navmesh.shader" />
     <None Include="Assets\AddOns\AstarPathfindingProject\Editor\EditorAssets\Materials\NavmeshOutline.shader" />
     <None Include="Assets\AddOns\AstarPathfindingProject\ExampleScenes\Example8_PathTypes\SquareShader.shader" />
@@ -370,6 +309,7 @@
     <None Include="Assets\Demigiant\DemiLib\Editor\DemiEditor.XML" />
     <None Include="Assets\Demigiant\readme_DOTweenPro.txt" />
     <None Include="Assets\FingerGestures\Doc\Readme.txt" />
+    <None Include="Assets\Plugins\Google.Protobuf.xml" />
     <None Include="Assets\Plugins\PathologicalGames\readme.txt" />
     <None Include="Assets\Plugins\ProtoBuf\protobuf-net.xml" />
     <None Include="Assets\Shader\Editor\Grid.shader" />

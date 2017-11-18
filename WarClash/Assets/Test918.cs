@@ -2,12 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using AStar;
 using DG.Tweening;
 using Lockstep;
 using Logic;
 using Pathfinding;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
+using Point = AStar.Point;
 using Random = UnityEngine.Random;
 
 public class Test918 : MonoBehaviour
@@ -21,16 +23,32 @@ public class Test918 : MonoBehaviour
 
     void Start()
     {
+        Debug.Log((1 & (byte)JPSAStar.NodeType.UnWalkable) >0);
         //fclip = FixedAnimationClip.CreateFixedAnimationClip(clip);
         //fclip.Transform = transform;
         List<Vector3d> v = new List<Vector3d>();
         JPSAStar.active.GetPath(new Vector3d(g1.transform.position), new Vector3d(g2.transform.position), v);
-        for (int i = 0; i < v.Count-1; i++)
+        
+        //byte[,] g = new byte[JPSAStar.active.RowCount, JPSAStar.active.ColumnCount];
+        //for (int i = 0; i < JPSAStar.active.Data.Length; i++)
+        //{
+        //    var x = i % JPSAStar.active.ColumnCount;
+        //    var y = i / JPSAStar.active.ColumnCount;
+        //    g[y,x] = JPSAStar.active.Data[i];
+        //}
+        //PathFinder pf = new PathFinder(g);
+        var list = new List<PathFinderNode>();
+        JPSAStar.active.AStarFindPath(new Vector3d(g1.transform.position), new Vector3d(g2.transform.position), list);
+        for (int i = 0; i < list.Count - 1; i++)
         {
-            Debug.DrawLine(v[i].ToVector3(), v[i+1].ToVector3(), Color.blue, 10);
+            Debug.DrawLine(p2v(list[i]), p2v(list[i + 1]), Color.blue, 10);
         }
     }
-  
+
+    Vector3 p2v(AStar.PathFinderNode p)
+    {
+        return JPSAStar.active.P2V(p).ToVector3();
+    }
 
     void Update()
     {

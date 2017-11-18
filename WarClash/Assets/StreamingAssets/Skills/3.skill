@@ -19,9 +19,10 @@
               "hitCount": 0,
               "hitEvent": 1,
               "dieEvent": 1,
-              "ProjectileType": 0,
+              "ProjectileType": 1,
               "cac": {
                 "$type": "FixedAnimationCurve, Assembly-CSharp",
+                "OriginalAnimationCurve": null,
                 "Keyframes": {
                   "$type": "System.Collections.Generic.List`1[[FixedKeyFrame, Assembly-CSharp]], mscorlib",
                   "$values": []

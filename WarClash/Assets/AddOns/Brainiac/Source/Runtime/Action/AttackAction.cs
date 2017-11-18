@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using Assets.Logic.Skill;
 using Brainiac;
 using Logic.LogicObject;
 using Lockstep;
@@ -8,7 +9,7 @@ using Brainiac.Serialization;
 [AddNodeMenu("Action/AttackAction")]
 public class AttackAction : Brainiac.Action
 {
-    private Character _self;
+    private ISkillable _self;
     [BTProperty("SkillPath")]
     public MemoryVar skillid;
 
@@ -17,7 +18,7 @@ public class AttackAction : Brainiac.Action
     public override void OnStart(AIAgent agent)
     {
         base.OnStart(agent);
-        _self = agent.SceneObject as Character;
+        _self = agent.SceneObject as ISkillable;
     }
 
     public override void OnReset()
@@ -50,7 +51,7 @@ public class AttackAction : Brainiac.Action
     {
         if (_releaseSkillSuccess)
         {
-            if (_self.IsRunningSkill)
+            if (_self.SkillManager.IsRunningSkill)
             {
                 return BehaviourNodeStatus.Running;
             }

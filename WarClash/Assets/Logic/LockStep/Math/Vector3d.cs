@@ -42,9 +42,9 @@ namespace Lockstep
             this.z = FixedMath.Create(vec3.z);
         }
         public Vector3d (Vector2d vec) {
-            this.x = FixedMath.Create(vec.x);
+            this.x = vec.x;
             this.y = 0;
-            this.z = FixedMath.Create(vec.y);
+            this.z = vec.y;
         }
         public Vector3d (long X, long Y, long Z) {
             x = X;

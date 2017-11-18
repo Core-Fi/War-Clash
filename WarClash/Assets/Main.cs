@@ -14,6 +14,7 @@ public class Main : MonoBehaviour
     public bool ShowDebug;
 //#endif
     public Transform Uiparent;
+    public Transform CameraParent;
     public static Main SP;
     private U3DSceneManager u3dSceneManager;
     private ManagerDriver managerDriver;
@@ -25,13 +26,19 @@ public class Main : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-        GridService.Init(30,30, FixedMath.One);
+      
         DonotDestroy();
         Logic.LogicCore.SP.Init();
         u3dSceneManager = new U3DSceneManager();
         Logic.LogicCore.SP.SceneManager.SwitchScene(new Scene("scene03"));
         EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("UI-JoyStick.prefab", typeof(BattleView), null));
         EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("BattleUI.prefab", typeof(BattleView), null));
+
+	    FingerGestures.OnDragMove += (a, b) =>
+	    {
+	        b /= 2;
+	       // CameraParent.transform.position += new Vector3(b.x, 0, b.y);
+        };
     }
 #if UNITY_EDITOR
     void OnGUI()
@@ -55,16 +62,17 @@ public class Main : MonoBehaviour
         if (GUILayout.Button("CreateBarack1"))
         {
             var mp = LogicCore.SP.SceneManager.CurrentScene.GetObject<MainPlayer>();
-            LogicCore.SP.LockFrameMgr.SendCommand(new CreateBuildingCommand{ MapItemId = 1, Sender = mp.Id});
+           // var mapItem = LogicCore.SP.SceneManager.CurrentScene.MapConfig.MapDic[MapItemId] as MapBuildingItem;
+            LogicCore.SP.LockFrameMgr.SendCommand(new CreateBuildingCommand{ BuildingId = 1002, Sender = mp.Id});
         }
         if (GUILayout.Button("CreateBarack2"))
         {
             var mp = LogicCore.SP.SceneManager.CurrentScene.GetObject<MainPlayer>();
             if(mp!=null)
-                LogicCore.SP.LockFrameMgr.SendCommand(new CreateBuildingCommand { MapItemId = 2, Sender = mp.Id });
+                LogicCore.SP.LockFrameMgr.SendCommand(new CreateBuildingCommand { BuildingId = 1002, Sender = mp.Id });
             else
             {
-                LogicCore.SP.LockFrameMgr.SendCommand(new CreateBuildingCommand { MapItemId = 2});
+                LogicCore.SP.LockFrameMgr.SendCommand(new CreateBuildingCommand { BuildingId = 1002});
             }
         }
         if (GUILayout.Button("SaveLog"))

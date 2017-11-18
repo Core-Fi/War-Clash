@@ -28,10 +28,11 @@ public enum NodeType
 class GridService
 {
     private static GridData[,] _gridData;
-    private static Vector3d Offset = new Vector3d(FixedMath.One/2,0,FixedMath.One/2);
+    private static Vector3d Offset ;//= new Vector3d(FixedMath.One/2,0,FixedMath.One/2);
     private static long CellSize;
     public static void Init(int width, int height, long cellSize)
     {
+        Offset =  new Vector3d(JPSAStar.active.FixedOffset);
         CellSize = cellSize;
         _gridData = new GridData[height, width];
         for (int i = 0; i < height; i++)
@@ -42,11 +43,12 @@ class GridService
             }
         }
     }
-    public static bool IsEmpty(int x, int y)
+    private static bool IsEmpty(int x, int y)
     {
         return _gridData[y, x].Value == 0;
     }
-    public static SceneObject IsNotEmptyBy(int x, int y)
+
+    private static SceneObject IsNotEmptyBy(int x, int y)
     {
         if (_gridData[y, x].Value  != 0)
         {
@@ -220,9 +222,10 @@ class GridService
 
     public static void GetCoordinate(Vector3d posi, out int x, out int y)
     {
-         x = posi.x.Div(CellSize).ToInt();
-         y = posi.z.Div(CellSize).ToInt();
+         x = (posi.x - Offset.x).Div(CellSize).ToInt();
+         y = (posi.z - Offset.z).Div(CellSize).ToInt();
     }
+
     public static bool SearchNearEmptyPoint(Vector3d posi, out Vector3d target)
     {
         int x, y;
@@ -270,13 +273,17 @@ class GridService
     }
     public static void DrawGizmos()
     {
-        for (int i = 0; i < 20; i++)
+        for (int outer = _gridData.GetLowerBound(0);
+            outer <= _gridData.GetUpperBound(0);
+            outer++)
         {
-            for (int j = 0; j < 20; j++)
+            for (int inner = _gridData.GetLowerBound(1);
+                inner <= _gridData.GetUpperBound(1);
+                inner++)
             {
-                if (!IsEmpty(j, i))
+                if (!IsEmpty(inner, outer))
                 {
-                    Gizmos.DrawCube(new Vector3(j,0,i)+Offset.ToVector3(), Vector3.one-new Vector3(0,0.9f,0));
+                    Gizmos.DrawCube(new Vector3(inner, 0, outer) + Offset.ToVector3(), Vector3.one - new Vector3(0, 0.9f, 0));
                 }
             }
         }

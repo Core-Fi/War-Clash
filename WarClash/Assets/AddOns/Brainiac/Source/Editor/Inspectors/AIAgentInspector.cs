@@ -31,6 +31,21 @@ namespace BrainiacEditor
                         m_inspector = new PlayTimeBlackboardInspector(dict);
                     }
                 }
+                else
+                {
+                    var t = lo.so as Tower;
+                    if (t != null)
+                    {
+                        AIAgent agent = t.AiAgent;
+                        Blackboard blackboard = agent.Blackboard;
+                        IDictionary<string, object> dict = GetRuntimeValues(blackboard);
+                        if (dict != null)
+                        {
+                            m_inspector = new PlayTimeBlackboardInspector(dict);
+                        }
+                    }
+                }
+                
             }
             else
             {
@@ -69,10 +84,20 @@ namespace BrainiacEditor
 			GUI.color = Color.white;
 
 			serializedObject.ApplyModifiedProperties();
-		    var c = (lo.so as Character);
-            if (c != null && c.AiAgent != null)
+		    AIAgent agent = null;
+            var c = (lo.so as Character);
+		    if (c == null)
+		    {
+		        var tower = lo.so as Tower;
+		        agent = tower.AiAgent;
+		    }
+		    else
+		    {
+		        agent = c.AiAgent;
+
+		    }
+            if (agent != null)
             {
-                AIAgent agent = c.AiAgent;
 		        BTAsset btAsset = agent.BehaviourTree as BTAsset;
 		        BehaviourTree btInstance = agent.GetBehaviourTree();
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AStar;
 using Lockstep;
 using Logic;
 using Logic.LogicObject;
@@ -28,12 +29,19 @@ class PathFollowSteering : BaseSteering
         Finish = false;
         _firstStart = true;
     }
-
     protected override void OnStart()
     {
         base.OnStart();
     }
-
+    bool Arrive()
+    {
+        SceneObject so = Self as SceneObject;
+        if (Vector3d.SqrDistance(_target, Self.Position) < FixedMath.One/10 || Vector3d.Dot(so.Forward, _target - Self.Position) < 0)
+        {
+            return true;
+        }
+        return false;
+    }
     public override void GetDesiredSteering(SteeringResult rst)
     {
        
@@ -52,7 +60,7 @@ class PathFollowSteering : BaseSteering
             }
             _firstStart = false;
         }
-        if ( Vector3d.SqrDistance(_target, Self.Position) < FixedMath.One)
+        if (Arrive())
         {
             Self.Position = _target;
             GridService.Clear(_target, Self as SceneObject);
@@ -67,7 +75,7 @@ class PathFollowSteering : BaseSteering
         }
         if (_index == Path.Count - 1)
         {
-            if (GridService.IsNotEmptyBy(_target.x.ToInt(), _target.z.ToInt()) != Self)
+            if (GridService.IsNotEmptyBy(_target) != Self)
             {
                 if (Formation == Formation.Quad)
                 {
@@ -82,10 +90,18 @@ class PathFollowSteering : BaseSteering
         }
         Vector3d dir = _target - Self.Position;
         Vector3d desiredVelocity = dir.Normalize() * Self.Speed;
+        var nextPosi = Self.Position + desiredVelocity * LockFrameMgr.FixedFrameTime;
+        if (!JPSAStar.active.IsWalkable(nextPosi))
+        {
+            List<PathFinderNode> list = new List<PathFinderNode>();
+            JPSAStar.active.AStarFindPath(Self.Position, _target, list);
+            for (int i = 0; i < list.Count-1; i++)
+            {
+                Path.Insert(0, JPSAStar.active.P2V(list[i]));
+            }
+            _target = Path[0];
+        }
         Self.Position += desiredVelocity * LockFrameMgr.FixedFrameTime;
-        //var acc = (desiredVelocity - Self.Velocity) / (LockFrameMgr.FixedFrameTime);
-        //rst.DesiredSteering = acc;
-        
         UnityEngine.Debug.DrawLine(Self.Position.ToVector3(), _target.ToVector3(), Color.red, 0.1f);
     }
 

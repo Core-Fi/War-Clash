@@ -21,7 +21,7 @@ class ArriveSteering : BaseArriveSteering
             GridService.TagAs(Self.Position, Self as SceneObject, NodeType.BeTaken);
             return;
         }
-        if (GridService.IsNotEmptyBy(Target.x.ToInt(), Target.z.ToInt())!= Self)
+        if (GridService.IsNotEmptyBy(Target)!= Self)
         {
             GridService.SearchNearEmptyPoint(Target, out Target);
             GridService.TagAs(Target, Self as SceneObject, NodeType.FlagAsTarget);

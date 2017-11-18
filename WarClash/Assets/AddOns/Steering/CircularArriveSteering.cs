@@ -30,7 +30,7 @@ class CircularArriveSteering : BaseArriveSteering
             }
             return;
         }
-        if (_validTarget && GridService.IsNotEmptyBy(Target.x.ToInt(), Target.z.ToInt())!= Self)
+        if (_validTarget && GridService.IsNotEmptyBy(Target)!= Self)
         {
             _validTarget = GridService.SearchNearCircleEmptyPoint(Self.Position, Target, 4, out Target);
             if(_validTarget)

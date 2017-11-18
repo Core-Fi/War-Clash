@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Apex.PathFinding;
+using Assets.Logic.Skill;
 using Logic.Skill;
 using UnityEngine;
 using Brainiac;
@@ -9,7 +9,7 @@ using Lockstep;
 
 namespace Logic.LogicObject
 {
-    public class Character : SceneObject, ISteering
+    public class Character : SceneObject, ISteering, ISkillable
     {
         #region IFixedAgent Impl
         public IFixedAgent Next { get; set; }
