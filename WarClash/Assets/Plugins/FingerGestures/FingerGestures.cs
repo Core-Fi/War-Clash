@@ -1709,12 +1709,12 @@ public abstract class FingerGestures : MonoBehaviour
 
         public IFingerList Apply( IFingerList touches )
         {
-            foreach( Finger touch in touches )
+            for (int i = 0; i < touches.Count; i++)
             {
-                if( touch == Finger )
+                var touch = touches[i];
+                if (touch == Finger)
                     return fingerList;
             }
-
             return emptyList;
         }
     }

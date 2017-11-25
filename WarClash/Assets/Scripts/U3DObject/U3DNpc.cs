@@ -8,7 +8,6 @@ using UnityEngine.AI;
 public class U3DNpc : U3DCharacter{
 
     public Npc Npc { get; private set; }
-    private NavMeshAgent _navMeshAgent;
     public override void OnInit()
     {
         base.OnInit();
@@ -19,7 +18,6 @@ public class U3DNpc : U3DCharacter{
     public override void OnLoadedRes(string name, Object obj)
     {
         base.OnLoadedRes(name, obj);
-        _navMeshAgent = Go.GetComponent<NavMeshAgent>();
        // Go.SetActive(false);
     }
 

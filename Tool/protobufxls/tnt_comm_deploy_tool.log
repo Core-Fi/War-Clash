@@ -807,3 +807,138 @@ items {
   Param2: "TowerBT.asset"
 }
 
+2017-11-25 18:21:31,826|INFO|108|_initlog|
+
+
+
+2017-11-25 18:21:31,839|INFO|109|_initlog|logger is inited!
+2017-11-25 18:21:31,845|INFO|181|Interpreter|begin Interpreter, row_count = 6, col_count = 7
+2017-11-25 18:21:31,845|INFO|210|_FieldDefine|row=0, col=0, repeated_num=0
+2017-11-25 18:21:31,845|INFO|210|_FieldDefine|row=0, col=1, repeated_num=0
+2017-11-25 18:21:31,845|INFO|218|_FieldDefine|required|int32|Id|兵的id
+2017-11-25 18:21:31,845|INFO|210|_FieldDefine|row=0, col=2, repeated_num=0
+2017-11-25 18:21:31,846|INFO|218|_FieldDefine|optional|int32|Hp|血量
+2017-11-25 18:21:31,846|INFO|210|_FieldDefine|row=0, col=3, repeated_num=0
+2017-11-25 18:21:31,846|INFO|218|_FieldDefine|optional|string|ResPath|资源路径
+2017-11-25 18:21:31,846|INFO|210|_FieldDefine|row=0, col=4, repeated_num=0
+2017-11-25 18:21:31,846|INFO|218|_FieldDefine|optional|string|BT|行为树
+2017-11-25 18:21:31,846|INFO|210|_FieldDefine|row=0, col=5, repeated_num=0
+2017-11-25 18:21:31,846|INFO|218|_FieldDefine|optional|int32|AtkRange|攻击距离
+2017-11-25 18:21:31,846|INFO|210|_FieldDefine|row=0, col=6, repeated_num=0
+2017-11-25 18:21:31,846|INFO|218|_FieldDefine|optional|int32|WaringRange|警戒范围
+2017-11-25 18:21:32,388|INFO|446|Parse|begin parse, row_count = 6, col_count = 7
+2017-11-25 18:21:32,388|INFO|480|_ParseLine|4
+2017-11-25 18:21:32,388|INFO|496|_ParseField|4|1
+2017-11-25 18:21:32,388|INFO|497|_ParseField|required|int32|Id
+2017-11-25 18:21:32,388|INFO|622|_GetFieldValue|4|1|1001.0
+2017-11-25 18:21:32,390|INFO|496|_ParseField|4|2
+2017-11-25 18:21:32,390|INFO|497|_ParseField|optional|int32|Hp
+2017-11-25 18:21:32,390|INFO|622|_GetFieldValue|4|2|500.0
+2017-11-25 18:21:32,390|INFO|496|_ParseField|4|3
+2017-11-25 18:21:32,390|INFO|497|_ParseField|optional|string|ResPath
+2017-11-25 18:21:32,390|INFO|622|_GetFieldValue|4|3|WK_archer.prefab
+2017-11-25 18:21:32,390|INFO|496|_ParseField|4|4
+2017-11-25 18:21:32,390|INFO|497|_ParseField|optional|string|BT
+2017-11-25 18:21:32,390|INFO|622|_GetFieldValue|4|4|NpcBT2.asset
+2017-11-25 18:21:32,390|INFO|496|_ParseField|4|5
+2017-11-25 18:21:32,390|INFO|497|_ParseField|optional|int32|AtkRange
+2017-11-25 18:21:32,390|INFO|622|_GetFieldValue|4|5|600.0
+2017-11-25 18:21:32,390|INFO|496|_ParseField|4|6
+2017-11-25 18:21:32,390|INFO|497|_ParseField|optional|int32|WaringRange
+2017-11-25 18:21:32,390|INFO|622|_GetFieldValue|4|6|1000.0
+2017-11-25 18:21:32,391|INFO|480|_ParseLine|5
+2017-11-25 18:21:32,391|INFO|496|_ParseField|5|1
+2017-11-25 18:21:32,391|INFO|497|_ParseField|required|int32|Id
+2017-11-25 18:21:32,391|INFO|622|_GetFieldValue|5|1|1002.0
+2017-11-25 18:21:32,391|INFO|496|_ParseField|5|2
+2017-11-25 18:21:32,391|INFO|497|_ParseField|optional|int32|Hp
+2017-11-25 18:21:32,391|INFO|622|_GetFieldValue|5|2|500.0
+2017-11-25 18:21:32,391|INFO|496|_ParseField|5|3
+2017-11-25 18:21:32,391|INFO|497|_ParseField|optional|string|ResPath
+2017-11-25 18:21:32,391|INFO|622|_GetFieldValue|5|3|
+2017-11-25 18:21:32,391|INFO|496|_ParseField|5|4
+2017-11-25 18:21:32,391|INFO|497|_ParseField|optional|string|BT
+2017-11-25 18:21:32,391|INFO|622|_GetFieldValue|5|4|
+2017-11-25 18:21:32,391|INFO|496|_ParseField|5|5
+2017-11-25 18:21:32,391|INFO|497|_ParseField|optional|int32|AtkRange
+2017-11-25 18:21:32,391|INFO|622|_GetFieldValue|5|5|
+2017-11-25 18:21:32,391|INFO|496|_ParseField|5|6
+2017-11-25 18:21:32,391|INFO|497|_ParseField|optional|int32|WaringRange
+2017-11-25 18:21:32,391|INFO|622|_GetFieldValue|5|6|
+2017-11-25 18:21:32,391|INFO|468|Parse|parse result:
+items {
+  Id: 1001
+  Hp: 500
+  ResPath: "WK_archer.prefab"
+  BT: "NpcBT2.asset"
+  AtkRange: 600
+  WaringRange: 1000
+}
+items {
+  Id: 1002
+  Hp: 500
+}
+
+2017-11-25 18:21:33,631|INFO|108|_initlog|
+
+
+
+2017-11-25 18:21:33,631|INFO|109|_initlog|logger is inited!
+2017-11-25 18:21:33,635|INFO|181|Interpreter|begin Interpreter, row_count = 6, col_count = 6
+2017-11-25 18:21:33,635|INFO|210|_FieldDefine|row=0, col=0, repeated_num=0
+2017-11-25 18:21:33,635|INFO|210|_FieldDefine|row=0, col=1, repeated_num=0
+2017-11-25 18:21:33,635|INFO|218|_FieldDefine|required|int32|Id|建筑id
+2017-11-25 18:21:33,637|INFO|210|_FieldDefine|row=0, col=2, repeated_num=0
+2017-11-25 18:21:33,637|INFO|218|_FieldDefine|optional|int32|ArmyId|出兵种类
+2017-11-25 18:21:33,637|INFO|210|_FieldDefine|row=0, col=3, repeated_num=0
+2017-11-25 18:21:33,637|INFO|218|_FieldDefine|optional|string|ResPath|资源路径
+2017-11-25 18:21:33,637|INFO|210|_FieldDefine|row=0, col=4, repeated_num=0
+2017-11-25 18:21:33,637|INFO|218|_FieldDefine|optional|int32|Param1|变量1
+2017-11-25 18:21:33,638|INFO|210|_FieldDefine|row=0, col=5, repeated_num=0
+2017-11-25 18:21:33,638|INFO|218|_FieldDefine|optional|string|Param2|变量2
+2017-11-25 18:21:33,901|INFO|446|Parse|begin parse, row_count = 6, col_count = 6
+2017-11-25 18:21:33,901|INFO|480|_ParseLine|4
+2017-11-25 18:21:33,901|INFO|496|_ParseField|4|1
+2017-11-25 18:21:33,901|INFO|497|_ParseField|required|int32|Id
+2017-11-25 18:21:33,901|INFO|622|_GetFieldValue|4|1|1001.0
+2017-11-25 18:21:33,901|INFO|496|_ParseField|4|2
+2017-11-25 18:21:33,901|INFO|497|_ParseField|optional|int32|ArmyId
+2017-11-25 18:21:33,901|INFO|622|_GetFieldValue|4|2|1001.0
+2017-11-25 18:21:33,901|INFO|496|_ParseField|4|3
+2017-11-25 18:21:33,901|INFO|497|_ParseField|optional|string|ResPath
+2017-11-25 18:21:33,901|INFO|622|_GetFieldValue|4|3|barrack.prefab
+2017-11-25 18:21:33,901|INFO|496|_ParseField|4|4
+2017-11-25 18:21:33,901|INFO|497|_ParseField|optional|int32|Param1
+2017-11-25 18:21:33,901|INFO|622|_GetFieldValue|4|4|
+2017-11-25 18:21:33,901|INFO|496|_ParseField|4|5
+2017-11-25 18:21:33,901|INFO|497|_ParseField|optional|string|Param2
+2017-11-25 18:21:33,901|INFO|622|_GetFieldValue|4|5|
+2017-11-25 18:21:33,901|INFO|480|_ParseLine|5
+2017-11-25 18:21:33,903|INFO|496|_ParseField|5|1
+2017-11-25 18:21:33,903|INFO|497|_ParseField|required|int32|Id
+2017-11-25 18:21:33,903|INFO|622|_GetFieldValue|5|1|1002.0
+2017-11-25 18:21:33,903|INFO|496|_ParseField|5|2
+2017-11-25 18:21:33,903|INFO|497|_ParseField|optional|int32|ArmyId
+2017-11-25 18:21:33,903|INFO|622|_GetFieldValue|5|2|
+2017-11-25 18:21:33,903|INFO|496|_ParseField|5|3
+2017-11-25 18:21:33,903|INFO|497|_ParseField|optional|string|ResPath
+2017-11-25 18:21:33,903|INFO|622|_GetFieldValue|5|3|tower.prefab
+2017-11-25 18:21:33,903|INFO|496|_ParseField|5|4
+2017-11-25 18:21:33,903|INFO|497|_ParseField|optional|int32|Param1
+2017-11-25 18:21:33,903|INFO|622|_GetFieldValue|5|4|500.0
+2017-11-25 18:21:33,903|INFO|496|_ParseField|5|5
+2017-11-25 18:21:33,903|INFO|497|_ParseField|optional|string|Param2
+2017-11-25 18:21:33,903|INFO|622|_GetFieldValue|5|5|TowerBT.asset
+2017-11-25 18:21:33,903|INFO|468|Parse|parse result:
+items {
+  Id: 1001
+  ArmyId: 1001
+  ResPath: "barrack.prefab"
+}
+items {
+  Id: 1002
+  ResPath: "tower.prefab"
+  Param1: 500
+  Param2: "TowerBT.asset"
+}
+

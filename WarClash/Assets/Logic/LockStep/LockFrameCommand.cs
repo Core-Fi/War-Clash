@@ -245,27 +245,26 @@ namespace Logic
     public class CreateNpcCommand : PlayerOperateCommand
     {
         public int NpcId;
-        public static int c = 0;
+        public byte Team;
         public override void OnExecute()
         {
+            var sender = LogicCore.SP.SceneManager.CurrentScene.GetObject(Sender);
             var createInfo = Pool.SP.Get<NpcCreateInfo>();
             createInfo.NpcId = NpcId;
             createInfo.Position =
                 new Vector3d(new Vector3(UnityEngine.Random.Range(10, 11), 0, UnityEngine.Random.Range(10, 11)));
             var npc = LogicCore.SP.SceneManager.CurrentScene.CreateSceneObject<Npc>(createInfo);
-            npc.Team = Team.Team1;
+            if(sender!=null)
+                npc.Team = sender.Team;
+            else
+            {
+                npc.Team = LogicObject.Team.Team2;
+            }
             npc.Radius = FixedMath.One/2;
             npc.AttributeManager.SetBase(AttributeType.Speed, npc.AttributeManager[AttributeType.MaxSpeed]);
-            npc.Forward = (Vector3d.zero - npc.Position).Normalize();
-            var arrive = npc.SteeringManager.AddSteering<PathFollowSteering>(1);
-            arrive.Path = new List<Vector3d>{Vector3d.zero};
-            //arriveSteering.Priority = 2;
-            //arriveSteering.Target = new Vector3d(new Vector3(10, 0, 10));
-
-            //var seperationSteering = npc.SteeringManager.AddSteering<SeperationSteering>(npc);
-            //seperationSteering.Priority = 1;
-
-
+            npc.Forward = new Vector3d(Vector3.forward);
+            //var arrive = npc.SteeringManager.AddSteering<PathFollowSteering>(1);
+            //arrive.Path = new List<Vector3d>{Vector3d.zero};
         }
         public override void WriteToLog(StringBuilder writer)
         {
@@ -275,6 +274,7 @@ namespace Logic
         {
             base.Deserialize(reader);
             NpcId = reader.GetInt();
+
         }
 
         public override void Serialize(NetDataWriter writer)

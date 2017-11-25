@@ -214,6 +214,7 @@
     <None Include="Assets\Demigiant\DemiLib\Editor\DemiEditor.XML" />
     <None Include="Assets\Demigiant\readme_DOTweenPro.txt" />
     <None Include="Assets\FingerGestures\Doc\Readme.txt" />
+    <None Include="Assets\MapEditor\GroundPainter\VC.shader" />
     <None Include="Assets\Plugins\Google.Protobuf.xml" />
     <None Include="Assets\Plugins\PathologicalGames\readme.txt" />
     <None Include="Assets\Plugins\ProtoBuf\protobuf-net.xml" />

@@ -1,0 +1,63 @@
+{
+  "$type": "Logic.Skill.Skill, Assembly-CSharp",
+  "Name": "射手",
+  "ID": 1,
+  "TimeLines": {
+    "$type": "System.Collections.Generic.List`1[[Logic.Skill.TimeLine, Assembly-CSharp]], mscorlib",
+    "$values": [
+      {
+        "$type": "Logic.Skill.TimeLine, Assembly-CSharp",
+        "Times": 1,
+        "FrameCount": 10,
+        "BaseActions": {
+          "$type": "System.Collections.Generic.List`1[[Logic.Skill.Actions.BaseAction, Assembly-CSharp]], mscorlib",
+          "$values": [
+            {
+              "$type": "Logic.Skill.Actions.PlayAnimationAction, Assembly-CSharp",
+              "animaitonName": "attack",
+              "stopCondition": 0,
+              "playTarget": 0,
+              "ExecuteFrameIndex": 0
+            },
+            {
+              "$type": "Logic.Skill.Actions.CreateProjectileAction, Assembly-CSharp",
+              "Speed": 500,
+              "time": 3000,
+              "hitCount": 0,
+              "hitEvent": 0,
+              "dieEvent": 0,
+              "ProjectileType": 1,
+              "cac": {
+                "$type": "FixedAnimationCurve, Assembly-CSharp",
+                "OriginalAnimationCurve": null,
+                "Keyframes": {
+                  "$type": "System.Collections.Generic.List`1[[FixedKeyFrame, Assembly-CSharp]], mscorlib",
+                  "$values": []
+                }
+              },
+              "ExecuteFrameIndex": 7
+            }
+          ]
+        },
+        "eventTriggers": {
+          "$type": "System.Collections.Generic.List`1[[Logic.Skill.EventTrigger, Assembly-CSharp]], mscorlib",
+          "$values": []
+        }
+      },
+      {
+        "$type": "Logic.Skill.TimeLine, Assembly-CSharp",
+        "Times": 1,
+        "FrameCount": 0,
+        "BaseActions": {
+          "$type": "System.Collections.Generic.List`1[[Logic.Skill.Actions.BaseAction, Assembly-CSharp]], mscorlib",
+          "$values": []
+        },
+        "eventTriggers": {
+          "$type": "System.Collections.Generic.List`1[[Logic.Skill.EventTrigger, Assembly-CSharp]], mscorlib",
+          "$values": []
+        }
+      }
+    ]
+  },
+  "path": "1"
+}

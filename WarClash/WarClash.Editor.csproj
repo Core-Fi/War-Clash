@@ -274,6 +274,7 @@
     <Compile Include="Assets\MapEditor\Editor\MapEditor.cs" />
     <Compile Include="Assets\MapEditor\Editor\MapItemInspector.cs" />
     <Compile Include="Assets\MapEditor\Editor\TerrianEditor.cs" />
+    <Compile Include="Assets\MapEditor\GroundPainter\Editor\MapPainterEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AddOns\AstarPathfindingProject\Editor\EditorAssets\Materials\Navmesh.shader" />
@@ -309,6 +310,7 @@
     <None Include="Assets\Demigiant\DemiLib\Editor\DemiEditor.XML" />
     <None Include="Assets\Demigiant\readme_DOTweenPro.txt" />
     <None Include="Assets\FingerGestures\Doc\Readme.txt" />
+    <None Include="Assets\MapEditor\GroundPainter\VC.shader" />
     <None Include="Assets\Plugins\Google.Protobuf.xml" />
     <None Include="Assets\Plugins\PathologicalGames\readme.txt" />
     <None Include="Assets\Plugins\ProtoBuf\protobuf-net.xml" />

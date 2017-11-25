@@ -42,6 +42,9 @@ class PathFollowSteering : BaseSteering
         }
         return false;
     }
+
+    private Vector3d _finalTarget;
+    private int _caculatedIndex;
     public override void GetDesiredSteering(SteeringResult rst)
     {
        
@@ -49,9 +52,11 @@ class PathFollowSteering : BaseSteering
             return;
         if (_firstStart)
         {
+            _index = 0;
             if (Path!=null && Path.Count > 0)
             {
                 _target = Path[_index];
+                _finalTarget = Path[Path.Count - 1];
             }
             else
             {
@@ -73,10 +78,15 @@ class PathFollowSteering : BaseSteering
             }
             _target = Path[_index];
         }
+        if (Vector3d.SqrDistance(Self.Position, _finalTarget) <= FixedMath.Create(Radius))
+        {
+            _index = Path.Count - 1;
+        }
         if (_index == Path.Count - 1)
         {
-            if (GridService.IsNotEmptyBy(_target) != Self)
+            if (GridService.IsNotEmptyBy(_target) != Self )//|| (_caculatedIndex&(_index+1)) == 0)
             {
+              //  _caculatedIndex += _index + 1;
                 if (Formation == Formation.Quad)
                 {
                     GridService.SearchNearEmptyPoint(Path[_index], out _target);

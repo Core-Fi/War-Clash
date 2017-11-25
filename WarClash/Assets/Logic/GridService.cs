@@ -30,8 +30,12 @@ class GridService
     private static GridData[,] _gridData;
     private static Vector3d Offset ;//= new Vector3d(FixedMath.One/2,0,FixedMath.One/2);
     private static long CellSize;
+    private static int Width;
+    private static int Height;
     public static void Init(int width, int height, long cellSize)
     {
+        Width = width;
+        Height = height;
         Offset =  new Vector3d(JPSAStar.active.FixedOffset);
         CellSize = cellSize;
         _gridData = new GridData[height, width];
@@ -45,7 +49,14 @@ class GridService
     }
     private static bool IsEmpty(int x, int y)
     {
-        return _gridData[y, x].Value == 0;
+        if (x >= 0 && x < Width && y >= 0 && y < Height)
+        {
+            return _gridData[y, x].Value == 0;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private static SceneObject IsNotEmptyBy(int x, int y)

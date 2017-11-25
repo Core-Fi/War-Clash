@@ -42,6 +42,8 @@ namespace Logic.Skill
         }
         public static void TriggerEvent(int id, RuntimeData runnignData)
         {
+            if(id==0)
+                return;
             var skill = GetEvent(id);
             RuntimeEvent re = new RuntimeEvent();
             re.Init(skill, runnignData, OnFinish);

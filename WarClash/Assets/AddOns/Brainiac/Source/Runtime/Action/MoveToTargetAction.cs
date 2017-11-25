@@ -38,18 +38,26 @@ public class MoveToTargetAction : Brainiac.Action
     {
         base.OnStart(agent);
         _onRightPlace = false;
-        target = agent.Blackboard.GetItem("target") as SceneObject;
+        target = agent.Blackboard.GetItem("Target") as SceneObject;
         if (target != null)
         {
             var speed = SceneObject.AttributeManager[AttributeType.MaxSpeed];
             SceneObject.AttributeManager.SetBase(AttributeType.Speed, speed);
             target.EventGroup.ListenEvent((int)SceneObject.SceneObjectEvent.Positionchange, OnTargetPosiChanged);
         }
-        _onRightPlace = OnRightPlace();
-        if (!_onRightPlace)
+        if (Vector3d.SqrDistance(target.Position, agent.SceneObject.Position) <
+            FixedMath.Create(_npc.Conf.AtkRange / 100) * (_npc.Conf.AtkRange / 100))
         {
-            _pathFollowSteering = _npc.SteeringManager.AddSteering<PathFollowSteering>(2);
-            CacualtePath();
+            _onRightPlace = true;
+        }
+        else
+        {
+            _onRightPlace = OnRightPlace();
+            if (!_onRightPlace)
+            {
+                _pathFollowSteering = _npc.SteeringManager.AddSteering<PathFollowSteering>(2);
+                CacualtePath();
+            }
         }
     }
     protected override void OnExit(AIAgent agent)
@@ -97,7 +105,7 @@ public class MoveToTargetAction : Brainiac.Action
             SceneObject.Forward = moveDirection;
             _pathFollowSteering.Formation = Formation.Circle;
             _pathFollowSteering.Path = _path;
-            _pathFollowSteering.Radius = 2;//_npc.Conf.AtkRange / 100;
+            _pathFollowSteering.Radius = _npc.Conf.AtkRange / 100;
         }
     }
 
@@ -113,7 +121,7 @@ public class MoveToTargetAction : Brainiac.Action
 
     protected override BehaviourNodeStatus OnExecute(AIAgent agent)
 	{
-        if(target != null && target.Hp>0 && _path.Count>0)
+        if(target != null && target.Hp>0)
         {
 #if UNITY_EDITOR
             if (LogicCore.SP.WriteToLog)

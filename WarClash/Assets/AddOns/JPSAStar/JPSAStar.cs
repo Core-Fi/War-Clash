@@ -186,22 +186,23 @@ public class JPSAStar : MonoBehaviour
             return;
         var offset = new Vector3(Offset.x/100f, 0, Offset.y/100f);
         var posi = Vector3.zero;
-        for (int i = 0; i < _jpsGrid.gridNodes.Length; i++)
+        if (!Application.isPlaying)
         {
-            var point = _jpsGrid.gridNodes[i].pos;
-            posi = new Vector3(point.column * Size/100f, 0, point.row * Size/100f) + offset;
-            if (_jpsGrid.gridNodes[i].isObstacle)
+            for (int i = 0; i < _jpsGrid.gridNodes.Length; i++)
             {
-                Gizmos.color = Color.red/2;
+                var point = _jpsGrid.gridNodes[i].pos;
+                posi = new Vector3(point.column * Size / 100f, 0, point.row * Size / 100f) + offset;
+                if (_jpsGrid.gridNodes[i].isObstacle)
+                {
+                    Gizmos.color = Color.red / 2;
+                }
+                else
+                {
+                    Gizmos.color = Color.green / 2;
+                }
+                Gizmos.DrawWireCube(posi, new Vector3(Size / 100f, 0.01f, Size / 100f));
             }
-            else
-            {
-                Gizmos.color = Color.green/2;
-            }
-       //     Gizmos.DrawWireCube(posi, new Vector3(Size/100f, 0.01f, Size/100f));
-           
         }
-
         if (_astarPathFinder != null)
         {
             for (int i = 0; i <RowCount; i++)
