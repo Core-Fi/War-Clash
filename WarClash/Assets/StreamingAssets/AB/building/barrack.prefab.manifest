@@ -1,0 +1,38 @@
+ManifestFileVersion: 0
+CRC: 4105433909
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: dfbb944fcc9b600a28371bf0ff5db1d7
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 2e4c1834b7844d4aa18494553129584b
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 64
+  Script: {instanceID: 0}
+- Class: 195
+  Script: {instanceID: 0}
+Assets:
+- Assets/RequiredResources/Building/barrack.prefab
+Dependencies:
+- D:/War-Clash/WarClash/Assets/StreamingAssets/AB/assets/rawresources/axeyworks/low
+  poly v2/materials/_color_006_2.mat
+- D:/War-Clash/WarClash/Assets/StreamingAssets/AB/assets/rawresources/axeyworks/low
+  poly v2/materials/_color_c10_1.mat
+- D:/War-Clash/WarClash/Assets/StreamingAssets/AB/assets/rawresources/axeyworks/low
+  poly v2/materials/_color_008_1.mat
+- D:/War-Clash/WarClash/Assets/StreamingAssets/AB/assets/rawresources/axeyworks/low
+  poly v2/materials/_color_d04_2.mat

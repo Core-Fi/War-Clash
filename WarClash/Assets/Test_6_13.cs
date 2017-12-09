@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
+using Logic;
+using Logic.LogicObject;
 using Pathfinding;
 using UnityEngine;
 
@@ -16,6 +18,7 @@ public class Test_6_13 : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
+        MainPlayer.SP.StateMachine.Start<GuiseState>();
         //string str1 = Md5(Application.dataPath + "/data1.bytes");
         //string str2 = Md5(Application.dataPath + "/data2.bytes");
         //Debug.LogError(str1.Equals(str2));
@@ -67,23 +70,23 @@ public class Test_6_13 : MonoBehaviour
     int n = 0;
     // Update is called once per frame
     void Update () {
-        var fixedQuaternion = new FixedQuaternion(FixedMath.Create(A.rotation.x),
-         FixedMath.Create(A.rotation.y),
-         FixedMath.Create(A.rotation.z),
-         FixedMath.Create(A.rotation.w)
-         );
-        var posi = new Vector3d(A.transform.position);
-        Utility.FixedRect rect = new Utility.FixedRect
-        {
-            center = new Vector2d( posi.x, posi.z),
-            width = FixedMath.One,
-            height = FixedMath.One*2
-        };
-        var contains = Utility.PositionIsInRect(rect, posi, fixedQuaternion, new Vector3d(B.position));
-        if (contains)
-        {
-            Debug.Log("Contains Congras");
-        }
+        //var fixedQuaternion = new FixedQuaternion(FixedMath.Create(A.rotation.x),
+        // FixedMath.Create(A.rotation.y),
+        // FixedMath.Create(A.rotation.z),
+        // FixedMath.Create(A.rotation.w)
+        // );
+        //var posi = new Vector3d(A.transform.position);
+        //Utility.FixedRect rect = new Utility.FixedRect
+        //{
+        //    center = new Vector2d( posi.x, posi.z),
+        //    width = FixedMath.One,
+        //    height = FixedMath.One*2
+        //};
+        //var contains = Utility.PositionIsInRect(rect, posi, fixedQuaternion, new Vector3d(B.position));
+        //if (contains)
+        //{
+        //    Debug.Log("Contains Congras");
+        //}
         //if (Time.frameCount == 3)
         //{
         //    var sw = new System.Diagnostics.Stopwatch();

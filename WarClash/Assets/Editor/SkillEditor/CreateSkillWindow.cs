@@ -7,6 +7,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using Logic.Skill.Actions;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 public enum TimelingGroupType
 {
@@ -21,7 +22,7 @@ public class CreateSkillWindow : EditorWindow
     private string id = "";
     private TimelingGroupType tgType;
     public SKillWindow skillWindow;
-
+    private int selectedIndex;
     void SetName(object obj)
     {
         var properties = obj.GetType().GetProperties();
@@ -57,6 +58,22 @@ public class CreateSkillWindow : EditorWindow
     }
     void OnGUI()
     {
+        var popups = new List<string>();
+        for (int i = 0; i < SkillEditorUtility.skillTypes.Count; i++)
+        {
+            var type = SkillEditorUtility.skillTypes[i];
+            popups.Add(type.FullName);
+        }
+        for (int i = 0; i < SkillEditorUtility.buffTypes.Count; i++)
+        {
+            var type = SkillEditorUtility.buffTypes[i];
+            popups.Add(type.FullName);
+        }
+        for (int i = 0; i < SkillEditorUtility.eventTypes.Count; i++)
+        {
+            var type = SkillEditorUtility.eventTypes[i];
+            popups.Add(type.FullName);
+        }
         GUILayout.BeginVertical();
         GUILayout.BeginHorizontal();
         GUILayout.Label("名字");
@@ -72,7 +89,8 @@ public class CreateSkillWindow : EditorWindow
         GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
         GUILayout.Label("创建类型");
-        tgType = (TimelingGroupType)EditorGUILayout.EnumPopup(tgType, GUILayout.MinWidth(100));
+        selectedIndex = EditorGUILayout.Popup(selectedIndex, popups.ToArray());
+      //  tgType = (TimelingGroupType)EditorGUILayout.EnumPopup(tgType, GUILayout.MinWidth(100));
         GUILayout.EndHorizontal();
         int id_int = 0;
         if (!string.IsNullOrEmpty(id) && int.TryParse(id, out id_int) && !string.IsNullOrEmpty(skillname) && !string.IsNullOrEmpty(skillpath) && (GUILayout.Button("创建")))
@@ -80,24 +98,38 @@ public class CreateSkillWindow : EditorWindow
             string path = "";
             TimeLineGroup tg = null;
             JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+            Type t = null;
+            if (selectedIndex < SkillEditorUtility.skillTypes.Count)
+            {
+                tgType = TimelingGroupType.SKILL;
+                t = SkillEditorUtility.skillTypes[selectedIndex];
+            }
+            else if (selectedIndex < (SkillEditorUtility.skillTypes.Count + SkillEditorUtility.buffTypes.Count))
+            {
+                tgType = TimelingGroupType.BUFF;
+                t = SkillEditorUtility.buffTypes[selectedIndex - SkillEditorUtility.skillTypes.Count];
+            }
+            else
+            {
+                tgType = TimelingGroupType.EVENT;
+                t = SkillEditorUtility.eventTypes[selectedIndex - SkillEditorUtility.skillTypes.Count - SkillEditorUtility.buffTypes.Count];
+            }
+            tg = Create(t);
             if (tgType == TimelingGroupType.SKILL)
             {
-                path += "/Skills/";
+                path += "Skills/";
                 path += skillpath+".skill";
-                tg = Create<Skill>(path);
             }
             else if (tgType == TimelingGroupType.BUFF)
             {
-                path += "/Buffs/";
+                path += "Buffs/";
                 path += skillpath+".buff";
-                tg = Create<Buff>(path);
 
             }
             else if (tgType == TimelingGroupType.EVENT)
             {
-                path += "/Events/";
+                path += "Events/";
                 path += skillpath + ".event";
-                tg = Create<Logic.Skill.Event>(path);
             }
             string finalPath = Application.streamingAssetsPath + path;
             SkillUtility.SaveTimelineGroup(tg, finalPath);
@@ -106,6 +138,17 @@ public class CreateSkillWindow : EditorWindow
             Close();
         }
         GUILayout.EndVertical();
+    }
+
+    public TimeLineGroup Create(Type t)
+    {
+        TimeLineGroup tg = Activator.CreateInstance(t) as TimeLineGroup;
+        tg.TimeLines.Add(new TimeLine());
+        tg.TimeLines.Add(new TimeLine());
+        SetName(tg);
+        SetID(tg);
+        SetPath(tg);
+        return tg;
     }
     public T Create<T>(string path) where T : TimeLineGroup
     {

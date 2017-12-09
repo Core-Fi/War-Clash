@@ -17,6 +17,9 @@ public class SkillEditorUtility
 {
     public static List<Type> actionTypes = new List<Type>();
     public static List<Type> timeLineTypes = new List<Type>();
+    public static List<Type> skillTypes = new List<Type>();
+    public static List<Type> buffTypes = new List<Type>();
+    public static List<Type> eventTypes = new List<Type>();
     private static Type[] GetTypesInNamespace(System.Reflection.Assembly assembly, string nameSpace)
     {
         var types = assembly.GetTypes();

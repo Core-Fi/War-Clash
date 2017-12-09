@@ -1,0 +1,36 @@
+ManifestFileVersion: 0
+CRC: 583792523
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 1779fb88af03b6b6bb55a35904f611b0
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 7021a86b69ee68ef0281acfc4aa3a44d
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 64
+  Script: {instanceID: 0}
+Assets:
+- Assets/RequiredResources/Items/arrow.prefab
+Dependencies:
+- D:/War-Clash/WarClash/Assets/StreamingAssets/AB/assets/rawresources/axeyworks/low
+  poly v2/materials/color_c12.mat
+- D:/War-Clash/WarClash/Assets/StreamingAssets/AB/assets/rawresources/axeyworks/low
+  poly v2/materials/_color_004_1.mat
+- D:/War-Clash/WarClash/Assets/StreamingAssets/AB/assets/rawresources/axeyworks/low
+  poly v2/materials/_color_c16_3.mat
+- D:/War-Clash/WarClash/Assets/StreamingAssets/AB/assets/rawresources/axeyworks/low
+  poly v2/barrel_sealed_01.fbx

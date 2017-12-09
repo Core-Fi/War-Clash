@@ -57,8 +57,12 @@ namespace Logic.Skill
                 File.Create(indexPath).Dispose();
                 dic = new Dictionary<int, string>();
             }
+            
             if (!dic.ContainsKey(tlg.ID))
             {
+                fpath = fpath.Replace(@"\\", @"/");
+                if (fpath[0].Equals('/'))
+                    fpath.Remove(0);
                 dic.Add(tlg.ID, fpath);
                 string text = Newtonsoft.Json.JsonConvert.SerializeObject(dic, Formatting.Indented, settings);
                 File.WriteAllText(indexPath, text);

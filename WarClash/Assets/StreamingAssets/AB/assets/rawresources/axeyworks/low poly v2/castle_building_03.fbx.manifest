@@ -1,0 +1,36 @@
+ManifestFileVersion: 0
+CRC: 617064611
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 2fe1797ea97ab09619688df5728d0412
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 7021a86b69ee68ef0281acfc4aa3a44d
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 64
+  Script: {instanceID: 0}
+Assets:
+- Assets/RawResources/AxeyWorks/Low Poly v2/Castle_Building_03.fbx
+Dependencies:
+- D:/War-Clash/WarClash/Assets/StreamingAssets/AB/assets/rawresources/axeyworks/low
+  poly v2/materials/_color_006_2.mat
+- D:/War-Clash/WarClash/Assets/StreamingAssets/AB/assets/rawresources/axeyworks/low
+  poly v2/materials/_color_c10_1.mat
+- D:/War-Clash/WarClash/Assets/StreamingAssets/AB/assets/rawresources/axeyworks/low
+  poly v2/materials/_color_008_1.mat
+- D:/War-Clash/WarClash/Assets/StreamingAssets/AB/assets/rawresources/axeyworks/low
+  poly v2/materials/_color_d04_2.mat

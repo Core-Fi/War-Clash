@@ -35,7 +35,7 @@ namespace Lockstep
         }
 
         internal static Vector3d zero = new Vector3d(0,0,0);
-
+        internal static Vector3d up = new Vector3d(0, FixedMath.One, 0);
         public Vector3d (Vector3 vec3) {
             this.x = FixedMath.Create(vec3.x);
             this.y = FixedMath.Create(vec3.y);
@@ -55,7 +55,13 @@ namespace Lockstep
         {
             return new Vector3d(0, 0, FixedMath.One);
         }
-        
+        public static Vector3d Normalize(Vector3d v)
+        {
+            long magnitude = FixedMath.Sqrt(v.x.Mul(v.x) + v.y.Mul(v.y) + v.z.Mul(v.z));
+            if (magnitude == 0)
+                return Vector3d.zero;
+            return new Vector3d(v.x.Div(magnitude), v.y.Div(magnitude), v.z.Div(magnitude));
+        }
         public Vector3d Normalize () {
             long magnitude = FixedMath.Sqrt(x.Mul(x) + y.Mul(y) + z.Mul(z));
             if (magnitude == 0)

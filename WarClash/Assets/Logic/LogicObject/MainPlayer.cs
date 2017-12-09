@@ -38,7 +38,6 @@ namespace Logic.LogicObject
             var cmd = Pool.SP.Get<StopCommand>();
             cmd.Sender = Id;
             LogicCore.SP.LockFrameMgr.SendCommand(cmd);
-            //   StateMachine.Start(new IdleState());
         }
 
         private void OnJoystickMove(object sender, EventMsg e)
@@ -61,17 +60,20 @@ namespace Logic.LogicObject
         private void OnJoystickStart(object sender, EventMsg e)
         {
             _isPressing = true;
+            var cmd = Pool.SP.Get<MoveCommand>();
+            cmd.Sender = Id;
+            LogicCore.SP.LockFrameMgr.SendCommand(cmd);
         }
 
         internal override void OnFixedUpdate(long deltaTime)
         {
             base.OnFixedUpdate(deltaTime);
-            if (_isPressing)
-            {
-                var cmd = Pool.SP.Get<MoveCommand>();
-                cmd.Sender = Id;
-                LogicCore.SP.LockFrameMgr.SendCommand(cmd);
-            }
+            //if (_isPressing)
+            //{
+            //    var cmd = Pool.SP.Get<MoveCommand>();
+            //    cmd.Sender = Id;
+            //    LogicCore.SP.LockFrameMgr.SendCommand(cmd);
+            //}
         }
     }
 }

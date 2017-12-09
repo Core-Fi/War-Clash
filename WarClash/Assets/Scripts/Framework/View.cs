@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class View : IEventDispatcher
 {
     private List<View> subViews = new List<View>();
-    public GameObject go { get; set; }
+    public GameObject Go { get; set; }
     public string name { get; set; }
 
     public virtual void OnInit(GameObject go) { }
@@ -21,7 +21,7 @@ public abstract class View : IEventDispatcher
   
     public T GetComponent<T>(string path) where T : Component
     {
-        var t = go.transform.Find(path);
+        var t = Go.transform.Find(path);
         if(t!=null)
         {
             var c = t.GetComponent<T>();
@@ -31,7 +31,7 @@ public abstract class View : IEventDispatcher
     }
     public T MakeSubView<T>(string path) where T : View
     {
-        var trans = go.transform.Find(path);
+        var trans = Go.transform.Find(path);
         return MakeSubView<T>(trans.gameObject);
     }
     public T MakeSubView<T>(GameObject subg) where T : View
@@ -68,7 +68,7 @@ public abstract class View : IEventDispatcher
     }
     public void Init(GameObject go)
     {
-        this.go = go;
+        this.Go = go;
         OnInit(go);
     }
     public void Update()
@@ -87,7 +87,7 @@ public abstract class View : IEventDispatcher
     public void Dispose()
     {
         DisposeView(this);
-        GameObject.Destroy(go);
+        GameObject.Destroy(Go);
     }
     private void DisposeView(View v)
     {

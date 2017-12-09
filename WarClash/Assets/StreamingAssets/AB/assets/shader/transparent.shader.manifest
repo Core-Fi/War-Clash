@@ -1,0 +1,16 @@
+ManifestFileVersion: 0
+CRC: 1311952203
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 6f4496950933235bb4e8c3a566b63807
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cc7b69794a2bdada249e557ebbfded10
+HashAppended: 0
+ClassTypes:
+- Class: 48
+  Script: {instanceID: 0}
+Assets:
+- Assets/Shader/Transparent.shader
+Dependencies: []

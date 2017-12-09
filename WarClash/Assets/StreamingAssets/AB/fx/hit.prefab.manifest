@@ -1,0 +1,32 @@
+ManifestFileVersion: 0
+CRC: 3831477424
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 2f66417ce2385d2881eb97f554e3e6fa
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 6e767b34a1d78f81cbd5ed3de5e38dd6
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 819734059c0082843bd74e13c6ae80a2, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+Assets:
+- Assets/RequiredResources/FX/hit.prefab
+Dependencies: []

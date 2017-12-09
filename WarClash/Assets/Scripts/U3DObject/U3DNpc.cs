@@ -32,8 +32,8 @@ public class U3DNpc : U3DCharacter{
         {
             var logicPosi = Character.Position.ToVector3();
             var logicForward = Character.Forward.ToVector3();
-            Transform.position = Vector3.Lerp(Transform.position, logicPosi, Time.deltaTime * 6);
-            Transform.forward = Vector3.Lerp(Transform.forward, logicForward, Time.deltaTime * 6);
+            OuterTransform.position = Vector3.Lerp(OuterTransform.position, logicPosi, Time.deltaTime * 6);
+            OuterTransform.forward = Vector3.Lerp(OuterTransform.forward, logicForward, Time.deltaTime * 6);
         }
     }
 

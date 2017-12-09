@@ -181,6 +181,9 @@ internal class GameServer
         PlayerRotateMsg,
         CreateMainPlayer,
         CreatePlayer,
-        CreateNpc
+        CreateNpc,
+        ReleaseSkill,
+        CreateBuilding,
+        StrategyCmd,
     }
 }

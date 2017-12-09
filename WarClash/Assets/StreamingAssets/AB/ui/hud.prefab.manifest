@@ -1,0 +1,36 @@
+ManifestFileVersion: 0
+CRC: 34701771
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: bf3da95453cf57e6224350aa370d6fee
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: f7e2772ff9f935fe8a91cdefbd80d9a5
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 223
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+Assets:
+- Assets/RequiredResources/UI/Hud.prefab
+Dependencies: []

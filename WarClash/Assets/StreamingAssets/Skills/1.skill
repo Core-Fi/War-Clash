@@ -1,5 +1,6 @@
 {
   "$type": "Logic.Skill.Skill, Assembly-CSharp",
+  "ForceFaceToTarget": true,
   "Name": "射手",
   "ID": 1,
   "TimeLines": {
@@ -24,7 +25,7 @@
               "Speed": 500,
               "time": 3000,
               "hitCount": 0,
-              "hitEvent": 0,
+              "hitEvent": 1,
               "dieEvent": 0,
               "ProjectileType": 1,
               "cac": {

@@ -56,10 +56,22 @@ namespace Logic.Skill.Actions
         [Newtonsoft.Json.JsonProperty]
         public int ExecuteFrameIndex { get; private set; }
 
-        
         public virtual void Execute(SceneObject sender, SceneObject reciever, object data)
         {
-            string str = reciever == null ? "" : reciever.ToString();
+        }
+
+        public virtual void OnTimeLineFinish(SceneObject sender, SceneObject reciever, object data)
+        {
+        }
+
+        public virtual void OnSkillFinish(SceneObject sender, SceneObject reciever, object data)
+        {
+            
+        }
+
+        public virtual void OnCancel(SceneObject sender, SceneObject reciever, object data)
+        {
+            
         }
     }
    
@@ -85,9 +97,45 @@ namespace Logic.Skill.Actions
             {
                 so = reciever as Character;
             }
-            so.EventGroup.FireEvent((int) Character.CharacterEvent.Executedisplayaction, sender,
+            so.EventGroup.FireEvent(Character.CharacterEvent.Executedisplayaction.ToInt(), sender,
                 EventGroup.NewArg<EventSingleArgs<DisplayAction>, DisplayAction>(this));
             base.Execute(sender, reciever, data);
+        }
+
+        public override void OnTimeLineFinish(SceneObject sender, SceneObject reciever, object data)
+        {
+            if (stopCondition == StopCondition.TimelineEnd)
+            {
+                Character so = null;
+                if (playTarget == PlayTarget.SENDER)
+                {
+                    so = sender as Character;
+                }
+                else if (playTarget == PlayTarget.RECEIVER)
+                {
+                    so = reciever as Character;
+                }
+                so.EventGroup.FireEvent( Character.CharacterEvent.Stopdisplayaction.ToInt(), sender,
+                    EventGroup.NewArg<EventSingleArgs<DisplayAction>, DisplayAction>(this));
+            }
+        }
+        public override void OnSkillFinish(SceneObject sender, SceneObject reciever, object data)
+        {
+            if (stopCondition == StopCondition.SkillEnd)
+            {
+                Character so = null;
+                if (playTarget == PlayTarget.SENDER)
+                {
+                    so = sender as Character;
+                }
+                else if (playTarget == PlayTarget.RECEIVER)
+                {
+                    so = reciever as Character;
+                }
+                so.EventGroup.FireEvent(Character.CharacterEvent.Stopdisplayaction.ToInt(), sender,
+                    EventGroup.NewArg<EventSingleArgs<DisplayAction>, DisplayAction>(this));
+            }
+            base.OnSkillFinish(sender, reciever, data);
         }
     }
 }

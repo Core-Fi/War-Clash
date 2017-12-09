@@ -1,0 +1,138 @@
+{
+  "Barrel_Sealed_01.fbx": {
+    "BundleName": "assets/rawresources/axeyworks/low poly v2/barrel_sealed_01.fbx",
+    "AssetPath": "assets/rawresources/axeyworks/low poly v2/barrel_sealed_01.fbx"
+  },
+  "_Color_004_1.mat": {
+    "BundleName": "assets/rawresources/axeyworks/low poly v2/materials/_color_004_1.mat",
+    "AssetPath": "assets/rawresources/axeyworks/low poly v2/materials/_color_004_1.mat"
+  },
+  "_Color_006_2.mat": {
+    "BundleName": "assets/rawresources/axeyworks/low poly v2/materials/_color_006_2.mat",
+    "AssetPath": "assets/rawresources/axeyworks/low poly v2/materials/_color_006_2.mat"
+  },
+  "_Color_008_1.mat": {
+    "BundleName": "assets/rawresources/axeyworks/low poly v2/materials/_color_008_1.mat",
+    "AssetPath": "assets/rawresources/axeyworks/low poly v2/materials/_color_008_1.mat"
+  },
+  "_Color_C10_1.mat": {
+    "BundleName": "assets/rawresources/axeyworks/low poly v2/materials/_color_c10_1.mat",
+    "AssetPath": "assets/rawresources/axeyworks/low poly v2/materials/_color_c10_1.mat"
+  },
+  "_Color_C16_3.mat": {
+    "BundleName": "assets/rawresources/axeyworks/low poly v2/materials/_color_c16_3.mat",
+    "AssetPath": "assets/rawresources/axeyworks/low poly v2/materials/_color_c16_3.mat"
+  },
+  "_Color_D04_2.mat": {
+    "BundleName": "assets/rawresources/axeyworks/low poly v2/materials/_color_d04_2.mat",
+    "AssetPath": "assets/rawresources/axeyworks/low poly v2/materials/_color_d04_2.mat"
+  },
+  "Color_C12.mat": {
+    "BundleName": "assets/rawresources/axeyworks/low poly v2/materials/color_c12.mat",
+    "AssetPath": "assets/rawresources/axeyworks/low poly v2/materials/color_c12.mat"
+  },
+  "Circle-PNG-File.png": {
+    "BundleName": "assets/rawresources/ui/circle-png-file.png",
+    "AssetPath": "assets/rawresources/ui/circle-png-file.png"
+  },
+  "NpcBT.asset": {
+    "BundleName": "assets/requiredresources",
+    "AssetPath": "assets/requiredresources/bt/npcbt.asset"
+  },
+  "NpcBT2.asset": {
+    "BundleName": "assets/requiredresources",
+    "AssetPath": "assets/requiredresources/bt/npcbt2.asset"
+  },
+  "TowerBT.asset": {
+    "BundleName": "assets/requiredresources",
+    "AssetPath": "assets/requiredresources/bt/towerbt.asset"
+  },
+  "NavMesh.asset": {
+    "BundleName": "assets/requiredresources",
+    "AssetPath": "assets/requiredresources/scene/scene01/scene01/navmesh.asset"
+  },
+  "Transparent.shader": {
+    "BundleName": "assets/shader/transparent.shader",
+    "AssetPath": "assets/shader/transparent.shader"
+  },
+  "Specular.shader": {
+    "BundleName": "assets/specular.shader",
+    "AssetPath": "assets/specular.shader"
+  },
+  "WK_StandardUnits_Blue.mat": {
+    "BundleName": "assets/toon_rts/westernkingdoms/models/materials/wk_standardunits_blue.mat",
+    "AssetPath": "assets/toon_rts/westernkingdoms/models/materials/wk_standardunits_blue.mat"
+  },
+  "WK_StandardUnits_Blue.tga": {
+    "BundleName": "assets/toon_rts/westernkingdoms/models/textures/wk_standardunits_blue.tga",
+    "AssetPath": "assets/toon_rts/westernkingdoms/models/textures/wk_standardunits_blue.tga"
+  },
+  "barrack.prefab": {
+    "BundleName": "building/barrack.prefab",
+    "AssetPath": "assets/requiredresources/building/barrack.prefab"
+  },
+  "tower.prefab": {
+    "BundleName": "building/tower.prefab",
+    "AssetPath": "assets/requiredresources/building/tower.prefab"
+  },
+  "Farm01-flower-03.png": {
+    "BundleName": "farm01-flower-03.png",
+    "AssetPath": "assets/requiredresources/farm01-flower-03.png"
+  },
+  "hit.prefab": {
+    "BundleName": "fx/hit.prefab",
+    "AssetPath": "assets/requiredresources/fx/hit.prefab"
+  },
+  "arrow.prefab": {
+    "BundleName": "items/arrow.prefab",
+    "AssetPath": "assets/requiredresources/items/arrow.prefab"
+  },
+  "Barrel.prefab": {
+    "BundleName": "items/barrel.prefab",
+    "AssetPath": "assets/requiredresources/items/barrel.prefab"
+  },
+  "cube.prefab": {
+    "BundleName": "items/cube.prefab",
+    "AssetPath": "assets/requiredresources/items/cube.prefab"
+  },
+  "WK_archer.prefab": {
+    "BundleName": "prefabs/ancher/wk_archer.prefab",
+    "AssetPath": "assets/requiredresources/prefabs/ancher/wk_archer.prefab"
+  },
+  "WK_heavy_infantry.prefab": {
+    "BundleName": "prefabs/heavyinfantry/wk_heavy_infantry.prefab",
+    "AssetPath": "assets/requiredresources/prefabs/heavyinfantry/wk_heavy_infantry.prefab"
+  },
+  "scene01.unity": {
+    "BundleName": "scene/scene01/scene01.unity",
+    "AssetPath": "assets/requiredresources/scene/scene01/scene01.unity"
+  },
+  "scene02.unity": {
+    "BundleName": "scene/scene02/scene02.unity",
+    "AssetPath": "assets/requiredresources/scene/scene02/scene02.unity"
+  },
+  "scene03.unity": {
+    "BundleName": "scene/scene03/scene03.unity",
+    "AssetPath": "assets/requiredresources/scene/scene03/scene03.unity"
+  },
+  "BattleUI.prefab": {
+    "BundleName": "ui/battleui.prefab",
+    "AssetPath": "assets/requiredresources/ui/battleui.prefab"
+  },
+  "Hud.prefab": {
+    "BundleName": "ui/hud.prefab",
+    "AssetPath": "assets/requiredresources/ui/hud.prefab"
+  },
+  "NextBattleUI.prefab": {
+    "BundleName": "ui/nextbattleui.prefab",
+    "AssetPath": "assets/requiredresources/ui/nextbattleui.prefab"
+  },
+  "Test.prefab": {
+    "BundleName": "ui/test.prefab",
+    "AssetPath": "assets/requiredresources/ui/test.prefab"
+  },
+  "UI-JoyStick.prefab": {
+    "BundleName": "ui/ui-joystick.prefab",
+    "AssetPath": "assets/requiredresources/ui/ui-joystick.prefab"
+  }
+}

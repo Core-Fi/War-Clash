@@ -64,7 +64,7 @@ public class Building : SceneObject, IFixedAgent
         base.OnInit(createInfo);
         var buildingCreateInfo = (createInfo as BuildingCreateInfo);
         Conf = ConfigMap<BuildingConf>.Get(buildingCreateInfo.BuildingId);
-        base.EventGroup.ListenEvent((int)SceneObjectEvent.Positionchange, OnPositionChange);
+        base.EventGroup.ListenEvent(SceneObjectEvent.Positionchange.ToInt(), OnPositionChange);
     }
     private void OnPositionChange(object sender, EventMsg e)
     {

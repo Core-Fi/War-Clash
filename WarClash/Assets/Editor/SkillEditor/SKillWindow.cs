@@ -63,6 +63,10 @@ public class SKillWindow : EditorWindow
    
     public void Initiate()
     {
+        SkillEditTempData.copyItem = null;
+        SkillEditTempData.editingItem = null;
+        SkillEditTempData.editingItemCache = null;
+        SkillEditTempData.editingSkill = null;
         Type[] typelist = SkillEditorUtility.GetAllClasses();
         SkillEditorUtility.timeLineTypes.Clear();
         SkillEditorUtility.actionTypes.Clear();
@@ -75,6 +79,18 @@ public class SKillWindow : EditorWindow
             else if (typeof(TimeLine).IsAssignableFrom(t))
             {
                 SkillEditorUtility.timeLineTypes.Add(t);
+            }
+            else if (typeof(Skill).IsAssignableFrom(t))
+            {
+                SkillEditorUtility.skillTypes.Add(t);
+            }
+            else if (typeof(Buff).IsAssignableFrom(t))
+            {
+                SkillEditorUtility.buffTypes.Add(t);
+            }
+            else if (typeof(Logic.Skill.Event).IsAssignableFrom(t))
+            {
+                SkillEditorUtility.eventTypes.Add(t);
             }
         }
         fileInfos.Clear();

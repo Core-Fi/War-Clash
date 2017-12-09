@@ -10,7 +10,7 @@ using UnityEngine;
 public static class Utility
 {
     public static StringBuilder Stringbuilder = new StringBuilder();
-
+    public static readonly List<IFixedAgent> List = new List<IFixedAgent>();
     public static void Clear(this StringBuilder builder)
     {
         if (builder != null)
@@ -42,39 +42,49 @@ public static class Utility
         return comp;
     }
 
+    public static byte[] ReadBytesFromAbsolutePath(string path)
+    {
+#if UNITY_EDITOR
+        byte[] bytes = File.ReadAllBytes(path);
+        return bytes;
+#elif UNITY_ANDROID
+        WWW www = new WWW(path);
+        while (!www.isDone)
+        {
+        }
+        var bytes = www.bytes;
+        www.Dispose();
+        return bytes;
+#endif
+        return null;
+    }
     public static byte[] ReadByteFromStreamingAsset(string path)
     {
         var filePath = Path.Combine(Application.streamingAssetsPath, path);
-#if UNITY_ANDROID
-        UnityEngine.Networking.UnityWebRequest www = UnityEngine.Networking.UnityWebRequest.Get(filePath);
-        www.Send();
-        while (!www.isDone)
-        {
-           return www.downloadHandler.data;
-        }
-#endif
-        byte[] bytes = File.ReadAllBytes(filePath);
-        return bytes;
+        return ReadBytesFromAbsolutePath(filePath);
     }
 
-    public static string ReadStringFromStreamingAsset(string path)
+    public static string ReadStringFromAbsolutePath(string path)
     {
-        Utility.Stringbuilder.Clear();
-        Utility.Stringbuilder.Append(Application.streamingAssetsPath);
-        Utility.Stringbuilder.Append("/");
-        Utility.Stringbuilder.Append(path);
-#if UNITY_ANDROID
-         UnityEngine.Networking.UnityWebRequest www = UnityEngine.Networking.UnityWebRequest.Get(Utility.Stringbuilder.ToString());
-        www.Send();
+#if UNITY_EDITOR
+        var str = File.ReadAllText(path);
+        return str;
+
+#elif UNITY_ANDROID
+        WWW www = new WWW(path);
         while (!www.isDone)
         {
-            string text = www.downloadHandler.text;
-            www.Dispose();
-            return text;
         }
+        var str = www.text;
+        www.Dispose();
+        return str;
 #endif
-        string text = File.ReadAllText(Utility.Stringbuilder.ToString());
-        return text;
+        return null;
+    }
+    public static string ReadStringFromStreamingAsset(string path)
+    {
+        var filePath = Path.Combine(Application.streamingAssetsPath, path);
+        return ReadStringFromAbsolutePath(filePath);
     }
 
     public static byte[] Decompress(byte[] gzip)
@@ -133,15 +143,15 @@ public static class Utility
         var p2_cos = FixedMath.Trig.Cos(FixedMath.One.Div(180).Mul(FixedMath.Pi).Mul(-angle / 2));
         var p2 = new Vector3d(p2_sin.Mul(radius), 0, p2_cos.Mul(radius));
         var worldP2 = baseQuaternion * p2 + basePosi;
-        Debug.DrawLine(basePosi.ToVector3(), worldP1.ToVector3(), Color.green, 1);
-        Debug.DrawLine(basePosi.ToVector3(), worldP2.ToVector3(), Color.green, 1);
+        Debug.DrawLine(basePosi.ToVector3(), worldP1.ToVector3(), Color.red, 3);
+        Debug.DrawLine(basePosi.ToVector3(), worldP2.ToVector3(), Color.red,3);
 
 #endif
         var radiusSqr = radius.Mul(radius);
         var relativeP = posi-basePosi;
         if (radiusSqr > relativeP.sqrMagnitude)
         {
-            var rotateRelativeP = FixedQuaternion.Inverse(baseQuaternion) * posi;
+            var rotateRelativeP = FixedQuaternion.Inverse(baseQuaternion) * relativeP;
             var cos = Vector3d.Dot(rotateRelativeP.Normalize(), new Vector3d(0, 0, FixedMath.One));
             var realCos = FixedMath.Trig.Cos(FixedMath.One.Div(180).Mul(FixedMath.Pi).Mul(angle/2));
             if (relativeP.z > 0)
@@ -190,6 +200,16 @@ public static class Utility
         public long width;
         public long height;
 
+        public FixedRect(Vector2d center, long width, long height)
+        {
+            this.center = center;
+            this.width = width;
+            this.height = height;
+            xMin = center.x - width / 2;
+            xMax = center.x + width / 2;
+            yMin = center.y - height / 2;
+            yMax = center.y + height / 2;
+        }
         public FixedRect(long xmin, long ymin, long width, long height)
         {
             xMin = xmin;

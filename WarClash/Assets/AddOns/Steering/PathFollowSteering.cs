@@ -17,17 +17,30 @@ class PathFollowSteering : BaseSteering
 {
     public List<Vector3d> Path;
     private int _index;
-    private Vector3d _target;
+    private Vector3d target { get; set; }
+
+    private Vector3d Target
+    {
+        get { return target; }
+        set
+        {
+            target = value;
+            _so.Forward = (target - Self.Position).Normalize();
+        }
+    }
+
     public int Radius;
     public Formation Formation;
     private bool _firstStart;
     public bool Finish { get; private set; }
+    private SceneObject _so;
     protected override void OnInit()
     {
         base.OnInit();
         _index = 0;
         Finish = false;
         _firstStart = true;
+        _so = Self as SceneObject;
     }
     protected override void OnStart()
     {
@@ -35,8 +48,7 @@ class PathFollowSteering : BaseSteering
     }
     bool Arrive()
     {
-        SceneObject so = Self as SceneObject;
-        if (Vector3d.SqrDistance(_target, Self.Position) < FixedMath.One/10 || Vector3d.Dot(so.Forward, _target - Self.Position) < 0)
+        if (Vector3d.SqrDistance(Target, Self.Position) < FixedMath.One/10 || Vector3d.Dot(_so.Forward, Target - Self.Position) < 0)
         {
             return true;
         }
@@ -47,7 +59,6 @@ class PathFollowSteering : BaseSteering
     private int _caculatedIndex;
     public override void GetDesiredSteering(SteeringResult rst)
     {
-       
         if (Finish)
             return;
         if (_firstStart)
@@ -55,7 +66,7 @@ class PathFollowSteering : BaseSteering
             _index = 0;
             if (Path!=null && Path.Count > 0)
             {
-                _target = Path[_index];
+                Target = Path[_index];
                 _finalTarget = Path[Path.Count - 1];
             }
             else
@@ -67,16 +78,16 @@ class PathFollowSteering : BaseSteering
         }
         if (Arrive())
         {
-            Self.Position = _target;
-            GridService.Clear(_target, Self as SceneObject);
+            Self.Position = Target;
+            GridService.Clear(Target, Self as SceneObject);
             _index++;
             if (_index == Path.Count)
             {
-                GridService.TagAs(_target, Self as SceneObject, NodeType.BeTaken);
+                GridService.TagAs(Target, Self as SceneObject, NodeType.BeTaken);
                 Finish = true;
                 return;
             }
-            _target = Path[_index];
+            Target = Path[_index];
         }
         if (Vector3d.SqrDistance(Self.Position, _finalTarget) <= FixedMath.Create(Radius))
         {
@@ -84,35 +95,36 @@ class PathFollowSteering : BaseSteering
         }
         if (_index == Path.Count - 1)
         {
-            if (GridService.IsNotEmptyBy(_target) != Self )//|| (_caculatedIndex&(_index+1)) == 0)
+            if (GridService.IsNotEmptyBy(Target) != Self )//|| (_caculatedIndex&(_index+1)) == 0)
             {
               //  _caculatedIndex += _index + 1;
+                Vector3d t;
                 if (Formation == Formation.Quad)
                 {
-                    GridService.SearchNearEmptyPoint(Path[_index], out _target);
+                    GridService.SearchNearEmptyPoint(Path[_index], out t);
                 }
                 else
                 {
-                    GridService.SearchNearCircleEmptyPoint(Self.Position, Path[_index], Radius, out _target);
+                    GridService.SearchNearCircleEmptyPoint(Self.Position, Path[_index], Radius, out t);
                 }
-                GridService.TagAs(_target, Self as SceneObject, NodeType.FlagAsTarget);
+                Target = t;
+                GridService.TagAs(Target, Self as SceneObject, NodeType.FlagAsTarget);
             }
         }
-        Vector3d dir = _target - Self.Position;
-        Vector3d desiredVelocity = dir.Normalize() * Self.Speed;
+        Vector3d desiredVelocity = _so.Forward * Self.Speed;
         var nextPosi = Self.Position + desiredVelocity * LockFrameMgr.FixedFrameTime;
         if (!JPSAStar.active.IsWalkable(nextPosi))
         {
             List<PathFinderNode> list = new List<PathFinderNode>();
-            JPSAStar.active.AStarFindPath(Self.Position, _target, list);
+            JPSAStar.active.AStarFindPath(Self.Position, Target, list);
             for (int i = 0; i < list.Count-1; i++)
             {
                 Path.Insert(0, JPSAStar.active.P2V(list[i]));
             }
-            _target = Path[0];
+            Target = Path[0];
         }
         Self.Position += desiredVelocity * LockFrameMgr.FixedFrameTime;
-        UnityEngine.Debug.DrawLine(Self.Position.ToVector3(), _target.ToVector3(), Color.red, 0.1f);
+        UnityEngine.Debug.DrawLine(Self.Position.ToVector3(), Target.ToVector3(), Color.red, 0.1f);
     }
 
     protected override void OnExit()

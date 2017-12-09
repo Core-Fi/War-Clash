@@ -33,8 +33,9 @@ namespace Logic.Skill
         public TimeLineGroup sourceData;
         public RuntimeData m_RunningData;
         public List<RuntimeTimeLine> timelines = new List<RuntimeTimeLine>(); 
-        //public Queue<object>    
-        public Action finishAction;
+
+        public Action FinishAction;
+        public Action BreakAction;
         public bool isRunning;
         private int m_TimeLineCount
         {
@@ -46,7 +47,7 @@ namespace Logic.Skill
         {
             this.sourceData = skill;
             this.m_RunningData = srd;
-            this.finishAction = finishAction;
+            this.FinishAction = finishAction;
             m_CurrentTLIndex = -1;
             isRunning = true;
             for (int i = 0; i < m_TimeLineCount; i++)
@@ -109,37 +110,46 @@ namespace Logic.Skill
             }
         }
 
-        private void Finish()
+        public void Cancel()
         {
-            OnFinish();
-            isRunning = false;
+            OnCancel();
         }
-        public virtual void OnFinish()
+
+        public virtual void OnCancel()
         {
             for (int i = 0; i < timelines.Count; i++)
             {
                 var tl = timelines[i];
                 for (int j = 0; j < tl.timeLine.BaseActions.Count; j++)
                 {
-                    var action = tl.timeLine.BaseActions[j] as DisplayAction;
-                    if (action != null && action.stopCondition == StopCondition.SkillEnd)
-                    {
-                        Character so = null;
-                        if (action.playTarget == PlayTarget.SENDER)
-                        {
-                            so = this.m_RunningData.sender as Character;
-                        }else if (action.playTarget == PlayTarget.RECEIVER)
-                        {
-                            so = this.m_RunningData.receiver as Character;
-                        }
-                        so.EventGroup.FireEvent((int)Character.CharacterEvent.Stopdisplayaction, so, EventGroup.NewArg<EventSingleArgs<DisplayAction>, DisplayAction>(action as DisplayAction));
-                    }
+                    tl.timeLine.BaseActions[j].OnCancel(m_RunningData.sender, m_RunningData.receiver, m_RunningData.data);
                 }
             }
-            if (finishAction != null)
+            if (BreakAction != null)
             {
-                finishAction.Invoke();
+                BreakAction.Invoke();
             }
+            isRunning = false;
+        }
+        public void Finish()
+        {
+            for (int i = 0; i < timelines.Count; i++)
+            {
+                var tl = timelines[i];
+                for (int j = 0; j < tl.timeLine.BaseActions.Count; j++)
+                {
+                    tl.timeLine.BaseActions[j].OnSkillFinish(m_RunningData.sender, m_RunningData.receiver, m_RunningData.data);
+                }
+            }
+            if (FinishAction != null)
+            {
+                FinishAction.Invoke();
+            }
+            isRunning = false;
+            OnFinish();
+        }
+        protected virtual void OnFinish()
+        {
         }
         public void EnterNextTimeLine()
         {
@@ -153,6 +163,10 @@ namespace Logic.Skill
 
         public void Reset()
         {
+            sourceData = null;
+            FinishAction = null;
+            m_CurrentTLIndex = -1;
+            isRunning = false;
             timelines.Clear();
         }
     }

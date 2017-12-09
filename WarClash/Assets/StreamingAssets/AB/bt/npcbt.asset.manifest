@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 3814976736
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 49e4f9fcf97941d8dd5c2e870fa7cf5a
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: c69f3a10e881726da9c85e824b11db2a
+HashAppended: 0
+ClassTypes:
+- Class: 114
+  Script: {fileID: 11500000, guid: e1fcd920ec5c1d74bb0eb7dc5905895b, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+Assets:
+- Assets/RequiredResources/BT/NpcBT.asset
+Dependencies: []

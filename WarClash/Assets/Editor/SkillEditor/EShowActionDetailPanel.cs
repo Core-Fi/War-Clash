@@ -156,7 +156,8 @@ public class EShowActionDetailPanel : IEElement
                             for (int j = 0; j < new_val.keys.Length; j++)
                             {
                                 Keyframe kf = new_val.keys[j];
-                                val.AddKeyFrame( new FixedKeyFrame(kf.time.ToLong(), kf.value.ToLong(), kf.inTangent.ToLong(), kf.outTangent.ToLong(), kf.tangentMode));
+                                val.AddKeyFrame( new FixedKeyFrame(){ time = kf.time.ToLong(), value = kf.value.ToLong(), inTangent = kf.inTangent.ToLong(), outTangent = kf.outTangent.ToLong(),
+                                    tangentMode = kf.tangentMode });
                             }
                             fi.SetValue(SkillEditTempData.editingItem, val, null);
                         }
@@ -183,7 +184,7 @@ public class EShowActionDetailPanel : IEElement
                                 GUILayout.BeginHorizontal();
                                 DisplayAttribute path_display_attr = SkillEditorUtility.GetDisplayAttr(SkillEditorUtility.GetPropertyInfo(val[j], "path"));
                                 GUILayout.Label(path_display_attr.DisplayName);
-                                var path = GUILayout.TextField(val[j].path, GUILayout.MinWidth(70));
+                                var path = GUILayout.TextField(val[j].EventId.ToString(), GUILayout.MinWidth(70));
                                 SkillEditorUtility.SetValue(val[j], "path", path);
                                 GUILayout.Space(space);
                                 if (GUILayout.Button("删除"))

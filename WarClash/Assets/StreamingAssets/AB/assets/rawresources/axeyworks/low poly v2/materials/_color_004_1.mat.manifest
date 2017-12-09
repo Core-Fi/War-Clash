@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 933164226
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 8206e05181602a134e614e9794a795d4
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 60a7cae25bfd71c49bd2c87b5187f6b5
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+Assets:
+- Assets/RawResources/AxeyWorks/Low Poly v2/Materials/_Color_004_1.mat
+Dependencies: []

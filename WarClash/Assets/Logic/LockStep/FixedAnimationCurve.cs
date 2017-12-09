@@ -7,15 +7,6 @@ using UnityEngine;
 
 public struct FixedKeyFrame
 {
-    public FixedKeyFrame(long time, long value, long inTangent, long outTangent, int tangentMode)
-    {
-        this.time = time;
-        this.value = value;
-        this.inTangent = inTangent;
-        this.outTangent = outTangent;
-        this.tangentMode = tangentMode;
-    }
-
     public long inTangent { get; set; }
     public long outTangent { get; set; }
     public long time { get; set; }
@@ -69,7 +60,11 @@ public class FixedAnimationCurve
         var newfac = new FixedAnimationCurve();
         foreach (var acKey in oac.keys)
         {
-            var fkf = new FixedKeyFrame(acKey.time.ToLong(), acKey.value.ToLong(), acKey.inTangent.ToLong(), acKey.outTangent.ToLong(), acKey.tangentMode);
+			var fkf = new FixedKeyFrame{time = acKey.time.ToLong(), 
+				value = acKey.value.ToLong(), 
+				inTangent = acKey.inTangent.ToLong(), 
+				outTangent = acKey.outTangent.ToLong(), 
+				tangentMode = acKey.tangentMode};
             newfac.AddKeyFrame(fkf);
         }
         return newfac;

@@ -14,7 +14,9 @@ namespace Logic.Skill
 
     public class BuffRuntime : RuntimeTimeLineGroup
     {
-
-
+        protected override void OnFinish()
+        {
+            base.OnFinish();
+        }
     }
 }

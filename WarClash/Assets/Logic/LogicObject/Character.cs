@@ -24,11 +24,13 @@ namespace Logic.LogicObject
         #endregion
         public enum CharacterEvent 
         {
-            Startskill = 100,
+            Startskill ,
             Cancelskill,
             Endskill,
             Executedisplayaction,
             Stopdisplayaction,
+            ExecuteState,
+            StopState
         }
       
         public SkillManager SkillManager { get; private set; }
@@ -44,7 +46,7 @@ namespace Logic.LogicObject
             AttributeManager.New(AttributeType.MaxSpeed, Lockstep.FixedMath.One * 2);
             AttributeManager.New(AttributeType.Maxhp, Lockstep.FixedMath.One * 100);
             AttributeManager.New(AttributeType.Hp, Lockstep.FixedMath.One * 300);
-            base.EventGroup.ListenEvent((int)SceneObjectEvent.Positionchange, OnPositionChange);
+            base.EventGroup.ListenEvent(SceneObjectEvent.Positionchange.ToInt(), OnPositionChange);
             MaxAcceleration = FixedMath.Create(20);
             MaxDeceleration = FixedMath.Create(30);
         }
@@ -96,17 +98,6 @@ namespace Logic.LogicObject
             }
             else
                 return false;
-        }
-        public bool ReleaseSkill(string path, SceneObject target)
-        {
-            if (!SkillManager.IsRunningSkill && !IsDeath())
-            {
-                SkillManager.ReleaseSkill(path, target);
-                return true;
-            }
-            else
-                return false;
-            //      StateMachine.Start(new MoveState() {dir = new Lockstep.Vector3d(Vector3.forward), speed = Lockstep.FixedMath.One * 2 });
         }
         public bool IsDeath()
         {

@@ -12,7 +12,8 @@ public class U3DPlayAnimationAction : U3DDisplayAction
     public override void Execute(U3DCharacter sender, U3DCharacter receiver, object data)
     {
         _animationAction = this.Action as PlayAnimationAction;
-        sender.animator.Play(_animationAction.animaitonName, -1, 0);
+        if(sender.animator!=null)
+            sender.animator.Play(_animationAction.animaitonName, -1, 0);
     }
     public override void Stop()
     {

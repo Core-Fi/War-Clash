@@ -1,0 +1,39 @@
+{
+  "$type": "Logic.Skill.TestSkill, Assembly-CSharp",
+  "Test": null,
+  "ForceFaceToTarget": true,
+  "Name": "t",
+  "ID": 21,
+  "TimeLines": {
+    "$type": "System.Collections.Generic.List`1[[Logic.Skill.TimeLine, Assembly-CSharp]], mscorlib",
+    "$values": [
+      {
+        "$type": "Logic.Skill.TimeLine, Assembly-CSharp",
+        "Times": 1,
+        "FrameCount": 0,
+        "BaseActions": {
+          "$type": "System.Collections.Generic.List`1[[Logic.Skill.Actions.BaseAction, Assembly-CSharp]], mscorlib",
+          "$values": []
+        },
+        "eventTriggers": {
+          "$type": "System.Collections.Generic.List`1[[Logic.Skill.EventTrigger, Assembly-CSharp]], mscorlib",
+          "$values": []
+        }
+      },
+      {
+        "$type": "Logic.Skill.TimeLine, Assembly-CSharp",
+        "Times": 1,
+        "FrameCount": 0,
+        "BaseActions": {
+          "$type": "System.Collections.Generic.List`1[[Logic.Skill.Actions.BaseAction, Assembly-CSharp]], mscorlib",
+          "$values": []
+        },
+        "eventTriggers": {
+          "$type": "System.Collections.Generic.List`1[[Logic.Skill.EventTrigger, Assembly-CSharp]], mscorlib",
+          "$values": []
+        }
+      }
+    ]
+  },
+  "path": "t"
+}

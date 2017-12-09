@@ -11,6 +11,7 @@ namespace Logic.LogicObject
 {
     public class Scene : ObjectCollection<int, SceneObject>
     {
+       
         public string Name;
         public Map.Map MapConfig;
         public FixedQuadTree<Character> FixedQuadTree;

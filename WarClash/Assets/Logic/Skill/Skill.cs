@@ -9,7 +9,13 @@ namespace Logic.Skill
     [Serializable]
     public class Skill : TimeLineGroup
     {
-
+        [Display("技能时面向目标")]
+        [Newtonsoft.Json.JsonProperty]
+        public bool ForceFaceToTarget { get; private set; }
+        public Skill()
+        {
+            ForceFaceToTarget = true;
+        }
     }
 
     public class RuntimeSkill : RuntimeTimeLineGroup
@@ -27,5 +33,19 @@ namespace Logic.Skill
         public SceneObject sender;
         public SceneObject receiver;
         public object data;
+    }
+
+
+
+    [Display("技能")]
+    [Serializable]
+    public class TestSkill : Skill
+    {
+        [Display("Test")]
+        [Newtonsoft.Json.JsonProperty]
+        public string Test { get; private set; }
+        public TestSkill()
+        {
+        }
     }
 }

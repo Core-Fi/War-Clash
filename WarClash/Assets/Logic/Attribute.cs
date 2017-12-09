@@ -12,7 +12,8 @@ namespace Logic
         MaxSpeed,
         Speed,
         CharacterEnd,
-        CanMove
+        IsMovable,
+        IsVisible
     }
 
     public enum Operation
@@ -45,7 +46,19 @@ namespace Logic
             BaseValue = value;
             Caculate();
         }
+        public void Add(AttributeMotifier am)
+        {
+            if (am.Operation == Operation.Percent)
+            {
+                _motifiers.AddFirst(am);
+            }
+            else
+            {
+                _motifiers.AddLast(am);
+            }
 
+            Caculate();
+        }
         public void Add(Operation operation, long value)
         {
             var attr = new AttributeMotifier
@@ -65,17 +78,46 @@ namespace Logic
             Caculate();
         }
 
-        public void Remove(Operation operation, long value)
+        public void Remove(AttributeMotifier am)
         {
-            var removeTarget = new AttributeMotifier {Operation = operation, Value = value};
-            var rst = _motifiers.Remove(removeTarget);
+            if (_motifiers.Count == 0)
+                return;
+            var rst = _motifiers.Remove(am);
             if (rst)
             {
                 Caculate();
             }
             else
             {
-                Debug.LogError("fail to remove");
+                Debug.LogError(am.Operation + " fail to remove");
+            }
+        }
+        public void Remove(Operation operation, long value)
+        {
+            if (_motifiers.Count == 0)
+                return;
+            bool removed = false;
+            var node = _motifiers.First;
+            while (node!=null)
+            {
+                if (node.Value.Value == value && node.Value.Operation == operation)
+                {
+                    _motifiers.Remove(node);
+                    removed = true;
+                    break;
+                }
+                else
+                {
+                    node = node.Next;
+                }
+            }
+            if (removed)
+            {
+                Caculate();
+            }
+            else
+            {
+                Debug.LogError(operation+" fail to remove");
             }
         }
 
@@ -150,6 +192,23 @@ namespace Logic
             _attributes[(int) at] = new CharacterAttribute(value);
         }
 
+        public void Remove(AttributeType at, AttributeMotifier am)
+        {
+            if (_attributes.ContainsKey((int)at))
+            {
+                var attr = _attributes[(int)at];
+                var oldValue = attr.FinalValue;
+                attr.Remove(am);
+                if (OnAttributeChange != null)
+                {
+                    OnAttributeChange.Invoke(at, oldValue, attr.FinalValue);
+                }
+            }
+            else
+            {
+                Debug.LogError(at + " Key not exsit");
+            }
+        }
         public void Remove(AttributeType at, Operation op, long value)
         {
             if (_attributes.ContainsKey((int) at))
@@ -179,6 +238,23 @@ namespace Logic
             }
         }
 
+        public void Add(AttributeType at, AttributeMotifier am)
+        {
+            if (_attributes.ContainsKey((int)at))
+            {
+                var attr = _attributes[(int)at];
+                var oldValue = attr.FinalValue;
+                attr.Add(am);
+                if (OnAttributeChange != null)
+                {
+                    OnAttributeChange.Invoke(at, oldValue, attr.FinalValue);
+                }
+            }
+            else
+            {
+                Debug.LogError(at + " Key not exsit");
+            }
+        }
         public void Add(AttributeType at, Operation op, long value)
         {
             if (_attributes.ContainsKey((int) at))

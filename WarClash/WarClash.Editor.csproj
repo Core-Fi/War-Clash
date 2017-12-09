@@ -251,7 +251,13 @@
     <Compile Include="Assets\AddOns\JPSAStar\Editor\JPSStarEditor.cs" />
     <Compile Include="Assets\Demigiant\DOTweenPro\Editor\DOTweenAnimationInspector.cs" />
     <Compile Include="Assets\Editor\LogicObjectInspector.cs" />
-    <Compile Include="Assets\Editor\NavMesh\NavMeshEditor.cs" />
+    <Compile Include="Assets\Editor\MapEditor\Editor\ABTest.cs" />
+    <Compile Include="Assets\Editor\MapEditor\Editor\InspectorOfMapEdit.cs" />
+    <Compile Include="Assets\Editor\MapEditor\Editor\MapEditor.cs" />
+    <Compile Include="Assets\Editor\MapEditor\Editor\MapItemInspector.cs" />
+    <Compile Include="Assets\Editor\MapEditor\Editor\TerrianEditor.cs" />
+    <Compile Include="Assets\Editor\MapEditor\GroundPainter\Editor\GroundPainterEditor.cs" />
+    <Compile Include="Assets\Editor\MapEditor\MapItemBehaviour.cs" />
     <Compile Include="Assets\Editor\PathologicalGames\Common\PGEditorUtils.cs" />
     <Compile Include="Assets\Editor\PathologicalGames\PoolManager\PreRuntimePoolItemInspector.cs" />
     <Compile Include="Assets\Editor\PathologicalGames\PoolManager\SpawnPoolInspector.cs" />
@@ -269,12 +275,7 @@
     <Compile Include="Assets\Editor\SkillEditor\SkillEditTempData.cs" />
     <Compile Include="Assets\Editor\SkillEditor\SkillEditorUtility.cs" />
     <Compile Include="Assets\Editor\Test0711Inspector.cs" />
-    <Compile Include="Assets\MapEditor\Editor\ABTest.cs" />
-    <Compile Include="Assets\MapEditor\Editor\InspectorOfMapEdit.cs" />
-    <Compile Include="Assets\MapEditor\Editor\MapEditor.cs" />
-    <Compile Include="Assets\MapEditor\Editor\MapItemInspector.cs" />
-    <Compile Include="Assets\MapEditor\Editor\TerrianEditor.cs" />
-    <Compile Include="Assets\MapEditor\GroundPainter\Editor\MapPainterEditor.cs" />
+    <Compile Include="Assets\Scripts\Editor\CreateUIClassEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AddOns\AstarPathfindingProject\Editor\EditorAssets\Materials\Navmesh.shader" />
@@ -309,14 +310,19 @@
     <None Include="Assets\Demigiant\DemiLib\DemiLib.xml" />
     <None Include="Assets\Demigiant\DemiLib\Editor\DemiEditor.XML" />
     <None Include="Assets\Demigiant\readme_DOTweenPro.txt" />
+    <None Include="Assets\Editor\MapEditor\GroundPainter\VC.shader" />
     <None Include="Assets\FingerGestures\Doc\Readme.txt" />
-    <None Include="Assets\MapEditor\GroundPainter\VC.shader" />
     <None Include="Assets\Plugins\Google.Protobuf.xml" />
     <None Include="Assets\Plugins\PathologicalGames\readme.txt" />
     <None Include="Assets\Plugins\ProtoBuf\protobuf-net.xml" />
+    <None Include="Assets\Shader\CommonTransparent.shader" />
     <None Include="Assets\Shader\Editor\Grid.shader" />
     <None Include="Assets\Shader\Grid.shader" />
+    <None Include="Assets\Shader\Transparent.shader" />
     <None Include="Assets\Specular.shader" />
+    <None Include="Assets\StreamingAssets\AB\assetBundleHash.txt" />
+    <None Include="Assets\StreamingAssets\AB\assetInfos.txt" />
+    <None Include="Assets\StreamingAssets\AB\assets\shader\transparent.shader" />
     <None Include="Assets\StreamingAssets\AB\assets\specular.shader" />
     <None Include="Assets\StreamingAssets\Events\_index.txt" />
     <None Include="Assets\StreamingAssets\Skills\_index.txt" />

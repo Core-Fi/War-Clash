@@ -13,6 +13,7 @@ public interface IFixedAgent
 
 public class FixedQuadTree<T> where T: SceneObject
 {
+    
     private const int LeafSize = 10;
 
     private Utility.FixedRect _bounds;

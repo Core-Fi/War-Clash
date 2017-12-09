@@ -1,0 +1,23 @@
+ManifestFileVersion: 0
+CRC: 3670589129
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 52c9afeaa6d343cabc826ca48ab97205
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: d04c7ea3d76e4bd6d53b08d4a9aa95e3
+HashAppended: 0
+ClassTypes:
+- Class: 114
+  Script: {fileID: 11500000, guid: e1fcd920ec5c1d74bb0eb7dc5905895b, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 238
+  Script: {instanceID: 0}
+Assets:
+- Assets/RequiredResources/BT/NpcBT2.asset
+- Assets/RequiredResources/BT/TowerBT.asset
+- Assets/RequiredResources/BT/NpcBT.asset
+- Assets/RequiredResources/Scene/Scene01/Scene01/NavMesh.asset
+Dependencies: []

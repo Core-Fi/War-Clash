@@ -81,6 +81,7 @@ public class FixedQuaternion
         long scale = FixedMath.One.Div(q.Length);
         result = new FixedQuaternion(q.x.Mul(scale), q.y.Mul(scale), q.z.Mul(scale), q.w.Mul(scale));
     }
+
     public void Normalize()
     {
         long scale = FixedMath.One / this.Length;
@@ -126,6 +127,62 @@ public class FixedQuaternion
         f_result.y = (f_num7 + f_num12).Mul(point1.x) + (FixedMath.One - (f_num4 + f_num6)).Mul(point1.y) + (f_num9 - f_num10).Mul(point1.z);
         f_result.z = (f_num8 - f_num11).Mul(point1.x) + (f_num9 + f_num10).Mul(point1.y) + (FixedMath.One - (f_num4 + f_num5)).Mul(point1.z);
         return f_result;
+    }
+    public static FixedQuaternion LookRotation(Vector3d forward, Vector3d up)
+    {
+        Vector3d vector =forward;
+        Vector3d vector2 = Vector3d.Normalize(Vector3d.Cross(up, vector));
+        Vector3d vector3 = Vector3d.Cross(vector, vector2);
+        var m00 = vector2.x;
+        var m01 = vector2.y;
+        var m02 = vector2.z;
+        var m10 = vector3.x;
+        var m11 = vector3.y;
+        var m12 = vector3.z;
+        var m20 = vector.x;
+        var m21 = vector.y;
+        var m22 = vector.z;
+
+
+        var num8 = (m00 + m11) + m22;
+        var quaternion = FixedQuaternion.identity;
+        if (num8 > 0)
+        {
+            var num = FixedMath.Sqrt(num8 + FixedMath.One);
+            quaternion.w = num /2;
+            num = FixedMath.Half.Div(num);
+            quaternion.x = (m12 - m21).Mul(num);
+            quaternion.y = (m20 - m02).Mul(num);
+            quaternion.z = (m01 - m10).Mul(num);
+            return quaternion;
+        }
+        if ((m00 >= m11) && (m00 >= m22))
+        {
+            var num7 = FixedMath.Sqrt(((FixedMath.One + m00) - m11) - m22);
+            var num4 = FixedMath.Half.Div(num7);
+            quaternion.x = num7/2;
+            quaternion.y = (m01 + m10).Mul(num4);
+            quaternion.z = (m02 + m20).Mul(num4);
+            quaternion.w = (m12 - m21).Mul(num4);
+            return quaternion;
+        }
+        if (m11 > m22)
+        {
+            var num6 = FixedMath.Sqrt(((FixedMath.One + m11) - m00) - m22);
+            var num3 = FixedMath.Half.Div(num6);
+            quaternion.x = (m10 + m01).Mul(num3);
+            quaternion.y =  num6/2;
+            quaternion.z = (m21 + m12).Mul(num3);
+            quaternion.w = (m20 - m02).Mul(num3);
+            return quaternion;
+        }
+        var num5 = FixedMath.Sqrt(((FixedMath.One + m22) - m00) - m11);
+        var num2 = FixedMath.Half.Div(num5);
+        quaternion.x = (m20 + m02) .Mul( num2);
+        quaternion.y = (m21 + m12).Mul(num2);
+        quaternion.z = num5/2;
+        quaternion.w = (m01 - m10).Mul(num2);
+        return quaternion;
     }
     public override string ToString()
     {

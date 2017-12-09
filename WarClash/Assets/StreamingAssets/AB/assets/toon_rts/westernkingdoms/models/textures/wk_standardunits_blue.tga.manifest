@@ -1,0 +1,16 @@
+ManifestFileVersion: 0
+CRC: 549160113
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 7577fe74b6833d8c1cba6fec061f419c
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: c1642440719609290a7e09a50a7286f4
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+Assets:
+- Assets/Toon_RTS/WesternKingdoms/models/textures/WK_StandardUnits_Blue.tga
+Dependencies: []

@@ -50,7 +50,7 @@ class ViewManager : Manager
         if (!info.Equals(default(PendingViewInfo)) && info.UiName.Equals(uiName))
         {
             GameObject go = UnityEngine.Object.Instantiate(obj) as GameObject;
-            go.transform.parent = Main.SP.Uiparent;
+            go.transform.parent = Main.SP.UIParent;
             var v = Activator.CreateInstance(info.UiType) as View;
             _views.Add(v);
             v.name = uiName;

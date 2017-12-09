@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 2484485781
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: f06a967ca0d6273a3410aeeae3229dea
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: c69f3a10e881726da9c85e824b11db2a
+HashAppended: 0
+ClassTypes:
+- Class: 114
+  Script: {fileID: 11500000, guid: e1fcd920ec5c1d74bb0eb7dc5905895b, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+Assets:
+- Assets/RequiredResources/BT/TowerBT.asset
+Dependencies: []

@@ -1,5 +1,7 @@
 {
   "$type": "System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[System.String, mscorlib]], mscorlib",
-  "3": "/Skills/3.skill",
-  "1": "/Skills/1.skill"
+  "3": "Skills/3.skill",
+  "1": "Skills/1.skill",
+  "2": "Skills/2.skill",
+  "21": "Skills/t.skill"
 }

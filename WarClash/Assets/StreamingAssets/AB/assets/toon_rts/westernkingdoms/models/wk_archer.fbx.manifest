@@ -1,0 +1,29 @@
+ManifestFileVersion: 0
+CRC: 2738987557
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 593b47dc9ba571991981273c832b5c5b
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 8d179d51fbe0b07d7e6ee09b114e8761
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+Assets:
+- Assets/Toon_RTS/WesternKingdoms/models/WK_archer.FBX
+Dependencies:
+- D:/War-Clash/WarClash/Assets/StreamingAssets/AB/assets/toon_rts/westernkingdoms/models/materials/wk_standardunits_blue.mat

@@ -89,7 +89,8 @@ namespace BrainiacEditor
 		    if (c == null)
 		    {
 		        var tower = lo.so as Tower;
-		        agent = tower.AiAgent;
+                if(tower!=null)
+		            agent = tower.AiAgent;
 		    }
 		    else
 		    {

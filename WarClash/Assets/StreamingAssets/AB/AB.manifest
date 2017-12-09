@@ -1,29 +1,123 @@
 ManifestFileVersion: 0
-CRC: 1014545095
+CRC: 3004126900
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: assets/rawresources/scenes/scene01/plane.prefab
+      Name: assets/requiredresources
       Dependencies: {}
     Info_1:
-      Name: ui/battleui.prefab
-      Dependencies: {}
-    Info_2:
-      Name: prefabs/stronghold.prefab
-      Dependencies: {}
-    Info_3:
-      Name: prefabs/orcwarrior_prefab.prefab
-      Dependencies: {}
-    Info_4:
-      Name: prefabs/footman_prefab.prefab
-      Dependencies: {}
-    Info_5:
       Name: scene/scene01/scene01.unity
       Dependencies:
-        Dependency_0: assets/rawresources/scenes/scene01/plane.prefab
+        Dependency_0: assets/requiredresources
+    Info_2:
+      Name: scene/scene02/scene02.unity
+      Dependencies: {}
+    Info_3:
+      Name: scene/scene03/scene03.unity
+      Dependencies: {}
+    Info_4:
+      Name: assets/rawresources/ui/circle-png-file.png
+      Dependencies: {}
+    Info_5:
+      Name: assets/toon_rts/westernkingdoms/models/textures/wk_standardunits_blue.tga
+      Dependencies: {}
     Info_6:
-      Name: prefabs/footman_prefab_copy.prefab
+      Name: farm01-flower-03.png
       Dependencies: {}
     Info_7:
+      Name: assets/specular.shader
+      Dependencies: {}
+    Info_8:
+      Name: building/barrack.prefab
+      Dependencies:
+        Dependency_0: assets/rawresources/axeyworks/low poly v2/materials/_color_006_2.mat
+        Dependency_1: assets/rawresources/axeyworks/low poly v2/materials/_color_c10_1.mat
+        Dependency_2: assets/rawresources/axeyworks/low poly v2/materials/_color_008_1.mat
+        Dependency_3: assets/rawresources/axeyworks/low poly v2/materials/_color_d04_2.mat
+    Info_9:
+      Name: ui/battleui.prefab
+      Dependencies:
+        Dependency_0: assets/rawresources/ui/circle-png-file.png
+    Info_10:
+      Name: items/arrow.prefab
+      Dependencies:
+        Dependency_0: assets/rawresources/axeyworks/low poly v2/materials/color_c12.mat
+        Dependency_1: assets/rawresources/axeyworks/low poly v2/materials/_color_004_1.mat
+        Dependency_2: assets/rawresources/axeyworks/low poly v2/materials/_color_c16_3.mat
+        Dependency_3: assets/rawresources/axeyworks/low poly v2/barrel_sealed_01.fbx
+    Info_11:
+      Name: assets/rawresources/axeyworks/low poly v2/materials/_color_006_2.mat
+      Dependencies: {}
+    Info_12:
+      Name: items/barrel.prefab
+      Dependencies:
+        Dependency_0: assets/rawresources/axeyworks/low poly v2/materials/color_c12.mat
+        Dependency_1: assets/rawresources/axeyworks/low poly v2/materials/_color_004_1.mat
+        Dependency_2: assets/rawresources/axeyworks/low poly v2/materials/_color_c16_3.mat
+        Dependency_3: assets/rawresources/axeyworks/low poly v2/barrel_sealed_01.fbx
+    Info_13:
+      Name: ui/test.prefab
+      Dependencies: {}
+    Info_14:
       Name: ui/nextbattleui.prefab
+      Dependencies:
+        Dependency_0: farm01-flower-03.png
+    Info_15:
+      Name: assets/rawresources/axeyworks/low poly v2/materials/color_c12.mat
+      Dependencies: {}
+    Info_16:
+      Name: assets/rawresources/axeyworks/low poly v2/materials/_color_c10_1.mat
+      Dependencies: {}
+    Info_17:
+      Name: ui/hud.prefab
+      Dependencies: {}
+    Info_18:
+      Name: prefabs/ancher/wk_archer.prefab
+      Dependencies:
+        Dependency_0: assets/toon_rts/westernkingdoms/models/materials/wk_standardunits_blue.mat
+    Info_19:
+      Name: prefabs/heavyinfantry/wk_heavy_infantry.prefab
+      Dependencies:
+        Dependency_0: assets/toon_rts/westernkingdoms/models/materials/wk_standardunits_blue.mat
+    Info_20:
+      Name: ui/ui-joystick.prefab
+      Dependencies:
+        Dependency_0: assets/rawresources/ui/circle-png-file.png
+    Info_21:
+      Name: assets/rawresources/axeyworks/low poly v2/materials/_color_008_1.mat
+      Dependencies: {}
+    Info_22:
+      Name: items/cube.prefab
+      Dependencies: {}
+    Info_23:
+      Name: assets/rawresources/axeyworks/low poly v2/materials/_color_d04_2.mat
+      Dependencies: {}
+    Info_24:
+      Name: assets/rawresources/axeyworks/low poly v2/materials/_color_004_1.mat
+      Dependencies: {}
+    Info_25:
+      Name: building/tower.prefab
+      Dependencies:
+        Dependency_0: assets/rawresources/axeyworks/low poly v2/materials/_color_006_2.mat
+        Dependency_1: assets/rawresources/axeyworks/low poly v2/materials/_color_c10_1.mat
+        Dependency_2: assets/rawresources/axeyworks/low poly v2/materials/_color_008_1.mat
+        Dependency_3: assets/rawresources/axeyworks/low poly v2/materials/_color_d04_2.mat
+    Info_26:
+      Name: assets/rawresources/axeyworks/low poly v2/materials/_color_c16_3.mat
+      Dependencies: {}
+    Info_27:
+      Name: assets/toon_rts/westernkingdoms/models/materials/wk_standardunits_blue.mat
+      Dependencies:
+        Dependency_0: assets/toon_rts/westernkingdoms/models/textures/wk_standardunits_blue.tga
+    Info_28:
+      Name: fx/hit.prefab
+      Dependencies: {}
+    Info_29:
+      Name: assets/rawresources/axeyworks/low poly v2/barrel_sealed_01.fbx
+      Dependencies:
+        Dependency_0: assets/rawresources/axeyworks/low poly v2/materials/color_c12.mat
+        Dependency_1: assets/rawresources/axeyworks/low poly v2/materials/_color_004_1.mat
+        Dependency_2: assets/rawresources/axeyworks/low poly v2/materials/_color_c16_3.mat
+    Info_30:
+      Name: assets/shader/transparent.shader
       Dependencies: {}

@@ -46,7 +46,11 @@ namespace Logic.LogicObject
         public enum SceneObjectEvent
         {
             Positionchange,
-            Onattributechange
+            OnAttributechange,
+            OnBeforeAttackOther,
+            OnAfterAttackOther,
+            OnBeforeBeAttacked,
+            OnAfterBeAttacked,
         }
         public int Id;
         public Team Team;
@@ -62,7 +66,7 @@ namespace Logic.LogicObject
                     //GridService.TagAsTaken(value);
                     _position = value;
                     if(EventGroup!=null)
-                        EventGroup.FireEvent((int)SceneObjectEvent.Positionchange, this, null);
+                        EventGroup.FireEvent(SceneObjectEvent.Positionchange.ToInt(), this, null);
                 }
             }
         }
@@ -116,7 +120,7 @@ namespace Logic.LogicObject
         }
         public virtual void OnAttributeChange(AttributeType at, long old, long newValue)
         {
-            EventGroup.FireEvent((int)SceneObjectEvent.Onattributechange, this, EventGroup.NewArg<EventSingleArgs<AttributeMsg>, AttributeMsg>(new AttributeMsg()
+            EventGroup.FireEvent(SceneObjectEvent.OnAttributechange.ToInt(), this, EventGroup.NewArg<EventSingleArgs<AttributeMsg>, AttributeMsg>(new AttributeMsg()
             {
                 At = at,
                 NewValue = newValue,
@@ -126,6 +130,15 @@ namespace Logic.LogicObject
         public long GetAttributeValue(AttributeType at)
         {
             return AttributeManager[at];
+        }
+
+        public bool GetStatus(AttributeType at)
+        {
+            if (AttributeManager[at] == 1)
+            {
+                return true;
+            }
+            else return false;
         }
         internal virtual void OnInit(CreateInfo createInfo)
         {

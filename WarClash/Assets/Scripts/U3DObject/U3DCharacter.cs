@@ -22,15 +22,15 @@ public class U3DCharacter : U3DSceneObject{
     public override void ListenEvents()
     {
         base.ListenEvents();
-        Character.EventGroup.ListenEvent((int)Character.CharacterEvent.Executedisplayaction, ExecuteDisplayAction);
-        Character.EventGroup.ListenEvent((int)Character.CharacterEvent.Stopdisplayaction, StopDisplayAction);
-        Character.EventGroup.ListenEvent((int)Character.CharacterEvent.Startskill, OnSkillStart);
-        Character.EventGroup.ListenEvent((int)Character.CharacterEvent.Cancelskill, OnSkillCancel);
-        Character.EventGroup.ListenEvent((int)Character.CharacterEvent.Endskill, OnSkillEnd);
-        Character.EventGroup.ListenEvent((int)SceneObject.SceneObjectEvent.Onattributechange, OnAttributeChange);
+        Character.EventGroup.ListenEvent(Character.CharacterEvent.Executedisplayaction.ToInt(), ExecuteDisplayAction);
+        Character.EventGroup.ListenEvent(Character.CharacterEvent.Stopdisplayaction.ToInt(), StopDisplayAction);
+        Character.EventGroup.ListenEvent(Character.CharacterEvent.Startskill.ToInt(), OnSkillStart);
+        Character.EventGroup.ListenEvent(Character.CharacterEvent.Cancelskill.ToInt(), OnSkillCancel);
+        Character.EventGroup.ListenEvent(Character.CharacterEvent.Endskill.ToInt(), OnSkillEnd);
+        Character.EventGroup.ListenEvent(SceneObject.SceneObjectEvent.OnAttributechange.ToInt(), OnAttributeChange);
     }
 
-    private void OnAttributeChange(object sender, EventMsg e)
+    protected virtual void OnAttributeChange(object sender, EventMsg e)
     {
         EventSingleArgs<AttributeMsg> msg = e as EventSingleArgs<AttributeMsg>;
         if(msg == null) return;
@@ -43,16 +43,22 @@ public class U3DCharacter : U3DSceneObject{
     public override void OnLoadedRes(string name, Object obj)
     {
         base.OnLoadedRes(name, obj);
-        SetSpeed();
         animator = Go.GetComponent<Animator>();
-        
+        SetSpeed();
+    }
+
+    public override void OnUpdate()
+    {
+        base.OnUpdate();
     }
 
     public void SetSpeed()
     {
         long speed = Character.AttributeManager[AttributeType.Speed];
-        if(animator!=null && Go.activeSelf)
+        if (animator != null && Go.activeSelf)
+        {
             animator.SetFloat("Speed", speed.ToFloat());
+        }
     }
     private void OnSkillEnd(object sender, EventMsg e)
     {

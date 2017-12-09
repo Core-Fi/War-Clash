@@ -17,7 +17,7 @@ namespace Logic.Skill
 
         public static void LoadSkillIndexFiles()
         {
-            skill_index = Logic.Skill.SkillUtility.LoadIndexFile("/Skills");
+            skill_index = Logic.Skill.SkillUtility.LoadIndexFile("Skills");
         }
         public static Skill GetSkill(string path)
         {
@@ -45,21 +45,14 @@ namespace Logic.Skill
         {
             get
             {
-                return Skills1;
-            }
-        }
-
-        public static Dictionary<string, Skill> Skills1
-        {
-            get
-            {
                 return skills;
             }
         }
 
         internal void CancelSkill()
         {
-            this.so.EventGroup.FireEvent((int)Character.CharacterEvent.Cancelskill, so, EventGroup.NewArg<EventSingleArgs<string>, string>(RunningSkill.sourceData.path));
+            this.so.EventGroup.FireEvent((int)Character.CharacterEvent.Cancelskill.ToInt(), so, EventGroup.NewArg<EventSingleArgs<string>, string>(RunningSkill.sourceData.path));
+            RunningSkill.Cancel();
             Pool.SP.Recycle(RunningSkill);
             RunningSkill = null;
         }
@@ -83,12 +76,8 @@ namespace Logic.Skill
         internal void ReleaseSkill(int id, SceneObject target)
         {
             RuntimeData srd = new RuntimeData(so, target, null);
+        
             ReleaseSkill(id, srd);
-        }
-        internal void ReleaseSkill(string path, SceneObject target)
-        {
-            RuntimeData srd = new RuntimeData(so, target, null);
-            ReleaseSkill(path, srd);
         }
         private void ReleaseSkill(int id, RuntimeData srd)
         {
@@ -96,16 +85,20 @@ namespace Logic.Skill
                 LoadSkillIndexFiles();
             string path = skill_index[id];
             var skill = GetSkill(path);
+            if (srd.receiver != null && skill.ForceFaceToTarget)
+            {
+                so.Forward = (srd.receiver.Position - so.Position).Normalize();
+            }
             RunningSkill = Pool.SP.Get(typeof(RuntimeSkill)) as RuntimeSkill;
             RunningSkill.Init(skill, srd, OnFinish);
-            this.so.EventGroup.FireEvent((int)Character.CharacterEvent.Startskill, so, EventGroup.NewArg<EventSingleArgs<string>, string>(path));
+            this.so.EventGroup.FireEvent((int)Character.CharacterEvent.Startskill.ToInt(), so, EventGroup.NewArg<EventSingleArgs<string>, string>(path));
         }
         private void ReleaseSkill(string path, RuntimeData srd)
         {
             var skill = GetSkill(path);
             RunningSkill = Pool.SP.Get(typeof(RuntimeSkill)) as RuntimeSkill;
             RunningSkill.Init(skill, srd, OnFinish);
-            this.so.EventGroup.FireEvent((int)Character.CharacterEvent.Startskill, so, EventGroup.NewArg<EventSingleArgs<string>, string>(path));
+            this.so.EventGroup.FireEvent((int)Character.CharacterEvent.Startskill.ToInt(), so, EventGroup.NewArg<EventSingleArgs<string>, string>(path));
         }
         internal void Update(float deltaTime)
         {
@@ -124,7 +117,7 @@ namespace Logic.Skill
         }
         internal void OnFinish()
         {
-            so.EventGroup.FireEvent((int)Character.CharacterEvent.Endskill, so, EventGroup.NewArg<EventSingleArgs<string>, string>(RunningSkill.sourceData.path));
+            so.EventGroup.FireEvent((int)Character.CharacterEvent.Endskill.ToInt(), so, EventGroup.NewArg<EventSingleArgs<string>, string>(RunningSkill.sourceData.path));
             Pool.SP.Recycle(RunningSkill);
             RunningSkill = null;
         }

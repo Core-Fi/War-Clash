@@ -43,7 +43,7 @@ public class MoveToTargetAction : Brainiac.Action
         {
             var speed = SceneObject.AttributeManager[AttributeType.MaxSpeed];
             SceneObject.AttributeManager.SetBase(AttributeType.Speed, speed);
-            target.EventGroup.ListenEvent((int)SceneObject.SceneObjectEvent.Positionchange, OnTargetPosiChanged);
+            target.EventGroup.ListenEvent(SceneObject.SceneObjectEvent.Positionchange.ToInt(), OnTargetPosiChanged);
         }
         if (Vector3d.SqrDistance(target.Position, agent.SceneObject.Position) <
             FixedMath.Create(_npc.Conf.AtkRange / 100) * (_npc.Conf.AtkRange / 100))
@@ -64,7 +64,7 @@ public class MoveToTargetAction : Brainiac.Action
     {
         if (target != null)
         {
-            target.EventGroup.DelEvent((int)SceneObject.SceneObjectEvent.Positionchange, OnTargetPosiChanged);
+            target.EventGroup.DelEvent(SceneObject.SceneObjectEvent.Positionchange.ToInt(), OnTargetPosiChanged);
         }
         SceneObject.AttributeManager.SetBase(AttributeType.Speed, 0);
         _npc.SteeringManager.RemoveSteering<PathFollowSteering>();

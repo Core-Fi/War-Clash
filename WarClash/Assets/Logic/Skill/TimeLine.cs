@@ -22,11 +22,9 @@ namespace Logic.Skill
         [Display("事件类型")]
         public EventType e { get; private set; }
         [Display("事件效果路径")]
-        public string path { get; private set; }
-
+        public int EventId { get; private set; }
         public EventTrigger()
         {
-            path = "";
         }
     }
     [Display("时间轴")]
@@ -102,7 +100,6 @@ namespace Logic.Skill
                 }
                 else
                 {
-                    OnTimeLineEnd();
                     return;
                 }
             }
@@ -142,7 +139,6 @@ namespace Logic.Skill
                 }
                 else
                 {
-                    OnTimeLineEnd();
                     if (deltaTime > 0)
                         return Breath(deltaTime);
                     else
@@ -162,26 +158,6 @@ namespace Logic.Skill
 
         }
 
-        public void OnTimeLineEnd()
-        {
-             for (int i = 0; i < timeLine.BaseActions.Count; i++)
-            {
-                var action = timeLine.BaseActions[i] as DisplayAction;
-                if (action != null)
-                {
-                    Character so = null;
-                    if (action.playTarget == PlayTarget.SENDER)
-                    {
-                        so = this.m_RunningData.sender as Character;
-                    }
-                    else if (action.playTarget == PlayTarget.RECEIVER)
-                    {
-                        so = this.m_RunningData.receiver as Character;
-                    }
-                    so.EventGroup.FireEvent((int)Character.CharacterEvent.Stopdisplayaction, so, EventGroup.NewArg<EventSingleArgs<DisplayAction>, DisplayAction>(action as DisplayAction));
-                }
-            }
-        }
         public void Finish()
         {
             m_TimeLineStatus = TimeLineStatus.Finished;
@@ -189,7 +165,10 @@ namespace Logic.Skill
         }
         public virtual void OnFinish()
         {
-           OnTimeLineEnd();
+            for (int i = 0; i < timeLine.BaseActions.Count; i++)
+            {
+                timeLine.BaseActions[i].OnTimeLineFinish(m_RunningData.sender, m_RunningData.receiver, m_RunningData.data);
+            }
         }
 
         public void Reset()

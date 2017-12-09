@@ -192,10 +192,10 @@ class AssetResources
     }
     private static void LoadManifest()
     {
-#if UNITY_ANDROID
-        BaseUrl = Path.Combine(Application.streamingAssetsPath, @"\AB\");
-#else
-        BaseUrl = System.IO.Path.Combine(Application.dataPath,@"..\AB\");
+#if UNITY_EDITOR
+        BaseUrl = System.IO.Path.Combine(Application.dataPath, @"..\AB\");
+#elif UNITY_ANDROID
+        BaseUrl = Path.Combine(Application.streamingAssetsPath, @"AB/");
 #endif
         var bundle = AssetBundle.LoadFromFile(BaseUrl + "AB");
         Manifest = bundle.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
@@ -204,13 +204,14 @@ class AssetResources
         {
             throw new System.Exception("Manifest not found ");
         }
-        var txt = Utility.ReadByteFromStreamingAsset(BaseUrl + "assetInfos.txt");
-        byte[] decompress = Utility.Decompress(txt);
-        var destr = Encoding.UTF8.GetString(decompress);
+        var txt = Utility.ReadBytesFromAbsolutePath(BaseUrl + "assetInfos.txt");
+      //  byte[] decompress = Utility.Decompress(txt);
+
+        var destr = Encoding.UTF8.GetString(txt);
         AssetsInfos = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, AssetInfo>>(destr);
         if (AssetsInfos == null)
         {
-            throw new System.Exception("BundleAssetsDic not found ");
+            throw new System.Exception("BundleAssetsDic not found at path "+ BaseUrl + "assetInfos.txt");
         }
     }
     public static void LoadAsset(string assetName, System.Action<string, UnityEngine.Object> action, bool now=false)

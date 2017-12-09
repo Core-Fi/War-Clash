@@ -1,17 +1,15 @@
 ManifestFileVersion: 0
-CRC: 2578767178
+CRC: 2089836798
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: e37aa888e13fe9e3c841216f2793f87e
+    Hash: e7e9e86d03e9a3be3d5ac271e03d5b54
   TypeTreeHash:
     serializedVersion: 2
-    Hash: db6536539ac3b855bc0954c1296ecd7d
+    Hash: 358aa83ef5a2e00fa40bd79a4db6e066
 HashAppended: 0
 ClassTypes:
 - Class: 1
-  Script: {instanceID: 0}
-- Class: 28
   Script: {instanceID: 0}
 - Class: 114
   Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
@@ -35,4 +33,5 @@ ClassTypes:
   Script: {instanceID: 0}
 Assets:
 - Assets/RequiredResources/UI/NextBattleUI.prefab
-Dependencies: []
+Dependencies:
+- D:/War-Clash/WarClash/Assets/StreamingAssets/AB/farm01-flower-03.png

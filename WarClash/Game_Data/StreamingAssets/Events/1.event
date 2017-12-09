@@ -1,6 +1,6 @@
 {
   "$type": "Logic.Skill.Event, Assembly-CSharp",
-  "Name": "",
+  "Name": "onProjectileDie",
   "ID": 1,
   "TimeLines": {
     "$type": "System.Collections.Generic.List`1[[Logic.Skill.TimeLine, Assembly-CSharp]], mscorlib",
@@ -8,10 +8,22 @@
       {
         "$type": "Logic.Skill.TimeLine, Assembly-CSharp",
         "Times": 1,
-        "FrameCount": 20,
+        "FrameCount": 0,
         "BaseActions": {
           "$type": "System.Collections.Generic.List`1[[Logic.Skill.Actions.BaseAction, Assembly-CSharp]], mscorlib",
-          "$values": []
+          "$values": [
+            {
+              "$type": "Logic.Skill.Actions.DamageAction, Assembly-CSharp",
+              "Damage": {
+                "$type": "Logic.Skill.Actions.DataBind`1[[System.Int32, mscorlib]], Assembly-CSharp",
+                "value": 1000,
+                "value_SetDirectly": 1000,
+                "needDataBind": false,
+                "bindFrom": null
+              },
+              "ExecuteFrameIndex": 0
+            }
+          ]
         },
         "eventTriggers": {
           "$type": "System.Collections.Generic.List`1[[Logic.Skill.EventTrigger, Assembly-CSharp]], mscorlib",
@@ -33,5 +45,5 @@
       }
     ]
   },
-  "path": null
+  "path": "1"
 }

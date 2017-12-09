@@ -97,7 +97,6 @@ namespace Logic
         {
             var player = LogicCore.SP.SceneManager.CurrentScene.GetObject(Sender) as Player;
             player.StateMachine.Start<MoveState>();
-            player.StateMachine.Update();
         }
 
         public override void WriteToLog(StringBuilder writer)
@@ -246,13 +245,15 @@ namespace Logic
     {
         public int NpcId;
         public byte Team;
+        public long PosiX;
+        public long PosiZ;
         public override void OnExecute()
         {
             var sender = LogicCore.SP.SceneManager.CurrentScene.GetObject(Sender);
             var createInfo = Pool.SP.Get<NpcCreateInfo>();
             createInfo.NpcId = NpcId;
             createInfo.Position =
-                new Vector3d(new Vector3(UnityEngine.Random.Range(10, 11), 0, UnityEngine.Random.Range(10, 11)));
+                new Vector3d(PosiX, 0, PosiZ);
             var npc = LogicCore.SP.SceneManager.CurrentScene.CreateSceneObject<Npc>(createInfo);
             if(sender!=null)
                 npc.Team = sender.Team;
@@ -261,10 +262,7 @@ namespace Logic
                 npc.Team = LogicObject.Team.Team2;
             }
             npc.Radius = FixedMath.One/2;
-            npc.AttributeManager.SetBase(AttributeType.Speed, npc.AttributeManager[AttributeType.MaxSpeed]);
             npc.Forward = new Vector3d(Vector3.forward);
-            //var arrive = npc.SteeringManager.AddSteering<PathFollowSteering>(1);
-            //arrive.Path = new List<Vector3d>{Vector3d.zero};
         }
         public override void WriteToLog(StringBuilder writer)
         {
@@ -274,7 +272,8 @@ namespace Logic
         {
             base.Deserialize(reader);
             NpcId = reader.GetInt();
-
+            PosiX = reader.GetLong();
+            PosiZ = reader.GetLong();
         }
 
         public override void Serialize(NetDataWriter writer)
@@ -283,6 +282,8 @@ namespace Logic
             writer.Put((short)msgid);
             base.Serialize(writer);
             writer.Put(NpcId);
+            writer.Put(PosiX);
+            writer.Put(PosiZ);
         }
     }
     public class CreateMainPlayerCommand : PlayerOperateCommand
@@ -316,7 +317,7 @@ namespace Logic
         public override void OnExecute()
         {
             var player = LogicCore.SP.SceneManager.CurrentScene.CreateSceneObject<Player>(Sender);
-            player.Position = new Vector3d(-Vector3.left*6);
+            player.Position = Vector3d.zero;
             player.Team = Team.Team1;
         }
         public override void WriteToLog(StringBuilder writer)

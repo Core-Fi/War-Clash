@@ -1,0 +1,21 @@
+ManifestFileVersion: 0
+CRC: 4220385396
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: c720a8bdd6e099b650922092dab1a9a8
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 08e0fc096ca091c0d180b6b0a18d6cc3
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+Assets:
+- Assets/Toon_RTS/WesternKingdoms/animation/archer/WK_archer_01_idle_A.FBX
+Dependencies:
+- D:/War-Clash/WarClash/Assets/StreamingAssets/AB/assets/toon_rts/westernkingdoms/models/wk_archer.fbx

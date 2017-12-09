@@ -24,6 +24,10 @@ public class U3DPlayFXAction : U3DDisplayAction
     }
     public override void Stop()
     {
+        if (go != null)
+        {
+            Object.Destroy(go);
+        }
         go = null;
     }
 }

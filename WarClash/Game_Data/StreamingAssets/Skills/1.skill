@@ -1,6 +1,7 @@
 {
   "$type": "Logic.Skill.Skill, Assembly-CSharp",
-  "Name": "",
+  "ForceFaceToTarget": true,
+  "Name": "射手",
   "ID": 1,
   "TimeLines": {
     "$type": "System.Collections.Generic.List`1[[Logic.Skill.TimeLine, Assembly-CSharp]], mscorlib",
@@ -8,23 +9,10 @@
       {
         "$type": "Logic.Skill.TimeLine, Assembly-CSharp",
         "Times": 1,
-        "FrameCount": 30,
+        "FrameCount": 10,
         "BaseActions": {
           "$type": "System.Collections.Generic.List`1[[Logic.Skill.Actions.BaseAction, Assembly-CSharp]], mscorlib",
           "$values": [
-            {
-              "$type": "Logic.Skill.Actions.DamageAction, Assembly-CSharp",
-              "Damage": {
-                "$type": "Logic.Skill.Actions.DataBind`1[[System.Int32, mscorlib]], Assembly-CSharp",
-                "value": 100,
-                "value_SetDirectly": 100,
-                "needDataBind": false,
-                "bindFrom": null
-              },
-              "range": 0,
-              "r": 1,
-              "ExecuteFrameIndex": 0
-            },
             {
               "$type": "Logic.Skill.Actions.PlayAnimationAction, Assembly-CSharp",
               "animaitonName": "attack",
@@ -34,19 +22,21 @@
             },
             {
               "$type": "Logic.Skill.Actions.CreateProjectileAction, Assembly-CSharp",
-              "distance": 1000,
-              "time": 2000,
+              "Speed": 500,
+              "time": 3000,
               "hitCount": 0,
               "hitEvent": 1,
               "dieEvent": 0,
+              "ProjectileType": 1,
               "cac": {
-                "$type": "Logic.CustomAnimationCurve, Assembly-CSharp",
-                "keyframes": {
-                  "$type": "Logic.CustomKeyframe[], Assembly-CSharp",
+                "$type": "FixedAnimationCurve, Assembly-CSharp",
+                "OriginalAnimationCurve": null,
+                "Keyframes": {
+                  "$type": "System.Collections.Generic.List`1[[FixedKeyFrame, Assembly-CSharp]], mscorlib",
                   "$values": []
                 }
               },
-              "ExecuteFrameIndex": 0
+              "ExecuteFrameIndex": 7
             }
           ]
         },
@@ -70,5 +60,5 @@
       }
     ]
   },
-  "path": null
+  "path": "1"
 }

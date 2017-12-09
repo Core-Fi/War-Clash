@@ -1,0 +1,33 @@
+ManifestFileVersion: 0
+CRC: 3882108645
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: cda235fd9a3399957008ce98463f36c8
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 3b4093f0b99c1cdb5589b4b5555385d4
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+Assets:
+- Assets/RequiredResources/Prefabs/HeavyInfantry/WK_heavy_infantry.prefab
+Dependencies:
+- D:/War-Clash/WarClash/Assets/StreamingAssets/AB/assets/toon_rts/westernkingdoms/models/materials/wk_standardunits_blue.mat
