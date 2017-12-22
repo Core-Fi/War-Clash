@@ -136,8 +136,10 @@ namespace Logic
         }
         public int RandomRange(int s, int e)
         {
-            UnityEngine.Random.InitState(randomSeed++);
-            return UnityEngine.Random.Range(s, e);
+            var value = Utility.Random(ref randomSeed);
+            value *= (e - s);
+            value += s.ToLong();
+            return value.ToInt();
         }
         public void PingVariance()
         {

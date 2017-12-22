@@ -39,6 +39,15 @@ public class SteeringManager
         }
         return false;
     }
+    public BaseSteering GetSteering<T>() where T : BaseSteering
+    {
+        for (int i = 0; i < _steerings.Count; i++)
+        {
+            if (_steerings[i] is T)
+                return _steerings[i];
+        }
+        return null;
+    }
     private void RemoveSteering(BaseSteering steering) 
     {
         for (int i = 0; i < _steerings.Count; i++)

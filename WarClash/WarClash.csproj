@@ -267,6 +267,7 @@
     <Compile Include="Assets\AddOns\Brainiac\Source\Runtime\Action\CureAction.cs" />
     <Compile Include="Assets\AddOns\Brainiac\Source\Runtime\Action\DebugLog.cs" />
     <Compile Include="Assets\AddOns\Brainiac\Source\Runtime\Action\EmptyAction.cs" />
+    <Compile Include="Assets\AddOns\Brainiac\Source\Runtime\Action\FollowTargetAction.cs" />
     <Compile Include="Assets\AddOns\Brainiac\Source\Runtime\Action\MoveToTargetAction.cs" />
     <Compile Include="Assets\AddOns\Brainiac\Source\Runtime\Action\RunBehaviour.cs" />
     <Compile Include="Assets\AddOns\Brainiac\Source\Runtime\Action\SearchEnemy.cs" />
@@ -381,6 +382,7 @@
     <Compile Include="Assets\FingerGestures\Toolbox\TBTap.cs" />
     <Compile Include="Assets\FingerGestures\Utils\GestureStateTracker.cs" />
     <Compile Include="Assets\FingerGestures\Utils\MoveToFinger.cs" />
+    <Compile Include="Assets\Logic\AlignmentCotroller.cs" />
     <Compile Include="Assets\Logic\Attribute.cs" />
     <Compile Include="Assets\Logic\Command\Command.cs" />
     <Compile Include="Assets\Logic\Config\ArmyConf.cs" />
@@ -399,6 +401,7 @@
     <Compile Include="Assets\Logic\FastCollections-master\LSEnumerable.cs" />
     <Compile Include="Assets\Logic\FastCollections-master\Shortcuts.cs" />
     <Compile Include="Assets\Logic\GridService.cs" />
+    <Compile Include="Assets\Logic\IAlignmentAgent.cs" />
     <Compile Include="Assets\Logic\ICommandData.cs" />
     <Compile Include="Assets\Logic\IDManager.cs" />
     <Compile Include="Assets\Logic\IUpdate.cs" />
@@ -494,6 +497,7 @@
     <Compile Include="Assets\Scripts\NavPath.cs" />
     <Compile Include="Assets\Scripts\Test0719.cs" />
     <Compile Include="Assets\Scripts\Test0726.cs" />
+    <Compile Include="Assets\Scripts\Test1222.cs" />
     <Compile Include="Assets\Scripts\U3DActions\U3DDisplayAction.cs" />
     <Compile Include="Assets\Scripts\U3DActions\U3DPlayAnimationAction.cs" />
     <Compile Include="Assets\Scripts\U3DActions\U3DPlayFXAction.cs" />

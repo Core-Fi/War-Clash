@@ -49,5 +49,10 @@ public static class EventMsgUtility
     {
         return (int)soEvent +1;
     }
+
+    public static int ToInt(this Scene.SceneEvent e)
+    {
+        return (int) e+1;
+    }
 }
 

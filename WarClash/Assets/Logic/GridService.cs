@@ -19,19 +19,20 @@ struct GridData
     }
 }
 
-public enum NodeType
-{
-    Empty = 0,
-    FlagAsTarget = 1,
-    BeTaken = 2,
-}
 class GridService
 {
+    public enum NodeType
+    {
+        Empty = 0,
+        Obstacle = 1,
+        FlagAsTarget = 2,
+        BeTaken = 3,
+    }
     private static GridData[,] _gridData;
-    private static Vector3d Offset ;//= new Vector3d(FixedMath.One/2,0,FixedMath.One/2);
-    private static long CellSize;
-    private static int Width;
-    private static int Height;
+    public static Vector3d Offset ;//= new Vector3d(FixedMath.One/2,0,FixedMath.One/2);
+    public static long CellSize;
+    public static int Width;
+    public static int Height;
     public static void Init(int width, int height, long cellSize)
     {
         Width = width;
@@ -47,7 +48,7 @@ class GridService
             }
         }
     }
-    private static bool IsEmpty(int x, int y)
+    public static bool IsEmpty(int x, int y)
     {
         if (x >= 0 && x < Width && y >= 0 && y < Height)
         {
@@ -57,6 +58,12 @@ class GridService
         {
             return false;
         }
+    }
+    public static bool IsEmpty(Vector3d posi)
+    {
+        int x, y;
+        GetCoordinate(posi, out x, out y);
+        return IsEmpty(x, y);
     }
 
     private static SceneObject IsNotEmptyBy(int x, int y)
@@ -97,6 +104,11 @@ class GridService
         GetCoordinate(posi, out x, out y);
         if (IsNotEmptyBy(x,y)==so)
             _gridData[y, x].Clear();
+    }
+
+    public static void TagAsObstalce(int x, int y, NodeType type)
+    {
+        _gridData[y, x].Value = (int)type;
     }
     public static void TagAs(Vector3d posi, SceneObject so, NodeType type)
     {

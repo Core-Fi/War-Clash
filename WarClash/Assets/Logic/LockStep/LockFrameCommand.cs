@@ -157,7 +157,7 @@ namespace Logic
         {
             base.Deserialize(reader);
             Forward.x = reader.GetLong();
-            Forward.y = reader.GetLong();
+          //  Forward.y = reader.GetLong();
             Forward.z = reader.GetLong();
         }
 
@@ -167,7 +167,7 @@ namespace Logic
             writer.Put((short)msgid);
             base.Serialize(writer);
             writer.Put(Forward.x);
-            writer.Put(Forward.y);
+      //      writer.Put(Forward.y);
             writer.Put(Forward.z);
         }
     }
@@ -220,7 +220,7 @@ namespace Logic
             {
                 barack.Team = Team.Team2;
             }
-            GridService.TagAs(barack.Position, barack, NodeType.BeTaken);
+            GridService.TagAs(barack.Position, barack, GridService.NodeType.BeTaken);
             JPSAStar.active.SetUnWalkable(barack.Position);
         }
         public override void WriteToLog(StringBuilder writer)
@@ -259,7 +259,7 @@ namespace Logic
                 npc.Team = sender.Team;
             else
             {
-                npc.Team = LogicObject.Team.Team2;
+                npc.Team = LogicObject.Team.Team1;
             }
             npc.Radius = FixedMath.One/2;
             npc.Forward = new Vector3d(Vector3.forward);

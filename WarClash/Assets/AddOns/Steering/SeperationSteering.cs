@@ -30,6 +30,7 @@ internal class SeperationSteering : BaseSteering
         for (var i = 0; i < _neighbors.Count; i++)
         {
             var combinedRadius = Self.Radius + _neighbors[i].Radius;
+
             if (combinedRadius.Mul(combinedRadius) > Vector3d.SqrDistance(Self.Position, _neighbors[i].Position))
             {
                 var avoidDir = Self.Position - _neighbors[i].Position;

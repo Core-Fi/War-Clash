@@ -17,11 +17,13 @@ namespace Logic.LogicObject
             GuiseEnd,
         }
         public StateMachine StateMachine { get; private set; }
+        public AlignmentCotroller AlignmentController { get; private set; }
 
         internal override void OnInit(CreateInfo createInfo)
         {
             base.OnInit(createInfo);
             StateMachine = new StateMachine(this);
+            AlignmentController = new AlignmentCotroller(this);
             AttributeManager.New(AttributeType.IsVisible, 1);
             AttributeManager.New(AttributeType.IsMovable, 1);
         }

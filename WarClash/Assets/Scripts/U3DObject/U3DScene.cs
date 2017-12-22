@@ -39,8 +39,8 @@ public class U3DScene : ObjectCollection<int, U3DSceneObject>
     }
     protected virtual void ListenEvents()
     {
-        Scene.EventGroup.ListenEvent((int)Scene.SceneEvent.Addsceneobject,OnAddSceneObject);
-        Scene.EventGroup.ListenEvent((int)Scene.SceneEvent.Removesceneobject, OnRemoveSceneObject);
+        Scene.EventGroup.ListenEvent(Scene.SceneEvent.AddSceneObject.ToInt(),OnAddSceneObject);
+        Scene.EventGroup.ListenEvent(Scene.SceneEvent.RemoveSceneObject.ToInt(), OnRemoveSceneObject);
     }
 
     private void OnRemoveSceneObject(object sender, EventMsg e)

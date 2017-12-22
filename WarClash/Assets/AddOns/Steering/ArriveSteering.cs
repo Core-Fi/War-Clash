@@ -18,13 +18,13 @@ class ArriveSteering : BaseArriveSteering
         {
             Finish = true;
             GridService.Clear(Target, Self as SceneObject);
-            GridService.TagAs(Self.Position, Self as SceneObject, NodeType.BeTaken);
+            GridService.TagAs(Self.Position, Self as SceneObject, GridService.NodeType.BeTaken);
             return;
         }
         if (GridService.IsNotEmptyBy(Target)!= Self)
         {
             GridService.SearchNearEmptyPoint(Target, out Target);
-            GridService.TagAs(Target, Self as SceneObject, NodeType.FlagAsTarget);
+            GridService.TagAs(Target, Self as SceneObject, GridService.NodeType.FlagAsTarget);
         }
        
         Vector3d dir = Target - Self.Position;

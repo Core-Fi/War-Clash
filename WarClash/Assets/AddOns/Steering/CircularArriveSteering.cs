@@ -26,7 +26,7 @@ class CircularArriveSteering : BaseArriveSteering
             if (_validTarget)
             {
                 GridService.Clear(Target, Self as SceneObject);
-                GridService.TagAs(Self.Position, Self as SceneObject, NodeType.BeTaken);
+                GridService.TagAs(Self.Position, Self as SceneObject, GridService.NodeType.BeTaken);
             }
             return;
         }
@@ -34,7 +34,7 @@ class CircularArriveSteering : BaseArriveSteering
         {
             _validTarget = GridService.SearchNearCircleEmptyPoint(Self.Position, Target, 4, out Target);
             if(_validTarget)
-                GridService.TagAs(Target, Self as SceneObject, NodeType.FlagAsTarget);
+                GridService.TagAs(Target, Self as SceneObject, GridService.NodeType.FlagAsTarget);
         }
        
         Vector3d dir = Target - Self.Position;

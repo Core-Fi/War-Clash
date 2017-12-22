@@ -22,9 +22,9 @@ namespace Logic.LogicObject
         }
         public enum SceneEvent
         {
-            Addsceneobject,
-            Removesceneobject,
-            Oncreate
+            AddSceneObject,
+            RemoveSceneObject,
+            OnCreate
         }
         public EventGroup EventGroup { get; private set; }
         public Scene()
@@ -80,7 +80,7 @@ namespace Logic.LogicObject
         internal void RemoveSceneObject(int id)
         {
             this.RemoveObject(id);
-            EventGroup.FireEvent((int)SceneEvent.Removesceneobject, this, EventGroup.NewArg<EventSingleArgs<int>, int>(id));
+            EventGroup.FireEvent((int)SceneEvent.RemoveSceneObject, this, EventGroup.NewArg<EventSingleArgs<int>, int>(id));
             IDManager.SP.ReturnID(id);
         }
         private void AddSceneObject(CreateInfo createInfo, SceneObject so)
@@ -101,7 +101,7 @@ namespace Logic.LogicObject
             {
                 FixedQuadTreeForBuilding.Insert<Building>((Building) so);
             }
-            EventGroup.FireEvent((int)SceneEvent.Addsceneobject, this, EventGroup.NewArg<EventSingleArgs<SceneObject>, SceneObject>(so));
+            EventGroup.FireEvent(SceneEvent.AddSceneObject.ToInt(), this, EventGroup.NewArg<EventSingleArgs<SceneObject>, SceneObject>(so));
         }
 
         public override void OnUpdate(float deltaTime)

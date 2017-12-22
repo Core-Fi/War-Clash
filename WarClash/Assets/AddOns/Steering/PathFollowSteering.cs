@@ -83,7 +83,7 @@ class PathFollowSteering : BaseSteering
             _index++;
             if (_index == Path.Count)
             {
-                GridService.TagAs(Target, Self as SceneObject, NodeType.BeTaken);
+                GridService.TagAs(Target, Self as SceneObject, GridService.NodeType.BeTaken);
                 Finish = true;
                 return;
             }
@@ -108,7 +108,7 @@ class PathFollowSteering : BaseSteering
                     GridService.SearchNearCircleEmptyPoint(Self.Position, Path[_index], Radius, out t);
                 }
                 Target = t;
-                GridService.TagAs(Target, Self as SceneObject, NodeType.FlagAsTarget);
+                GridService.TagAs(Target, Self as SceneObject, GridService.NodeType.FlagAsTarget);
             }
         }
         Vector3d desiredVelocity = _so.Forward * Self.Speed;

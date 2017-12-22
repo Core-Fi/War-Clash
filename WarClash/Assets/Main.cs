@@ -87,7 +87,12 @@ public class Main : MonoBehaviour
             }
             if (GUILayout.Button("NewNpc"))
             {
-                LogicCore.SP.LockFrameMgr.SendCommand(new CreateNpcCommand() {NpcId = 1001});
+                if (MainPlayer.SP != null)
+                {
+                    LogicCore.SP.LockFrameMgr.SendCommand(new CreateNpcCommand() { NpcId = 1001, Sender = MainPlayer.SP.Id});
+                }
+                else
+                    LogicCore.SP.LockFrameMgr.SendCommand(new CreateNpcCommand() {NpcId = 1001});
 
             }
             if (GUILayout.Button("CreateBarack1"))

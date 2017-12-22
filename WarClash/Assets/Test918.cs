@@ -104,14 +104,14 @@ public class Test918 : MonoBehaviour
     void Update()
     {
        // ani.Play("attack", -1, 1);
-        if (m == null)
-        {
-            m = new Mesh();
-            m.vertices = new Vector3[vertexCount];
-            m.triangles = smr.sharedMesh.triangles;
-            mf.mesh = m;
-        }
-        smr.BakeMesh(m);
+        //if (m == null)
+        //{
+        //    m = new Mesh();
+        //    m.vertices = new Vector3[vertexCount];
+        //    m.triangles = smr.sharedMesh.triangles;
+        //    mf.mesh = m;
+        //}
+        //smr.BakeMesh(m);
         //if (index > 30)
         //    index = 0;
         //for (int i = 0; i < vertexCount; i++)

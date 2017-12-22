@@ -3,14 +3,19 @@ using System.Linq;
 using System.Text;
 using Brainiac;
 using Config;
+using Lockstep;
 using Logic.Config;
 using UnityEngine;
 
 namespace Logic.LogicObject
 {
-    public class Npc : Character
+    public class Npc : Character, IAlignmentAgent
     {
         public ArmyConf Conf;
+
+        public int AlignmentX { get; set; }
+        public int AlignmentY { get; set; }
+
         internal override void OnInit(CreateInfo createInfo)
         {
             base.OnInit(createInfo);

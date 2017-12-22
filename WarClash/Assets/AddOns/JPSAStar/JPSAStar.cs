@@ -34,6 +34,8 @@ public class JPSAStar : MonoBehaviour
     private PathFinder _astarPathFinder;
     void Awake()
     {
+        active = this;
+        GridService.Init(64, 64, FixedMath.One);
         FixedOffset = new Vector2d((int)Offset.x * FixedMath.One / 100, (int)Offset.y * FixedMath.One / 100);
         var scene = SceneManager.GetActiveScene();
         Data = Utility.ReadByteFromStreamingAsset("Map/" + scene.name + "_jps.map");
@@ -44,10 +46,12 @@ public class JPSAStar : MonoBehaviour
             var x = i % ColumnCount;
             var y = i / ColumnCount;
             astarGrid[x, y] = Data[i];//((Data[i] & (byte)JPSAStar.NodeType.UnWalkable)>0)?(byte)0: (byte)1;
+            if ((Data[i] & (byte)NodeType.UnWalkable) > 0)
+            {
+                GridService.TagAsObstalce(x, y, GridService.NodeType.Obstacle);
+            }
         }
         _astarPathFinder = new PathFinder(astarGrid);
-        active = this;
-        GridService.Init(64, 64, FixedMath.One);
     }
 
     public void SetUnWalkable(Vector3d v)

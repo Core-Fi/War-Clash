@@ -18,18 +18,17 @@ class GameNetManager : Manager
         _netManger.Start();
         string local = "127.0.0.1";
         string outside = "47.94.204.158";
-        _netManger.Connect(outside, 9050);
+        _netManger.Connect(local, 9050);
     }
-
     public void SendMsg(object sender, EventMsg e)
     {
         var msg = e as EventSingleArgs<NetDataWriter>;
         _netManger.SendToAll(msg.value, SendOptions.ReliableOrdered);
+        _netManger.Flush();
     }
     public override void OnUpdate()
     {
         _netManger.PollEvents();
-        
         base.OnUpdate();
     }
 

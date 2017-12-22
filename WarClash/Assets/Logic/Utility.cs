@@ -19,7 +19,18 @@ public static class Utility
             builder.Capacity = 0;
         }
     }
-
+    public static long Random(ref int r)
+    {
+        int _base = 256;
+        int a = 17;
+        int b = 139;
+        long temp1 = (a * (r) + b).ToLong();
+        long temp2 = (temp1.Div(_base)).ToInt().ToLong(); //得到余数
+        long temp3 = temp1 - temp2 * _base;
+        r = temp3.ToInt();
+        long p = temp3.Div(_base);
+        return p;
+    }
     public static bool RoundEquals(this float f, float v)
     {
         if (Mathf.Abs(f - v) < 0.0001f)
@@ -32,6 +43,13 @@ public static class Utility
         }
     }
 
+    public static Vector3d RotateY(this Vector3d f, long Angle)
+    {
+        Vector3d nf = Vector3d.zero;
+        nf.x = f.x.Mul( FixedMath.Trig.CosDegree(Angle)) + f.z.Mul(FixedMath.Trig.Sin(Angle));
+        nf.z = f.z.Mul(FixedMath.Trig.CosDegree(Angle)) - f.x.Mul(FixedMath.Trig.Sin(Angle));
+        return nf;
+    }
     public static T GetComponent<T>(this GameObject go, bool add) where T : Component
     {
         var comp = go.GetComponent<T>();
