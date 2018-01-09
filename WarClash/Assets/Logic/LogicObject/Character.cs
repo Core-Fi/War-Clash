@@ -66,7 +66,8 @@ namespace Logic.LogicObject
 
         private void OnPositionChange(object sender, EventMsg e)
         {
-            LogicCore.SP.SceneManager.CurrentScene.FixedQuadTree.Relocate(this);
+            var _battleScene = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+            _battleScene.FixedQuadTree.Relocate(this);
         }
         public bool ReleaseSkill(int id)
         {

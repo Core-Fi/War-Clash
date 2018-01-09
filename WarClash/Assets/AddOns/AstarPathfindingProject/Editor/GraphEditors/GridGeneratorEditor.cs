@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 using Pathfinding.Serialization;
 
@@ -343,7 +343,7 @@ namespace Pathfinding {
 #endif
 			} else {
 #if ASTAR_JPS
-				EditorGUILayout.HelpBox("If you are not using JPS in any scene, you can disable it to save memory", MessageType.Info);
+				EditorGUILayout.HelpBox("If you are not using JPS in any battleScene, you can disable it to save memory", MessageType.Info);
 				if (GUILayout.Button("Disable Jump Point Search support")) {
 					OptimizationHandler.DisableDefine("ASTAR_JPS");
 				}

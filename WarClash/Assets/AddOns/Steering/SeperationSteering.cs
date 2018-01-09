@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Lockstep;
 using Logic;
+using Logic.LogicObject;
 using UnityEngine;
 
 internal class SeperationSteering : BaseSteering
@@ -24,7 +25,8 @@ internal class SeperationSteering : BaseSteering
     public override void GetDesiredSteering(SteeringResult rst)
     {
         _neighbors.Clear();
-        LogicCore.SP.SceneManager.CurrentScene.FixedQuadTree.Query(Self, FixedMath.One * 2, _neighbors);
+        var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+        bs.FixedQuadTree.Query(Self, FixedMath.One * 2, _neighbors);
         if(_neighbors.Count==0)return;
         var seperationVector = Vector3d.zero;
         for (var i = 0; i < _neighbors.Count; i++)

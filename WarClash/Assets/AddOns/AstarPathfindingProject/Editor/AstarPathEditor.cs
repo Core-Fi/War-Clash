@@ -256,7 +256,7 @@ public class AstarPathEditor : Editor {
 		firstRun = false;
 	}
 
-	/** Repaints Scene View.
+	/** Repaints BattleScene View.
 	 * \warning Uses Undocumented Unity Calls (should be safe for Unity 3.x though) */
 	void RepaintSceneView () {
 		if (!Application.isPlaying || EditorApplication.isPaused) SceneView.RepaintAll();

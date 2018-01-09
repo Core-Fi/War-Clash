@@ -81,7 +81,7 @@ class BundleLoader : IPool
     //sw.Start();
     IEnumerator LoadMainAsset()
     {
-        var asyn = AssetBundle.LoadFromFileAsync(AssetResources.BaseUrl+BundleName);
+        var asyn = AssetBundle.LoadFromFileAsync(AssetResources.GetAssetPath(BundleName));
         yield return asyn.assetBundle;
         var assetsReq = asyn.assetBundle.LoadAllAssetsAsync();
         yield return assetsReq;
@@ -91,11 +91,13 @@ class BundleLoader : IPool
 
     void LoadMainAssetNow()
     {
-        var assetBundle = AssetBundle.LoadFromFile(AssetResources.BaseUrl + BundleName);
+        var assetBundle = AssetBundle.LoadFromFile(AssetResources.GetAssetPath(BundleName));
         var assetsReq = assetBundle.LoadAllAssets();
         AssetResources.RemoveFinishedLoader(this, BundleName, assetsReq, assetBundle);
         Pool.SP.Recycle(this);
     }
+
+    
     public void Reset()
     {
         dependencies = null;
@@ -110,6 +112,7 @@ class BundleLoader : IPool
 class AssetResources
 {
     public static string BaseUrl;
+    public static string PersistentUrl;
     public static AssetBundleManifest Manifest;
     public static Dictionary<string, AssetInfo> AssetsInfos; 
     private static readonly List<BundleLoader> LoadingList = new List<BundleLoader>();
@@ -167,6 +170,18 @@ class AssetResources
     {
         LoadingList.Add(l);
     }
+    public static string GetAssetPath(string bundlename)
+    {
+        var persistentPath = AssetResources.PersistentUrl + bundlename;
+        if (File.Exists(AssetResources.PersistentUrl + bundlename))
+        {
+            return persistentPath;
+        }
+        else
+        {
+            return AssetResources.BaseUrl + bundlename;
+        }
+    }
     public static AssetInfo GetAssetInfo(string assetName)
     {
         if (AssetsInfos.ContainsKey(assetName))
@@ -190,21 +205,36 @@ class AssetResources
             return null;
         }
     }
-    private static void LoadManifest()
+
+    static AssetResources()
     {
 #if UNITY_EDITOR
         BaseUrl = System.IO.Path.Combine(Application.dataPath, @"..\AB\");
+        PersistentUrl = System.IO.Path.Combine(Application.persistentDataPath, @"AB\");
 #elif UNITY_ANDROID
         BaseUrl = Path.Combine(Application.streamingAssetsPath, @"AB/");
+        PersistentUrl = Path.Combine(Application.persistentDataPath, @"AB/");
 #endif
-        var bundle = AssetBundle.LoadFromFile(BaseUrl + "AB");
+    }
+    public static Dictionary<string, string> LoadBundleHash()
+    {
+        var assetBundleHashPath = GetAssetPath("assetBundleHash.txt");
+        var txt = Utility.ReadBytesFromAbsolutePath(assetBundleHashPath);
+        var destr = Encoding.UTF8.GetString(txt);
+        var dic = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(destr);
+        return dic;
+    }
+    private static void LoadManifest()
+    {
+        var bundle = AssetBundle.LoadFromFile(GetAssetPath("AB"));
         Manifest = bundle.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
         bundle.Unload(false);
         if(Manifest == null)
         {
             throw new System.Exception("Manifest not found ");
         }
-        var txt = Utility.ReadBytesFromAbsolutePath(BaseUrl + "assetInfos.txt");
+        var assetInfoPath = GetAssetPath("assetInfos.txt");
+        var txt = Utility.ReadBytesFromAbsolutePath(assetInfoPath);
       //  byte[] decompress = Utility.Decompress(txt);
 
         var destr = Encoding.UTF8.GetString(txt);

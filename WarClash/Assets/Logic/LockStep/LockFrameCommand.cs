@@ -72,7 +72,8 @@ namespace Logic
         public int Id;
         public override void OnExecute()
         {
-            var c = LogicCore.SP.SceneManager.CurrentScene.GetObject<Character>(Sender);
+            var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+            var c = bs.GetObject<Character>(Sender);
             c.ReleaseSkill(Id);
         }
 
@@ -95,7 +96,8 @@ namespace Logic
     {
         public override void OnExecute()
         {
-            var player = LogicCore.SP.SceneManager.CurrentScene.GetObject(Sender) as Player;
+            var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+            var player = bs.GetObject(Sender) as Player;
             player.StateMachine.Start<MoveState>();
         }
 
@@ -121,7 +123,8 @@ namespace Logic
     {
         public override void OnExecute()
         {
-            var player = LogicCore.SP.SceneManager.CurrentScene.GetObject(Sender) as Player;
+            var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+            var player = bs.GetObject(Sender) as Player;
             player.StateMachine.Start<IdleState>();
         }
 
@@ -143,7 +146,8 @@ namespace Logic
         public Vector3d Forward;
         public override void OnExecute()
         {
-            var player = LogicCore.SP.SceneManager.CurrentScene.GetObject(Sender) as Player;
+            var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+            var player = bs.GetObject(Sender) as Player;
             player.Forward = Forward;
             player.Velocity = player.Forward * player.Speed;
         }
@@ -178,11 +182,12 @@ namespace Logic
         public override void OnExecute()
         {
             base.OnExecute();
-            var player = LogicCore.SP.SceneManager.CurrentScene.GetObject<Player>(Sender);
+            var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+            var player = bs.GetObject<Player>(Sender);
             var strategy = (LockFrameMgr.Strategy)Strategy;
             if (strategy == LockFrameMgr.Strategy.FollowPlayer)
             {
-                LogicCore.SP.SceneManager.CurrentScene.ForEachDo<Npc>((c) =>
+                bs.ForEachDo<Npc>((c) =>
                 {
                     c.AiAgent.Blackboard.SetItem("strategy", (int)strategy);   
                 });
@@ -208,11 +213,12 @@ namespace Logic
         public Vector3d Position;
         public override void OnExecute()
         {
-            var senderSo = LogicCore.SP.SceneManager.CurrentScene.GetObject<SceneObject>(Sender);
+            var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+            var senderSo = bs.GetObject<SceneObject>(Sender);
             var createInfo = Pool.SP.Get<BuildingCreateInfo>();
             createInfo.BuildingId = BuildingId;
             createInfo.Position = Position;// mapItem.Position;
-            var barack = LogicCore.SP.SceneManager.CurrentScene.CreateBuilding(createInfo);
+            var barack = bs.CreateBuilding(createInfo);
             barack.Radius = FixedMath.One*3;
             if(senderSo!=null)
                 barack.Team = senderSo.Team;
@@ -249,12 +255,13 @@ namespace Logic
         public long PosiZ;
         public override void OnExecute()
         {
-            var sender = LogicCore.SP.SceneManager.CurrentScene.GetObject(Sender);
+            var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+            var sender = bs.GetObject(Sender);
             var createInfo = Pool.SP.Get<NpcCreateInfo>();
             createInfo.NpcId = NpcId;
             createInfo.Position =
                 new Vector3d(PosiX, 0, PosiZ);
-            var npc = LogicCore.SP.SceneManager.CurrentScene.CreateSceneObject<Npc>(createInfo);
+            var npc = bs.CreateSceneObject<Npc>(createInfo);
             if(sender!=null)
                 npc.Team = sender.Team;
             else
@@ -290,7 +297,8 @@ namespace Logic
     {
         public override void OnExecute()
         {
-            var mainPlayer = LogicCore.SP.SceneManager.CurrentScene.CreateSceneObject<MainPlayer>(Sender);
+            var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+            var mainPlayer = bs.CreateSceneObject<MainPlayer>(Sender);
             mainPlayer.Team = Team.Team1;
             mainPlayer.Position = Vector3d.zero;
             mainPlayer.Radius = FixedMath.One/2;
@@ -316,7 +324,8 @@ namespace Logic
     {
         public override void OnExecute()
         {
-            var player = LogicCore.SP.SceneManager.CurrentScene.CreateSceneObject<Player>(Sender);
+            var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+            var player = bs.CreateSceneObject<Player>(Sender);
             player.Position = Vector3d.zero;
             player.Team = Team.Team1;
         }

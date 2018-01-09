@@ -10,6 +10,10 @@ namespace Logic.Skill
 {
     public class SkillUtility
     {
+        public static string GetRequiredConfigsPath()
+        {
+            return Application.dataPath + "RequiredResources/TextConfigs/";
+        }
         public static JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
         public static T GetTimelineGroupFullPath<T>(string path) where T : TimeLineGroup
         {
@@ -25,7 +29,7 @@ namespace Logic.Skill
         }
         public static Dictionary<int, string> LoadIndexFile(string fpath)
         {
-            var text = Utility.ReadStringFromStreamingAsset(fpath + "/_index.txt");
+            var text = Utility.ReadStringFromAbsolutePath(GetRequiredConfigsPath()+fpath);
             return Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<int, string>>(text, settings);
         }
 #if UNITY_EDITOR
@@ -37,14 +41,18 @@ namespace Logic.Skill
      
         public static void SaveToSkillIndexFile(TimeLineGroup tlg, string fpath)
         {
-            string indexPath = Application.streamingAssetsPath + "/";
+            string indexPath = GetRequiredConfigsPath();
             if (tlg is Skill)
             {
-                indexPath += "Skills/_index.txt";
+                indexPath += "Skills/skill_index.txt";
             }
             else if (tlg is Event)
             {
-                indexPath += "Events/_index.txt";
+                indexPath += "Events/event_index.txt";
+            }
+            else
+            {
+                indexPath += "Buffs/buff_index.txt";
             }
             Dictionary<int, string> dic = null;
             if (File.Exists(indexPath))

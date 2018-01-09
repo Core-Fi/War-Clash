@@ -96,7 +96,7 @@ public class SKillWindow : EditorWindow
         fileInfos.Clear();
         _runtimeOperatePanel = new ERuntimeOperatePanel();
         _actionDetailPanel = new EShowActionDetailPanel();
-        GetFiles(Application.streamingAssetsPath , fileInfos, null);
+        GetFiles(SkillUtility.GetRequiredConfigsPath() , fileInfos, null);
         SkillEditTempData.settingTex = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Editor/Image/setting.png");
     }
 
@@ -212,7 +212,9 @@ public class SKillWindow : EditorWindow
             var oi = Selection.activeGameObject.GetComponent<LogicObject>();
             if (oi)
             {
-                var so = LogicCore.SP.SceneManager.CurrentScene.GetObject<Character>(oi.ID);
+                var _battleScene = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+                
+                var so = _battleScene.GetObject<Character>(oi.ID);
                 so.ReleaseSkill(editingFileInfo.name);
             }
         }
@@ -221,7 +223,8 @@ public class SKillWindow : EditorWindow
             var oi = Selection.activeGameObject.GetComponent<LogicObject>();
             if (oi)
             {
-                var so = LogicCore.SP.SceneManager.CurrentScene.GetObject<Character>(oi.ID);
+                var _battleScene = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+                var so = _battleScene.GetObject<Character>(oi.ID);
                 so.CancelSkill();
             }
         }
@@ -294,8 +297,8 @@ public class SKillWindow : EditorWindow
     }
     bool IsSkillFile(string path)
     {
-        string ext = Path.GetExtension(path);
-        return (ext == ".skill" || ext == ".buff" || ext == ".event");
+        string ext = Path.GetFileNameWithoutExtension(path);
+        return (ext.Contains("skill") || ext.Contains("buff") || ext.Contains("event"));
     }
     void GetFiles(string basePath, List<FileInfo> fileInfos, FileInfo parent)
     {

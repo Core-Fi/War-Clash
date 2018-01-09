@@ -15,7 +15,7 @@ namespace Logic.Skill
 
         public static void LoadEventIndexFiles()
         {
-            event_index = Logic.Skill.SkillUtility.LoadIndexFile("/Events");
+            event_index = Logic.Skill.SkillUtility.LoadIndexFile("/Events/event_index.bytes");
         }
 
         private static string GetEventPath(int id)

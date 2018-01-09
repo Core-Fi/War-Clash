@@ -6,20 +6,27 @@ using Logic.LogicObject;
 
 public class U3DSceneManager
 {
-    public U3DScene U3DScene { get; private set; }
+    public IU3DScene U3dScene { get; private set; }
     public U3DSceneManager()
     {
         Logic.LogicCore.SP.SceneManager.EventGroup.ListenEvent((int)Logic.SceneManager.SceneManagerEvent.OnSwitchScene, OnSwitchScene);
     }
     private void OnSwitchScene(object sender, EventMsg e)
     {
-        EventSingleArgs<Scene> msg = e as EventSingleArgs<Scene>;
-        Scene scene = msg.value;
-        U3DScene = new U3DScene();
-        U3DScene.Init(scene);
+        EventSingleArgs<IScene> msg = e as EventSingleArgs<IScene>;
+        var battleScene = msg.value;
+        if (battleScene is BattleScene)
+        {
+            U3dScene = new U3DBattleScene();
+        }
+        else if (battleScene is HotFixScene)
+        {
+            U3dScene = new U3DHotFixScene();
+        }
+        U3dScene.Init(battleScene);
     }
     public void Update()
     {
-        U3DScene.Update(Time.deltaTime);
+        U3dScene.OnUpdate(Time.deltaTime);
     }
 }

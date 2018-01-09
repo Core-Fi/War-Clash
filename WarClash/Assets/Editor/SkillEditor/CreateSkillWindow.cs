@@ -118,20 +118,20 @@ public class CreateSkillWindow : EditorWindow
             if (tgType == TimelingGroupType.SKILL)
             {
                 path += "Skills/";
-                path += skillpath+".skill";
+                path += "skill_"+skillpath+".bytes";
             }
             else if (tgType == TimelingGroupType.BUFF)
             {
                 path += "Buffs/";
-                path += skillpath+".buff";
+                path += "buff_" + skillpath + ".bytes";
 
             }
             else if (tgType == TimelingGroupType.EVENT)
             {
                 path += "Events/";
-                path += skillpath + ".event";
+                path += "event_"+skillpath + ".bytes";
             }
-            string finalPath = Application.streamingAssetsPath + path;
+            string finalPath = SkillUtility.GetRequiredConfigsPath() + path;
             SkillUtility.SaveTimelineGroup(tg, finalPath);
             SkillUtility.SaveToSkillIndexFile(tg, path);
             skillWindow.OnCreate();

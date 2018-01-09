@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 3004126900
+CRC: 4099168825
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -120,4 +120,16 @@ AssetBundleManifest:
         Dependency_2: assets/rawresources/axeyworks/low poly v2/materials/_color_c16_3.mat
     Info_30:
       Name: assets/shader/transparent.shader
+      Dependencies: {}
+    Info_31:
+      Name: map
+      Dependencies: {}
+    Info_32:
+      Name: skills
+      Dependencies: {}
+    Info_33:
+      Name: events
+      Dependencies: {}
+    Info_34:
+      Name: config
       Dependencies: {}

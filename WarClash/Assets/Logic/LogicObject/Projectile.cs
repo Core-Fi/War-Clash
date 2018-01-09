@@ -128,14 +128,16 @@ namespace Logic.LogicObject
 
         protected virtual void OnHit(SceneObject receiver)
         {
+            var _battleScene = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
             EventManager.TriggerEvent(ProjectileAction.hitEvent, new RuntimeData(Sender, receiver, Data));
             EventGroup.FireEvent((int)ProjectileEvent.OnHit, this, null);
-            LogicCore.SP.SceneManager.CurrentScene.RemoveSceneObject(this.Id);
+            _battleScene.RemoveSceneObject(this.Id);
         }
         protected virtual void OnDie()
         {
+            var _battleScene = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
             EventManager.TriggerEvent(ProjectileAction.dieEvent, new RuntimeData(Sender, null, Data));
-            LogicCore.SP.SceneManager.CurrentScene.RemoveSceneObject(this.Id);
+            _battleScene.RemoveSceneObject(this.Id);
         }
 
     }
@@ -151,7 +153,8 @@ namespace Logic.LogicObject
         internal override void OnFixedUpdate(long deltaTime)
         {
             _leftTime -= deltaTime;
-            LogicCore.SP.SceneManager.CurrentScene.ForEachDo<Player>((p) =>
+            var _battleScene = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+            _battleScene.ForEachDo<Player>((p) =>
             {
                 if (Vector3d.SqrDistance(Position, p.Position) < FixedMath.One / 5)
                 {

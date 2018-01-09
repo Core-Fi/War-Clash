@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Lockstep;
 using Logic;
+using Logic.LogicObject;
 using UnityEngine;
 
 
@@ -90,7 +91,8 @@ using UnityEngine;
     public override void GetDesiredSteering(SteeringResult rst)
     {
             var avoidance = Vector3.zero;
-        LogicCore.SP.SceneManager.CurrentScene.FixedQuadTreeForBuilding.Query(Self, FixedMath.One * 2, _neighbors);
+        var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+        bs.FixedQuadTreeForBuilding.Query(Self, FixedMath.One * 2, _neighbors);
         if (_neighbors.Count == 0) return ;
 
         /*

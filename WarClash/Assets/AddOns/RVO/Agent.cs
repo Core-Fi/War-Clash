@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Lockstep;
 using Logic;
+using Logic.LogicObject;
 using UnityEngine.VR;
 public struct FixedLine
 {
@@ -20,7 +21,8 @@ public class FixedAgent {
   
     void getNeighbors()
     {
-        LogicCore.SP.SceneManager.CurrentScene.FixedQuadTree.Query(_self, FixedMath.One * 4, neighborsList);
+        var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+        bs.FixedQuadTree.Query(_self, FixedMath.One * 4, neighborsList);
     }
 
     private Vector2d _fixedVecocity;

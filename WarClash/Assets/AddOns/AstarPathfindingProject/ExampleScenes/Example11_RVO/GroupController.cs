@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Pathfinding.RVO;
 using Pathfinding.RVO.Sampled;
 
-/** RVO Example Scene Unit Controller.
+/** RVO Example BattleScene Unit Controller.
  * Controls AIs and camera in the RVO example scene.
  */
 [HelpURL("http://arongranberg.com/astar/docs/class_pathfinding_1_1_examples_1_1_group_controller.php")]

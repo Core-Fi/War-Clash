@@ -31,7 +31,8 @@ public class LogicObject : MonoBehaviour {
         get{
             if(_so == null)
             {
-                _so = Logic.LogicCore.SP.SceneManager.CurrentScene.GetObject(ID);
+                var _battleScene = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+                _so = _battleScene.GetObject(ID);
             }
             return _so;
         }

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3670589129
+CRC: 951758351
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 52c9afeaa6d343cabc826ca48ab97205
+    Hash: d640dfff9a4e57a9fa2617b3c34107e5
   TypeTreeHash:
     serializedVersion: 2
     Hash: d04c7ea3d76e4bd6d53b08d4a9aa95e3
@@ -17,6 +17,7 @@ ClassTypes:
   Script: {instanceID: 0}
 Assets:
 - Assets/RequiredResources/BT/NpcBT2.asset
+- Assets/RequiredResources/BT/Test.asset
 - Assets/RequiredResources/BT/TowerBT.asset
 - Assets/RequiredResources/BT/NpcBT.asset
 - Assets/RequiredResources/Scene/Scene01/Scene01/NavMesh.asset

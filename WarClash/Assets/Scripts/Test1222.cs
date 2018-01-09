@@ -5,6 +5,9 @@ using UnityEngine;
 public class Test1222 : MonoBehaviour
 {
     public Mesh  mf;
+    private Mesh m;
+
+    private Vector3 center;
 	// Use this for initialization
 	void Start ()
 	{
@@ -13,6 +16,7 @@ public class Test1222 : MonoBehaviour
         List<Vector3> vs = new List<Vector3>();
         List<Vector2> uvs = new List<Vector2>();
         List<int> ts = new List<int>();
+        
 	    for (int i = 0; i < triCount; i++)
 	    {
 	        int index1 = om.triangles[i*3];
@@ -23,13 +27,13 @@ public class Test1222 : MonoBehaviour
 	        var v3 = om.vertices[index3];
 
 	        var center = (v1 + v2 + v3)/3;
-
+	        this.center += center;
 	        var uv1 = om.uv[index1];
 	        var uv2 = om.uv[index2];
 	        var uv3 = om.uv[index3];
-            vs.Add((v1 - center).normalized * 0.1f + center);
-	        vs.Add((v2 - center).normalized * 0.1f + center);
-	        vs.Add((v3 - center).normalized * 0.1f + center);
+            vs.Add((v1 - center).normalized * 0.2f + center);
+	        vs.Add((v2 - center).normalized * 0.2f + center);
+	        vs.Add((v3 - center).normalized * 0.2f + center);
             uvs.Add(uv1);
 	        uvs.Add(uv2);
 	        uvs.Add(uv3);
@@ -37,7 +41,8 @@ public class Test1222 : MonoBehaviour
 	        ts.Add(i * 3+1);
 	        ts.Add(i * 3+2);
         }
-        Mesh m = new Mesh();
+	    this.center /= triCount;
+        m = new Mesh();
 	    m.vertices = vs.ToArray();
 	    m.triangles = ts.ToArray();
 	    m.uv = uvs.ToArray();
@@ -50,7 +55,15 @@ public class Test1222 : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
+	void Update ()
+	{
+	    var vs =  m.vertices;
+	    for (int i = 0; i < vs.Length; i++)
+	    {
+	        var dir = (vs[i] - center).normalized;
+	        vs[i] += dir * Time.time/2f * UnityEngine.Random.Range(0,1f);
+	    }
+        m.vertices = vs;
+
 	}
 }

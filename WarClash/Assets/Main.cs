@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using DG.Tweening;
 using LiteNetLib.Utils;
@@ -8,6 +12,7 @@ using Logic;
 using Logic.LogicObject;
 using Logic.Skill;
 using UnityEngine;
+using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 public class Main : MonoBehaviour
 {
@@ -48,16 +53,21 @@ public class Main : MonoBehaviour
     void Start ()
 	{
         DonotDestroy();
-        Logic.LogicCore.SP.Init();
-        u3dSceneManager = new U3DSceneManager();
-        Logic.LogicCore.SP.SceneManager.SwitchScene(new Scene("scene03"));
-        EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("BattleUI.prefab", typeof(BattleUI), null));
-	    EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("Hud.prefab", typeof(HudView), null));
+	    Logic.LogicCore.SP.Init();
+	    u3dSceneManager = new U3DSceneManager();
+	    Logic.LogicCore.SP.SceneManager.SwitchScene(new HotFixScene());
+        //AssetResources.LoadAsset("skill_1.bytes", (s, o) =>
+        //{
+        //    var ta = o as TextAsset;
+        //    Debug.LogError(ta.text);
+        //});
+	    //   EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("BattleUI.prefab", typeof(BattleUI), null));
+	    //EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("Hud.prefab", typeof(HudView), null));
 #if UNITY_ANDROID
         FingerGestures.OnTap += CheckOpenLogWindow;
 #endif
 
-    }
+	}
 #if UNITY_ANDROID
     void CheckOpenLogWindow(Vector2 fingerPos, int tapCount)
     {
@@ -67,12 +77,14 @@ public class Main : MonoBehaviour
         }
     }
 #endif
+ 
     private Vector2 _offset;
     void OnGUI()
     {
-        
+        return;
+        var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
         GUILayout.BeginHorizontal();
-        if (ShowShortCut)
+        if (ShowShortCut && bs!=null)
         {
             GUILayout.BeginVertical();
             GUILayout.Label(LogicCore.SP.LockFrameMgr.LocalFrameCount + "  " +
@@ -95,15 +107,16 @@ public class Main : MonoBehaviour
                     LogicCore.SP.LockFrameMgr.SendCommand(new CreateNpcCommand() {NpcId = 1001});
 
             }
+           
             if (GUILayout.Button("CreateBarack1"))
             {
-                var mp = LogicCore.SP.SceneManager.CurrentScene.GetObject<MainPlayer>();
+                var mp = bs.GetObject<MainPlayer>();
                 // var mapItem = LogicCore.SP.SceneManager.CurrentScene.MapConfig.MapDic[MapItemId] as MapBuildingItem;
                 LogicCore.SP.LockFrameMgr.SendCommand(new CreateBuildingCommand {BuildingId = 1002, Sender = mp.Id});
             }
             if (GUILayout.Button("CreateBarack2"))
             {
-                var mp = LogicCore.SP.SceneManager.CurrentScene.GetObject<MainPlayer>();
+                var mp = bs.GetObject<MainPlayer>();
                 if (mp != null)
                     LogicCore.SP.LockFrameMgr.SendCommand(new CreateBuildingCommand
                     {
@@ -166,13 +179,13 @@ public class Main : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        managerDriver.Update();
-        u3dSceneManager.Update();
-        Logic.LogicCore.SP.Update(Time.deltaTime);
+        //managerDriver.Update();
+        //u3dSceneManager.Update();
+        //Logic.LogicCore.SP.Update(Time.deltaTime);
 	}
     void FixedUpdate()
     {
-        Logic.LogicCore.SP.FixedUpdate();
+        //Logic.LogicCore.SP.FixedUpdate();
     }
 
     void OnApplicationQuit()

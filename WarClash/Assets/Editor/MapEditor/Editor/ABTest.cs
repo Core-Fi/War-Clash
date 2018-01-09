@@ -11,6 +11,7 @@ using Object = UnityEngine.Object;
 public class ABTest : Editor
 {
     private const string RequiredUrl = "Assets/RequiredResources/";
+    private const string TextConfig = "TextConfigs";
     public static Dictionary<Object, int> RefCount = new Dictionary<Object, int>();
     public static List<GameObject> CaculatedGo = new List<GameObject>(); 
     public static List<System.Type> Types = new List<System.Type>() {typeof(RuntimeAnimatorController),typeof(Texture2D), typeof(Mesh), typeof(Material), typeof(Shader), typeof(AnimationClip)};
@@ -21,7 +22,8 @@ public class ABTest : Editor
         SetAssetBundleName();
         var path = Path.Combine(Application.dataPath, @"..\AB");
         var manifest = BuildPipeline.BuildAssetBundles(path, BuildAssetBundleOptions.DeterministicAssetBundle, BuildTarget.StandaloneWindows64);
-        if(manifest!=null)
+        
+        if (manifest!=null)
             DoAfterBuild(path, manifest);
     }
 
@@ -71,8 +73,15 @@ public class ABTest : Editor
         ClearAbName();
         SetAssetBundleName();
         var path = Path.Combine(Application.streamingAssetsPath, @"AB");
+        if (Directory.Exists(path))
+        {
+           // Directory.Delete(path, true);
+        }
+        Directory.CreateDirectory(path);
         var manifest = BuildPipeline.BuildAssetBundles(path, BuildAssetBundleOptions.DeterministicAssetBundle, BuildTarget.Android);
         DoAfterBuild(path, manifest);
+        ZipUtility.Zip(new string[] {path}, path+".zip");
+        Directory.Delete(path);
     }
     [MenuItem("Tools/SetAssetBundleName")]
     public static void SetAssetBundleName()
@@ -81,23 +90,33 @@ public class ABTest : Editor
         List<string> filterPaths = new List<string>(paths.Length);
         foreach (var path in paths)
         {
-            if(path.Contains(RequiredUrl))
+            if(path.Contains(RequiredUrl) && !AssetDatabase.IsValidFolder(path))
             {
                 filterPaths.Add(path);
                 var asset = AssetDatabase.LoadAssetAtPath(path, typeof(Object));
-                if (asset is GameObject)
+                if (path.Contains(TextConfig))
                 {
-                    var go = asset as GameObject;
-                    DoGameObject(go, path);
-                }
-                else if (asset is SceneAsset)
-                {
-                    var scene = asset as SceneAsset;
-                    DoScene(scene, path);
+                    var directory = Path.GetDirectoryName(path);
+                    var ds = directory.Split('/');
+                    SetAssetBundleName( ds[ds.Length-1], asset);
                 }
                 else
                 {
-                    DoAsset(asset, path);
+
+                    if (asset is GameObject)
+                    {
+                        var go = asset as GameObject;
+                        DoGameObject(go, path);
+                    }
+                    else if (asset is SceneAsset)
+                    {
+                        var scene = asset as SceneAsset;
+                        DoScene(scene, path);
+                    }
+                    else
+                    {
+                        DoAsset(asset, path);
+                    }
                 }
             }
         }

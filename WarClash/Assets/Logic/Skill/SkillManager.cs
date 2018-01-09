@@ -17,7 +17,7 @@ namespace Logic.Skill
 
         public static void LoadSkillIndexFiles()
         {
-            skill_index = Logic.Skill.SkillUtility.LoadIndexFile("Skills");
+            skill_index = Logic.Skill.SkillUtility.LoadIndexFile("Skills/skill_index.bytes");
         }
         public static Skill GetSkill(string path)
         {

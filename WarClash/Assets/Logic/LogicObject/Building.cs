@@ -10,6 +10,7 @@ using UnityEngine;
 
 public class Building : SceneObject, IFixedAgent
 {
+    private BattleScene _battleScene;
     #region IFixedAgent Impl
     public IList<IFixedAgent> AgentNeighbors { get; set; }
     public IList<long> AgentNeighborSqrDists { get; set; }
@@ -62,13 +63,14 @@ public class Building : SceneObject, IFixedAgent
     internal override void OnInit(CreateInfo createInfo)
     {
         base.OnInit(createInfo);
+        _battleScene = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
         var buildingCreateInfo = (createInfo as BuildingCreateInfo);
         Conf = ConfigMap<BuildingConf>.Get(buildingCreateInfo.BuildingId);
         base.EventGroup.ListenEvent(SceneObjectEvent.Positionchange.ToInt(), OnPositionChange);
     }
     private void OnPositionChange(object sender, EventMsg e)
     {
-        LogicCore.SP.SceneManager.CurrentScene.FixedQuadTreeForBuilding.Relocate(this);
+        _battleScene.FixedQuadTreeForBuilding.Relocate(this);
     }
     internal override void ListenEvents()
     {

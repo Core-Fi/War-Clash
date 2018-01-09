@@ -1,4 +1,4 @@
-/** \page changelog Changelog
+﻿/** \page changelog Changelog
 
 - 3.8.6 (2016-10-31)
 	- Upgrade Notes
@@ -25,7 +25,7 @@
 			however, so I have not tested to build it for that platform. If any issues arise I would appreciate if
 			you post them in the forum.
 		- Improved inspector for NavmeshCut.
-		- NodeLink2 can now be used even when using cached startup or when loading serialized data in other ways just as long as the NodeLink2 components are still in the scene.
+		- NodeLink2 can now be used even when using cached startup or when loading serialized data in other ways just as long as the NodeLink2 components are still in the battleScene.
 		- LevelGridNode now has support for custom non-grid connections (just like GridNode has).
 		- Added GridNode.XCoordinateInGrid and GridNode.ZCoordinateInGrid.
 		- Improved documentation for GraphUpdateShape a bit.
@@ -79,7 +79,7 @@
 		- Fixed DynamicGridObstacle not setting the correct bounds at start, so the first move of an object with the DynamicGridObstacle
 			component could leave some nodes unwalkable even though they should not be. Thanks Dima for reporting the bug.
 		- Fixed DynamicGridObstacle stopping to work after the GameObject it is attached to is deactivated and then activated again.
-		- Fixed RVOController not working after reloading the scene due to the C# '??' operator not being equivalent to checking
+		- Fixed RVOController not working after reloading the battleScene due to the C# '??' operator not being equivalent to checking
 			for '== null' (it doesn't use Unity's special comparison check). Thanks Khan-amil for reporting the bug.
 		- Fixed typo in documentation for ProceduralGridMover.floodFill.
 	- Changes
@@ -118,10 +118,10 @@
 		- Added a new movement script called AILerp which uses linear interpolation to follow the path.
 			This is good for games which want the agent to follow the path exactly and not use any
 			physics like behaviour. This movement script works in both 2D and 3D.
-		- Added a new 2D example scene which uses the new AILerp movement script.
+		- Added a new 2D example battleScene which uses the new AILerp movement script.
 		- All scripts now have a <a href="http://docs.unity3d.com/ScriptReference/HelpURLAttribute.html">HelpURLAttribute</a>
 			so the documentation button at the top left corner of every script inspector now links directly to the documentation.
-		- Recast graphs can now draw the surface of a navmesh in the scene view instead of only
+		- Recast graphs can now draw the surface of a navmesh in the battleScene view instead of only
 			the node outlines. Enable it by checking the 'Show mesh surface' toggle in the inspector.
 			Drawing the surface instead of the node outlines is usually faster since it does not use
 			Unity Gizmos which have to rebuild the mesh every frame.
@@ -149,7 +149,7 @@
 			severely reduced unless ASTAR_OPTIMIZE_POOLING was enabled (which it was not by default).
 		- Fixed 3 compiler warnings about using some deprecated Unity methods.
 	- Changes
-		- Recast graphs' 'Snap To Scene' button now snaps to the whole scene instead of the objects that intersect the bounds that are already set.
+		- Recast graphs' 'Snap To BattleScene' button now snaps to the whole battleScene instead of the objects that intersect the bounds that are already set.
 			This has been a widely requested change. Thanks Jørgen Tjernø for the patch.
 		- Moved various AstarMath functions to the new class VectorMath and renamed some of them to reduce confusion.
 		- Removed various AstarMath functions because they were either not used or they already exist in e.g Mathf or System.Math.
@@ -330,7 +330,7 @@
 - 3.6.2 (2015-04-14)
 	- Fixes
 		- Fixed null reference exception in the PointGraph OnDrawGizmos method.
-		- Fixed a few example scene errors in Unity 5.
+		- Fixed a few example battleScene errors in Unity 5.
 
 - 3.6.1 (2015-04-06)
 	- Upgrade notes:
@@ -359,7 +359,7 @@
 		- Removed unused methods of little use: AstarData.GuidToIndex and AstarData.GuidToGraph.
 		- Removed RecastGraph.vertices and RecastGraph.vectorVertices since they were obsolete and not used.
 		- Removed some old Unity 4.3 and Unity 3 compatibility code.
-		- Recast graphs' 'Snap to scene' button now takes into account the layer mask and the tag mask when snapping, it now also checks terrains and colliders instead of just meshes (thanks Kieran).
+		- Recast graphs' 'Snap to battleScene' button now takes into account the layer mask and the tag mask when snapping, it now also checks terrains and colliders instead of just meshes (thanks Kieran).
 	- Fixes:
 		- Fixed RecastGraph bounds gizmos could sometimes be drawn with the wrong color.
 		- Fixed a rare data race which would cause an exception with the message
@@ -367,7 +367,7 @@
 		- Tweaked Undo behaviour, should be more stable now.
 		- Fixed grid graph editor changing the center field very little every frame (floating point errors)
 			causing an excessive amount of undo items to be created.
-		- Reduced unecessary dirtying of the scene (thanks Ben Hymers).
+		- Reduced unecessary dirtying of the battleScene (thanks Ben Hymers).
 		- Fixed RVOCoreSimulator.WallThickness (thanks tmcsweeney).
 		- Fixed recast graph not properly checking for the case where an object had a MeshFilter but no Renderer (thanks 3rinJax).
 		- Fixed disabling ASTAR_RECAST_ARRAY_BASED_LINKED_LIST (now ASTAR_RECAST_CLASS_BASED_LINKED_LIST) would cause compiler errors.
@@ -412,7 +412,7 @@
 			I still don't recommend that you actually use this many graphs.
 		- Added RecastTileUpdate and RecastTileUpdateHandler scripts for easier recast tile updating with good performance.
 		- When using A* Inspector -> Settings -> Debug -> Path Debug Mode = {G,F,H,Penalties}
-			you previously had to set the limits for what should be displayed as "red" in the scene view yourself, this is now
+			you previously had to set the limits for what should be displayed as "red" in the battleScene view yourself, this is now
 			optionally automatically calculated. The UI for it has also been improved.
 	- Improvements:
 		- Added penaltyAnglePower to Grid Graph -> Extra -> Penalty from Angle.\n
@@ -426,7 +426,7 @@
 		- Exposed GraphUpdateObject.changedNodes.
 		- Deprecated the threadSafe paremeter on RegisterSafeUpdate, it is always treated as true now.
 		- The default value for AstarPath.minAreaSize is now 0 since the number of areas (connected component) indices has been greatly increased (see highlights).
-		- Tweaked ProceduralWorld script (used for the "Procedural" example scene) to reduce FPS drops.
+		- Tweaked ProceduralWorld script (used for the "Procedural" example battleScene) to reduce FPS drops.
 	- Fixes:
 		- AstarPath.FlushGraphUpdates will now complete all graph updates instead of just making sure they have started.\n
 			In addition to avoiding confusion, this fixes a rare null reference exception which could happen when using
@@ -440,7 +440,7 @@
 		- Made reverting GraphUpdateObjects work. The GraphUpdateUtilities.UpdateGraphsNoBlock was also fixed by this change.
 		- Fixed compile error with monodevelop.
 		- Fixed a bug which caused scanning to fail if more than one NavmeshGraph existed.
-		- Fixed the lightweight local avoidance example scene which didn't work previously.
+		- Fixed the lightweight local avoidance example battleScene which didn't work previously.
 		- Fixed SimpleSmoothModifier not exposing Roundness Factor in the editor for the Curved Nonuniform mode.
 		- Fixed an exception when updating RecastGraphs and using RelevantGraphSurfaces and multithreading.
 		- Fixed exceptions caused by starting paths from other threads than the Unity thread.
@@ -477,7 +477,7 @@
 
 - 3.5.2 (2013-09-01) (tiny bugfix and small feature release)
 	- Added isometric angle option for grid graphs to help with isometric 2D games.
-	- Fixed a bug with the RVOAgent class which caused the LightweightRVO example scene to not work as intended (no agents were avoiding each other).
+	- Fixed a bug with the RVOAgent class which caused the LightweightRVO example battleScene to not work as intended (no agents were avoiding each other).
 	- Fixed some documentation typos.
 	- Fixed some compilations errors some people were having with other compilers than Unity's.
 
@@ -528,7 +528,7 @@
 	- Unity Asset Store forced me to increase version number.
 
 - 3.4.0.1
-	- Fixed an ArrayIndexOutOfBounds exception which could be thrown by the ProceduralGridMover script in the Procedural example scene if the target was moved too quickly.
+	- Fixed an ArrayIndexOutOfBounds exception which could be thrown by the ProceduralGridMover script in the Procedural example battleScene if the target was moved too quickly.
 	- The project no longer references assets from the Standard Assets folder (the package on the Unity Asset Store did so by mistake before).
 
 - 3.4
@@ -570,7 +570,7 @@
 	- Lots of other UI fixes and imprements.
 	- Fixed gravity for RichAI.
 	- Fixed Undo for Unity 4.3
-	- Added a new example scene showing a procedural environment.
+	- Added a new example battleScene showing a procedural environment.
 
 - Beta 3.3.10
 	- Removed RecastGraph.includeOutOfBounds.
@@ -626,7 +626,7 @@
 				No more circling around the target point as with AIPath.
 			- Does not use path modifiers at all (for good reasons). It has an internal funnel modifier however.
 			- Simple wall avoidance to avoid too much wall hugging.
-			- Basic support for off-mesh links (see example scene).
+			- Basic support for off-mesh links (see example battleScene).
 		- Improved randomness for RandomPath and FleePath, all nodes considered now have an equal chance of being selected.
 		- Recast now has support for tiles. This enabled much larger worlds to be rasterized (without OutOfMemory errors) and allows for dynamic graph updates. Still slow, but much faster than
 			a complete recalculation of the graph.
@@ -653,7 +653,7 @@
 		- Split Automatic thread count into Automatic High Load and Automatic Low Load. The former one using a higher number of thread.
 		- Thread count used is now shown in the editor.
 		- GridGraph now supports ClosestOnNode (StartEndModifier) properly. SnapToNode gives the previous behaviour on GridGraphs (they were identical before).
-		- New example scene Door2 which uses the NavmeshCut component.
+		- New example battleScene Door2 which uses the NavmeshCut component.
 	- Fixes
 		- Fixed spelling error in GridGraph.uniformWidthDepthGrid.
 		- Erosion radius (character radius, recast graphs) could become half of what it really should be in many cases.
@@ -720,7 +720,7 @@
 		- Removed unused 'recyclePaths' variable in the AIPath class.
 		- NullReferenceException could occur if the Pathfinding.Node.connections array was null.
 		- Fixed NullReferenceException which could occur sometimes when using a MultiTargetPath (Issue #16)
-		- Changed Ctrl to Alt when recalcing path continously in the Path Types example scene to avoid
+		- Changed Ctrl to Alt when recalcing path continously in the Path Types example battleScene to avoid
 			clearing the points for the MultiTargetPath at the same time (it was also using Ctrl).
 		- Fixed strange looking movement artifacts during the first few frames when using RVO and interpolation was enabled.
 		- AlternativePath modifier will no longer cause underflows if penalties have been reset during the time it was active. It will now
@@ -741,7 +741,7 @@
 		- RecastGraph can rasterize colliders added to trees on unity terrains!
 		- RecastGraph will use Graphics.DrawMeshNow functions in Unity 4 instead of creating a dummy GameObject.
 			This will remove the annoying "cleaning up leaked mesh object" debug message which unity would log sometimes.
-			The debug mesh is now also only visible in the Scene View when the A* object is selected as that seemed
+			The debug mesh is now also only visible in the BattleScene View when the A* object is selected as that seemed
 			most logical to me (don't like this? post something in the forum saying you want a toggle for it and I will implement
 			one).
 		- GraphUpdateObject now has a \link Pathfinding.GraphUpdateObject.updateErosion toggle \endlink specifying if erosion (on grid graphs) should be recalculated after applying the guo.
@@ -853,7 +853,7 @@
 	- Fixes
 		- Fixed a bug which would cause Pathfinding.GraphUpdateUtilities.UpdateGraphsNoBlock to throw an exception when using multithreading
 		- Fixed a bug which caused an error to be logged and no pathfinding working when not using multithreading in the free version of the project
-		- Fixed some example scene bugs due to downgrading the project from Unity 3.5 to Unity 3.4
+		- Fixed some example battleScene bugs due to downgrading the project from Unity 3.5 to Unity 3.4
 
 - 3.1
 	- Fixed bug which caused LayerMask fields (GridGraph inspector for example) to behave weirdly for custom layers on Unity 3.5 and up.
@@ -932,7 +932,7 @@
 	- Fixed a bug in MultiTargetPath which could make it extreamly slow to process. It would not use much CPU power, but it could take half a second for it to complete due to excessive yielding
 	- Fixed a bug in FleePath, it now returns the correct path. It had previously sometimes returned the last node searched, but which was not necessarily the best end node (though it was often close)
 	- Using \#defines, the pathfinder can now be better profiled (see Optimizations tab -> Profile Astar)
-	- Added example scene Path Types (mainly useful for A* Pro users, so I have only included it for them)
+	- Added example battleScene Path Types (mainly useful for A* Pro users, so I have only included it for them)
 	- Added many more tooltips in the editor
 	- Fixed a bug which would double the Y coordinate of nodes in grid graphs when loading from saved data (or caching startup)
 	- Graph saving to file will now work better for users of the Free version, I had forgot to include a segment of code for Grid Graphs (sorry about that)

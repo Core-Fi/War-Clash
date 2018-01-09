@@ -46,11 +46,12 @@ namespace Logic.Skill.Actions
             createInfo.Position = sender.Position;
             createInfo.Forward = sender.Forward;
             Projectile projectile = null;
+            var _battleScene = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
             if (ProjectileType == ProjectileType.Stright)
-                projectile = LogicCore.SP.SceneManager.CurrentScene.CreateSceneObject<StrightProjectile>(createInfo);
+                projectile = _battleScene.CreateSceneObject<StrightProjectile>(createInfo);
             else if(ProjectileType == ProjectileType.Target)
             {
-                projectile = LogicCore.SP.SceneManager.CurrentScene.CreateSceneObject<TargetProjectile>(createInfo);
+                projectile = _battleScene.CreateSceneObject<TargetProjectile>(createInfo);
             }
             projectile.Init(this, sender, reciever, data);
             base.Execute(sender, reciever, data);

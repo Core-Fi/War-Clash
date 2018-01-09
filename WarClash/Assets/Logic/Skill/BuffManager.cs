@@ -15,7 +15,7 @@ namespace Logic.Skill
 
         public static void LoadBuffIndexFiles()
         {
-            buff_index = Logic.Skill.SkillUtility.LoadIndexFile("/Buffs");
+            buff_index = Logic.Skill.SkillUtility.LoadIndexFile("/Buffs/buff_index.bytes");
         }
 
         public SceneObject so;

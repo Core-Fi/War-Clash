@@ -301,7 +301,7 @@ public class AstarDebugger : MonoBehaviour {
 				text.AppendLine();
 
 				if (astar == null) {
-					text.Append("\nNo AstarPath Object In The Scene");
+					text.Append("\nNo AstarPath Object In The BattleScene");
 				} else {
 #if ProfileAstar
 					double searchSpeed = (double)AstarPath.TotalSearchedNodes*10000 / (double)AstarPath.TotalSearchTime;

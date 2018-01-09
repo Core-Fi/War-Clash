@@ -258,7 +258,7 @@ namespace Pathfinding.Serialization {
 #if !ASTAR_NO_ZIP
 			// Set dummy dates on every file to prevent the binary data to change
 			// for identical settings and graphs.
-			// Prevents the scene from being marked as dirty in the editor
+			// Prevents the battleScene from being marked as dirty in the editor
 			// If ASTAR_NO_ZIP is defined this is not relevant since the replacement zip
 			// implementation does not even store dates
 			var dummy = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);

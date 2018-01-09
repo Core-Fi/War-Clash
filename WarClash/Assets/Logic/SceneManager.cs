@@ -10,7 +10,7 @@ namespace Logic
 {
     public class SceneManager
     {
-        public Scene CurrentScene;
+        public IScene CurrentScene;
         public EventGroup EventGroup;
         public enum SceneManagerEvent
         {
@@ -20,24 +20,40 @@ namespace Logic
         {
             EventGroup = new EventGroup();
         }
-        public void SwitchScene(Scene scene)
+        public void SwitchScene(IScene battleScene)
         {
             if(CurrentScene!=null)
                 CurrentScene.Destroy();
-            CurrentScene = scene;
+            CurrentScene = battleScene;
             CurrentScene.Init();
-            var arg = EventGroup.NewArg<EventSingleArgs<Scene>>();
-            arg.value = scene;
+            var arg = EventGroup.NewArg<EventSingleArgs<IScene>>();
+            arg.value = battleScene;
             EventGroup.FireEvent((int)SceneManagerEvent.OnSwitchScene, this, arg);
         }
         public void Update()
         {
-            CurrentScene.Update(Time.deltaTime);
+            if (CurrentScene is BattleScene)
+            {
+                var bs = (BattleScene)CurrentScene ;
+                bs.Update(Time.deltaTime);
+            }
+            else
+            {
+                CurrentScene.OnUpdate(Time.deltaTime);
+            }
         }
 
         public void FixedUpdate()
         {
-            CurrentScene.FixedUpdate(FixedMath.One/15);
+            if (CurrentScene is BattleScene)
+            {
+                var bs = (BattleScene)CurrentScene;
+                bs.FixedUpdate(FixedMath.One / 15);
+            }
+            else
+            {
+                CurrentScene.OnFixedUpdate(FixedMath.One / 15);
+            }
         }
     }
 }

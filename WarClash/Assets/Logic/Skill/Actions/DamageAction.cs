@@ -59,7 +59,8 @@ namespace Logic.Skill.Actions
             var r = FixedMath.Create(Radius) / 100;
             var q = FixedQuaternion.LookRotation(sender.Forward, Vector3d.up);
             Utility.List.Clear();
-            LogicCore.SP.SceneManager.CurrentScene.FixedQuadTree.Query(sender as IFixedAgent, r, Utility.List);
+            var _battleScene = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+            _battleScene.FixedQuadTree.Query(sender as IFixedAgent, r, Utility.List);
             for (int i = 0; i < Utility.List.Count; i++)
             {
                 if (IsTarget(Utility.List[i]))
@@ -86,6 +87,7 @@ namespace Logic.Skill.Actions
 
         public override void Execute(SceneObject sender, SceneObject reciever, object data)
         {
+            var _battleScene = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
             long fw = FixedMath.Create(Width) / 100;
             long fh = FixedMath.Create(Height) / 100;
             long fr = FixedMath.Sqrt((fw / 2).Mul(fw / 2) + fh.Mul(fh));
@@ -93,7 +95,7 @@ namespace Logic.Skill.Actions
             var q = FixedQuaternion.LookRotation(sender.Forward, Vector3d.up);
             Utility.FixedRect rect = new Utility.FixedRect(center, fw, fh);
             Utility.List.Clear();
-            LogicCore.SP.SceneManager.CurrentScene.FixedQuadTree.Query(sender as IFixedAgent, fr, Utility.List);
+            _battleScene.FixedQuadTree.Query(sender as IFixedAgent, fr, Utility.List);
             for (int i = 0; i < Utility.List.Count; i++)
             {
                 if (IsTarget(Utility.List[i]))

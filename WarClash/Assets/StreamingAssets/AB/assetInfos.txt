@@ -43,6 +43,10 @@
     "BundleName": "assets/requiredresources",
     "AssetPath": "assets/requiredresources/bt/npcbt2.asset"
   },
+  "Test.asset": {
+    "BundleName": "assets/requiredresources",
+    "AssetPath": "assets/requiredresources/bt/test.asset"
+  },
   "TowerBT.asset": {
     "BundleName": "assets/requiredresources",
     "AssetPath": "assets/requiredresources/bt/towerbt.asset"
@@ -75,6 +79,26 @@
     "BundleName": "building/tower.prefab",
     "AssetPath": "assets/requiredresources/building/tower.prefab"
   },
+  "armyconf.bytes": {
+    "BundleName": "config",
+    "AssetPath": "assets/requiredresources/textconfigs/config/armyconf.bytes"
+  },
+  "buildingconf.bytes": {
+    "BundleName": "config",
+    "AssetPath": "assets/requiredresources/textconfigs/config/buildingconf.bytes"
+  },
+  "1.bytes": {
+    "BundleName": "skills",
+    "AssetPath": "assets/requiredresources/textconfigs/skills/1.bytes"
+  },
+  "2.bytes": {
+    "BundleName": "skills",
+    "AssetPath": "assets/requiredresources/textconfigs/skills/2.bytes"
+  },
+  "_index.bytes": {
+    "BundleName": "skills",
+    "AssetPath": "assets/requiredresources/textconfigs/skills/_index.bytes"
+  },
   "Farm01-flower-03.png": {
     "BundleName": "farm01-flower-03.png",
     "AssetPath": "assets/requiredresources/farm01-flower-03.png"
@@ -95,6 +119,30 @@
     "BundleName": "items/cube.prefab",
     "AssetPath": "assets/requiredresources/items/cube.prefab"
   },
+  "scene01.bytes": {
+    "BundleName": "map",
+    "AssetPath": "assets/requiredresources/textconfigs/map/scene01.bytes"
+  },
+  "scene01_jps.bytes": {
+    "BundleName": "map",
+    "AssetPath": "assets/requiredresources/textconfigs/map/scene01_jps.bytes"
+  },
+  "scene02.bytes": {
+    "BundleName": "map",
+    "AssetPath": "assets/requiredresources/textconfigs/map/scene02.bytes"
+  },
+  "scene02_jps.bytes": {
+    "BundleName": "map",
+    "AssetPath": "assets/requiredresources/textconfigs/map/scene02_jps.bytes"
+  },
+  "scene03.bytes": {
+    "BundleName": "map",
+    "AssetPath": "assets/requiredresources/textconfigs/map/scene03.bytes"
+  },
+  "scene03_jps.bytes": {
+    "BundleName": "map",
+    "AssetPath": "assets/requiredresources/textconfigs/map/scene03_jps.bytes"
+  },
   "WK_archer.prefab": {
     "BundleName": "prefabs/ancher/wk_archer.prefab",
     "AssetPath": "assets/requiredresources/prefabs/ancher/wk_archer.prefab"
@@ -114,6 +162,14 @@
   "scene03.unity": {
     "BundleName": "scene/scene03/scene03.unity",
     "AssetPath": "assets/requiredresources/scene/scene03/scene03.unity"
+  },
+  "3.bytes": {
+    "BundleName": "skills",
+    "AssetPath": "assets/requiredresources/textconfigs/skills/3.bytes"
+  },
+  "t.bytes": {
+    "BundleName": "skills",
+    "AssetPath": "assets/requiredresources/textconfigs/skills/t.bytes"
   },
   "BattleUI.prefab": {
     "BundleName": "ui/battleui.prefab",

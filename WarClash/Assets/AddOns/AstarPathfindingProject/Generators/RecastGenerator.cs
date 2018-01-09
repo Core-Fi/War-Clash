@@ -167,7 +167,7 @@ namespace Pathfinding {
 		}
 
 		/** Require every region to have a RelevantGraphSurface component inside it.
-		 * A RelevantGraphSurface component placed in the scene specifies that
+		 * A RelevantGraphSurface component placed in the battleScene specifies that
 		 * the navmesh region it is inside should be included in the navmesh.
 		 *
 		 * If this is set to OnlyForCompletelyInsideTile
@@ -219,10 +219,10 @@ namespace Pathfinding {
 		public bool rasterizeColliders;
 
 		[JsonMember]
-		/** Use scene meshes to calculate the navmesh */
+		/** Use battleScene meshes to calculate the navmesh */
 		public bool rasterizeMeshes = true;
 
-		/** Include the Terrain in the scene. */
+		/** Include the Terrain in the battleScene. */
 		[JsonMember]
 		public bool rasterizeTerrain = true;
 
@@ -570,11 +570,11 @@ namespace Pathfinding {
 			return false;
 		}
 
-		/** Changes the bounds of the graph to precisely encapsulate all objects in the scene that can be included in the scanning process based on the settings.
+		/** Changes the bounds of the graph to precisely encapsulate all objects in the battleScene that can be included in the scanning process based on the settings.
 		 * Which objects are used depends on the settings. If an object would have affected the graph with the current settings if it would have
 		 * been inside the bounds of the graph, it will be detected and the bounds will be expanded to contain that object.
 		 *
-		 * This method corresponds to the 'Snap bounds to scene' button in the inspector.
+		 * This method corresponds to the 'Snap bounds to battleScene' button in the inspector.
 		 *
 		 * \see rasterizeMeshes
 		 * \see rasterizeTerrain
@@ -2002,11 +2002,11 @@ namespace Pathfinding {
 		}
 
 		void CollectTerrainMeshes (Bounds bounds, bool rasterizeTrees, List<ExtraMesh> extraMeshes) {
-			// Find all terrains in the scene
+			// Find all terrains in the battleScene
 			var terrains = MonoBehaviour.FindObjectsOfType(typeof(Terrain)) as Terrain[];
 
 			if (terrains.Length > 0) {
-				// Loop through all terrains in the scene
+				// Loop through all terrains in the battleScene
 				for (int j = 0; j < terrains.Length; j++) {
 					TerrainData terrainData = terrains[j].terrainData;
 

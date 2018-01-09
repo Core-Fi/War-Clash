@@ -6,7 +6,7 @@ using Pathfinding.Serialization;
 namespace Pathfinding {
 	/**  Base class for all graphs */
 	public abstract class NavGraph {
-		/** Reference to the AstarPath object in the scene.
+		/** Reference to the AstarPath object in the battleScene.
 		 * Might not be entirely safe to use, it's better to use AstarPath.active
 		 */
 		public AstarPath active;

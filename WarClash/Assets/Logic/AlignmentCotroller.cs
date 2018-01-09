@@ -15,8 +15,9 @@ namespace Logic
         public AlignmentCotroller(Player c)
         {
             _commander = c;
-            LogicCore.SP.SceneManager.CurrentScene.EventGroup.ListenEvent(Scene.SceneEvent.AddSceneObject.ToInt(), OnSceneObjCreate);
-            LogicCore.SP.SceneManager.CurrentScene.EventGroup.ListenEvent(Scene.SceneEvent.RemoveSceneObject.ToInt(), OnSceneObjRemove);
+            var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+            bs.EventGroup.ListenEvent(BattleScene.SceneEvent.AddSceneObject.ToInt(), OnSceneObjCreate);
+            bs.EventGroup.ListenEvent(BattleScene.SceneEvent.RemoveSceneObject.ToInt(), OnSceneObjRemove);
         }
 
         private void OnSceneObjCreate(object sender, EventMsg e)
@@ -27,7 +28,7 @@ namespace Logic
                 _npcs.Add(msg.value as IAlignmentAgent);
                 CaculateLastAlignment();
             }
-        }
+        } 
         private void OnSceneObjRemove(object sender, EventMsg e)
         {
             var msg = e as EventSingleArgs<SceneObject>;

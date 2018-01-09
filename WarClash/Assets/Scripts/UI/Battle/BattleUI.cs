@@ -80,9 +80,10 @@ public class BattleUI : View {
 
     private void OnAtkBtnClick()
     {
+        var _battleScene = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
         var cmd = Pool.SP.Get<ReleaseSkillCommand>();
         cmd.Id = 2;
-        cmd.Sender = LogicCore.SP.SceneManager.CurrentScene.GetObject<MainPlayer>().Id;
+        cmd.Sender = _battleScene.GetObject<MainPlayer>().Id;
         LogicCore.SP.LockFrameMgr.SendCommand(cmd);
     }
 

@@ -152,7 +152,7 @@ namespace Pathfinding.RVO {
 	 * Reciprocal Velocity Obstacles (RVO) and Optimal Reciprocal Collision Avoidance (ORCA).
 	 *
 	 * This class will handle calculation of velocities from desired velocities supplied by a script.
-	 * It is, however, not responsible for moving any objects in a Unity Scene. For that there are other scripts (see below).
+	 * It is, however, not responsible for moving any objects in a Unity BattleScene. For that there are other scripts (see below).
 	 *
 	 * Obstacles can be added and removed from the simulation, agents can also be added and removed at any time.
 	 * \see

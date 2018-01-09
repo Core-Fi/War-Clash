@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <doc>
     <assembly>
         <name>DOTween</name>
@@ -1570,7 +1570,7 @@
             <summary>
             Checks all active tweens to find and remove eventually invalid ones (usually because their targets became NULL)
             and returns the total number of invalid tweens found and removed.
-            <para>Automatically called when loading a new scene if <see cref="F:DG.Tweening.DOTween.useSafeMode"/> is TRUE.</para>
+            <para>Automatically called when loading a new battleScene if <see cref="F:DG.Tweening.DOTween.useSafeMode"/> is TRUE.</para>
             BEWARE: this is a slightly expensive operation so use it with care
             </summary>
         </member>
