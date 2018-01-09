@@ -7,6 +7,7 @@
     "$type": "System.Collections.Generic.List`1[[Logic.Skill.TimeLine, Assembly-CSharp]], mscorlib",
     "$values": [
       {
+        
         "$type": "Logic.Skill.TimeLine, Assembly-CSharp",
         "Times": 1,
         "FrameCount": 10,
@@ -18,7 +19,7 @@
               "animaitonName": "attack",
               "stopCondition": 0,
               "playTarget": 0,
-              "ExecuteFrameIndex": 0
+              "ExecuteFrameIndex": 1
             },
             {
               "$type": "Logic.Skill.Actions.CreateProjectileAction, Assembly-CSharp",

@@ -77,9 +77,7 @@ namespace Logic.LogicObject
             {
                 // Show results as text
                 _needDownLoadList.Clear();
-                SaveToPersistentPath("assetBundleHash.txt", www.downloadHandler.data);
                 var remoteBundleHash = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(www.downloadHandler.text);
-                www.Dispose();
                 var localBundleHash = AssetResources.LoadBundleHash();
                 foreach (var bh in remoteBundleHash)
                 {
@@ -103,6 +101,8 @@ namespace Logic.LogicObject
                        SaveToPersistentPath(s, bytes);
                     }));
                 }
+                SaveToPersistentPath("assetBundleHash.txt", www.downloadHandler.data);
+                www.Dispose();
             }
         }
 
