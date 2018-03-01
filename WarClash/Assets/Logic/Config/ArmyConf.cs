@@ -39,7 +39,7 @@ namespace Config
       set { _ResPath = value; }
     }
     private string _BT = "";
-    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"BT", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"BT", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue("")]
     public string BT
     {
@@ -47,7 +47,7 @@ namespace Config
       set { _BT = value; }
     }
     private int _AtkRange = (int)0;
-    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"AtkRange", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name=@"AtkRange", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue((int)0)]
     public int AtkRange
     {
@@ -55,12 +55,20 @@ namespace Config
       set { _AtkRange = value; }
     }
     private int _WaringRange = (int)0;
-    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"WaringRange", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"WaringRange", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue((int)0)]
     public int WaringRange
     {
       get { return _WaringRange; }
       set { _WaringRange = value; }
+    }
+    private string _str = "";
+    [global::ProtoBuf.ProtoMember(9, IsRequired = false, Name=@"str", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string str
+    {
+      get { return _str; }
+      set { _str = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)

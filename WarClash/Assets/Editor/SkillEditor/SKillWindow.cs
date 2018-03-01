@@ -297,8 +297,8 @@ public class SKillWindow : EditorWindow
     }
     bool IsSkillFile(string path)
     {
-        string ext = Path.GetFileNameWithoutExtension(path);
-        return (ext.Contains("skill") || ext.Contains("buff") || ext.Contains("event"));
+        string ext = Path.GetFileName(path);
+        return (ext.Contains("skill") || ext.Contains("buff") || ext.Contains("event")) && !ext.Contains(".meta") && !ext.Contains("_index");
     }
     void GetFiles(string basePath, List<FileInfo> fileInfos, FileInfo parent)
     {

@@ -30,7 +30,7 @@ namespace Logic.Skill
 
     public class RuntimeTimeLineGroup : IPool
     {
-        public TimeLineGroup sourceData;
+        public TimeLineGroup SourceData;
         public RuntimeData m_RunningData;
         public List<RuntimeTimeLine> timelines = new List<RuntimeTimeLine>(); 
 
@@ -39,22 +39,21 @@ namespace Logic.Skill
         public bool isRunning;
         private int m_TimeLineCount
         {
-            get { return sourceData.TimeLines.Count; }
+            get { return SourceData.TimeLines.Count; }
         }
         private int m_CurrentTLIndex;
 
-        public void Init(TimeLineGroup skill, RuntimeData srd, Action finishAction)
+        public void Init(TimeLineGroup skill, RuntimeData srd)
         {
-            this.sourceData = skill;
+            this.SourceData = skill;
             this.m_RunningData = srd;
-            this.FinishAction = finishAction;
             m_CurrentTLIndex = -1;
             isRunning = true;
             for (int i = 0; i < m_TimeLineCount; i++)
             {
-                var rtl = Pool.SP.Get(typeof(RuntimeTimeLine)) as RuntimeTimeLine;
+                var rtl = Pool.SP.Get(RuntimeTimeLine.TimelineDataAndLogic[SourceData.TimeLines[i].GetType()]) as RuntimeTimeLine;
                 timelines.Add(rtl);
-                timelines[i].Init(sourceData.TimeLines[i], srd);
+                timelines[i].Init(SourceData.TimeLines[i], srd);
             }
         }
         public void Breath(float deltaTime)
@@ -112,17 +111,12 @@ namespace Logic.Skill
 
         public void Cancel()
         {
-            OnCancel();
-        }
-
-        public virtual void OnCancel()
-        {
             for (int i = 0; i < timelines.Count; i++)
             {
                 var tl = timelines[i];
-                for (int j = 0; j < tl.timeLine.BaseActions.Count; j++)
+                for (int j = 0; j < tl.SourceData.BaseActions.Count; j++)
                 {
-                    tl.timeLine.BaseActions[j].OnCancel(m_RunningData.sender, m_RunningData.receiver, m_RunningData.data);
+                    tl.SourceData.BaseActions[j].OnCancel(m_RunningData.sender, m_RunningData.receiver, m_RunningData.data);
                 }
             }
             if (BreakAction != null)
@@ -130,40 +124,51 @@ namespace Logic.Skill
                 BreakAction.Invoke();
             }
             isRunning = false;
+            OnCancel();
+            for (int i = 0; i < this.timelines.Count; i++)
+            {
+                Pool.SP.Recycle(timelines[i]);
+            }
+        }
+
+        public virtual void OnCancel()
+        {
+          
         }
         public void Finish()
         {
             for (int i = 0; i < timelines.Count; i++)
             {
                 var tl = timelines[i];
-                for (int j = 0; j < tl.timeLine.BaseActions.Count; j++)
+                for (int j = 0; j < tl.SourceData.BaseActions.Count; j++)
                 {
-                    tl.timeLine.BaseActions[j].OnSkillFinish(m_RunningData.sender, m_RunningData.receiver, m_RunningData.data);
+                    tl.SourceData.BaseActions[j].OnSkillFinish(m_RunningData.sender, m_RunningData.receiver, m_RunningData.data);
                 }
             }
             if (FinishAction != null)
             {
                 FinishAction.Invoke();
             }
+           
             isRunning = false;
             OnFinish();
+            for (int i = 0; i < this.timelines.Count; i++)
+            {
+                Pool.SP.Recycle(timelines[i]);
+            }
         }
         protected virtual void OnFinish()
         {
         }
         public void EnterNextTimeLine()
         {
-            if (m_CurrentTLIndex != -1)
-            {
-                Pool.SP.Recycle(timelines[m_CurrentTLIndex]);
-            }
             m_CurrentTLIndex++;
             timelines[m_CurrentTLIndex].Enter();
         }
 
         public void Reset()
         {
-            sourceData = null;
+            SourceData = null;
             FinishAction = null;
             m_CurrentTLIndex = -1;
             isRunning = false;

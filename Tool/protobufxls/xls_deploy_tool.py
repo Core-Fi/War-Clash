@@ -655,7 +655,7 @@ class DataParser:
             raise
 
     def _WriteData2File(self, data) :
-        file_name = "../../WarClash/Assets/StreamingAssets//Config/" + self._sheet_name.lower() + ".data"
+        file_name = "../../WarClash/Assets/RequiredResources\TextConfigs\Config/" + self._sheet_name.lower() + ".bytes"
         file = open(file_name, 'wb+')
         file.write(data)
         file.close()

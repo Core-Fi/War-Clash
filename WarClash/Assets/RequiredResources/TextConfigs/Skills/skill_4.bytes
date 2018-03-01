@@ -1,0 +1,52 @@
+{
+  "$type": "Logic.Skill.Skill, Assembly-CSharp",
+  "ForceFaceToTarget": true,
+  "Name": "triatk",
+  "ID": 4,
+  "TimeLines": {
+    "$type": "System.Collections.Generic.List`1[[Logic.Skill.TimeLine, Assembly-CSharp]], mscorlib",
+    "$values": [
+      {
+        "$type": "Logic.Skill.TimeLine, Assembly-CSharp",
+        "Times": 1,
+        "FrameCount": 35,
+        "BaseActions": {
+          "$type": "System.Collections.Generic.List`1[[Logic.Skill.Actions.BaseAction, Assembly-CSharp]], mscorlib",
+          "$values": [
+            {
+              "$type": "Logic.Skill.Actions.PlayAnimationAction, Assembly-CSharp",
+              "animaitonName": "standing 1H cast spell 01",
+              "stopCondition": 0,
+              "playTarget": 0,
+              "ExecuteFrameIndex": 0
+            }
+          ]
+        },
+        "eventTriggers": {
+          "$type": "System.Collections.Generic.List`1[[Logic.Skill.EventTrigger, Assembly-CSharp]], mscorlib",
+          "$values": []
+        }
+      },
+      {
+        "$type": "Logic.Skill.TriAtkTimeline, Assembly-CSharp",
+        "FirstTriggerFrame": 10,
+        "FirstTriggerId": 1,
+        "SecondTriggerFrame": 10,
+        "SecondTriggerId": 1,
+        "ThirdTriggerFrame": 10,
+        "ThirdTriggerId": 1,
+        "Times": 1,
+        "FrameCount": 30,
+        "BaseActions": {
+          "$type": "System.Collections.Generic.List`1[[Logic.Skill.Actions.BaseAction, Assembly-CSharp]], mscorlib",
+          "$values": []
+        },
+        "eventTriggers": {
+          "$type": "System.Collections.Generic.List`1[[Logic.Skill.EventTrigger, Assembly-CSharp]], mscorlib",
+          "$values": []
+        }
+      }
+    ]
+  },
+  "path": "4"
+}

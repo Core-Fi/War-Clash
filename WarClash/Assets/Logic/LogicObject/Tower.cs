@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Assets.Logic.Skill;
+﻿using System.Collections.Generic;
 using Brainiac;
 using Lockstep;
 using Logic.Skill;
-using UnityEngine;
 
 namespace Logic.LogicObject
 {
@@ -22,7 +17,8 @@ namespace Logic.LogicObject
         {
             base.OnInit(createInfo);
             SkillManager = new SkillManager(this);
-            AssetResources.LoadAsset(Conf.Param2, OnBtLoad, true);
+            var obj = AssetResources.LoadAssetImmediatly(Conf.Param2);
+            OnBtLoad(Conf.Param2, obj);
         }
         private void OnBtLoad(string name, UnityEngine.Object obj)
         {

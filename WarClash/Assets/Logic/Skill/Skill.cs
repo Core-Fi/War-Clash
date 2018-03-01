@@ -20,7 +20,7 @@ namespace Logic.Skill
 
     public class RuntimeSkill : RuntimeTimeLineGroup
     {
-        
+       
     }
     public struct RuntimeData
     {

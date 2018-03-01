@@ -12,7 +12,7 @@ namespace Logic.Skill
     {
         public static string GetRequiredConfigsPath()
         {
-            return Application.dataPath + "RequiredResources/TextConfigs/";
+            return Application.dataPath + "/RequiredResources/TextConfigs/";
         }
         public static JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
         public static T GetTimelineGroupFullPath<T>(string path) where T : TimeLineGroup
@@ -23,14 +23,32 @@ namespace Logic.Skill
         }
         public static T GetTimelineGroup<T>(string path) where T : TimeLineGroup
         {
-            string text = Utility.ReadStringFromStreamingAsset(path);
-            T t = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(text, settings);
-            return t;
+            if (Application.isPlaying)
+            {
+                var text = AssetResources.LoadAssetImmediatly(path) as TextAsset;
+                T t = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(text.text, settings);
+                return t;
+            }
+            else
+            {
+                string text = Utility.ReadStringFromAbsolutePath(GetRequiredConfigsPath()+path);
+                T t = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(text, settings);
+                return t;
+            }
         }
         public static Dictionary<int, string> LoadIndexFile(string fpath)
         {
-            var text = Utility.ReadStringFromAbsolutePath(GetRequiredConfigsPath()+fpath);
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<int, string>>(text, settings);
+            if (Application.isPlaying)
+            {
+                var text = AssetResources.LoadAssetImmediatly(fpath) as TextAsset;
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<int, string>>(text.text, settings);
+              
+            }
+            else
+            {
+                var text = Utility.ReadStringFromAbsolutePath(GetRequiredConfigsPath() + fpath);
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<int, string>>(text, settings);
+            }
         }
 #if UNITY_EDITOR
         public static void SaveTimelineGroup(TimeLineGroup skill, string path)
@@ -44,15 +62,15 @@ namespace Logic.Skill
             string indexPath = GetRequiredConfigsPath();
             if (tlg is Skill)
             {
-                indexPath += "Skills/skill_index.txt";
+                indexPath += "Skills/skill_index.bytes";
             }
             else if (tlg is Event)
             {
-                indexPath += "Events/event_index.txt";
+                indexPath += "Events/event_index.bytes";
             }
             else
             {
-                indexPath += "Buffs/buff_index.txt";
+                indexPath += "Buffs/buff_index.bytes";
             }
             Dictionary<int, string> dic = null;
             if (File.Exists(indexPath))
@@ -69,6 +87,7 @@ namespace Logic.Skill
             if (!dic.ContainsKey(tlg.ID))
             {
                 fpath = fpath.Replace(@"\\", @"/");
+                fpath = Path.GetFileName(fpath);
                 if (fpath[0].Equals('/'))
                     fpath.Remove(0);
                 dic.Add(tlg.ID, fpath);

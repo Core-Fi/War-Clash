@@ -7,7 +7,7 @@ namespace Logic.Skill
     {
         Default,
         Range,
-        MutiSelection
+        MutiSelection,
     }
     public class DisplayAttribute : Attribute
     {

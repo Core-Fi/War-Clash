@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
+using FastCollections;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
@@ -10,6 +12,13 @@ using Object = UnityEngine.Object;
 
 public class ABTest : Editor
 {
+    private static List<string> SingleBundlePath = new List<string>()
+    {
+        "RequiredResources/FX",
+        "RequiredResources/Items",
+        "RequiredResources/Prefabs",
+        "RequiredResources/Buildings",
+    }; 
     private const string RequiredUrl = "Assets/RequiredResources/";
     private const string TextConfig = "TextConfigs";
     public static Dictionary<Object, int> RefCount = new Dictionary<Object, int>();
@@ -21,7 +30,7 @@ public class ABTest : Editor
         ClearAbName();
         SetAssetBundleName();
         var path = Path.Combine(Application.dataPath, @"..\AB");
-        var manifest = BuildPipeline.BuildAssetBundles(path, BuildAssetBundleOptions.DeterministicAssetBundle, BuildTarget.StandaloneWindows64);
+        var manifest = BuildPipeline.BuildAssetBundles(path, BuildAssetBundleOptions.DeterministicAssetBundle | BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.StandaloneWindows64);
         
         if (manifest!=null)
             DoAfterBuild(path, manifest);
@@ -115,7 +124,7 @@ public class ABTest : Editor
                     }
                     else
                     {
-                        DoAsset(asset, path);
+                        DoAsset(asset);
                     }
                 }
             }
@@ -127,10 +136,10 @@ public class ABTest : Editor
         var paths = AssetDatabase.GetAllAssetPaths();
         foreach (var path in paths)
         {
-            if (path.Contains(RequiredUrl))
+           // if (path.Contains(RequiredUrl))
             {
                 var asset = AssetDatabase.LoadAssetAtPath(path, typeof(Object));
-                if (asset != null)
+                if (asset != null && !(asset is MonoScript))
                 {
                     ClearAb(asset);
                 }
@@ -215,16 +224,20 @@ public class ABTest : Editor
         {
             SetAssetBundleName(path, go);
         }
-        CollectDependencies(go, path);
+        CollectDependencies(go);
     }
-    static void DoAsset(Object go, string path)
+    static void DoAsset(Object go)
     {
         bool done = false;
-        if(go is Texture2D)
+        if (go is Texture2D)
         {
             done = DoUISprite(go as Texture);
         }
-        if(!done)
+        else if (go is Shader)
+        {
+            done = DoShader(go);
+        }
+        if (!done)
         {
             var ap = AssetDatabase.GetAssetPath(go);
             int count = CheckCount(go);
@@ -234,24 +247,67 @@ public class ABTest : Editor
             }
         }
     }
-    static void CollectDependencies(Object go, string path)
+    static void DoSingleBundleAsset(Object go)
+    {
+        bool done = false;
+        if(go is Texture2D)
+        {
+            done = DoUISprite(go as Texture);
+        }
+        else if (go is Shader)
+        {
+            done = DoShader(go);
+        }
+        if(!done)
+        {
+            SetAssetBundleName(string.Empty, go);
+        }
+    }
+    static void CollectDependencies(Object go)
     {
         var objs = EditorUtility.CollectDependencies(new Object[] { go });
+        var parentPath = AssetDatabase.GetAssetPath(go);
+        bool singBundle = false;
+        for (int i = 0; i < SingleBundlePath.Count; i++)
+        {
+            if (parentPath.Contains(SingleBundlePath[i]))
+            {
+                singBundle = true;
+                break;
+            }
+        }
         foreach (Object obj in objs)
         {
             if(obj == null)
                 continue;
             if (Types.Contains(obj.GetType()))
             {
-                DoAsset(obj, path);
+                if (!singBundle)
+                {
+                    DoAsset(obj);
+                }
+                else
+                    DoSingleBundleAsset(obj);
             }
         }
+    }
+
+    static bool DoShader(Object shader)
+    {
+        var r_path = AssetDatabase.GetAssetPath(shader);
+        ShaderImporter ti = AssetImporter.GetAtPath(r_path) as ShaderImporter;
+        if (ti != null)
+        {
+            ti.assetBundleName = "shaders";
+            return true;
+        }
+        return false;
     }
     static bool DoUISprite(Object go)
     {
         var r_path = AssetDatabase.GetAssetPath(go);
         TextureImporter ti = AssetImporter.GetAtPath(r_path) as TextureImporter;
-        if(ti!=null && ti.textureType == TextureImporterType.Sprite && !ti.assetBundleName.Equals(string.Empty))
+        if(ti!=null && ti.textureType == TextureImporterType.Sprite && !ti.spritePackingTag.Equals(string.Empty))
         {
             ti.assetBundleName = ti.spritePackingTag;
             return true;

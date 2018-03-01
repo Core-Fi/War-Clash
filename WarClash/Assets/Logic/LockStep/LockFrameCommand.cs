@@ -33,16 +33,19 @@ namespace Logic
         {
            
         }
-        public virtual void Reset()
-        {
-            
-        }
         public virtual void Serialize(NetDataWriter writer)
         {
         }
         public virtual void Deserialize(NetDataReader reader)
         {
         }
+        public void Reset()
+        {
+            Frame = 0;
+            OnReset();
+        }
+
+        public abstract void OnReset();
     }
 
     public abstract class PlayerOperateCommand : LockFrameCommand
@@ -63,6 +66,39 @@ namespace Logic
         {
             base.WriteToLog(writer);
             writer.Append("  " + Sender + "  " + this.GetType() + "  ");
+        }
+    }
+    public class ReleaseBuffCommand : PlayerOperateCommand
+    {
+        public Vector3 Position;
+        public int Receiver;
+        public int Id;
+        public override void OnExecute()
+        {
+            var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+            var c = bs.GetObject<Character>(Sender);
+            c.AddBuff(Id);
+        }
+
+        public override void Deserialize(NetDataReader reader)
+        {
+            base.Deserialize(reader);
+            Id = reader.GetInt();
+        }
+
+        public override void Serialize(NetDataWriter writer)
+        {
+            var msgid = (int)LockFrameMgr.LockFrameEvent.ReleaseBuff;
+            writer.Put((short)msgid);
+            base.Serialize(writer);
+            writer.Put(Id);
+        }
+
+        public override void OnReset()
+        {
+            Position = Vector3.zero;
+            Receiver = 0;
+            Id = 0;
         }
     }
     public class ReleaseSkillCommand : PlayerOperateCommand
@@ -89,6 +125,12 @@ namespace Logic
             writer.Put((short)msgid);
             base.Serialize(writer);
             writer.Put(Id);
+        }
+        public override void OnReset()
+        {
+            Position = Vector3.zero;
+            Receiver = 0;
+            Id = 0;
         }
     }
 
@@ -117,6 +159,9 @@ namespace Logic
         {
             base.Deserialize(reader);
         }
+        public override void OnReset()
+        {
+        }
     }
 
     public class StopCommand : PlayerOperateCommand
@@ -138,6 +183,9 @@ namespace Logic
             var msgid = (int)LockFrameMgr.LockFrameEvent.PlayerStopMsg ;
             writer.Put((short)msgid);
             base.Serialize(writer);
+        }
+        public override void OnReset()
+        {
         }
     }
 
@@ -174,6 +222,10 @@ namespace Logic
       //      writer.Put(Forward.y);
             writer.Put(Forward.z);
         }
+        public override void OnReset()
+        {
+            Forward = Vector3d.zero;
+        }
     }
 
     public class ChangeStrategyCommand : PlayerOperateCommand
@@ -205,6 +257,10 @@ namespace Logic
             writer.Put((short)msgid);
             base.Serialize(writer);
             writer.Put(Strategy);
+        }
+        public override void OnReset()
+        {
+            Strategy = 0;
         }
     }
     public class CreateBuildingCommand : PlayerOperateCommand
@@ -245,6 +301,11 @@ namespace Logic
             writer.Put((short)msgid);
             base.Serialize(writer);
             writer.Put(BuildingId);
+        }
+        public override void OnReset()
+        {
+            BuildingId = 0;
+            Position = Vector3d.zero;
         }
     }
     public class CreateNpcCommand : PlayerOperateCommand
@@ -292,6 +353,13 @@ namespace Logic
             writer.Put(PosiX);
             writer.Put(PosiZ);
         }
+        public override void OnReset()
+        {
+            NpcId = 0;
+            Team = 0;
+            PosiX = 0;
+            PosiZ = 0;
+        }
     }
     public class CreateMainPlayerCommand : PlayerOperateCommand
     {
@@ -319,6 +387,9 @@ namespace Logic
             writer.Put((short)msgid);
             base.Serialize(writer);
         }
+        public override void OnReset()
+        {
+        }
     }
     public class CreatePlayerCommand : PlayerOperateCommand
     {
@@ -340,10 +411,12 @@ namespace Logic
 
         public override void Serialize(NetDataWriter writer)
         {
-           
             var msgid = (int)LockFrameMgr.LockFrameEvent.CreatePlayer ;
             writer.Put((short)msgid);
             base.Serialize(writer);
+        }
+        public override void OnReset()
+        {
         }
     }
 

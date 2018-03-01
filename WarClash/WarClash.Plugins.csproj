@@ -106,6 +106,9 @@
     <Reference Include="Google.Protobuf">
       <HintPath>Assets\Plugins\Google.Protobuf.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>Assets\Plugins\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Assets\Plugins\JsonNet\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -114,9 +117,6 @@
     </Reference>
     <Reference Include="DisableLogging">
       <HintPath>Assets\Plugins\Tiinoo\DisableLogging\Dlls\DisableLogging.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>Assets\Plugins\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -221,10 +221,10 @@
     <None Include="Assets\Plugins\Google.Protobuf.xml" />
     <None Include="Assets\Plugins\PathologicalGames\readme.txt" />
     <None Include="Assets\Plugins\ProtoBuf\protobuf-net.xml" />
+    <None Include="Assets\RequiredResources\Transparent.shader" />
     <None Include="Assets\Shader\CommonTransparent.shader" />
     <None Include="Assets\Shader\Editor\Grid.shader" />
     <None Include="Assets\Shader\Grid.shader" />
-    <None Include="Assets\Shader\Transparent.shader" />
     <None Include="Assets\Specular.shader" />
     <None Include="Assets\StreamingAssets\AB\assetBundleHash.txt" />
     <None Include="Assets\StreamingAssets\AB\assetInfos.txt" />

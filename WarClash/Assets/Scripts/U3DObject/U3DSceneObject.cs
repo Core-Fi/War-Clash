@@ -16,15 +16,15 @@ public abstract class U3DSceneObject : IUpdate {
 	public void Init(SceneObject so)
     {
         this.So = so;
-        Outer = new GameObject(so.ToString());
-        OuterTransform = Outer.transform;
-        LogicObject = Outer.GetComponent<LogicObject>(true);
-        LogicObject.ID = So.Id;
         OnInit();
     }
 
     public virtual void OnLoadedRes(string name, UnityEngine.Object obj)
     {
+        Outer = new GameObject(So.ToString());
+        OuterTransform = Outer.transform;
+        LogicObject = Outer.GetComponent<LogicObject>(true);
+        LogicObject.ID = So.Id;
         Go = UnityEngine.Object.Instantiate(obj) as GameObject;
         Go.name = name;
         Go.transform.position = So.Position.ToVector3();

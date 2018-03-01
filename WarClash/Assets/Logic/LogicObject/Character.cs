@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Assets.Logic.Skill;
-using Logic.Skill;
-using UnityEngine;
+﻿using Logic.Skill;
 using Brainiac;
 using Lockstep;
 
 namespace Logic.LogicObject
 {
-    public class Character : SceneObject, ISteering, ISkillable
+    public class Character : SceneObject, ISteering, ISkillable, IBuff
     {
         #region IFixedAgent Impl
         public IFixedAgent Next { get; set; }
@@ -32,7 +27,7 @@ namespace Logic.LogicObject
             ExecuteState,
             StopState
         }
-      
+        public BuffManager BuffManager { get; private set; }
         public SkillManager SkillManager { get; private set; }
         public AIAgent AiAgent { get; protected set; }
         public SteeringManager SteeringManager { get; protected set; }
@@ -40,6 +35,7 @@ namespace Logic.LogicObject
         internal override void OnInit(CreateInfo createInfo)
         {
             base.OnInit(createInfo);
+            BuffManager = new BuffManager(this);
             SkillManager = new SkillManager(this);
             SteeringManager = new SteeringManager(this);
             AttributeManager.New(AttributeType.Speed, 0);
@@ -116,8 +112,6 @@ namespace Logic.LogicObject
         {
             get { return SkillManager.IsRunningSkill; }
         }
-
-       
         public void CancelSkill()
         {
             if (IsRunningSkill)
@@ -129,6 +123,7 @@ namespace Logic.LogicObject
         {
             base.OnFixedUpdate(deltaTime);
             SkillManager.FixedUpdate();
+            BuffManager.FixedUpdate();
             Vector3d acc;
             var hasResult = SteeringManager.GetDesiredAcceleration(out acc);
             if (!hasResult)
@@ -157,5 +152,9 @@ namespace Logic.LogicObject
             base.OnUpdate(deltaTime);
         }
 
+        public void AddBuff(int id)
+        {
+            BuffManager.AddBuff(id);
+        }
     }
 }

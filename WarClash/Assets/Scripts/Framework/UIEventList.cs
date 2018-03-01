@@ -18,11 +18,16 @@ public enum UIEventList
     OnShowUI,
     OnHideUI,
 
+    #region UIBattle
+    OnSkillBtnClick,
+
+    #endregion
     #region Hud
 
     DrawPlayerHud
 
     #endregion
+
 }
 
 public static class EventMsgUtility
@@ -35,12 +40,10 @@ public static class EventMsgUtility
     {
         return (int)e +  10000;
     }
-
     public static int ToInt(this Player.PlayerEvent playerEvent)
     {
         return (int)playerEvent + 1000;
     }
-
     public static int ToInt(this Character.CharacterEvent characterEvent)
     {
         return (int)characterEvent + 500;
@@ -49,7 +52,6 @@ public static class EventMsgUtility
     {
         return (int)soEvent +1;
     }
-
     public static int ToInt(this BattleScene.SceneEvent e)
     {
         return (int) e+1;

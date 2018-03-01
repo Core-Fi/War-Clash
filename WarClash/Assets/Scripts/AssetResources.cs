@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using FastCollections;
 using UnityEngine;
 using Object = UnityEngine.Object;
 [Serializable]
@@ -23,20 +24,18 @@ public struct WaitingBundle
     public System.Action<string, UnityEngine.Object> Action;
 }
 
+
+
 class BundleLoader : IPool
 {
-    public Action<string, AssetBundle> OnLoadFinish;
     public string BundleName;
     protected IEnumerator LoadCoroutine;
     private string[] dependencies;
     private int count;
     private Object[] depenObjs;
-
-    private bool loadNow;
    // private bool 
-    public void Start(string bundleName, Action<string, AssetBundle> onLoadFinish, bool now = false)
+    public void Start(string bundleName)
     {
-        this.loadNow = now;
         this.BundleName = bundleName;
         LoadCoroutine = LoadMainAsset();
         dependencies = AssetResources.Manifest.GetAllDependencies(bundleName);
@@ -46,20 +45,12 @@ class BundleLoader : IPool
             depenObjs = new Object[dependencies.Length];
             for (int i = dependencies.Length-1; i >= 0; i--)
             {
-                AssetResources.LoadBundle(dependencies[i], OnDependencyLoadFinish, loadNow);
+                AssetResources.LoadBundle(dependencies[i], OnDependencyLoadFinish);
             }
         }
         else
         {
-            if (loadNow)
-            {
-                LoadMainAssetNow();
-            }
-            else
-            {
-                Main.SP.StartCoroutine(LoadCoroutine);
-            }
-           
+            Main.SP.StartCoroutine(LoadCoroutine);
         }
     }
     public void OnDependencyLoadFinish(string dPath, Object bundle)
@@ -67,14 +58,7 @@ class BundleLoader : IPool
         count ++;
         if(count == dependencies.Length)
         {
-            if (loadNow)
-            {
-                LoadMainAssetNow();
-            }
-            else
-            {
-                Main.SP.StartCoroutine(LoadCoroutine);
-            }
+            Main.SP.StartCoroutine(LoadCoroutine);
         }
     }
     //System.Diagnostics.Stopwatch sw = new Stopwatch();
@@ -89,22 +73,12 @@ class BundleLoader : IPool
         Pool.SP.Recycle(this);
     }
 
-    void LoadMainAssetNow()
-    {
-        var assetBundle = AssetBundle.LoadFromFile(AssetResources.GetAssetPath(BundleName));
-        var assetsReq = assetBundle.LoadAllAssets();
-        AssetResources.RemoveFinishedLoader(this, BundleName, assetsReq, assetBundle);
-        Pool.SP.Recycle(this);
-    }
-
-    
     public void Reset()
     {
         dependencies = null;
         count = 0;
         depenObjs = null;
         BundleName = null;
-        OnLoadFinish = null;
     }
 }
 
@@ -116,6 +90,7 @@ class AssetResources
     public static AssetBundleManifest Manifest;
     public static Dictionary<string, AssetInfo> AssetsInfos; 
     private static readonly List<BundleLoader> LoadingList = new List<BundleLoader>();
+    private static readonly Dictionary<string, int> BundleRefCount = new Dictionary<string, int>();
     private static readonly Dictionary<string,Dictionary<string, Object>> BundleNameAssets = new Dictionary<string, Dictionary<string, Object>>(); 
     private static readonly Dictionary<string, AssetBundle> LoadedBundles = new Dictionary<string, AssetBundle>(); 
     private static readonly List<WaitingBundle> WaitingList = new List<WaitingBundle>();
@@ -127,7 +102,8 @@ class AssetResources
         }
         LoadedBundles.Clear();
     }
-    public static void RemoveFinishedLoader(BundleLoader l, string bundleName, Object[] assets, AssetBundle bundle)
+
+    private static void InsertAssetToMap(string bundleName, Object[] assets, AssetBundle bundle)
     {
         string[] assetsNames = bundle.GetAllAssetNames();
         if (!BundleNameAssets.ContainsKey(bundleName))
@@ -138,8 +114,12 @@ class AssetResources
                 BundleNameAssets[bundleName][assetsNames[i]] = assets[i];
             }
             LoadedBundles[bundleName] = bundle;
+            CallCallbacksAfterLoad(bundleName, bundle);
         }
-        LoadingList.Remove(l);
+    }
+
+    private static void CallCallbacksAfterLoad(string bundleName, AssetBundle bundle)
+    {
         for (int i = 0; i < WaitingList.Count; i++)
         {
             var w = WaitingList[i];
@@ -165,6 +145,12 @@ class AssetResources
                 }
             }
         }
+    }
+    public static void RemoveFinishedLoader(BundleLoader l, string bundleName, Object[] assets, AssetBundle bundle)
+    {
+        InsertAssetToMap(bundleName, assets, bundle);
+        LoadingList.Remove(l);
+      
     }
     public static void AddLoadingLoader(BundleLoader l)
     {
@@ -244,7 +230,7 @@ class AssetResources
             throw new System.Exception("BundleAssetsDic not found at path "+ BaseUrl + "assetInfos.txt");
         }
     }
-    public static void LoadAsset(string assetName, System.Action<string, UnityEngine.Object> action, bool now=false)
+    public static void LoadAsset(string assetName, System.Action<string, UnityEngine.Object> action)
     {
         if (Manifest == null)
         {
@@ -263,11 +249,68 @@ class AssetResources
         {
             WaitingList.Add(new WaitingBundle() { Action = action, Name = assetName, WaitingType = WaitingType.Asset});
             var loader = Pool.SP.Get(typeof(BundleLoader)) as BundleLoader;
-            loader.Start(assetInfo.BundleName, null, now);
+            loader.Start(assetInfo.BundleName);
         }
     }
 
-    public static void LoadBundle(string bundleName, System.Action<string, UnityEngine.Object> action, bool now = false)
+    public static void UnloadAsset(string assetName)
+    {
+        var assetInfo = GetAssetInfo(assetName);
+        Dictionary<string, Object> dic;
+        var b = LoadedBundles[assetInfo.BundleName];
+        b.Unload(false);
+        Object.Destroy(b);
+        LoadedBundles.Remove(assetInfo.BundleName);
+        if (BundleNameAssets.TryGetValue(assetInfo.BundleName, out dic))
+        {
+            Object o = null;
+            if (dic.TryGetValue(assetInfo.AssetPath, out o))
+            {
+                Object.DestroyImmediate(o, true);
+            }
+        }
+    }
+
+
+    public static UnityEngine.Object LoadAssetImmediatly(string assetName)
+    {
+        if (Manifest == null)
+        {
+            LoadManifest();
+        }
+        var assetInfo = GetAssetInfo(assetName);
+        if (!BundleNameAssets.ContainsKey(assetInfo.BundleName))
+        {
+            if (IsLoading(assetName, WaitingType.Asset))
+            {
+                throw new Exception(assetName+" 所在bundle "+assetInfo.BundleName+" 正在异步加载");
+            }
+            else
+            {
+                LoadImediately(assetInfo.BundleName);
+            }
+        }
+        return BundleNameAssets[assetInfo.BundleName][assetInfo.AssetPath];
+    }
+
+    private static void LoadImediately(string bundleName)
+    {
+        var dependencies = AssetResources.Manifest.GetDirectDependencies(bundleName);
+        if (dependencies.Length > 0)
+        {
+            for (int i = dependencies.Length - 1; i >= 0; i--)
+            {
+                LoadImediately(dependencies[i]);
+            }
+        }
+        if (!BundleNameAssets.ContainsKey(bundleName))
+        {
+            var bundle = AssetBundle.LoadFromFile(AssetResources.GetAssetPath(bundleName));
+            var assets = bundle.LoadAllAssets();
+            InsertAssetToMap(bundleName, assets, bundle);
+        }
+    }
+    public static void LoadBundle(string bundleName, System.Action<string, UnityEngine.Object> action)
     {
         if (Manifest == null)
         {
@@ -285,7 +328,7 @@ class AssetResources
         {
             WaitingList.Add(new WaitingBundle() { Action = action, Name = bundleName, WaitingType = WaitingType.Bundle });
             var loader = Pool.SP.Get(typeof(BundleLoader)) as BundleLoader;
-            loader.Start(bundleName, null, now);
+            loader.Start(bundleName);
         }
     }
     private static bool IsLoading(string name, WaitingType wt)

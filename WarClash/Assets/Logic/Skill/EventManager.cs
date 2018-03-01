@@ -15,7 +15,16 @@ namespace Logic.Skill
 
         public static void LoadEventIndexFiles()
         {
-            event_index = Logic.Skill.SkillUtility.LoadIndexFile("/Events/event_index.bytes");
+
+            if (Application.isPlaying)
+            {
+                event_index = Logic.Skill.SkillUtility.LoadIndexFile("event_index.bytes");
+            }
+            else
+            {
+                event_index = Logic.Skill.SkillUtility.LoadIndexFile("Events/event_index.bytes");
+            }
+
         }
 
         private static string GetEventPath(int id)
@@ -46,8 +55,10 @@ namespace Logic.Skill
                 return;
             var skill = GetEvent(id);
             RuntimeEvent re = new RuntimeEvent();
-            re.Init(skill, runnignData, OnFinish);
+            re.Init(skill, runnignData);
+            re.FinishAction = OnFinish;
             runtimeEvents.Add(re);
+            DLog.Log("trigger event "+id);
         }
         public static void Update(float deltaTime)
         {
@@ -56,7 +67,7 @@ namespace Logic.Skill
                 runtimeEvents[i].Breath(deltaTime);
                 if (!runtimeEvents[i].isRunning)
                 {
-                    runtimeEvents.RemoveAt(i);
+                    RemoveEvent(i);
                     i--;
                 }
             }
@@ -67,9 +78,22 @@ namespace Logic.Skill
             for (int i = 0; i < runtimeEvents.Count; i++)
             {
                 runtimeEvents[i].FixedBreath();
+                if (!runtimeEvents[i].isRunning)
+                {
+                    RemoveEvent(i);
+                    i--;
+                }
             }
         }
+        private static void RemoveEvent(int index)
+        {
+            runtimeEvents.RemoveAt(index);
+        }
 
+        public static void RemoveEvent(RuntimeEvent re)
+        {
+            runtimeEvents.Remove(re);
+        }
         private static void OnFinish()
         {
             

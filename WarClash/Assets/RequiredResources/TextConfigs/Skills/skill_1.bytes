@@ -7,7 +7,6 @@
     "$type": "System.Collections.Generic.List`1[[Logic.Skill.TimeLine, Assembly-CSharp]], mscorlib",
     "$values": [
       {
-        
         "$type": "Logic.Skill.TimeLine, Assembly-CSharp",
         "Times": 1,
         "FrameCount": 10,

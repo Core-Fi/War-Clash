@@ -35,7 +35,7 @@ public class SearchEnemy : Brainiac.Action
         }
         _rangeSqr = _range.Mul(_range);
     }
-    private Logic.Objects.ObjectCollection<int, SceneObject>.VoidAction<SceneObject> _searchEnemy;
+    private Action<SceneObject> _searchEnemy;
     private void Search(SceneObject c)
     {
         if (c != _self && c.Hp > 0 && c.Team != _self.Team &&

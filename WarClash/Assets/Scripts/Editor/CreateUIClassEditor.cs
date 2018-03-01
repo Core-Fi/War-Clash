@@ -207,7 +207,7 @@ public class CreateUIClassEditor : EditorWindow
         {
             tp = p.Find(path);
         }
-        if (tp.name.Contains("m_") || string.IsNullOrEmpty(path))
+        if (tp.gameObject.tag.Equals("ScriptUsing") || string.IsNullOrEmpty(path))
         {
             cp.Add(tp, path);
         }

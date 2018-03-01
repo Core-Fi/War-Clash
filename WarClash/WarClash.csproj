@@ -106,6 +106,9 @@
     <Reference Include="Google.Protobuf">
       <HintPath>Assets\Plugins\Google.Protobuf.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>Assets\Plugins\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Assets\Plugins\JsonNet\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -114,9 +117,6 @@
     </Reference>
     <Reference Include="DisableLogging">
       <HintPath>Assets\Plugins\Tiinoo\DisableLogging\Dlls\DisableLogging.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>Assets\Plugins\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -392,7 +392,6 @@
     <Compile Include="Assets\Logic\Config\ArmyConf.cs" />
     <Compile Include="Assets\Logic\Config\BuildingConf.cs" />
     <Compile Include="Assets\Logic\Config\ConfigManager.cs" />
-    <Compile Include="Assets\Logic\Config\GOODS_INFO.cs" />
     <Compile Include="Assets\Logic\EventArgs.cs" />
     <Compile Include="Assets\Logic\EventGroup.cs" />
     <Compile Include="Assets\Logic\FastCollections-master\BiDictionary.cs" />
@@ -420,6 +419,13 @@
     <Compile Include="Assets\Logic\LockStep\Math\Pan-Line-Algorithm-master\FractionalLineAlgorithmTest.cs" />
     <Compile Include="Assets\Logic\LockStep\Math\Vector2d.cs" />
     <Compile Include="Assets\Logic\LockStep\Math\Vector3d.cs" />
+    <Compile Include="Assets\Logic\LockStep\Physics\AABB.cs" />
+    <Compile Include="Assets\Logic\LockStep\Physics\DynamicTree.cs" />
+    <Compile Include="Assets\Logic\LockStep\Physics\FixtureProxy.cs" />
+    <Compile Include="Assets\Logic\LockStep\Physics\RayCastInput.cs" />
+    <Compile Include="Assets\Logic\LockStep\Physics\RayCastOutput.cs" />
+    <Compile Include="Assets\Logic\LockStep\Physics\Transform2d.cs" />
+    <Compile Include="Assets\Logic\LockStep\Physics\TreeNode.cs" />
     <Compile Include="Assets\Logic\LockStep\Replay.cs" />
     <Compile Include="Assets\Logic\LockStep\Serialization\CerealBehaviour.cs" />
     <Compile Include="Assets\Logic\LockStep\Serialization\Compressor.cs" />
@@ -463,6 +469,7 @@
     <Compile Include="Assets\Logic\Skill\DisplayAttribute.cs" />
     <Compile Include="Assets\Logic\Skill\Event.cs" />
     <Compile Include="Assets\Logic\Skill\EventManager.cs" />
+    <Compile Include="Assets\Logic\Skill\IBuff.cs" />
     <Compile Include="Assets\Logic\Skill\ISkillable.cs" />
     <Compile Include="Assets\Logic\Skill\Skill.cs" />
     <Compile Include="Assets\Logic\Skill\SkillManager.cs" />
@@ -470,9 +477,12 @@
     <Compile Include="Assets\Logic\Skill\SkillUtility.cs" />
     <Compile Include="Assets\Logic\Skill\TimeLine.cs" />
     <Compile Include="Assets\Logic\Skill\TimeLineGroup.cs" />
+    <Compile Include="Assets\Logic\Skill\TriAtkTimeline.cs" />
     <Compile Include="Assets\Logic\StateMachine.cs" />
     <Compile Include="Assets\Logic\Utility.cs" />
     <Compile Include="Assets\Main.cs" />
+    <Compile Include="Assets\PhysicTest.cs" />
+    <Compile Include="Assets\RenderTextureTest.cs" />
     <Compile Include="Assets\Scripts\AssetResources.cs" />
     <Compile Include="Assets\Scripts\Box.cs" />
     <Compile Include="Assets\Scripts\CameraController.cs" />
@@ -522,7 +532,7 @@
     <Compile Include="Assets\Scripts\U3DObject\U3DSceneManager.cs" />
     <Compile Include="Assets\Scripts\U3DObject\U3DSceneObject.cs" />
     <Compile Include="Assets\Scripts\U3DObject\U3DState.cs" />
-    <Compile Include="Assets\Scripts\UI\Battle\BattleUI.cs" />
+    <Compile Include="Assets\Scripts\UI\Battle\UIBattle.cs" />
     <Compile Include="Assets\Scripts\UI\HudP.cs" />
     <Compile Include="Assets\Scripts\UI\HudView.cs" />
     <Compile Include="Assets\Scripts\UI\PlayerHud.cs" />
@@ -537,6 +547,7 @@
     <Compile Include="Assets\Test918.cs" />
     <Compile Include="Assets\Test925.cs" />
     <Compile Include="Assets\Test926.cs" />
+    <Compile Include="Assets\TestBundleUnload.cs" />
     <Compile Include="Assets\Test_06_11.cs" />
     <Compile Include="Assets\Test_6_13.cs" />
   </ItemGroup>
@@ -578,10 +589,10 @@
     <None Include="Assets\Plugins\Google.Protobuf.xml" />
     <None Include="Assets\Plugins\PathologicalGames\readme.txt" />
     <None Include="Assets\Plugins\ProtoBuf\protobuf-net.xml" />
+    <None Include="Assets\RequiredResources\Transparent.shader" />
     <None Include="Assets\Shader\CommonTransparent.shader" />
     <None Include="Assets\Shader\Editor\Grid.shader" />
     <None Include="Assets\Shader\Grid.shader" />
-    <None Include="Assets\Shader\Transparent.shader" />
     <None Include="Assets\Specular.shader" />
     <None Include="Assets\StreamingAssets\AB\assetBundleHash.txt" />
     <None Include="Assets\StreamingAssets\AB\assetInfos.txt" />

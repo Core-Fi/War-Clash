@@ -5,7 +5,7 @@ using System.Text;
 using Logic.LogicObject;
 using Logic.Skill;
 
-namespace Assets.Logic.Skill
+namespace Logic.Skill
 {
     public interface ISkillable
     {

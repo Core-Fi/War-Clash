@@ -44,8 +44,8 @@ namespace Logic
         }
         public void Init()
         {
-            //ConfigMap<BuildingConf_ARRAY>.LoadBuildingConf();
-            //ConfigMap<ArmyConf_ARRAY>.LoadArmyConf();
+            ConfigMap<BuildingConf_ARRAY>.LoadBuildingConf();
+            ConfigMap<ArmyConf_ARRAY>.LoadArmyConf();
 
             LockFrameMgr = new LockFrameMgr();
             SceneManager = new SceneManager();

@@ -13,14 +13,10 @@
           "$type": "System.Collections.Generic.List`1[[Logic.Skill.Actions.BaseAction, Assembly-CSharp]], mscorlib",
           "$values": [
             {
-              "$type": "Logic.Skill.Actions.DamageAction, Assembly-CSharp",
-              "Damage": {
-                "$type": "Logic.Skill.Actions.DataBind`1[[System.Int32, mscorlib]], Assembly-CSharp",
-                "value": 1000,
-                "value_SetDirectly": 1000,
-                "needDataBind": false,
-                "bindFrom": null
-              },
+              "$type": "Logic.Skill.Actions.PlayAnimationAction, Assembly-CSharp",
+              "animaitonName": "Standing 1H Magic Attack 01",
+              "stopCondition": 0,
+              "playTarget": 0,
               "ExecuteFrameIndex": 0
             }
           ]

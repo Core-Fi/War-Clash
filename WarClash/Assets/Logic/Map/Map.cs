@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using FastCollections;
 using Logic.Skill;
+using UnityEngine;
 
 namespace Logic.Map
 {
@@ -13,12 +14,12 @@ namespace Logic.Map
 
         public static Map Deserialize(string name)
         {
-            var str = Utility.ReadStringFromStreamingAsset("Map/" + name + ".map");
-            if (!string.IsNullOrEmpty(str))
+            var str = AssetResources.LoadAssetImmediatly(name + ".bytes") as TextAsset;// Utility.ReadStringFromStreamingAsset("Map/" + name + ".map");
+            if (!string.IsNullOrEmpty(str.text))
             {
                 Map map = new Map
                 {
-                    MapDic = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<int, MapItem>>(str, SkillUtility.settings)
+                    MapDic = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<int, MapItem>>(str.text, SkillUtility.settings)
                 };
 
                 return map;

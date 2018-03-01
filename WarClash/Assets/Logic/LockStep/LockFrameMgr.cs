@@ -32,6 +32,7 @@ namespace Logic
             CreatePlayer,
             CreateNpc,
             ReleaseSkill,
+            ReleaseBuff,
             CreateBuilding,
             StrategyCmd,
         }

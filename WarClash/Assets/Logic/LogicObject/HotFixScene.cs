@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Logic.LogicObject;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.IO;
+using Debug = UnityEngine.Debug;
 
 namespace Logic.LogicObject
 {
     class HotFixScene : IScene
     {
+        private int wait = 10;
+        private int curTick = 0;
         public void Destroy()
         {
             
@@ -19,15 +23,24 @@ namespace Logic.LogicObject
        
         public void Init()
         {
-            StartUpdatePatch();
+         //   StartUpdatePatch();
+            curTick = 0;
         }
 
         public void OnFixedUpdate(long deltaTime)
         {
+            curTick++;
+            if (wait == curTick)
+            {
+                LogicCore.SP.SceneManager.SwitchScene( new BattleScene("scene01"));
+                var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+                var mp = bs.CreateSceneObject<MainPlayer>();
+            }
         }
 
         public void OnUpdate(float deltaTime)
         {
+
         }
 
         private void StartUpdatePatch()
@@ -77,6 +90,7 @@ namespace Logic.LogicObject
             {
                 // Show results as text
                 _needDownLoadList.Clear();
+               // System.Diagnostics.Stopwatch sw  = new Stopwatch();
                 var remoteBundleHash = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(www.downloadHandler.text);
                 var localBundleHash = AssetResources.LoadBundleHash();
                 foreach (var bh in remoteBundleHash)
@@ -94,10 +108,11 @@ namespace Logic.LogicObject
                 }
                 for (int i = 0; i < _needDownLoadList.Count; i++)
                 {
-                    Debug.LogError(_needDownLoadList[i]);
+                    DLog.Log("Start Download "+_needDownLoadList[i]);
                     Main.SP.StartCoroutine(DownLoadAssetBundle(_needDownLoadList[i], (s, bytes) =>
                     {
                         _needDownLoadList.Remove(s);
+                        DLog.Log(s+" Download Finish");
                        SaveToPersistentPath(s, bytes);
                     }));
                 }

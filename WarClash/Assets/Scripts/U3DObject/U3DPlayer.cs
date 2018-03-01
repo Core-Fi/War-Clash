@@ -13,7 +13,7 @@ public class U3DPlayer : U3DCharacter
     {
         base.OnInit();
         Player = Character as Player;
-        AssetResources.LoadAsset("WK_heavy_infantry.prefab", OnLoadedRes);
+        AssetResources.LoadAsset("kachujin.prefab", OnLoadedRes);
     }
 
     public override void ListenEvents()

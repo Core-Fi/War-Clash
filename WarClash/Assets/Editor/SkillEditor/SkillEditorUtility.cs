@@ -20,6 +20,29 @@ public class SkillEditorUtility
     public static List<Type> skillTypes = new List<Type>();
     public static List<Type> buffTypes = new List<Type>();
     public static List<Type> eventTypes = new List<Type>();
+    public static string HandleCopyPaste(int controlID)
+    {
+        if (controlID == GUIUtility.keyboardControl)
+        {
+            if (Event.current.type == EventType.KeyUp && (Event.current.modifiers == EventModifiers.Control || Event.current.modifiers == EventModifiers.Command))
+            {
+                if (Event.current.keyCode == KeyCode.C)
+                {
+                    Event.current.Use();
+                    TextEditor editor = (TextEditor)GUIUtility.GetStateObject(typeof(TextEditor), GUIUtility.keyboardControl);
+                    editor.Copy();
+                }
+                else if (Event.current.keyCode == KeyCode.V)
+                {
+                    Event.current.Use();
+                    TextEditor editor = (TextEditor)GUIUtility.GetStateObject(typeof(TextEditor), GUIUtility.keyboardControl);
+                    editor.Paste();
+                    return editor.text;
+                }
+            }
+        }
+        return null;
+    }
     private static Type[] GetTypesInNamespace(System.Reflection.Assembly assembly, string nameSpace)
     {
         var types = assembly.GetTypes();

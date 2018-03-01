@@ -39,7 +39,7 @@ namespace Config
       set { _ResPath = value; }
     }
     private int _Param1 = (int)0;
-    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"Param1", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"Param1", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue((int)0)]
     public int Param1
     {
@@ -47,7 +47,7 @@ namespace Config
       set { _Param1 = value; }
     }
     private string _Param2 = "";
-    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"Param2", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"Param2", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue("")]
     public string Param2
     {

@@ -56,18 +56,19 @@ public class Main : MonoBehaviour
 	    Logic.LogicCore.SP.Init();
 	    u3dSceneManager = new U3DSceneManager();
 	    Logic.LogicCore.SP.SceneManager.SwitchScene(new HotFixScene());
+        EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("BattleUI.prefab", typeof(UIBattle), null));
         //AssetResources.LoadAsset("skill_1.bytes", (s, o) =>
         //{
         //    var ta = o as TextAsset;
         //    Debug.LogError(ta.text);
         //});
-	    //   EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("BattleUI.prefab", typeof(BattleUI), null));
-	    //EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("Hud.prefab", typeof(HudView), null));
+        //   EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("UIBattle.prefab", typeof(UIBattle), null));
+        //EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("Hud.prefab", typeof(HudView), null));
 #if UNITY_ANDROID
         FingerGestures.OnTap += CheckOpenLogWindow;
 #endif
 
-	}
+    }
 #if UNITY_ANDROID
     void CheckOpenLogWindow(Vector2 fingerPos, int tapCount)
     {
@@ -77,7 +78,7 @@ public class Main : MonoBehaviour
         }
     }
 #endif
- 
+
     private Vector2 _offset;
     void OnGUI()
     {
@@ -179,13 +180,13 @@ public class Main : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        //managerDriver.Update();
-        //u3dSceneManager.Update();
-        //Logic.LogicCore.SP.Update(Time.deltaTime);
+        managerDriver.Update();
+        u3dSceneManager.Update();
+        Logic.LogicCore.SP.Update(Time.deltaTime);
 	}
     void FixedUpdate()
     {
-        //Logic.LogicCore.SP.FixedUpdate();
+        Logic.LogicCore.SP.FixedUpdate();
     }
 
     void OnApplicationQuit()

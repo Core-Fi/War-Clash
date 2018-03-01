@@ -31,8 +31,20 @@ class ViewManager : Manager
         string uiName = msg.value1;
         Type t = msg.value2;
         object para = msg.value3;
-        _waitingForLoadView.Add(new PendingViewInfo() {UiName = uiName, UiType = t, Param = para});
-        AssetResources.LoadAsset(uiName, OnLoadUI);
+        bool isLoading = false;
+        for (int i = 0; i < _waitingForLoadView.Count; i++)
+        {
+            if (_waitingForLoadView[i].UiName.Equals(uiName))
+            {
+                isLoading = true;
+                break;
+            }
+        }
+        if (!isLoading)
+        {
+            _waitingForLoadView.Add(new PendingViewInfo() {UiName = uiName, UiType = t, Param = para});
+            AssetResources.LoadAsset(uiName, OnLoadUI);
+        }
     }
 
     private void OnLoadUI(string uiName, UnityEngine.Object obj)
@@ -45,6 +57,7 @@ class ViewManager : Manager
             {
                 info = pendingViewInfo;
                 _waitingForLoadView.RemoveAt(i);
+                break;
             }
         }
         if (!info.Equals(default(PendingViewInfo)) && info.UiName.Equals(uiName))

@@ -68,6 +68,8 @@ namespace Logic.LogicObject
         internal override void OnFixedUpdate(long deltaTime)
         {
             base.OnFixedUpdate(deltaTime);
+            //if(LogicCore.SP.LockFrameMgr.LocalFrameCount == 100)
+            //    (LogicCore.SP.SceneManager.CurrentScene as BattleScene).CreateSceneObject<Player>(1002);
             //if (_isPressing)
             //{
             //    var cmd = Pool.SP.Get<MoveCommand>();

@@ -1,10 +1,7 @@
-using UnityEngine;
-using System;
-using Assets.Logic.Skill;
 using Brainiac;
 using Logic.LogicObject;
-using Lockstep;
 using Brainiac.Serialization;
+using Logic.Skill;
 
 [AddNodeMenu("Action/AttackAction")]
 public class AttackAction : Brainiac.Action

@@ -10,16 +10,23 @@ namespace Logic.Skill
 {
     public class BuffManager
     {
-        private static Dictionary<string, Logic.Skill.Buff> buffs = new Dictionary<string, Logic.Skill.Buff>();
-        private static Dictionary<int, string> buff_index = new Dictionary<int, string>();
-
+        private static readonly Dictionary<string, Logic.Skill.Buff> buffs = new Dictionary<string, Logic.Skill.Buff>();
+        private static Dictionary<int, string> _buffIndex = new Dictionary<int, string>();
+        //private readonly Dictionary<int, BuffRuntime> _buffRuntimes = new Dictionary<int, BuffRuntime>();
+        private readonly List<BuffRuntime> _buffRuntimeList = new List<BuffRuntime>();
+        private readonly List<BuffRuntime> _toAddBuffRuntimeList = new List<BuffRuntime>();
+        public SceneObject SceneObject;
         public static void LoadBuffIndexFiles()
         {
-            buff_index = Logic.Skill.SkillUtility.LoadIndexFile("/Buffs/buff_index.bytes");
+            if (UnityEngine.Application.isPlaying)
+            {
+                _buffIndex = Logic.Skill.SkillUtility.LoadIndexFile("buff_index.bytes");
+            }
+            else
+            {
+                _buffIndex = Logic.Skill.SkillUtility.LoadIndexFile("/Buffs/buff_index.bytes");
+            }
         }
-
-        public SceneObject so;
-        //private static Dictionary<string, RuntimeSkill> runtimeskills = new Dictionary<string, RuntimeSkill>();
         private static Logic.Skill.Buff GetBuff(string path)
         {
             Logic.Skill.Buff b = null;
@@ -29,93 +36,131 @@ namespace Logic.Skill
             }
             else
             {
-                string text = File.ReadAllText(path);
-                b = Newtonsoft.Json.JsonConvert.DeserializeObject<Logic.Skill.Buff>(text);
+                b = Logic.Skill.SkillUtility.GetTimelineGroup<Buff>(path);
                 buffs[path] = b;
             }
             return b;
         }
-        private Dictionary<int, BuffRuntime> buffRuntimes = new Dictionary<int, BuffRuntime>();
-        private List<BuffRuntime> _delayBuffs = new List<BuffRuntime>();
+
+        public BuffManager(SceneObject so)
+        {
+            SceneObject = so;
+        }
+
+        public BuffRuntime GetBuffRuntime(int id)
+        {
+            for (int i = 0; i < _buffRuntimeList.Count; i++)
+            {
+                var br = _buffRuntimeList[i];
+                if (br.SourceData.ID.Equals(id))
+                {
+                    return br;
+                }
+            }
+            return null;
+        }
+
+        public bool HasBuff(int id)
+        {
+            for (int i = 0; i < _buffRuntimeList.Count; i++)
+            {
+                var br = _buffRuntimeList[i];
+                if (br.SourceData.ID.Equals(id))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public void AddBuff(int id)
         {
-            if(buff_index.Count == 0)
+            if(HasBuff(id))return;
+            if(_buffIndex.Count == 0)
                 LoadBuffIndexFiles();
             string path;
-            if (!buff_index.TryGetValue(id, out path))
+            if (!_buffIndex.TryGetValue(id, out path))
             {
-                throw new Exception("Buff ID 不存在");
+                throw new Exception("Buff ID 不存在 "+id);
             }
             Buff buff = GetBuff(path);
             BuffRuntime br = new BuffRuntime();
-            br.Init(buff, new RuntimeData(so, null, null), null);
+            br.Init(buff, new RuntimeData(SceneObject, null, null));
             if (_isTraversing)
             {
-                _delayBuffs.Add(br);
+                _toAddBuffRuntimeList.Add(br);
+               //todo:呼吸一帧
             }
             else
             {
-                buffRuntimes.Add(id, br);
+                _buffRuntimeList.Add(br);
+               // _buffRuntimes.Add(id, br);
             }
         }
-        private List<int> _needDelBuffs = new List<int>();
         private bool _isTraversing;
         public void Update(float deltaTime)
         {
             _isTraversing = true;
-            var itor = buffRuntimes.GetEnumerator();
-            while (itor.MoveNext())
+            for (int i = 0; i < _buffRuntimeList.Count; i++)
             {
-                BuffRuntime br = itor.Current.Value;
+                BuffRuntime br = _buffRuntimeList[i];
                 br.Breath(deltaTime);
                 if (!br.isRunning)
                 {
-                    _needDelBuffs.Add(br.sourceData.ID);
+                    _buffRuntimeList.RemoveAt(i);
+                  //  _buffRuntimes.Remove(br.SourceData.ID);
+                    i--;
                 }
             }
-            itor.Dispose();
             _isTraversing = false;
-            for (int i = 0; i < _delayBuffs.Count; i++)
-            {
-                buffRuntimes.Add(_delayBuffs[i].sourceData.ID, _delayBuffs[i]);
-            }
-            if (_needDelBuffs.Count > 0)
-            {
-                for (int i = 0; i < _needDelBuffs.Count; i++)
-                {
-                    buffRuntimes.Remove(_needDelBuffs[i]);
-                }
-                _needDelBuffs.Clear();
-            }
         }
 
         public void FixedUpdate()
         {
             _isTraversing = true;
-            var itor = buffRuntimes.GetEnumerator();
-            while (itor.MoveNext())
+            for (int i = 0; i < _buffRuntimeList.Count; i++)
             {
-                BuffRuntime br = itor.Current.Value;
+                BuffRuntime br = _buffRuntimeList[i];
                 br.FixedBreath();
                 if (!br.isRunning)
                 {
-                    _needDelBuffs.Add(br.sourceData.ID);
+                    _buffRuntimeList.RemoveAt(i);
+                   // _buffRuntimes.Remove(br.SourceData.ID);
+                    i--;
                 }
             }
-            itor.Dispose();
             _isTraversing = false;
-            for (int i = 0; i < _delayBuffs.Count; i++)
-            {
-                buffRuntimes.Add(_delayBuffs[i].sourceData.ID, _delayBuffs[i]);
-            }
-            if (_needDelBuffs.Count > 0)
-            {
-                for (int i = 0; i < _needDelBuffs.Count; i++)
-                {
-                    buffRuntimes.Remove(_needDelBuffs[i]);
-                }
-                _needDelBuffs.Clear();
-            }
+            AfterFixedUpdate();
         }
+
+        private void AfterUpdate(float deltaTime)
+        {
+            for (int i = 0; i < _toAddBuffRuntimeList.Count; i++)
+            {
+                var br = _toAddBuffRuntimeList[i];
+                br.Breath(deltaTime);
+                if (br.isRunning)
+                {
+                    _buffRuntimeList.Add(br);
+                  //  _buffRuntimes.Add(br.SourceData.ID, br);
+                }
+            }
+            _toAddBuffRuntimeList.Clear();
+        }
+        private void AfterFixedUpdate()
+        {
+            for (int i = 0; i < _toAddBuffRuntimeList.Count; i++)
+            {
+                var br = _toAddBuffRuntimeList[i];
+                br.FixedBreath();
+                if (br.isRunning)
+                {
+                    _buffRuntimeList.Add(br);
+                   // _buffRuntimes.Add(br.SourceData.ID, br);
+                }
+            }
+            _toAddBuffRuntimeList.Clear();
+        }
+
+      
     }
 }

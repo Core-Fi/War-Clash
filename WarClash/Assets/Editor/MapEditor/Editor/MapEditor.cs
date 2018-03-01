@@ -78,7 +78,7 @@ public class MapEditor : EditorWindow {
             }
             var str = Newtonsoft.Json.JsonConvert.SerializeObject(mapDic, Formatting.Indented, SkillUtility.settings);
             var scene = SceneManager.GetActiveScene();
-            File.WriteAllText(Application.streamingAssetsPath+"/Map/"+scene.name+".map", str);
+            File.WriteAllText(Application.streamingAssetsPath+"/Map/"+scene.name+".bytes", str);
         }
 
         GUILayout.EndVertical();

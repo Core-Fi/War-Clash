@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FastCollections;
 using Logic.LogicObject;
 
 using Logic.Skill.Actions;
@@ -57,15 +58,20 @@ namespace Logic.Skill
 
     public class RuntimeTimeLine : IPool
     {
+        public static Dictionary<Type, Type> TimelineDataAndLogic = new BiDictionary<Type, Type>
+        {
+            {typeof(TimeLine), typeof(RuntimeTimeLine)},
+            {typeof(TriAtkTimeline), typeof(TriAtkRuntimeTimeline)},
+        };
         public TimeLineStatus m_TimeLineStatus;
-        public TimeLine timeLine { get; private set; }
+        public TimeLine SourceData { get; private set; }
         public float m_Duration { get; private set; }
         public float m_Times { get; private set; }
-        private RuntimeData m_RunningData;
+        protected RuntimeData m_RunningData;
         private int m_curActionIndex;
-        public virtual void Init(TimeLine tl, RuntimeData runningData)
+        public void Init(TimeLine tl, RuntimeData runningData)
         {
-            timeLine = tl;
+            SourceData = tl;
             m_Duration = 0;
             m_Times = 0;
             this.m_RunningData = runningData;
@@ -73,28 +79,33 @@ namespace Logic.Skill
             m_curActionIndex = 0;
         }
 
+        protected virtual void OnEnter()
+        {
+            
+        }
         public void Enter()
         {
             m_TimeLineStatus = TimeLineStatus.Running;
+            OnEnter();
         }
         public void FixedBreath()
         {
             this.OnFixedBreath();
-            for (int i = m_curActionIndex; i < timeLine.BaseActions.Count; i++)
+            for (int i = m_curActionIndex; i < SourceData.BaseActions.Count; i++)
             {
-                if (timeLine.BaseActions[i].ExecuteFrameIndex <= m_Duration)
+                if (SourceData.BaseActions[i].ExecuteFrameIndex <= m_Duration)
                 {
-                    timeLine.BaseActions[i].Execute(m_RunningData.sender, m_RunningData.receiver, m_RunningData.data);
+                    SourceData.BaseActions[i].Execute(m_RunningData.sender, m_RunningData.receiver, m_RunningData.data);
                     m_curActionIndex++;
                 }
             }
             m_Duration++;
-            if (m_Duration >= timeLine.FrameCount)
+            if (m_Duration >= SourceData.FrameCount)
             {
                 m_Times++;
                 m_Duration = 0;
                 m_curActionIndex = 0;
-                if (m_Times >= timeLine.Times)
+                if (m_Times >= SourceData.Times)
                 {
                     Finish();
                 }
@@ -117,22 +128,22 @@ namespace Logic.Skill
         public float Breath(float deltaTime)
         {
             this.OnBreath(deltaTime);
-            for (int i = m_curActionIndex; i < timeLine.BaseActions.Count; i++)
+            for (int i = m_curActionIndex; i < SourceData.BaseActions.Count; i++)
             {
-                if (timeLine.BaseActions[i].ExecuteFrameIndex <= m_Duration)
+                if (SourceData.BaseActions[i].ExecuteFrameIndex <= m_Duration)
                 {
-                    timeLine.BaseActions[i].Execute(m_RunningData.sender, m_RunningData.receiver, m_RunningData.data);
+                    SourceData.BaseActions[i].Execute(m_RunningData.sender, m_RunningData.receiver, m_RunningData.data);
                     m_curActionIndex++;
                 }
             }
             m_Duration+=deltaTime;
-            if (m_Duration >= timeLine.FrameCount)
+            if (m_Duration >= SourceData.FrameCount)
             {
                 m_Times++;
-                deltaTime = m_Duration - timeLine.FrameCount;
+                deltaTime = m_Duration - SourceData.FrameCount;
                 m_Duration = 0;
                 m_curActionIndex = 0;
-                if (m_Times >= timeLine.Times)
+                if (m_Times >= SourceData.Times)
                 {
                     Finish();
                     return deltaTime;
@@ -165,15 +176,20 @@ namespace Logic.Skill
         }
         public virtual void OnFinish()
         {
-            for (int i = 0; i < timeLine.BaseActions.Count; i++)
+            for (int i = 0; i < SourceData.BaseActions.Count; i++)
             {
-                timeLine.BaseActions[i].OnTimeLineFinish(m_RunningData.sender, m_RunningData.receiver, m_RunningData.data);
+                SourceData.BaseActions[i].OnTimeLineFinish(m_RunningData.sender, m_RunningData.receiver, m_RunningData.data);
             }
         }
 
         public void Reset()
         {
-            
+            SourceData = null;
+            m_Duration = 0;
+            m_Times = 0;
+            this.m_RunningData = default(RuntimeData);
+            m_TimeLineStatus = TimeLineStatus.NotStarted;
+            m_curActionIndex = 0;
         }
     }
     public enum TimeLineStatus

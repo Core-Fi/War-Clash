@@ -90,13 +90,19 @@ public class EShowActionDetailPanel : IEElement
                         }
                         GUILayout.EndVertical();
                     }
+                  
                     else if (displayAttr.ControlType == UIControlType.Default)
                     {
                         if (fi.PropertyType == typeof(string))
                         {
                             string val = fi.GetValue(SkillEditTempData.editingItem, null) as string;
                             val = val == null ? "" : val;
-                            string new_val = GUILayout.TextField(val, GUILayout.MinWidth(70));
+                            int textFieldID = GUIUtility.GetControlID("TextField".GetHashCode(), FocusType.Keyboard) + 1;
+                            if (textFieldID != 0)
+                            {
+                                val = SkillEditorUtility.HandleCopyPaste(textFieldID) ?? val;
+                            }
+                            string new_val = GUILayout.TextField(val, GUILayout.MinWidth(100));
                             fi.SetValue(SkillEditTempData.editingItem, new_val, null);
                         }
                         else if (fi.PropertyType == typeof(int))

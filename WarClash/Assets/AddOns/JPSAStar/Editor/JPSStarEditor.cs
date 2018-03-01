@@ -34,7 +34,7 @@ public class JPSStarEditor : Editor {
                 }
             }
             var scene = SceneManager.GetActiveScene();
-            File.WriteAllBytes(Application.streamingAssetsPath + "/map/" + scene.name + "_jps.map", jpsStar.Data);
+            File.WriteAllBytes(Application.streamingAssetsPath + "/map/" + scene.name + "_jps.bytes", jpsStar.Data);
         }
         if (GUILayout.Button("GetPath"))
         {

@@ -21,7 +21,8 @@ namespace Logic.LogicObject
             base.OnInit(createInfo);
             var info  = createInfo as NpcCreateInfo;
             Conf = ConfigMap<ArmyConf>.Get(info.NpcId);
-            AssetResources.LoadAsset(Conf.BT, OnBtLoad, true);
+            var obj = AssetResources.LoadAssetImmediatly(Conf.BT);
+            OnBtLoad(Conf.BT, obj);
 //#if UNITY_EDITOR
 //            var bt = UnityEditor.AssetDatabase.LoadAssetAtPath<BTAsset>("Assets/RequiredResources/BT/" + Conf.BT);
 //            OnBtLoad(Conf.BT, bt);

@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using Lockstep;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public static class Utility
 {
+//#if UNITY_EDITOR
+    public static System.Diagnostics.Stopwatch Stopwatch = new Stopwatch();
+//#endif
     public static StringBuilder Stringbuilder = new StringBuilder();
     public static readonly List<IFixedAgent> List = new List<IFixedAgent>();
     public static void Clear(this StringBuilder builder)
@@ -18,6 +23,12 @@ public static class Utility
             builder.Length = 0;
             builder.Capacity = 0;
         }
+    }
+    public static void Swap<T>(ref T a, ref T b)
+    {
+        T tmp = a;
+        a = b;
+        b = tmp;
     }
     public static long Random(ref int r)
     {

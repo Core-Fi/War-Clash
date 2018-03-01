@@ -296,6 +296,7 @@ class GridService
     }
     public static void DrawGizmos()
     {
+        if (_gridData == null) return;
         for (int outer = _gridData.GetLowerBound(0);
             outer <= _gridData.GetUpperBound(0);
             outer++)
