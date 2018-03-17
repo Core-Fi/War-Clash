@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Logic.Components;
+using Logic.LogicObject;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -158,10 +160,13 @@ namespace Logic
         public long NewValue;
     }
 
-    public class AttributeManager
+    public class AttributeManager : BaseComponent
     {
+        public enum Event
+        {
+            OnAttributechange
+        }
         private readonly Dictionary<int, CharacterAttribute> _attributes = new Dictionary<int, CharacterAttribute>();
-        public Action<AttributeType, long, long> OnAttributeChange;
 #if UNITY_EDITOR
         public Dictionary<int, CharacterAttribute> Attributes
         {
@@ -199,10 +204,12 @@ namespace Logic
                 var attr = _attributes[(int)at];
                 var oldValue = attr.FinalValue;
                 attr.Remove(am);
-                if (OnAttributeChange != null)
+                EventGroup.FireEvent((int)Event.OnAttributechange, this, EventGroup.NewArg<EventSingleArgs<AttributeMsg>, AttributeMsg>(new AttributeMsg()
                 {
-                    OnAttributeChange.Invoke(at, oldValue, attr.FinalValue);
-                }
+                    At = at,
+                    NewValue = attr.FinalValue,
+                    OldValue = oldValue
+                }));
             }
             else
             {
@@ -216,10 +223,12 @@ namespace Logic
                 var attr = _attributes[(int) at];
                 var oldValue = attr.FinalValue;
                 attr.Remove(op, value);
-                if (OnAttributeChange != null)
+                EventGroup.FireEvent((int)Event.OnAttributechange, this, EventGroup.NewArg<EventSingleArgs<AttributeMsg>, AttributeMsg>(new AttributeMsg()
                 {
-                    OnAttributeChange.Invoke(at, oldValue, attr.FinalValue);
-                }
+                    At = at,
+                    NewValue = attr.FinalValue,
+                    OldValue = oldValue
+                }));
             }
             else
             {
@@ -232,10 +241,12 @@ namespace Logic
             var attr = _attributes[(int) at];
             var oldValue = attr.FinalValue;
             _attributes[(int) at].SetBase(value);
-            if (OnAttributeChange != null)
+            EventGroup.FireEvent((int)Event.OnAttributechange, this, EventGroup.NewArg<EventSingleArgs<AttributeMsg>, AttributeMsg>(new AttributeMsg()
             {
-                OnAttributeChange.Invoke(at, oldValue, attr.FinalValue);
-            }
+                At = at,
+                NewValue = attr.FinalValue,
+                OldValue = oldValue
+            }));
         }
 
         public void Add(AttributeType at, AttributeMotifier am)
@@ -245,10 +256,12 @@ namespace Logic
                 var attr = _attributes[(int)at];
                 var oldValue = attr.FinalValue;
                 attr.Add(am);
-                if (OnAttributeChange != null)
+                EventGroup.FireEvent((int)Event.OnAttributechange, this, EventGroup.NewArg<EventSingleArgs<AttributeMsg>, AttributeMsg>(new AttributeMsg()
                 {
-                    OnAttributeChange.Invoke(at, oldValue, attr.FinalValue);
-                }
+                    At = at,
+                    NewValue = attr.FinalValue,
+                    OldValue = oldValue
+                }));
             }
             else
             {
@@ -262,10 +275,12 @@ namespace Logic
                 var attr = _attributes[(int) at];
                 var oldValue = attr.FinalValue;
                 attr.Add(op, value);
-                if (OnAttributeChange != null)
+                EventGroup.FireEvent((int)Event.OnAttributechange, this, EventGroup.NewArg<EventSingleArgs<AttributeMsg>, AttributeMsg>(new AttributeMsg()
                 {
-                    OnAttributeChange.Invoke(at, oldValue, attr.FinalValue);
-                }
+                    At = at,
+                    NewValue = attr.FinalValue,
+                    OldValue = oldValue
+                }));
             }
             else
             {

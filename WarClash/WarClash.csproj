@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>5.6.3p4</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -52,11 +54,8 @@
     <Reference Include="UnityEngine">
       <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+    <Reference Include="UnityEngine.Analytics">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TestRunner">
       <HintPath>Library\UnityAssemblies\UnityEngine.TestRunner.dll</HintPath>
@@ -64,8 +63,11 @@
     <Reference Include="nunit.framework">
       <HintPath>Library\UnityAssemblies\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Analytics">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.HoloLens">
       <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
@@ -389,9 +391,11 @@
     <Compile Include="Assets\Logic\Attribute.cs" />
     <Compile Include="Assets\Logic\Command\Command.cs" />
     <Compile Include="Assets\Logic\Common\ZipUtility.cs" />
+    <Compile Include="Assets\Logic\Components\MainPlayerControlComponent.cs" />
+    <Compile Include="Assets\Logic\Components\TransformComponent.cs" />
     <Compile Include="Assets\Logic\Config\ArmyConf.cs" />
+    <Compile Include="Assets\Logic\Config\BaseConfig.cs" />
     <Compile Include="Assets\Logic\Config\BuildingConf.cs" />
-    <Compile Include="Assets\Logic\Config\ConfigManager.cs" />
     <Compile Include="Assets\Logic\EventArgs.cs" />
     <Compile Include="Assets\Logic\EventGroup.cs" />
     <Compile Include="Assets\Logic\FastCollections-master\BiDictionary.cs" />
@@ -434,19 +438,13 @@
     <Compile Include="Assets\Logic\LockStep\Serialization\Writer.cs" />
     <Compile Include="Assets\Logic\LockStep\Utility.cs" />
     <Compile Include="Assets\Logic\LogicCore.cs" />
-    <Compile Include="Assets\Logic\LogicObject\BarackBuilding.cs" />
     <Compile Include="Assets\Logic\LogicObject\BattleScene.cs" />
-    <Compile Include="Assets\Logic\LogicObject\Building.cs" />
-    <Compile Include="Assets\Logic\LogicObject\Character.cs" />
     <Compile Include="Assets\Logic\LogicObject\HotFixScene.cs" />
+    <Compile Include="Assets\Logic\Components\BaseComponent.cs" />
     <Compile Include="Assets\Logic\LogicObject\IScene.cs" />
     <Compile Include="Assets\Logic\LogicObject\MainBaseBuilding.cs" />
-    <Compile Include="Assets\Logic\LogicObject\MainPlayer.cs" />
-    <Compile Include="Assets\Logic\LogicObject\Npc.cs" />
-    <Compile Include="Assets\Logic\LogicObject\Player.cs" />
     <Compile Include="Assets\Logic\LogicObject\Projectile.cs" />
     <Compile Include="Assets\Logic\LogicObject\SceneObject.cs" />
-    <Compile Include="Assets\Logic\LogicObject\Tower.cs" />
     <Compile Include="Assets\Logic\Map\Map.cs" />
     <Compile Include="Assets\Logic\Map\MapItem.cs" />
     <Compile Include="Assets\Logic\ObjectCollection.cs" />
@@ -481,6 +479,7 @@
     <Compile Include="Assets\Logic\StateMachine.cs" />
     <Compile Include="Assets\Logic\Utility.cs" />
     <Compile Include="Assets\Main.cs" />
+    <Compile Include="Assets\MovieTextureTest.cs" />
     <Compile Include="Assets\PhysicTest.cs" />
     <Compile Include="Assets\RenderTextureTest.cs" />
     <Compile Include="Assets\Scripts\AssetResources.cs" />
@@ -517,18 +516,13 @@
     <Compile Include="Assets\Scripts\U3DActions\U3DDisplayAction.cs" />
     <Compile Include="Assets\Scripts\U3DActions\U3DPlayAnimationAction.cs" />
     <Compile Include="Assets\Scripts\U3DActions\U3DPlayFXAction.cs" />
+    <Compile Include="Assets\Scripts\U3DComponent\U3DBaseComponent.cs" />
+    <Compile Include="Assets\Scripts\U3DComponent\U3DTransformComponent.cs" />
     <Compile Include="Assets\Scripts\U3DObject\IU3DScene.cs" />
     <Compile Include="Assets\Scripts\U3DObject\LogicObject.cs" />
     <Compile Include="Assets\Scripts\U3DObject\LogicObjectCorresponding.cs" />
-    <Compile Include="Assets\Scripts\U3DObject\U3DBarackBuilding.cs" />
     <Compile Include="Assets\Scripts\U3DObject\U3DBattleScene.cs" />
-    <Compile Include="Assets\Scripts\U3DObject\U3DBuilding.cs" />
-    <Compile Include="Assets\Scripts\U3DObject\U3DCharacter.cs" />
     <Compile Include="Assets\Scripts\U3DObject\U3DHotFixScene.cs" />
-    <Compile Include="Assets\Scripts\U3DObject\U3DMainPlayer.cs" />
-    <Compile Include="Assets\Scripts\U3DObject\U3DNpc.cs" />
-    <Compile Include="Assets\Scripts\U3DObject\U3DPlayer.cs" />
-    <Compile Include="Assets\Scripts\U3DObject\U3DProjectile.cs" />
     <Compile Include="Assets\Scripts\U3DObject\U3DSceneManager.cs" />
     <Compile Include="Assets\Scripts\U3DObject\U3DSceneObject.cs" />
     <Compile Include="Assets\Scripts\U3DObject\U3DState.cs" />
@@ -598,9 +592,11 @@
     <None Include="Assets\StreamingAssets\AB\assetInfos.txt" />
     <None Include="Assets\StreamingAssets\AB\assets\shader\transparent.shader" />
     <None Include="Assets\StreamingAssets\AB\assets\specular.shader" />
+    <None Include="Assets\StreamingAssets\build_info.txt" />
     <None Include="Assets\graph.txt" />
     <None Include="Assets\log.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
 </Project>

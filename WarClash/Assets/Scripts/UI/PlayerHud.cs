@@ -1,12 +1,13 @@
 using Lockstep;
 using Logic;
+using Logic.Components;
 using Logic.LogicObject;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerHud : UITemplate
 {
-    public U3DPlayer U3DPlayer;
+    public U3DSceneObject U3DSceneObject;
     private int _maxHp;
     private int _curHp;
     private RectTransform rt;
@@ -14,9 +15,9 @@ public class PlayerHud : UITemplate
     public GameObject m_Hp_go;
     public Slider m_Hp_slider;
     #endregion
-    public PlayerHud(GameObject go, U3DPlayer player) : base(go)
+    public PlayerHud(GameObject go, U3DSceneObject player) : base(go)
     {
-        U3DPlayer = player;
+        U3DSceneObject = player;
     }
 
     protected override void OnInit()
@@ -25,10 +26,10 @@ public class PlayerHud : UITemplate
         m_Hp_go = Go.transform.Find("m_Hp").gameObject;
         m_Hp_slider = m_Hp_go.GetComponent<Slider>();
         #endregion
-        _maxHp = U3DPlayer.Character.AttributeManager[AttributeType.Maxhp].ToInt();
-        _curHp = U3DPlayer.Character.AttributeManager[AttributeType.Hp].ToInt();
+        _maxHp = U3DSceneObject.SceneObject.AttributeManager[AttributeType.Maxhp].ToInt();
+        _curHp = U3DSceneObject.SceneObject.AttributeManager[AttributeType.Hp].ToInt();
         UpdateSlider();
-        U3DPlayer.Character.EventGroup.ListenEvent((int)SceneObject.SceneObjectEvent.OnAttributechange, OnAttributeChange);
+        U3DSceneObject.SceneObject.TransformComp.EventGroup.ListenEvent((int)TransformComponent.Event.OnPositionChange, OnAttributeChange);
         rt = Go.GetComponent<RectTransform>();
     }
 
@@ -53,7 +54,7 @@ public class PlayerHud : UITemplate
     }
     public void Update()
     {
-        var vp = Main.SP.MainCamera.WorldToViewportPoint(U3DPlayer.Character.Position.ToVector3() + new Vector3(0,2,0));
+        var vp = Main.SP.MainCamera.WorldToViewportPoint(U3DSceneObject.SceneObject.Position.ToVector3() + new Vector3(0,2,0));
         var sp = Main.SP.UICamera.ViewportToScreenPoint(vp);
         sp.x = sp.x - Screen.width / 2f;
         sp.y = sp.y - Screen.height / 2f;

@@ -88,16 +88,16 @@ namespace Logic.Skill.Actions
 
         public override void Execute(SceneObject sender, SceneObject reciever, object data)
         {
-            Character so = null;
+            SceneObject so = null;
             if (playTarget == PlayTarget.SENDER)
             {
-                so = sender as Character;
+                so = sender ;
             }
             else if (playTarget == PlayTarget.RECEIVER)
             {
-                so = reciever as Character;
+                so = reciever ;
             }
-            so.EventGroup.FireEvent(Character.CharacterEvent.Executedisplayaction.ToInt(), sender,
+            so.EventGroup.FireEvent(SceneObject.SceneObjectEvent.Executedisplayaction.ToInt(), sender,
                 EventGroup.NewArg<EventSingleArgs<DisplayAction>, DisplayAction>(this));
             base.Execute(sender, reciever, data);
         }
@@ -106,16 +106,16 @@ namespace Logic.Skill.Actions
         {
             if (stopCondition == StopCondition.TimelineEnd)
             {
-                Character so = null;
+                SceneObject so = null;
                 if (playTarget == PlayTarget.SENDER)
                 {
-                    so = sender as Character;
+                    so = sender ;
                 }
                 else if (playTarget == PlayTarget.RECEIVER)
                 {
-                    so = reciever as Character;
+                    so = reciever ;
                 }
-                so.EventGroup.FireEvent( Character.CharacterEvent.Stopdisplayaction.ToInt(), sender,
+                so.EventGroup.FireEvent(SceneObject.SceneObjectEvent.Stopdisplayaction.ToInt(), sender,
                     EventGroup.NewArg<EventSingleArgs<DisplayAction>, DisplayAction>(this));
             }
         }
@@ -123,16 +123,16 @@ namespace Logic.Skill.Actions
         {
             if (stopCondition == StopCondition.SkillEnd)
             {
-                Character so = null;
+                SceneObject so = null;
                 if (playTarget == PlayTarget.SENDER)
                 {
-                    so = sender as Character;
+                    so = sender;
                 }
                 else if (playTarget == PlayTarget.RECEIVER)
                 {
-                    so = reciever as Character;
+                    so = reciever;
                 }
-                so.EventGroup.FireEvent(Character.CharacterEvent.Stopdisplayaction.ToInt(), sender,
+                so.EventGroup.FireEvent(SceneObject.SceneObjectEvent.Stopdisplayaction.ToInt(), sender,
                     EventGroup.NewArg<EventSingleArgs<DisplayAction>, DisplayAction>(this));
             }
             base.OnSkillFinish(sender, reciever, data);

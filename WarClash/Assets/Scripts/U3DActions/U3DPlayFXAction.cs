@@ -9,7 +9,7 @@ public class U3DPlayFXAction : U3DDisplayAction
     private PlayFXAction _playFxAction;
     private U3DSceneObject _sender;
     private GameObject go;
-    public override void Execute(U3DCharacter sender, U3DCharacter receiver, object data)
+    public override void Execute(U3DSceneObject sender, U3DSceneObject receiver, object data)
     {
         _playFxAction = this.Action as PlayFXAction;
         _sender = sender;
@@ -19,7 +19,7 @@ public class U3DPlayFXAction : U3DDisplayAction
     private void OnLoadRes(string name, UnityEngine.Object obj)
     {
         go = UnityEngine.Object.Instantiate(obj) as GameObject;
-        go.transform.position = _sender.So.Position.ToVector3();
+        go.transform.position = _sender.SceneObject.Position.ToVector3();
 
     }
     public override void Stop()

@@ -154,7 +154,7 @@ namespace Logic.LogicObject
         {
             _leftTime -= deltaTime;
             var _battleScene = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
-            _battleScene.ForEachDo<Player>((p) =>
+            _battleScene.ForEachDo<SceneObject>((p) =>
             {
                 if (Vector3d.SqrDistance(Position, p.Position) < FixedMath.One / 5)
                 {

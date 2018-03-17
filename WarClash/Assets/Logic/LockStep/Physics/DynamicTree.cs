@@ -133,6 +133,7 @@ public class DynamicTree<T>
         Vector2d r = new Vector2d(FixedMath.One/10, FixedMath.One / 10);
         _nodes[proxyId].AABB.LowerBound = aabb.LowerBound - r;
         _nodes[proxyId].AABB.UpperBound = aabb.UpperBound + r;
+        _nodes[proxyId].AABB.UpdateCenterAndExtents();
         _nodes[proxyId].UserData = userData;
         _nodes[proxyId].Height = 0;
 
@@ -185,7 +186,7 @@ public class DynamicTree<T>
         // Predict AABB displacement.
         Vector2d d = FixedMath.One*2 * displacement;
 
-        if (d.x < 0.0f)
+        if (d.x < 0)
         {
             b.LowerBound.x += d.x;
         }
@@ -194,7 +195,7 @@ public class DynamicTree<T>
             b.UpperBound.x += d.x;
         }
 
-        if (d.y < 0.0f)
+        if (d.y < 0)
         {
             b.LowerBound.y += d.y;
         }
@@ -975,6 +976,7 @@ public class DynamicTree<T>
         {
             _nodes[i].AABB.LowerBound -= newOrigin;
             _nodes[i].AABB.UpperBound -= newOrigin;
+            _nodes[i].AABB.UpdateCenterAndExtents();
         }
     }
 }

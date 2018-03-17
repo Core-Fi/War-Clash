@@ -1,54 +1,50 @@
 ﻿using Lockstep;
 using Logic.LogicObject;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Pathfinding;
-using UnityEngine;
-using UnityEngine.AI;
+
+using Logic.Components;
 
 namespace Logic
 {
-    public class StateMachine
+    public class StateMachine : BaseComponent
     {
-        public State state;
-        public Character Character;
-        public StateMachine(Character character)
+        public enum Event
         {
-            this.Character = character;
+            ExecuteState,
+            StopState
         }
+        public State State;
+        public SceneObject SceneObject;
         public void Start<T>() where T : State, IPool
         {
-            if(this.state != null)
+            if(this.State != null)
             {
-                if (this.state is T)
+                if (this.State is T)
                 {
                     return;
                 }
                 else
                 {
-                    this.state.Stop();
-                    Character.EventGroup.FireEvent(Character.CharacterEvent.StopState.ToInt(), this, EventGroup.NewArg<EventSingleArgs<State>, State>(this.state));
+                    this.State.Stop();
+                    SceneObject.EventGroup.FireEvent((int)Event.StopState, this, EventGroup.NewArg<EventSingleArgs<State>, State>(this.State));
                 }
             }
-            this.state = Pool.SP.Get<T>() as State;
-            this.state.Character = Character;
-            this.state.Start();
-            Character.EventGroup.FireEvent(Character.CharacterEvent.ExecuteState.ToInt(), this, EventGroup.NewArg<EventSingleArgs<State>, State>(this.state));
+            this.State = Pool.SP.Get<T>() as State;
+            this.State.SceneObject = SceneObject;
+            this.State.Start();
+            SceneObject.EventGroup.FireEvent((int)Event.ExecuteState, this, EventGroup.NewArg<EventSingleArgs<State>, State>(this.State));
         }
 
         public void FixedUpdate()
         {
-            if(state != null)
+            if(State != null)
             {
-                state.FixedUpdate();
+                State.FixedUpdate();
             }
         }
     }
     public abstract class State : IPool
     {
-        public Character Character;
+        public SceneObject SceneObject;
         public bool IsRunning { get; private set; }
 
         public void Start()
@@ -79,7 +75,7 @@ namespace Logic
 
     public class GuiseState : State
     {
-        private Player _p = null;
+        private SceneObject _p = null;
         public string Path { get; private set; }
 
         protected override void OnReset()
@@ -90,11 +86,7 @@ namespace Logic
 
         protected override void OnStart()
         {
-            if (Character is Player)
-            {
-                _p = Character as Player;
-                Path = "cube.prefab";
-            }
+            Path = "cube.prefab";
         }
         protected override void OnStop()
         {
@@ -108,7 +100,7 @@ namespace Logic
     {
         protected override void OnStart()
         {
-            Character.AttributeManager.SetBase(AttributeType.Speed, 0);
+            SceneObject.AttributeManager.SetBase(AttributeType.Speed, 0);
         }
         protected override void OnReset()
         {
@@ -130,33 +122,32 @@ namespace Logic
         }
         protected override void OnStart()
         {
-            var speed = Character.AttributeManager[AttributeType.MaxSpeed];
-            Character.AttributeManager.SetBase(AttributeType.Speed, speed);
-            Character.Velocity = Character.Forward * speed;
+            var speed = SceneObject.AttributeManager[AttributeType.MaxSpeed];
+            SceneObject.AttributeManager.SetBase(AttributeType.Speed, speed);
         }
         protected override void OnStop()
         {
-            Character.AttributeManager.SetBase(AttributeType.Speed, 0);
+            SceneObject.AttributeManager.SetBase(AttributeType.Speed, 0);
         }
         protected override void OnFixedUpdate()
         {
-            if (Character.GetStatus(AttributeType.IsMovable))
+            if (SceneObject.GetStatus(AttributeType.IsMovable))
             {
-                Vector3d posi = Character.Forward;
-                posi.Mul(Character.AttributeManager[AttributeType.Speed]);
+                Vector3d posi = SceneObject.Forward;
+                posi.Mul(SceneObject.AttributeManager[AttributeType.Speed]);
                 posi = posi.Div(LockFrameMgr.FixedFrameRate);
-                var finalPosi = Character.Position + posi;
+                var finalPosi = SceneObject.Position + posi;
                 //var fp = AstarPath.active.GetNearest(finalPosi);
                 //var b = (fp.node as MeshNode).ContainsPoint(Vector3d.ToInt3(finalPosi));
                 var b = true; //JPSAStar.active.IsWalkable(finalPosi);
                 if (LogicCore.SP.WriteToLog)
                 {
-                    LogicCore.SP.Writer.AppendLine(Character.Position.ToStringRaw() + " " +
-                                                   Character.Forward.ToStringRaw());
+                    LogicCore.SP.Writer.AppendLine(SceneObject.Position.ToStringRaw() + " " +
+                                                   SceneObject.Forward.ToStringRaw());
                 }
                 if (b)
                 {
-                    Character.Position = finalPosi;
+                    SceneObject.Position = finalPosi;
                 }
                 else
                 {

@@ -41,7 +41,7 @@ public struct AABB
         }
     } 
 
-    public float Height
+    public long Height
     {
         get
         {
@@ -128,6 +128,7 @@ public struct AABB
     {
         LowerBound = Vector2d.Min(LowerBound, aabb.LowerBound);
         UpperBound = Vector2d.Max(UpperBound, aabb.UpperBound);
+        UpdateCenterAndExtents();
     }
 
     /// <summary>
@@ -139,6 +140,7 @@ public struct AABB
     {
         LowerBound = Vector2d.Min(aabb1.LowerBound, aabb2.LowerBound);
         UpperBound = Vector2d.Max(aabb1.UpperBound, aabb2.UpperBound);
+        UpdateCenterAndExtents();
     }
 
     /// <summary>

@@ -25,7 +25,7 @@ public class HudView:View
         bool exist = false;
         for (int i = 0; i < _playerHuds.Count; i++)
         {
-            if (_playerHuds[i].U3DPlayer.Equals(u3DPlayer))
+            if (_playerHuds[i].U3DSceneObject.Equals(u3DPlayer))
             {
                 exist = true;
             }

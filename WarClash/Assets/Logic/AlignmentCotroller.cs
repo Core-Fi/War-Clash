@@ -10,9 +10,9 @@ namespace Logic
 {
     public class AlignmentCotroller
     {
-        private Player _commander;
+        private SceneObject _commander;
         private List<IAlignmentAgent> _npcs = new List<IAlignmentAgent>(8);
-        public AlignmentCotroller(Player c)
+        public AlignmentCotroller(SceneObject c)
         {
             _commander = c;
             var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;

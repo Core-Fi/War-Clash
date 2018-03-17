@@ -15,7 +15,7 @@ public abstract class U3DDisplayAction : IPool{
 
     public DisplayAction Action;
 
-    public abstract void Execute(U3DCharacter sender, U3DCharacter receiver, object data);
+    public abstract void Execute(U3DSceneObject sender, U3DSceneObject receiver, object data);
 
     public void Reset() { }
 
@@ -24,10 +24,10 @@ public abstract class U3DDisplayAction : IPool{
 
 public class U3DDisplayActionManager
 {
-    private U3DCharacter u3dCharacter;
+    private U3DSceneObject u3dCharacter;
     private List<U3DDisplayAction> displayActions = new List<U3DDisplayAction>();
 
-    public U3DDisplayActionManager(U3DCharacter u3dCharacter)
+    public U3DDisplayActionManager(U3DSceneObject u3dCharacter)
     {
         this.u3dCharacter = u3dCharacter;
     }

@@ -5,6 +5,7 @@ using System.Text;
 using Logic.Skill;
 using UnityEngine;
 using Lockstep;
+using Logic.Components;
 
 namespace Logic.LogicObject
 {
@@ -33,54 +34,103 @@ namespace Logic.LogicObject
         }
     }
 
-    public class NpcCreateInfo : CreateInfo
+    public class SceneObject: IUpdate, IFixedUpdate, IFixedAgent
     {
-        public int NpcId;
-    }
-    public class BuildingCreateInfo : CreateInfo
-    {
-        public int BuildingId;
-    }
-    public abstract class SceneObject: IUpdate, IFixedUpdate
-    {
+        public long Radius;
+        private List<BaseComponent> _components = new List<BaseComponent>();
+        public T AddComponent<T>() where T : BaseComponent
+        {
+            for (int i = 0; i < _components.Count; i++)
+            {
+                if (_components[i] is T)
+                    return null;
+            }
+            T t = Activator.CreateInstance<T>();
+            t.SceneObject = this;
+            t.OnAdd();
+            _components.Add(t);
+            return t;
+        }
+        public void RemoveComponent<T>() where T :  BaseComponent
+        {
+            for (int i = 0; i < _components.Count; i++)
+            {
+                if (_components[i] is T)
+                {
+                    _components[i].OnRemove();
+                    _components.RemoveAt(i);
+                }
+            }
+        }
+        public bool HasComponent<T>() where T : BaseComponent
+        {
+            for (int i = 0; i < _components.Count; i++)
+            {
+                if (_components[i] is T)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public List<BaseComponent> GetAllComponents()
+        {
+            return _components;
+        }
+        public T GetComponent<T>() where T :  BaseComponent
+        {
+            for (int i = 0; i < _components.Count; i++)
+            {
+                if (_components[i] is T)
+                {
+                    return (T)_components[i];
+                }
+            }
+            return null;
+        }
         public enum SceneObjectEvent
         {
-            Positionchange,
-            OnAttributechange,
-            OnBeforeAttackOther,
-            OnAfterAttackOther,
-            OnBeforeBeAttacked,
-            OnAfterBeAttacked,
+            Executedisplayaction,
+            Stopdisplayaction,
+            OnDispose
         }
         public int Id;
         public Team Team;
         public EventGroup EventGroup { get; private set; }
         public Vector3d Position
         {
-            get { return _position; }
+            get { return TransformComp.Position; }
             set
             {
-                if (_position != value)
-                {
-                    //GridService.UnTagAsTaken(_position);
-                    //GridService.TagAsTaken(value);
-                    _position = value;
-                    if(EventGroup!=null)
-                        EventGroup.FireEvent(SceneObjectEvent.Positionchange.ToInt(), this, null);
-                }
+                TransformComp.Position = value;
             }
         }
         private Vector3d _position = new Vector3d(UnityEngine.Vector3.zero);
         public Vector3d Forward
         {
-            get { return _forward; }
-            internal set
+            get { return TransformComp.Forward; }
+            set
             {
-                _forward = value;
+                TransformComp.Forward = value;
             }
         }
         private Vector3d _forward = new Vector3d(UnityEngine.Vector3.forward);
-        public AttributeManager AttributeManager { get; private set; }
+        private TransformComponent _transformComp;
+        public TransformComponent TransformComp
+        {
+            get
+            {
+                if (_transformComp == null)
+                    _transformComp = GetComponent<TransformComponent>();
+                return _transformComp;
+            }
+        }
+        public AttributeManager AttributeManager { get {
+                if (_attributeManager == null)
+                    _attributeManager = GetComponent<AttributeManager>();
+                return _attributeManager;
+            } }
+        private AttributeManager _attributeManager;
         public long Hp
         {
             get
@@ -99,6 +149,19 @@ namespace Logic.LogicObject
             }
         }
 
+        public IFixedAgent Next
+        {
+            get;set;
+        }
+
+        long IFixedAgent.Radius
+        {
+            get
+            {
+                return FixedMath.One;
+            }
+        }
+
         internal virtual void ListenEvents()
         {
 
@@ -106,9 +169,6 @@ namespace Logic.LogicObject
         internal void Init(CreateInfo createInfo)
         {
             EventGroup = new EventGroup();
-            AttributeManager = new AttributeManager();
-            AttributeManager.New(AttributeType.Hp, Lockstep.FixedMath.One * 100);
-            AttributeManager.OnAttributeChange += OnAttributeChange;
             Position = createInfo.Position;
             Team = createInfo.Team;
             if(createInfo.Forward.sqrMagnitude == 0)
@@ -117,15 +177,6 @@ namespace Logic.LogicObject
             OnInit(createInfo);
             Pool.SP.Recycle(createInfo);
             createInfo = null;
-        }
-        public virtual void OnAttributeChange(AttributeType at, long old, long newValue)
-        {
-            EventGroup.FireEvent(SceneObjectEvent.OnAttributechange.ToInt(), this, EventGroup.NewArg<EventSingleArgs<AttributeMsg>, AttributeMsg>(new AttributeMsg()
-            {
-                At = at,
-                NewValue = newValue,
-                OldValue = old
-            }));
         }
         public long GetAttributeValue(AttributeType at)
         {
@@ -147,11 +198,19 @@ namespace Logic.LogicObject
         public void Update(float deltaTime)
         {
             OnUpdate(deltaTime);
+            for (int i = 0; i < _components.Count; i++)
+            {
+                _components[i].OnUpdate();
+            }
         }
 
         public void FixedUpdate(long deltaTime)
         {
             OnFixedUpdate(deltaTime);
+            for (int i = 0; i < _components.Count; i++)
+            {
+                _components[i].OnFixedUpdate();
+            }
         }
 
         internal virtual void OnFixedUpdate(long deltaTime)

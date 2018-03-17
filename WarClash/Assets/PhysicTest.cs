@@ -17,7 +17,7 @@ public class PhysicTest : MonoBehaviour {
         //    var g = GameObject.CreatePrimitive(PrimitiveType.Cube);
         //    g.transform.position = new Vector3(Random.Range(0, 100), 0, Random.Range(0, 100));
         //}
-        //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+        System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
         //sw.Start();
         //for (int i = 0; i < 100; i++)
         //{
@@ -31,16 +31,33 @@ public class PhysicTest : MonoBehaviour {
         //}
         //   Debug.Log(sw.ElapsedMilliseconds);
         //return;
+        Vector2d[] vs = new Vector2d[4];
         for (int i = 0; i < 100; i++)
         {
             var center = new Vector2d(Random.Range(0, 100), Random.Range(0, 100));
             var aabb = new AABB(center, FixedMath.One*2, FixedMath.One*2);
             FixtureProxy fp = new FixtureProxy();
-            fp.AABB = aabb;
             long angle = FixedMath.One * (int)(Random.Range(0, 359));
+            Vector2d a = -aabb.Extents;
+            Vector2d b = a + new Vector2d(0, aabb.Height);
+            Vector2d c = aabb.Extents;
+            Vector2d d = a + new Vector2d(aabb.Width, 0);
+            a = RotatePosi(a, angle);
+            b = RotatePosi(b, angle);
+            c = RotatePosi(c, angle);
+            d = RotatePosi(d, angle);
+            vs[0] = a;
+            vs[1] = b;
+            vs[2] = c;
+            vs[3] = d;
+            Vector2d min = Vector2d.Min(vs) + center;
+            Vector2d max = Vector2d.Max(vs) + center;
+            var outteraabb = new AABB(min, max);
+            fp.AABB = aabb;
             fp.Fixture = new Transform2d(ref center, ref angle);
-            tree.AddProxy(ref aabb, fp);
+            tree.AddProxy(ref outteraabb, fp);
             DrawFixtureProxy(fp);
+            DrawAABB(outteraabb);
         }
 
         //var bcs = GameObject.FindObjectsOfType<BoxCollider>();
@@ -57,7 +74,7 @@ public class PhysicTest : MonoBehaviour {
         //    DrawFixtureProxy(fp);
         //}
      //   sw.Reset();
-     //   sw.Start();
+        sw.Start();
         for (int i = 0; i < 1; i++)
         {
             RayCastInput input = new RayCastInput();
@@ -67,7 +84,7 @@ public class PhysicTest : MonoBehaviour {
             DrawLine(input);
             tree.RayCast(callBack, ref input);
         }
-     //   Debug.Log(sw.ElapsedMilliseconds);
+        Debug.Log(sw.ElapsedMilliseconds);
     }
     public void DrawAABB(AABB aabb)
     {
@@ -128,7 +145,7 @@ public class PhysicTest : MonoBehaviour {
             hitPosi = RotatePosi(hitPosi, proxy.Fixture.angle) + center;
             var g = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             g.transform.position = hitPosi.ToVector3();
-            g.transform.localScale = Vector3.one / 5;
+            g.transform.localScale = Vector3.one / 2;
             Debug.Log("hit something at " + hitPosi);
             return 0;
         }

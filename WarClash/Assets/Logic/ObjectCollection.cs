@@ -14,13 +14,22 @@ namespace Logic.LogicObject
     {
         private Dictionary<TKey, TValue> _coll = new BiDictionary<TKey, TValue>();
         private LinkedList<TValue> _valList = new LinkedList<TValue>();
-
+        private LinkedList<IUpdate> _updateItems = new LinkedList<IUpdate>();
+        private LinkedList<IFixedUpdate> _fixedUpdateItems = new LinkedList<IFixedUpdate>();
         public void AddObject(TKey key, TValue value)
         {
             if (!_coll.ContainsKey(key))
             {
                 _coll.Add(key, value);
                 _valList.AddLast(value);
+                if(value is IUpdate)
+                {
+                    _updateItems.AddLast((IUpdate)value);
+                }
+                if (value is IFixedUpdate)
+                {
+                    _fixedUpdateItems.AddLast((IFixedUpdate)value);
+                }
             }
             else
             {
@@ -68,6 +77,14 @@ namespace Logic.LogicObject
             {
                 _valList.Remove(v);
                 _coll.Remove(key);
+                if(v is IUpdate)
+                {
+                    _updateItems.Remove((IUpdate)v);
+                }
+                else if (v is IFixedUpdate)
+                {
+                    _fixedUpdateItems.Remove((IFixedUpdate)v);
+                }
             }
             else
             {
@@ -108,15 +125,14 @@ namespace Logic.LogicObject
         public void Update(float deltaTime)
         {
             OnUpdate(deltaTime);
-            if (_valList.Count == 0) return;
+            if (_updateItems.Count == 0) return;
             else
             {
-                var node = _valList.First;
+                var node = _updateItems.First;
                 while (node != null)
                 {
-                    var u = (IUpdate) node.Value;
-                    if (u!=null)
-                        u.Update(deltaTime);
+                    var u = node.Value;
+                    u.Update(deltaTime);
                     node = node.Next;
                 }
             }
@@ -125,15 +141,14 @@ namespace Logic.LogicObject
         public void FixedUpdate(long deltaTime)
         {
             OnFixedUpdate(deltaTime);
-            if (_valList.Count == 0) return;
+            if (_fixedUpdateItems.Count == 0) return;
             else
             {
-                var node = _valList.First;
+                var node = _fixedUpdateItems.First;
                 while (node != null)
                 {
-                    var fu = (IFixedUpdate)node.Value;
-                    if (fu!=null)
-                        (fu).FixedUpdate(deltaTime);
+                    var fu = node.Value;
+                    (fu).FixedUpdate(deltaTime);
                     node = node.Next;
                 }
             }

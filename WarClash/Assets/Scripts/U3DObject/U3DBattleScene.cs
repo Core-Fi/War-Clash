@@ -48,11 +48,9 @@ public class U3DBattleScene : ObjectCollection<int, U3DSceneObject>, IU3DScene
     private void OnAddSceneObject(object sender, EventMsg e)
     {
         EventSingleArgs<SceneObject> msg = e as EventSingleArgs<SceneObject>;
-        Type t = LogicObjectCorresponding.Corresponding[msg.value.GetType()];
-        U3DSceneObject uso = Activator.CreateInstance(t) as U3DSceneObject;
-        AddObject(msg.value.Id, uso);
+        U3DSceneObject uso = new U3DSceneObject();
         uso.Init(msg.value);
-        uso.ListenEvents();
+        AddObject(msg.value.Id, uso);
     }
 
     public override void OnUpdate(float deltaTime)

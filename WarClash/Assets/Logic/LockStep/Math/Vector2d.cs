@@ -592,6 +592,34 @@ namespace Lockstep
                Math.Min(a.x, b.x),
                Math.Min(a.y, b.y));
         }
+        public static Vector2d Min(Vector2d[] vs)
+        {
+            long minx = vs[0].x;
+            long miny = vs[0].y;
+            for (int i = 0; i < vs.Length; i++)
+            {
+                minx = Math.Min(minx, vs[i].x);
+            }
+            for (int i = 0; i < vs.Length; i++)
+            {
+                miny = Math.Min(miny, vs[i].x);
+            }
+            return new Vector2d(minx,miny);
+        }
+        public static Vector2d Max(Vector2d[] vs)
+        {
+            long maxx = vs[0].x;
+            long maxy = vs[0].y;
+            for (int i = 0; i < vs.Length; i++)
+            {
+                maxx = Math.Max(maxx, vs[i].x);
+            }
+            for (int i = 0; i < vs.Length; i++)
+            {
+                maxy = Math.Max(maxy, vs[i].x);
+            }
+            return new Vector2d(maxx, maxy);
+        }
         public static Vector2d Max(Vector2d a, Vector2d b)
         {
             return new Vector2d(

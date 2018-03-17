@@ -42,7 +42,7 @@ public class LogicObject : MonoBehaviour {
     {
         if (Main.SP.ShowDebug)
         {
-            var c = so as Character;
+            var c = so;
             Gizmos.DrawSphere(c.Position.ToVector3(), c.Radius.ToFloat());
         }
     }

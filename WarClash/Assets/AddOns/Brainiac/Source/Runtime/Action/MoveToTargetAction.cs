@@ -8,6 +8,7 @@ using LockStep;
 using Pathfinding;
 using UnityEngine;
 using UnityEngine.AI;
+using Logic.Components;
 
 [AddNodeMenu("Action/MoveToTargetAction")]
 public class MoveToTargetAction : Brainiac.Action
@@ -19,7 +20,7 @@ public class MoveToTargetAction : Brainiac.Action
         Moving,
     }
     private SceneObject target = null;
-    private Npc _npc;
+    private SceneObject _npc;
     private List<Vector3d> _path;
     private int _pathIndex = 0;
     private Stage stage;
@@ -31,7 +32,7 @@ public class MoveToTargetAction : Brainiac.Action
     {
         base.OnStart(agent);
          _path = new List<Vector3d>(5);
-        _npc = agent.SceneObject as Npc;
+        _npc = agent.SceneObject;
     }
 
     protected override void OnEnter(AIAgent agent)
@@ -43,10 +44,10 @@ public class MoveToTargetAction : Brainiac.Action
         {
             var speed = SceneObject.AttributeManager[AttributeType.MaxSpeed];
             SceneObject.AttributeManager.SetBase(AttributeType.Speed, speed);
-            target.EventGroup.ListenEvent(SceneObject.SceneObjectEvent.Positionchange.ToInt(), OnTargetPosiChanged);
+            target.TransformComp.EventGroup.ListenEvent((int)TransformComponent.Event.OnPositionChange, OnTargetPosiChanged);
         }
         if (Vector3d.SqrDistance(target.Position, agent.SceneObject.Position) <
-            FixedMath.Create(_npc.Conf.AtkRange / 100) * (_npc.Conf.AtkRange / 100))
+            FixedMath.Create(300 / 100) * (300 / 100))
         {
             _onRightPlace = true;
         }
@@ -55,7 +56,7 @@ public class MoveToTargetAction : Brainiac.Action
             _onRightPlace = OnRightPlace();
             if (!_onRightPlace)
             {
-                _pathFollowSteering = _npc.SteeringManager.AddSteering<PathFollowSteering>(2);
+                //_pathFollowSteering = _npc.SteeringManager.AddSteering<PathFollowSteering>(2);
                 CacualtePath();
             }
         }
@@ -64,10 +65,10 @@ public class MoveToTargetAction : Brainiac.Action
     {
         if (target != null)
         {
-            target.EventGroup.DelEvent(SceneObject.SceneObjectEvent.Positionchange.ToInt(), OnTargetPosiChanged);
+            target.EventGroup.DelEvent((int)TransformComponent.Event.OnPositionChange, OnTargetPosiChanged);
         }
         SceneObject.AttributeManager.SetBase(AttributeType.Speed, 0);
-        _npc.SteeringManager.RemoveSteering<PathFollowSteering>();
+        //_npc.SteeringManager.RemoveSteering<PathFollowSteering>();
         base.OnExit(agent);
     }
     private void OnTargetPosiChanged(object sender, EventMsg e)
@@ -81,7 +82,7 @@ public class MoveToTargetAction : Brainiac.Action
 
     private bool OnRightPlace()
     {
-        return GridService.OnRightPlace(_npc, target.Position, _npc.Conf.AtkRange / 100);
+        return GridService.OnRightPlace(_npc, target.Position, 300 / 100);
     }
     private void CacualtePath()
     {
@@ -105,22 +106,22 @@ public class MoveToTargetAction : Brainiac.Action
             SceneObject.Forward = moveDirection;
             _pathFollowSteering.Formation = Formation.Circle;
             _pathFollowSteering.Path = _path;
-            _pathFollowSteering.Radius = _npc.Conf.AtkRange / 100;
+            _pathFollowSteering.Radius = 300 / 100;
         }
     }
 
     private long GetRange()
     {
-        Npc npc = SceneObject as Npc;
+        var npc = SceneObject;
         if (npc != null)
         {
-            return npc.Conf.AtkRange.IntHundredToLong();
+            return FixedMath.One;
         }
         else return FixedMath.One;
     }
 
     protected override BehaviourNodeStatus OnExecute(AIAgent agent)
-	{
+    {
         if(target != null && target.Hp>0)
         {
 #if UNITY_EDITOR
@@ -168,5 +169,5 @@ public class MoveToTargetAction : Brainiac.Action
             return BehaviourNodeStatus.Running;
         }
         return BehaviourNodeStatus.Failure;
-	}
+    }
 }

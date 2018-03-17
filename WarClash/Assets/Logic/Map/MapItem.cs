@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Config;
 using Lockstep;
-using Logic.Config;
+
 
 namespace Logic.Map
 {
@@ -25,7 +24,7 @@ namespace Logic.Map
         public int BuildingId;
         public override string GetResPath()
         {
-            var conf = ConfigMap<BuildingConf>.Get(BuildingId);
+            var conf = BuildingConf.Get(BuildingId);
             return conf.ResPath;
         }
     }

@@ -51,11 +51,11 @@ public class Main : MonoBehaviour
 #endif
     // Use this for initialization
     void Start ()
-	{
+    {
         DonotDestroy();
-	    Logic.LogicCore.SP.Init();
-	    u3dSceneManager = new U3DSceneManager();
-	    Logic.LogicCore.SP.SceneManager.SwitchScene(new HotFixScene());
+        Logic.LogicCore.SP.Init();
+        u3dSceneManager = new U3DSceneManager();
+        Logic.LogicCore.SP.SceneManager.SwitchScene(new HotFixScene());
         EventDispatcher.FireEvent(UIEventList.ShowUI.ToInt(), this, EventGroup.NewArg<EventThreeArgs<string, Type, object>, string, Type, object>("BattleUI.prefab", typeof(UIBattle), null));
         //AssetResources.LoadAsset("skill_1.bytes", (s, o) =>
         //{
@@ -100,34 +100,34 @@ public class Main : MonoBehaviour
             }
             if (GUILayout.Button("NewNpc"))
             {
-                if (MainPlayer.SP != null)
-                {
-                    LogicCore.SP.LockFrameMgr.SendCommand(new CreateNpcCommand() { NpcId = 1001, Sender = MainPlayer.SP.Id});
-                }
-                else
-                    LogicCore.SP.LockFrameMgr.SendCommand(new CreateNpcCommand() {NpcId = 1001});
+                //if (MainPlayer.SP != null)
+                //{
+                //    LogicCore.SP.LockFrameMgr.SendCommand(new CreateNpcCommand() { NpcId = 1001, Sender = MainPlayer.SP.Id});
+                //}
+                //else
+                //    LogicCore.SP.LockFrameMgr.SendCommand(new CreateNpcCommand() {NpcId = 1001});
 
             }
            
             if (GUILayout.Button("CreateBarack1"))
             {
-                var mp = bs.GetObject<MainPlayer>();
+                //var mp = bs.GetObject<MainPlayer>();
                 // var mapItem = LogicCore.SP.SceneManager.CurrentScene.MapConfig.MapDic[MapItemId] as MapBuildingItem;
-                LogicCore.SP.LockFrameMgr.SendCommand(new CreateBuildingCommand {BuildingId = 1002, Sender = mp.Id});
+                //LogicCore.SP.LockFrameMgr.SendCommand(new CreateBuildingCommand {BuildingId = 1002, Sender = mp.Id});
             }
             if (GUILayout.Button("CreateBarack2"))
             {
-                var mp = bs.GetObject<MainPlayer>();
-                if (mp != null)
-                    LogicCore.SP.LockFrameMgr.SendCommand(new CreateBuildingCommand
-                    {
-                        BuildingId = 1002,
-                        Sender = mp.Id
-                    });
-                else
-                {
-                    LogicCore.SP.LockFrameMgr.SendCommand(new CreateBuildingCommand {BuildingId = 1002});
-                }
+                //var mp = bs.GetObject<MainPlayer>();
+                //if (mp != null)
+                //    LogicCore.SP.LockFrameMgr.SendCommand(new CreateBuildingCommand
+                //    {
+                //        BuildingId = 1002,
+                //        Sender = mp.Id
+                //    });
+                //else
+                //{
+                //    LogicCore.SP.LockFrameMgr.SendCommand(new CreateBuildingCommand {BuildingId = 1002});
+                //}
             }
             if (GUILayout.Button("SaveLog"))
             {
@@ -177,13 +177,13 @@ public class Main : MonoBehaviour
     }
 
     private bool a;
-	// Update is called once per frame
-	void Update ()
+    // Update is called once per frame
+    void Update ()
     {
         managerDriver.Update();
         u3dSceneManager.Update();
         Logic.LogicCore.SP.Update(Time.deltaTime);
-	}
+    }
     void FixedUpdate()
     {
         Logic.LogicCore.SP.FixedUpdate();

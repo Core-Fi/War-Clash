@@ -34,7 +34,7 @@ namespace Logic.LogicObject
             {
                 LogicCore.SP.SceneManager.SwitchScene( new BattleScene("scene01"));
                 var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
-                var mp = bs.CreateSceneObject<MainPlayer>();
+                //var mp = bs.CreateSceneObject<MainPlayer>();
             }
         }
 

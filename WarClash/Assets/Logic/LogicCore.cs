@@ -6,8 +6,6 @@ using Logic.LogicObject;
 using Logic.Skill;
 using Lockstep;
 using System.IO;
-using Config;
-using Logic.Config;
 using UnityEngine;
 
 namespace Logic
@@ -44,13 +42,17 @@ namespace Logic
         }
         public void Init()
         {
-            ConfigMap<BuildingConf_ARRAY>.LoadBuildingConf();
-            ConfigMap<ArmyConf_ARRAY>.LoadArmyConf();
 
+            InitConfig();
             LockFrameMgr = new LockFrameMgr();
             SceneManager = new SceneManager();
             EventGroup = new EventGroup();
             _timeStep = 1f/LockFrameMgr.FixedFrameRate;
+        }
+        private void InitConfig()
+        {
+            ArmyConf.Init();
+            BuildingConf.Init();
         }
         public void Update(float deltaTime)
         {

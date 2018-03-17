@@ -10,7 +10,7 @@ public class AttackAction : Brainiac.Action
     [BTProperty("SkillPath")]
     public MemoryVar skillid;
 
-    private Character target = null;
+    private SceneObject target = null;
     private bool _releaseSkillSuccess = false;
     public override void OnStart(AIAgent agent)
     {
@@ -28,7 +28,7 @@ public class AttackAction : Brainiac.Action
     {
         base.OnEnter(agent);
         if (target == null)
-            target = agent.Blackboard.GetItem("Target") as Character;
+            target = agent.Blackboard.GetItem("Target") as SceneObject;
         if (target != null)
         {
             _releaseSkillSuccess = _self.ReleaseSkill(skillid.AsInt.Value, target);

@@ -11,11 +11,10 @@ namespace Logic.LogicObject
 {
     public class BattleScene : ObjectCollection<int, SceneObject>, IScene
     {
-       
         public string Name;
         public Map.Map MapConfig;
-        public FixedQuadTree<Character> FixedQuadTree;
-        public FixedQuadTree<Building> FixedQuadTreeForBuilding;
+        public FixedQuadTree<SceneObject> FixedQuadTree;
+        public FixedQuadTree<SceneObject> FixedQuadTreeForBuilding;
         public bool CanEnd()
         {
             return false;
@@ -39,18 +38,13 @@ namespace Logic.LogicObject
         {
             EventGroup = new EventGroup();
             MapConfig = Logic.Map.Map.Deserialize(Name);
-            FixedQuadTree = new FixedQuadTree<Character>();
-            FixedQuadTreeForBuilding = new FixedQuadTree<Building>();
+            FixedQuadTree = new FixedQuadTree<SceneObject>();
+            FixedQuadTreeForBuilding = new FixedQuadTree<SceneObject>();
             FixedQuadTree.SetBounds(new Utility.FixedRect(-FixedMath.One * 50, -FixedMath.One * 50, FixedMath.One * 100, FixedMath.One * 100));
             FixedQuadTreeForBuilding.SetBounds(new Utility.FixedRect(-FixedMath.One * 50, -FixedMath.One * 50, FixedMath.One * 100, FixedMath.One * 100));
         }
 
-        public Building CreateBuilding(BuildingCreateInfo createInfo)
-        {
-            var bType = Building.BuildingIdType[createInfo.BuildingId];
-            var b = CreateSceneObject(bType, createInfo);
-            return b as Building;
-        }
+    
         public T CreateSceneObject<T>(int id) where T : SceneObject
         {
             var createInfo = Pool.SP.Get<CreateInfo>();
@@ -91,16 +85,8 @@ namespace Logic.LogicObject
             }
             so.Id = createInfo.Id;
             so.Init(createInfo);
-            so.ListenEvents();
             this.AddObject(so.Id, so);
-            if (so is Character)
-            {
-                FixedQuadTree.Insert<Character>((Character) so);
-            }
-            else if (so is Building)
-            {
-                FixedQuadTreeForBuilding.Insert<Building>((Building) so);
-            }
+            FixedQuadTree.Insert<SceneObject>(so);
             EventGroup.FireEvent(SceneEvent.AddSceneObject.ToInt(), this, EventGroup.NewArg<EventSingleArgs<SceneObject>, SceneObject>(so));
         }
 

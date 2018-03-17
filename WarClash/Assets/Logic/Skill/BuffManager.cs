@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Logic.Skill;
-using System.IO;
 using Logic.LogicObject;
+using Logic.Components;
 
 namespace Logic.Skill
 {
-    public class BuffManager
+    public class BuffManager : BaseComponent
     {
+
         private static readonly Dictionary<string, Logic.Skill.Buff> buffs = new Dictionary<string, Logic.Skill.Buff>();
         private static Dictionary<int, string> _buffIndex = new Dictionary<int, string>();
-        //private readonly Dictionary<int, BuffRuntime> _buffRuntimes = new Dictionary<int, BuffRuntime>();
         private readonly List<BuffRuntime> _buffRuntimeList = new List<BuffRuntime>();
         private readonly List<BuffRuntime> _toAddBuffRuntimeList = new List<BuffRuntime>();
         public SceneObject SceneObject;

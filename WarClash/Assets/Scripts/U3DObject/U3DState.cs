@@ -17,7 +17,7 @@ public abstract class U3DState : IPool
         { typeof(GuiseState), typeof(U3DGuiseState)}
 
     };
-    public U3DCharacter U3DCharacter;
+    public U3DSceneObject U3DSceneObject;
     public State State;
     public void Start()
     {
@@ -91,18 +91,18 @@ public class U3DGuiseState : U3DState
     }
     private void OnLoad(string path, Object obj)
     {
-        if (State.Character is Player)
+        if (State.SceneObject!=null)
         {
-            if ((State.Character as Player).StateMachine.state is GuiseState)
-            {
-                if (guiseObj != null)
-                {
-                    Object.Destroy(guiseObj);
-                }
-                base.U3DCharacter.HideMainGo();
-                guiseObj = Object.Instantiate(obj) as GameObject;
-                base.U3DCharacter.SetOuterAsParent(guiseObj.transform);
-            }
+            //if ((State.SceneObject).StateMachine.state is GuiseState)
+            //{
+            //    if (guiseObj != null)
+            //    {
+            //        Object.Destroy(guiseObj);
+            //    }
+            //    base.U3DSceneObject.HideMainGo();
+            //    guiseObj = Object.Instantiate(obj) as GameObject;
+            //    base.U3DSceneObject.SetOuterAsParent(guiseObj.transform);
+            //}
         }
     }
     protected override void OnStop()
@@ -110,7 +110,7 @@ public class U3DGuiseState : U3DState
         if (guiseObj != null)
         {
             Object.Destroy(guiseObj);
-            base.U3DCharacter.ShowMainGo();
+            base.U3DSceneObject.ShowMainGo();
         }
     }
 

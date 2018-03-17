@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.Events;
 using Logic.LogicObject;
+using Logic.Components;
 
 namespace Brainiac
 {
-	public class AIAgent 
+	public class AIAgent  : BaseComponent
 	{
+        public string BtPath;
 		public event UnityAction BeforeUpdate;
 		public event UnityAction AfterUpdate;
         public BTAsset BehaviourTree
@@ -14,13 +16,6 @@ namespace Brainiac
                 return m_behaviourTree;
             }
         }
-        public SceneObject SceneObject{
-
-            get{
-                return _mSceneObject;
-            }
-        }
-        private SceneObject _mSceneObject;
 		private BTAsset m_behaviourTree;
         private UpdateMode m_updateMode = UpdateMode.Manual;
 		private float m_updateInterval;
@@ -52,19 +47,20 @@ namespace Brainiac
 				m_debugMode = value;
 			}
 		}
-
-        public AIAgent(SceneObject so,  BTAsset asset)
-		{
-            _mSceneObject = so;
-            m_behaviourTree = asset;
+        public override void OnAdd()
+        {
+            base.OnAdd();
+            var bt = AssetResources.LoadAssetImmediatly(BtPath) as BTAsset;
+            m_behaviourTree = bt;
             m_blackboard = new Blackboard();
-			if(m_behaviourTree != null)
-			{
-				m_btInstance = m_behaviourTree.CreateRuntimeTree();
-			}
-			m_timeElapsedSinceLastUpdate = 0.0f;
-			m_isRunning = true;
-		}
+            if (m_behaviourTree != null)
+            {
+                m_btInstance = m_behaviourTree.CreateRuntimeTree();
+            }
+            m_timeElapsedSinceLastUpdate = 0.0f;
+            m_isRunning = true;
+
+        }
 
 		public void Start()
 		{
