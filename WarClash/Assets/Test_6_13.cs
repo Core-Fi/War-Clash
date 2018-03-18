@@ -18,7 +18,6 @@ public class Test_6_13 : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-        MainPlayer.SP.StateMachine.Start<GuiseState>();
         //string str1 = Md5(Application.dataPath + "/data1.bytes");
         //string str2 = Md5(Application.dataPath + "/data2.bytes");
         //Debug.LogError(str1.Equals(str2));

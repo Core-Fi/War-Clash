@@ -5,7 +5,7 @@ using Logic.Components;
 
 namespace Brainiac
 {
-	public class AIAgent  : BaseComponent
+	public class AIAgent  : SceneObjectBaseComponent
 	{
         public string BtPath;
 		public event UnityAction BeforeUpdate;

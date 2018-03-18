@@ -4,15 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public abstract class U3DBaseComponent 
+public abstract class U3DBaseComponent : BaseComponent
 {
-    public BaseComponent Component;
+    public SceneObjectBaseComponent Component;
     public U3DSceneObject U3DSceneObject;
-    public virtual void OnAdd(BaseComponent c)
+    public virtual void OnAdd(SceneObjectBaseComponent c)
     {
         Component = c;
     }
-    public virtual void OnRemove() { }
     public virtual void OnUpdate() { }
 
 }

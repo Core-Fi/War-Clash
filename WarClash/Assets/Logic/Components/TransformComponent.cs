@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Logic.Components
 {
-    public class TransformComponent : BaseComponent
+    public class TransformComponent : SceneObjectBaseComponent
     {
         public enum Event {
             OnPositionChange

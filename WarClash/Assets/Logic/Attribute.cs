@@ -160,7 +160,7 @@ namespace Logic
         public long NewValue;
     }
 
-    public class AttributeManager : BaseComponent
+    public class AttributeManager : SceneObjectBaseComponent
     {
         public enum Event
         {

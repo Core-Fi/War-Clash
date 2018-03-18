@@ -9,9 +9,9 @@ class SetMainPlayerAsTargetAction : global::Brainiac.Action
 {
     protected override BehaviourNodeStatus OnExecute(AIAgent agent)
     {
-        if (MainPlayer.SP != null)
+        if (SceneObject.MainPlayer != null)
         {
-            agent.Blackboard.SetItem("target", MainPlayer.SP);
+            agent.Blackboard.SetItem("target", SceneObject.MainPlayer);
             return BehaviourNodeStatus.Success;
         }
         return BehaviourNodeStatus.Failure;

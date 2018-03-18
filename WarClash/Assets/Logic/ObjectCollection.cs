@@ -7,6 +7,7 @@ using System.Collections;
 using FastCollections;
 using Logic.LogicObject;
 using UnityEngine;
+using Logic.Components;
 
 namespace Logic.LogicObject
 {
@@ -16,6 +17,31 @@ namespace Logic.LogicObject
         private LinkedList<TValue> _valList = new LinkedList<TValue>();
         private LinkedList<IUpdate> _updateItems = new LinkedList<IUpdate>();
         private LinkedList<IFixedUpdate> _fixedUpdateItems = new LinkedList<IFixedUpdate>();
+
+        private Dictionary<Type, HashSet<TValue>> compDic = new Dictionary<Type, HashSet<TValue>>();
+
+        public void AddComponent(Type t, TValue owner)
+        {
+            HashSet<TValue> set;
+            if(compDic.TryGetValue(t, out set))
+            {
+                set.Add(owner);
+            }
+            else
+            {
+                set = new HashSet<TValue>();
+                compDic.Add(t, set);
+                set.Add(owner);
+            }
+        }
+        public void RemoveComponent(Type t, TValue owner)
+        {
+            HashSet<TValue> set;
+            if (compDic.TryGetValue(t, out set))
+            {
+                set.Remove(owner);
+            }
+        }
         public void AddObject(TKey key, TValue value)
         {
             if (!_coll.ContainsKey(key))
@@ -75,6 +101,10 @@ namespace Logic.LogicObject
             TValue v = null;
             if (_coll.TryGetValue(key, out v))
             {
+                foreach (var item in compDic)
+                {
+                    item.Value.Remove(v);
+                }
                 _valList.Remove(v);
                 _coll.Remove(key);
                 if(v is IUpdate)

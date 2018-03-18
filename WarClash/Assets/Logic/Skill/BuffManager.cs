@@ -5,7 +5,7 @@ using Logic.Components;
 
 namespace Logic.Skill
 {
-    public class BuffManager : BaseComponent
+    public class BuffManager : SceneObjectBaseComponent
     {
 
         private static readonly Dictionary<string, Logic.Skill.Buff> buffs = new Dictionary<string, Logic.Skill.Buff>();

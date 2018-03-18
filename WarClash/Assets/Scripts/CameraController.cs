@@ -28,9 +28,9 @@ public class CameraController : MonoBehaviour
 	void LateUpdate () {
 	    if (CameraMode == CameraMode.FollowPlayer)
 	    {
-	        if (MainPlayer.SP != null)
+	        if (SceneObject.MainPlayer != null)
 	        {
-	            var posi = MainPlayer.SP.Position.ToVector3();
+	            var posi = SceneObject.MainPlayer.Position.ToVector3();
                 Vector3 newPosi = new Vector3(posi.x, Distance, posi.z - Distance / Mathf.Tan(Angle * Mathf.Deg2Rad));
                 transform.rotation = Quaternion.Euler(Angle, 0,0);
 	            _parent.position =Vector3.Lerp(_parent.position, newPosi, Time.deltaTime*6); 

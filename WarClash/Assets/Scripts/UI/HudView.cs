@@ -21,7 +21,7 @@ public class HudView:View
 
     void DrawPlayerHud(object sender, EventMsg msg)
     {
-        var u3DPlayer = sender as U3DPlayer;
+        var u3DPlayer = sender as U3DSceneObject;
         bool exist = false;
         for (int i = 0; i < _playerHuds.Count; i++)
         {

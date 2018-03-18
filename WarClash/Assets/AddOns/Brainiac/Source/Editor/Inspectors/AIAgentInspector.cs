@@ -19,11 +19,10 @@ namespace BrainiacEditor
             {
                 
                 LogicObject lo = (LogicObject)target;
-               
-                var c = (lo.so as Character);
-                if (c != null && c.AiAgent != null)
+                var aic = lo.so.GetComponent<AIAgent>();
+                if (aic != null)
                 {
-                    AIAgent agent = c.AiAgent;
+                    AIAgent agent = aic;
                     Blackboard blackboard = agent.Blackboard;
                     IDictionary<string, object> dict = GetRuntimeValues(blackboard);
                     if (dict != null)
@@ -31,20 +30,7 @@ namespace BrainiacEditor
                         m_inspector = new PlayTimeBlackboardInspector(dict);
                     }
                 }
-                else
-                {
-                    var t = lo.so as Tower;
-                    if (t != null)
-                    {
-                        AIAgent agent = t.AiAgent;
-                        Blackboard blackboard = agent.Blackboard;
-                        IDictionary<string, object> dict = GetRuntimeValues(blackboard);
-                        if (dict != null)
-                        {
-                            m_inspector = new PlayTimeBlackboardInspector(dict);
-                        }
-                    }
-                }
+               
                 
             }
             else
@@ -84,19 +70,7 @@ namespace BrainiacEditor
 			GUI.color = Color.white;
 
 			serializedObject.ApplyModifiedProperties();
-		    AIAgent agent = null;
-            var c = (lo.so as Character);
-		    if (c == null)
-		    {
-		        var tower = lo.so as Tower;
-                if(tower!=null)
-		            agent = tower.AiAgent;
-		    }
-		    else
-		    {
-		        agent = c.AiAgent;
-
-		    }
+            var agent = lo.so.GetComponent<AIAgent>();
             if (agent != null)
             {
 		        BTAsset btAsset = agent.BehaviourTree as BTAsset;

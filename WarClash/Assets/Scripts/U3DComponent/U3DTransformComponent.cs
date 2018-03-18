@@ -9,7 +9,7 @@ public class U3DTransformComponent : U3DBaseComponent
     public GameObject Go;
     public Transform Transform;
     protected LogicObject LogicObject;
-    public override void OnAdd(BaseComponent c)
+    public override void OnAdd(SceneObjectBaseComponent c)
     {
         base.OnAdd(c);
         transformComponent = (TransformComponent)c;

@@ -6,6 +6,7 @@ using Logic.Objects;
 using System.IO;
 using Lockstep;
 using UnityEngine;
+using Logic.Components;
 
 namespace Logic.LogicObject
 {
@@ -76,6 +77,7 @@ namespace Logic.LogicObject
             this.RemoveObject(id);
             EventGroup.FireEvent((int)SceneEvent.RemoveSceneObject, this, EventGroup.NewArg<EventSingleArgs<int>, int>(id));
             IDManager.SP.ReturnID(id);
+            
         }
         private void AddSceneObject(CreateInfo createInfo, SceneObject so)
         {
@@ -88,8 +90,21 @@ namespace Logic.LogicObject
             this.AddObject(so.Id, so);
             FixedQuadTree.Insert<SceneObject>(so);
             EventGroup.FireEvent(SceneEvent.AddSceneObject.ToInt(), this, EventGroup.NewArg<EventSingleArgs<SceneObject>, SceneObject>(so));
+            so.ListenEvent((int)SceneObject.SceneObjectEvent.OnAddComponent, OnSceneObjectAddComponent);
+            so.ListenEvent((int)SceneObject.SceneObjectEvent.OnRemoveComponent, OnSceneObjectRemoveComponent);
         }
-
+        private void OnSceneObjectAddComponent(object sender, EventMsg msg)
+        {
+            var so = sender as SceneObject;
+            var e = msg as EventSingleArgs<BaseComponent>;
+            AddComponent(e.GetType(), so);
+        }
+        private void OnSceneObjectRemoveComponent(object sender, EventMsg msg)
+        {
+            var so = sender as SceneObject;
+            var e = msg as EventSingleArgs<BaseComponent>;
+            AddComponent(e.GetType(), so);
+        }
 
         public override void OnUpdate(float deltaTime)
         {

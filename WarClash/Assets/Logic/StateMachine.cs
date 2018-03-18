@@ -5,7 +5,7 @@ using Logic.Components;
 
 namespace Logic
 {
-    public class StateMachine : BaseComponent
+    public class StateMachine : SceneObjectBaseComponent
     {
         public enum Event
         {

@@ -16,7 +16,7 @@ class FixBuildingAction : BaseAction
 
     public override void Execute(SceneObject sender, SceneObject reciever, object data)
     {
-        var building = reciever as Building;
+        var building = reciever;
         if (building == null) return;
         building.Hp += IncreaseHp;
         base.Execute(sender, reciever, data);

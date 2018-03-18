@@ -20,7 +20,7 @@ public class U3DSceneObject : IUpdate {
         }
     }
     private U3DTransformComponent _u3dTransformComp;
-    public T AddComponent<T>(BaseComponent comp) where T : U3DBaseComponent
+    public T AddComponent<T>(SceneObjectBaseComponent comp) where T : U3DBaseComponent
     {
         for (int i = 0; i < _components.Count; i++)
         {
@@ -32,7 +32,7 @@ public class U3DSceneObject : IUpdate {
         _components.Add(t);
         return t;
     }
-    public U3DBaseComponent AddComponent(BaseComponent bc)
+    public U3DBaseComponent AddComponent(SceneObjectBaseComponent bc)
     {
         var t = bc.GetType();
         for (int i = 0; i < _components.Count; i++)
@@ -46,7 +46,7 @@ public class U3DSceneObject : IUpdate {
         _components.Add(c);
         return c;
     }
-    public void RemoveComponent<T>() where T : BaseComponent
+    public void RemoveComponent<T>() where T : SceneObjectBaseComponent
     {
         for (int i = 0; i < _components.Count; i++)
         {

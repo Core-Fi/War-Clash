@@ -214,8 +214,9 @@ public class SKillWindow : EditorWindow
             {
                 var _battleScene = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
                 
-                var so = _battleScene.GetObject<Character>(oi.ID);
-                so.ReleaseSkill(editingFileInfo.name);
+                var so = _battleScene.GetObject<SceneObject>(oi.ID);
+                var sm = so.GetComponent<SkillManager>();
+                sm.ReleaseSkill(editingFileInfo.name);
             }
         }
         if (SkillEditTempData.editingSkill != null && GUILayout.Button("Pause"))
@@ -224,8 +225,9 @@ public class SKillWindow : EditorWindow
             if (oi)
             {
                 var _battleScene = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
-                var so = _battleScene.GetObject<Character>(oi.ID);
-                so.CancelSkill();
+                var so = _battleScene.GetObject<SceneObject>(oi.ID);
+                var sm = so.GetComponent<SkillManager>();
+                sm.CancelSkill();
             }
         }
     }

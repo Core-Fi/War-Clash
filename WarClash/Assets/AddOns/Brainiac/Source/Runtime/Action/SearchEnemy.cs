@@ -23,16 +23,16 @@ public class SearchEnemy : Brainiac.Action
         base.OnStart(agent);
         _self = agent.SceneObject;
         _searchEnemy = Search;
-        if (_self is Npc)
-        {
-            var npc = _self as Npc;
-            _range = FixedMath.Create(npc.Conf.WaringRange) / 100;
-        }
-        else if (_self is Tower)
-        {
-            var tower = _self as Tower;
-            _range = FixedMath.Create(tower.Conf.Param1)/100;
-        }
+        //if (_self is Npc)
+        //{
+        //    var npc = _self as Npc;
+        //    _range = FixedMath.Create(npc.Conf.WaringRange) / 100;
+        //}
+        //else if (_self is Tower)
+        //{
+        //    var tower = _self as Tower;
+        //    _range = FixedMath.Create(tower.Conf.Param1)/100;
+        //}
         _rangeSqr = _range.Mul(_range);
     }
     private Action<SceneObject> _searchEnemy;
@@ -41,14 +41,14 @@ public class SearchEnemy : Brainiac.Action
         if (c != _self && c.Hp > 0 && c.Team != _self.Team &&
             Vector3d.SqrDistance(c.Position, _self.Position)< _rangeSqr)
         {
-            if (Building.AsBool.Value && c is Building)
-            {
-                enemyList.Add(c);
-            }
-            if(Enemy.AsBool.Value && c is Character)
-            {
-                enemyList.Add(c);
-            }
+            //if (Building.AsBool.Value && c is Building)
+            //{
+            //    enemyList.Add(c);
+            //}
+            //if(Enemy.AsBool.Value && c is Character)
+            //{
+            //    enemyList.Add(c);
+            //}
         }
     }
 

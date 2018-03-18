@@ -29,18 +29,18 @@ namespace Logic.Skill.Actions
         public int OffsetZ { get; private set; }
         public bool IsTarget(object so)
         {
-            if (so is Player && ((int)TargetType.Player & Types) != 0)
-            {
-                return true;
-            }
-            else if (so is Npc && ((int) TargetType.Npc & Types) != 0)
-            {
-                return true;
-            }
-            else if (so is Tower && ((int)TargetType.Tower & Types) != 0)
-            {
-                return true;
-            }
+            //if (so is Player && ((int)TargetType.Player & Types) != 0)
+            //{
+            //    return true;
+            //}
+            //else if (so is Npc && ((int) TargetType.Npc & Types) != 0)
+            //{
+            //    return true;
+            //}
+            //else if (so is Tower && ((int)TargetType.Tower & Types) != 0)
+            //{
+            //    return true;
+            //}
             return false;
         }
     }
@@ -123,7 +123,7 @@ namespace Logic.Skill.Actions
         public override void Execute(SceneObject sender, SceneObject reciever, object data)
         {
             base.Execute(sender, reciever, data);
-            var character = reciever as Character;
+            var character = reciever;
             if (character == null)
             {
             }

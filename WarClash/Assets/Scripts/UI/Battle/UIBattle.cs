@@ -6,6 +6,7 @@ using Logic.LogicObject;
 using UnityEngine.UI;
 using System;
 using Lockstep;
+using Logic.Skill;
 
 public class UIBattle : View {
 
@@ -67,13 +68,14 @@ public class UIBattle : View {
 
     private void OnFollowMeClick()
     {
-        var cmd = new ChangeStrategyCommand{Strategy = (byte)LockFrameMgr.Strategy.FollowPlayer, Sender = MainPlayer.SP.Id};
+        var cmd = new ChangeStrategyCommand{Strategy = (byte)LockFrameMgr.Strategy.FollowPlayer, Sender = SceneObject.MainPlayer.Id};
         LogicCore.SP.LockFrameMgr.SendCommand(cmd);
     }
 
     private void OnAtkBtnClick()
     {
-        if (MainPlayer.SP.IsRunningSkill)
+        var sm = SceneObject.MainPlayer.GetComponent<SkillManager>();
+        if (sm.IsRunningSkill)
         {
             EventDispatcher.FireEvent(UIEventList.OnSkillBtnClick.ToInt(), this, null);
         }
@@ -82,11 +84,11 @@ public class UIBattle : View {
             var _battleScene = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
             var cmd = Pool.SP.Get<ReleaseSkillCommand>();
             cmd.Id = 4;
-            cmd.Sender = _battleScene.GetObject<MainPlayer>().Id;
+            cmd.Sender = SceneObject.MainPlayer.Id;
             LogicCore.SP.LockFrameMgr.SendCommand(cmd);
             var buffcmd = Pool.SP.Get<ReleaseBuffCommand>();
             buffcmd.Id = 1;
-            buffcmd.Sender = _battleScene.GetObject<MainPlayer>().Id;
+            buffcmd.Sender = SceneObject.MainPlayer.Id;
             LogicCore.SP.LockFrameMgr.SendCommand(buffcmd);
         }
     }

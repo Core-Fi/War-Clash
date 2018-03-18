@@ -8,6 +8,7 @@ using Action = Brainiac.Action;
 using Lockstep;
 using Logic;
 using UnityEngine;
+using Logic.Components;
 
 [AddNodeMenu("Action/FollowPlayer")]
 class FollowTargetAction : Action
@@ -24,7 +25,7 @@ class FollowTargetAction : Action
     {
         base.OnEnter(agent);
         Move();
-        MainPlayer.SP.EventGroup.ListenEvent(SceneObject.SceneObjectEvent.Positionchange.ToInt(),
+        SceneObject.MainPlayer.TransformComp.ListenEvent((int)TransformComponent.Event.OnPositionChange,
             OnPosiChange);
     }
 
@@ -35,11 +36,11 @@ class FollowTargetAction : Action
 
     private void Move()
     {
-        if (Vector3d.SqrDistance(MainPlayer.SP.Position, SceneObject.Position) > 5.ToLong())
+        if (Vector3d.SqrDistance(SceneObject.MainPlayer.Position, SceneObject.Position) > 5.ToLong())
         {
             SceneObject.AttributeManager.SetBase(AttributeType.Speed, SceneObject.GetAttributeValue(Logic.AttributeType.MaxSpeed));
             //Vector3d offset = new Vector3d(_npc.AlignmentX.ToLong(), 0, _npc.AlignmentY.ToLong());
-            JPSAStar.active.GetPath(SceneObject.Position, MainPlayer.SP.Position , _path);
+            JPSAStar.active.GetPath(SceneObject.Position, SceneObject.MainPlayer.Position , _path);
             if (_path.Count > 1)
             {
                 _pathIndex = 1;

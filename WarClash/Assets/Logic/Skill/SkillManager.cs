@@ -5,7 +5,7 @@ using Logic.Components;
 
 namespace Logic.Skill
 {
-    public class SkillManager : BaseComponent
+    public class SkillManager : SceneObjectBaseComponent
     {
         public enum Event
         {
@@ -60,7 +60,7 @@ namespace Logic.Skill
             }
         }
 
-        internal void CancelSkill()
+        public void CancelSkill()
         {
             this.so.EventGroup.FireEvent((int)Event.Cancelskill, so, EventGroup.NewArg<EventSingleArgs<string>, string>(RunningSkill.SourceData.path));
             RunningSkill.Cancel();
@@ -71,7 +71,7 @@ namespace Logic.Skill
         {
             this.so = so;
         }
-        internal void ReleaseSkill(int id)
+        public void ReleaseSkill(int id)
         {
             if(skill_index.Count==0)
                 LoadSkillIndexFiles();
@@ -79,7 +79,7 @@ namespace Logic.Skill
             string path = skill_index[id];
             ReleaseSkill(path, srd);
         }
-        internal void ReleaseSkill(string path)
+        public void ReleaseSkill(string path)
         {
             RuntimeData srd = new RuntimeData(so, null, null);
             ReleaseSkill(path, srd);

@@ -34,11 +34,20 @@ namespace Logic.LogicObject
         }
     }
 
-    public class SceneObject: IUpdate, IFixedUpdate, IFixedAgent
+    public sealed class SceneObject: IUpdate, IFixedUpdate, IFixedAgent, IEventDispatcher
     {
+        public static SceneObject MainPlayer
+        {
+            get
+            {
+                var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+                return bs.GetObject<SceneObject>();
+            }
+        }
+        private static SceneObject _mainPlayer;
         public long Radius;
-        private List<BaseComponent> _components = new List<BaseComponent>();
-        public T AddComponent<T>() where T : BaseComponent
+        private List<SceneObjectBaseComponent> _components = new List<SceneObjectBaseComponent>();
+        public T AddComponent<T>() where T : SceneObjectBaseComponent
         {
             for (int i = 0; i < _components.Count; i++)
             {
@@ -49,20 +58,22 @@ namespace Logic.LogicObject
             t.SceneObject = this;
             t.OnAdd();
             _components.Add(t);
+            FireEvent((int)SceneObject.SceneObjectEvent.OnRemoveComponent, this, EventGroup.NewArg<EventSingleArgs<T>, T>(t));
             return t;
         }
-        public void RemoveComponent<T>() where T :  BaseComponent
+        public void RemoveComponent<T>() where T :  SceneObjectBaseComponent
         {
             for (int i = 0; i < _components.Count; i++)
             {
                 if (_components[i] is T)
                 {
+                    FireEvent((int)SceneObject.SceneObjectEvent.OnRemoveComponent, this, EventGroup.NewArg<EventSingleArgs<T>, T>((T)_components[i]));
                     _components[i].OnRemove();
                     _components.RemoveAt(i);
                 }
             }
         }
-        public bool HasComponent<T>() where T : BaseComponent
+        public bool HasComponent<T>() where T : SceneObjectBaseComponent
         {
             for (int i = 0; i < _components.Count; i++)
             {
@@ -73,11 +84,11 @@ namespace Logic.LogicObject
             }
             return false;
         }
-        public List<BaseComponent> GetAllComponents()
+        public List<SceneObjectBaseComponent> GetAllComponents()
         {
             return _components;
         }
-        public T GetComponent<T>() where T :  BaseComponent
+        public T GetComponent<T>() where T :  SceneObjectBaseComponent
         {
             for (int i = 0; i < _components.Count; i++)
             {
@@ -90,8 +101,14 @@ namespace Logic.LogicObject
         }
         public enum SceneObjectEvent
         {
+            OnBeforeAttackOther,
+            OnBeforeBeAttacked,
+            OnAfterAttackOther,
+            OnAfterBeAttacked,
             Executedisplayaction,
             Stopdisplayaction,
+            OnAddComponent,
+            OnRemoveComponent,
             OnDispose
         }
         public int Id;
@@ -161,11 +178,6 @@ namespace Logic.LogicObject
                 return FixedMath.One;
             }
         }
-
-        internal virtual void ListenEvents()
-        {
-
-        }
         internal void Init(CreateInfo createInfo)
         {
             EventGroup = new EventGroup();
@@ -174,7 +186,6 @@ namespace Logic.LogicObject
             if(createInfo.Forward.sqrMagnitude == 0)
                 createInfo.Forward = new Vector3d(Vector3.forward);
             Forward = createInfo.Forward;
-            OnInit(createInfo);
             Pool.SP.Recycle(createInfo);
             createInfo = null;
         }
@@ -191,56 +202,55 @@ namespace Logic.LogicObject
             }
             else return false;
         }
-        internal virtual void OnInit(CreateInfo createInfo)
-        {
-            
-        }
         public void Update(float deltaTime)
         {
-            OnUpdate(deltaTime);
-            for (int i = 0; i < _components.Count; i++)
-            {
-                _components[i].OnUpdate();
-            }
+            //for (int i = 0; i < _components.Count; i++)
+            //{
+            //    _components[i].OnUpdate();
+            //}
         }
 
         public void FixedUpdate(long deltaTime)
         {
-            OnFixedUpdate(deltaTime);
             for (int i = 0; i < _components.Count; i++)
             {
                 _components[i].OnFixedUpdate();
             }
         }
 
-        internal virtual void OnFixedUpdate(long deltaTime)
-        {
-            
-        }
-        internal virtual void OnUpdate(float deltaTime)
-        {
 
-        }
-
-        internal void Dispose()
+        public void Dispose()
         {
-            
+            for (int i = 0; i < _components.Count; i++)
+            {
+                _components[i].OnDispose();
+            }
         }
-        internal virtual void OnDispose()
+        
+        public void ListenEvent(int id, EventMsgHandler e)
         {
-            
+            EventGroup.ListenEvent(id, e);
         }
 
+        public void DelEvent(int id, EventMsgHandler e)
+        {
+            EventGroup.DelEvent(id, e);
+        }
+
+        public void FireEvent(int id, object sender, EventMsg m)
+        {
+            EventGroup.FireEvent(id, sender, m);
+        }
         public override string ToString()
         {
             return this.GetType()+"  "+Id;
         }
-        public virtual int GetStatusHash()
+        public int GetStatusHash()
         {
             return GetStatusStr().GetHashCode();
         }
 
-        public virtual string GetStatusStr()
+        public string GetStatusStr()
         {
             StringBuilder sb = new StringBuilder();
             AppendVector3d(sb, Position);
