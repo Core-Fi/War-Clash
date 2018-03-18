@@ -40,8 +40,12 @@ namespace Logic.LogicObject
         {
             get
             {
-                var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
-                return bs.GetObject<SceneObject>();
+                if (_mainPlayer == null)
+                {
+                    var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+                    _mainPlayer = bs.GetObjectWithComponent<MainPlayerComponent>();
+                }
+                return _mainPlayer;
             }
         }
         private static SceneObject _mainPlayer;

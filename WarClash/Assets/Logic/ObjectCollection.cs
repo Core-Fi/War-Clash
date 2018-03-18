@@ -42,6 +42,25 @@ namespace Logic.LogicObject
                 set.Remove(owner);
             }
         }
+        public HashSet<TValue> GetObjectsWithComponent<T>() where T: BaseComponent
+        {
+            var t = typeof(T);
+            HashSet<TValue> set;
+            if(compDic.TryGetValue(t, out set))
+            {
+            }
+            return set;
+        }
+        public TValue GetObjectWithComponent<T>() where T : BaseComponent
+        {
+            var t = typeof(T);
+            HashSet<TValue> set;
+            if (compDic.TryGetValue(t, out set))
+            {
+                return set.First();
+            }
+            return null;
+        }
         public void AddObject(TKey key, TValue value)
         {
             if (!_coll.ContainsKey(key))
