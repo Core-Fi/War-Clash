@@ -82,20 +82,15 @@ namespace Logic.LogicObject
         //        return false;
         //    }
         //}
-        internal override void OnInit(CreateInfo createInfo)
-        {
-            base.OnInit(createInfo);
 
-        }
         //float XZDistance(Vector3 a, Vector3 b)
         //{
         //    a.y = 0;
         //    b.y = 0;
         //    return Vector3.Distance(a, b);
         //}
-        internal override void OnUpdate(float deltaTime)
+        internal  void OnUpdate(float deltaTime)
         {
-            base.OnUpdate(deltaTime);
             //Vector3 dir = this.receiver.Position - this.Position;
             //Vector3 posi = dir.normalized * (20f) * deltaTime;
             //float totalDistance = this.previousSo == null
@@ -116,9 +111,8 @@ namespace Logic.LogicObject
             //}
         }
         
-        internal override void OnFixedUpdate(long deltaTime)
+        internal void OnFixedUpdate(long deltaTime)
         {
-            base.OnFixedUpdate(deltaTime);
             Position += Forward.Mul(Speed).Mul(FixedMath.One.Div(LockFrameMgr.FixedFrameRate));
             if (IsFinish())
             {
@@ -150,7 +144,7 @@ namespace Logic.LogicObject
             _leftTime = FixedMath.One * base.ProjectileAction.time / 1000;
         }
 
-        internal override void OnFixedUpdate(long deltaTime)
+        internal  void OnFixedUpdate(long deltaTime)
         {
             _leftTime -= deltaTime;
             var _battleScene = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
@@ -172,7 +166,7 @@ namespace Logic.LogicObject
 
     public class TargetProjectile : Projectile
     {
-        internal override void OnFixedUpdate(long deltaTime)
+        internal  void OnFixedUpdate(long deltaTime)
         {
             Forward = (Receiver.Position - Position).Normalize();
             base.OnFixedUpdate(deltaTime);

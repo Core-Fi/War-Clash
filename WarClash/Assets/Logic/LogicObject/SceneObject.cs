@@ -34,7 +34,7 @@ namespace Logic.LogicObject
         }
     }
 
-    public sealed class SceneObject: IUpdate, IFixedUpdate, IFixedAgent, IEventDispatcher
+    public class SceneObject: IUpdate, IFixedUpdate, IFixedAgent, IEventDispatcher
     {
         public static SceneObject MainPlayer
         {
