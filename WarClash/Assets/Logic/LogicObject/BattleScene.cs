@@ -24,7 +24,8 @@ namespace Logic.LogicObject
         {
             AddSceneObject,
             RemoveSceneObject,
-            OnCreate
+            OnCreate,
+            OnLoaded
         }
         public EventGroup EventGroup { get; private set; }
         public BattleScene()
@@ -39,38 +40,37 @@ namespace Logic.LogicObject
         {
             EventGroup = new EventGroup();
             MapConfig = Logic.Map.Map.Deserialize(Name);
+            EventGroup.ListenEvent(SceneEvent.OnLoaded.ToInt(), OnLoded);
             FixedQuadTree = new FixedQuadTree<SceneObject>();
             FixedQuadTreeForBuilding = new FixedQuadTree<SceneObject>();
             FixedQuadTree.SetBounds(new Utility.FixedRect(-FixedMath.One * 50, -FixedMath.One * 50, FixedMath.One * 100, FixedMath.One * 100));
             FixedQuadTreeForBuilding.SetBounds(new Utility.FixedRect(-FixedMath.One * 50, -FixedMath.One * 50, FixedMath.One * 100, FixedMath.One * 100));
         }
-
-    
-        public T CreateSceneObject<T>(int id) where T : SceneObject
+        private void OnLoded(object sender, EventMsg msg)
         {
-            var createInfo = Pool.SP.Get<CreateInfo>();
-            createInfo.Id = id;
-            var t = CreateSceneObject<T>(createInfo);
-            return t;
+            var so = CreateSceneObject();
+            var modelComp = new ModelComponent();
+            modelComp.RePath = "kachujin.prefab";
+            so.AddComponent(modelComp);
+            so.AddComponent<MainPlayerComponent>();
+            var jumpComp = new JumpComponent();
+            jumpComp.InitSpeed = FixedMath.One * 30;
+            so.AddComponent(jumpComp);
         }
-
-        public object CreateSceneObject(Type type, CreateInfo createInfo)
+        public SceneObject CreateSceneObject()
         {
-            object o = Activator.CreateInstance(type);
-            AddSceneObject(createInfo, o as SceneObject);
-            return o;
+            var id = IDManager.SP.GetID();
+            SceneObject so = new SceneObject();
+            so.Id = id;
+            so.Init(new CreateInfo());
+            so.AddComponent<TransformComponent>();
+            this.AddObject(so.Id, so);
+            EventGroup.FireEvent(SceneEvent.AddSceneObject.ToInt(), this, EventGroup.NewArg<EventSingleArgs<SceneObject>, SceneObject>(so));
+            so.ListenEvent((int)SceneObject.SceneObjectEvent.OnAddComponent, OnSceneObjectAddComponent);
+            so.ListenEvent((int)SceneObject.SceneObjectEvent.OnRemoveComponent, OnSceneObjectRemoveComponent);
+            return so;
         }
-        public T CreateSceneObject<T>(CreateInfo createInfo) where T : SceneObject
-        {
-            T t = Activator.CreateInstance<T>();
-            AddSceneObject(createInfo, t);
-            return t;
-        }
-        public T CreateSceneObject<T>() where T : SceneObject
-        {
-            var t = CreateSceneObject<T>(IDManager.SP.GetID());
-            return t;
-        }
+       
 
         internal void RemoveSceneObject(int id)
         {
@@ -79,31 +79,18 @@ namespace Logic.LogicObject
             IDManager.SP.ReturnID(id);
             
         }
-        private void AddSceneObject(CreateInfo createInfo, SceneObject so)
-        {
-            if (createInfo.Id == 0)
-            {
-                createInfo.Id = IDManager.SP.GetID();
-            }
-            so.Id = createInfo.Id;
-            so.Init(createInfo);
-            this.AddObject(so.Id, so);
-            FixedQuadTree.Insert<SceneObject>(so);
-            EventGroup.FireEvent(SceneEvent.AddSceneObject.ToInt(), this, EventGroup.NewArg<EventSingleArgs<SceneObject>, SceneObject>(so));
-            so.ListenEvent((int)SceneObject.SceneObjectEvent.OnAddComponent, OnSceneObjectAddComponent);
-            so.ListenEvent((int)SceneObject.SceneObjectEvent.OnRemoveComponent, OnSceneObjectRemoveComponent);
-        }
+    
         private void OnSceneObjectAddComponent(object sender, EventMsg msg)
         {
             var so = sender as SceneObject;
-            var e = msg as EventSingleArgs<BaseComponent>;
-            AddComponent(e.GetType(), so);
+            var e = msg as EventSingleArgs<SceneObjectBaseComponent>;
+            AddComponent(e.value.GetType(), so);
         }
         private void OnSceneObjectRemoveComponent(object sender, EventMsg msg)
         {
             var so = sender as SceneObject;
-            var e = msg as EventSingleArgs<BaseComponent>;
-            AddComponent(e.GetType(), so);
+            var e = msg as EventSingleArgs<SceneObjectBaseComponent>;
+            AddComponent(e.value.GetType(), so);
         }
 
         public override void OnUpdate(float deltaTime)

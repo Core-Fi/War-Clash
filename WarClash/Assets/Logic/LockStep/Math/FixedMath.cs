@@ -396,13 +396,20 @@ namespace Lockstep
 		{
 			return (f1 / OneD);
 		}
-
-		/// <summary>
-		/// Convert to float.
-		/// </summary>
-		/// <returns>The float.</returns>
-		/// <param name="f1">f1.</param>
-		public static float ToFloat(this long f1)
+        public static long IntHundredToLong(this int v)
+        {
+            return v * FixedMath.One / 100;
+        }
+        public static int LongToIntHundred(this long v)
+        {
+            return (v * 100).ToInt();
+        }
+        /// <summary>
+        /// Convert to float.
+        /// </summary>
+        /// <returns>The float.</returns>
+        /// <param name="f1">f1.</param>
+        public static float ToFloat(this long f1)
 		{
 			return (float)(f1 / OneD);
 		}

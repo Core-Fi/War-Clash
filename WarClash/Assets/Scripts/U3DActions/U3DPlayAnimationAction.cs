@@ -13,7 +13,7 @@ public class U3DPlayAnimationAction : U3DDisplayAction
     public override void Execute(U3DSceneObject sender, U3DSceneObject receiver, object data)
     {
         _animationAction = this.Action as PlayAnimationAction;
-        var transformComp = sender.GetComponent<U3DTransformComponent>();
+        var transformComp = sender.GetComponent<U3DModelComponent>();
         var animator = transformComp.Go.GetComponent<Animator>();
         if(animator != null)
             animator.Play(_animationAction.animaitonName, -1, 0);

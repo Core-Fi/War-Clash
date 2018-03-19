@@ -12,7 +12,7 @@ public class U3DHotFixScene : IU3DScene
         
     }
 
-    public void OnUpdate(float deltaTime)
+    public void Update(float deltaTime)
     {
         
     }

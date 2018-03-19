@@ -27,7 +27,7 @@ namespace Logic.LogicObject
             curTick = 0;
         }
 
-        public void OnFixedUpdate(long deltaTime)
+        public void FixedUpdate(long deltaTime)
         {
             curTick++;
             if (wait == curTick)
@@ -38,7 +38,7 @@ namespace Logic.LogicObject
             }
         }
 
-        public void OnUpdate(float deltaTime)
+        public void Update(float deltaTime)
         {
 
         }

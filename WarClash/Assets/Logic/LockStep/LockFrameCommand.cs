@@ -326,7 +326,7 @@ namespace Logic
         {
             var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
             var sender = bs.GetObject(Sender);
-            var npc = bs.CreateSceneObject<SceneObject>();
+            var npc = bs.CreateSceneObject();
             var tc = npc.AddComponent<TransformComponent>();
             tc.Position = new Vector3d(PosiX, 0, PosiZ);
             if (sender!=null)
@@ -372,7 +372,7 @@ namespace Logic
         public override void OnExecute()
         {
             var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
-            var mainPlayer = bs.CreateSceneObject<SceneObject>(Sender);
+            var mainPlayer = bs.CreateSceneObject();
             mainPlayer.Team = Team.Team1;
             mainPlayer.Position = Vector3d.zero;
             mainPlayer.Radius = FixedMath.One/2;
@@ -402,7 +402,7 @@ namespace Logic
         public override void OnExecute()
         {
             var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
-            var player = bs.CreateSceneObject<SceneObject>(Sender);
+            var player = bs.CreateSceneObject();
             player.Position = Vector3d.zero;
             player.Team = Team.Team1;
         }

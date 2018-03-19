@@ -3,7 +3,7 @@
 public interface IU3DScene
 {
     void Init(IScene scene);
-    void OnUpdate(float deltaTime);
+    void Update(float deltaTime);
     void Destroy();
 
 }

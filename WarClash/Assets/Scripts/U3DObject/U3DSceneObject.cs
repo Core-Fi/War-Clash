@@ -40,17 +40,22 @@ public class U3DSceneObject : IUpdate {
             if (_components[i].GetType() == t)
                 return null;
         }
-        var nt = ComponentCorresponding.Corresponding[t];
-        U3DBaseComponent c = Activator.CreateInstance(nt) as U3DBaseComponent;
-        c.OnAdd(bc);
-        _components.Add(c);
-        return c;
+        Type nt = null;
+        if (ComponentCorresponding.Corresponding.TryGetValue(t, out nt))
+        {
+            U3DBaseComponent c = Activator.CreateInstance(nt) as U3DBaseComponent;
+            c.U3DSceneObject = this;
+            c.OnAdd(bc);
+            _components.Add(c);
+            return c;
+        }
+        return null;
     }
-    public void RemoveComponent<T>() where T : SceneObjectBaseComponent
+    public void RemoveComponent(SceneObjectBaseComponent bc)
     {
         for (int i = 0; i < _components.Count; i++)
         {
-            if (_components[i] is T)
+            if (_components[i].Component == bc)
             {
                 _components[i].OnRemove();
                 _components.RemoveAt(i);
@@ -91,8 +96,21 @@ public class U3DSceneObject : IUpdate {
         {
             AddComponent(comps[i]);
         }
+        so.ListenEvent((int)SceneObject.SceneObjectEvent.OnAddComponent, OnSceneObjectAddComponent);
+        so.ListenEvent((int)SceneObject.SceneObjectEvent.OnRemoveComponent, OnSceneObjectRemoveComponent);
     }
-
+    private void OnSceneObjectAddComponent(object sender, EventMsg msg)
+    {
+        var so = sender as SceneObject;
+        var e = msg as EventSingleArgs<SceneObjectBaseComponent>;
+        AddComponent(e.value);
+    }
+    private void OnSceneObjectRemoveComponent(object sender, EventMsg msg)
+    {
+        var so = sender as SceneObject;
+        var e = msg as EventSingleArgs<SceneObjectBaseComponent>;
+        RemoveComponent(e.value);
+    }
     public void Update(float deltaTime)
     {
         for (int i = 0; i < _components.Count; i++)

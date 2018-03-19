@@ -27,6 +27,6 @@ public class U3DSceneManager
     }
     public void Update()
     {
-        U3dScene.OnUpdate(Time.deltaTime);
+        U3dScene.Update(Time.deltaTime);
     }
 }

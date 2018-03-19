@@ -5,13 +5,28 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace LockStep
+namespace Lockstep
 {
     public static class Utility
     {
-        public static long IntHundredToLong(this int v)
+        public static void Vector3ToHundredString(this Vector3d a, StringBuilder str)
         {
-            return v * FixedMath.One / 100;
+            str.Append(a.x.LongToIntHundred());
+            str.Append(',');
+            str.Append(a.y.LongToIntHundred());
+            str.Append(',');
+            str.Append(a.z.LongToIntHundred());
+        }
+        public static void HundredStringToVector3(this string str)
+        {
+            Vector3d v;
+            var strs = str.Split(',');
+            var x = int.Parse(strs[0]);
+            v.x = x.IntHundredToLong();
+            var y = int.Parse(strs[1]);
+            v.y = y.IntHundredToLong();
+            var z = int.Parse(strs[2]);
+            v.z = z.IntHundredToLong();
         }
         public static Vector3d Add(this Vector3d a, Vector3d b)
         {

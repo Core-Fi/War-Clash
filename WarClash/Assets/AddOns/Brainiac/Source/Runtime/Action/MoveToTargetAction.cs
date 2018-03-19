@@ -4,7 +4,7 @@ using Lockstep;
 using Logic;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using LockStep;
+using Lockstep;
 using Pathfinding;
 using UnityEngine;
 using UnityEngine.AI;

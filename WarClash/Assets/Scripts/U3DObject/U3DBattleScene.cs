@@ -29,7 +29,7 @@ public class U3DBattleScene : ObjectCollection<int, U3DSceneObject>, IU3DScene
     {
         AsyncOperation asyn = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(_battleScene.Name);
         yield return asyn;
-        
+        _battleScene.EventGroup.FireEvent(BattleScene.SceneEvent.OnLoaded.ToInt(), null, null);
     }
     protected virtual void ListenEvents()
     {

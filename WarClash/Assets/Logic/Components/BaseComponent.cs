@@ -1,4 +1,5 @@
 ﻿using Logic.LogicObject;
+using System.Text;
 
 namespace Logic.Components
 {
@@ -19,14 +20,12 @@ namespace Logic.Components
         }
         public virtual void OnAdd() { }
         public virtual void OnRemove() { }
-        public virtual void OnDispose() { }
-
 
     }
     public abstract class SceneObjectBaseComponent : BaseComponent
     {
         public SceneObject SceneObject;
         public virtual void OnFixedUpdate() { }
-
+ 
     }
 }

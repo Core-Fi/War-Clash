@@ -1,8 +1,5 @@
 ﻿using Lockstep;
-using Logic.LogicObject;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Newtonsoft.Json;
 using System.Text;
 
 namespace Logic.Components
@@ -12,6 +9,7 @@ namespace Logic.Components
         public enum Event {
             OnPositionChange
         }
+        [JsonProperty]
         public string ResPath;
         public Vector3d Position
         {
@@ -28,6 +26,7 @@ namespace Logic.Components
                 }
             }
         }
+        [JsonProperty]
         private Vector3d _position = new Vector3d(UnityEngine.Vector3.zero);
         public Vector3d Forward
         {
@@ -37,6 +36,14 @@ namespace Logic.Components
                 _forward = value;
             }
         }
+        [JsonProperty]
         private Vector3d _forward = new Vector3d(UnityEngine.Vector3.forward);
+        public  Vector3d Velocity;
+        public override void OnFixedUpdate()
+        {
+            base.OnFixedUpdate();
+            Position += Velocity / 15;
+        }
+
     }
 }

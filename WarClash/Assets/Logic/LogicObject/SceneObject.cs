@@ -62,8 +62,20 @@ namespace Logic.LogicObject
             t.SceneObject = this;
             t.OnAdd();
             _components.Add(t);
-            FireEvent((int)SceneObject.SceneObjectEvent.OnRemoveComponent, this, EventGroup.NewArg<EventSingleArgs<T>, T>(t));
+            FireEvent((int)SceneObject.SceneObjectEvent.OnAddComponent, this, EventGroup.NewArg<EventSingleArgs<SceneObjectBaseComponent>, SceneObjectBaseComponent>(t));
             return t;
+        }
+        public void AddComponent(SceneObjectBaseComponent t)
+        {
+            for (int i = 0; i < _components.Count; i++)
+            {
+                if (_components[i].GetType() == t.GetType())
+                    return;
+            }
+            t.SceneObject = this;
+            t.OnAdd();
+            _components.Add(t);
+            FireEvent((int)SceneObject.SceneObjectEvent.OnAddComponent, this, EventGroup.NewArg<EventSingleArgs<SceneObjectBaseComponent>, SceneObjectBaseComponent>(t));
         }
         public void RemoveComponent<T>() where T :  SceneObjectBaseComponent
         {
@@ -71,7 +83,7 @@ namespace Logic.LogicObject
             {
                 if (_components[i] is T)
                 {
-                    FireEvent((int)SceneObject.SceneObjectEvent.OnRemoveComponent, this, EventGroup.NewArg<EventSingleArgs<T>, T>((T)_components[i]));
+                    FireEvent((int)SceneObject.SceneObjectEvent.OnRemoveComponent, this, EventGroup.NewArg<EventSingleArgs<SceneObjectBaseComponent>, SceneObjectBaseComponent>((T)_components[i]));
                     _components[i].OnRemove();
                     _components.RemoveAt(i);
                 }
@@ -185,11 +197,7 @@ namespace Logic.LogicObject
         internal void Init(CreateInfo createInfo)
         {
             EventGroup = new EventGroup();
-            Position = createInfo.Position;
             Team = createInfo.Team;
-            if(createInfo.Forward.sqrMagnitude == 0)
-                createInfo.Forward = new Vector3d(Vector3.forward);
-            Forward = createInfo.Forward;
             Pool.SP.Recycle(createInfo);
             createInfo = null;
         }
@@ -227,8 +235,9 @@ namespace Logic.LogicObject
         {
             for (int i = 0; i < _components.Count; i++)
             {
-                _components[i].OnDispose();
+                _components[i].OnRemove();
             }
+            _components.Clear();
         }
         
         public void ListenEvent(int id, EventMsgHandler e)

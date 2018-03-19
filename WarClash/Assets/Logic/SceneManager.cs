@@ -32,28 +32,12 @@ namespace Logic
         }
         public void Update()
         {
-            if (CurrentScene is BattleScene)
-            {
-                var bs = (BattleScene)CurrentScene ;
-                bs.Update(Time.deltaTime);
-            }
-            else
-            {
-                CurrentScene.OnUpdate(Time.deltaTime);
-            }
+            CurrentScene.Update(Time.deltaTime);
         }
 
         public void FixedUpdate()
         {
-            if (CurrentScene is BattleScene)
-            {
-                var bs = (BattleScene)CurrentScene;
-                bs.FixedUpdate(FixedMath.One / 15);
-            }
-            else
-            {
-                CurrentScene.OnFixedUpdate(FixedMath.One / 15);
-            }
+            CurrentScene.FixedUpdate(FixedMath.One / 15);
         }
     }
 }

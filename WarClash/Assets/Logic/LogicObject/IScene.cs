@@ -8,8 +8,8 @@ namespace Logic.LogicObject
     public interface IScene
     {
         void Init();
-        void OnUpdate(float deltaTime);
-        void OnFixedUpdate(long deltaTime);
+        void Update(float deltaTime);
+        void FixedUpdate(long deltaTime);
         void Destroy();
     }
 }

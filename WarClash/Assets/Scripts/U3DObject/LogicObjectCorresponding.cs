@@ -9,6 +9,7 @@ class ComponentCorresponding
     public static readonly Dictionary<Type, Type> Corresponding =  new Dictionary<Type, Type>()
     {
         { typeof(TransformComponent), typeof(U3DTransformComponent) },
+        { typeof(ModelComponent), typeof(U3DModelComponent) },
     };
 
 }

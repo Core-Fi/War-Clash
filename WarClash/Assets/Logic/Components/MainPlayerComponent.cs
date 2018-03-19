@@ -9,6 +9,7 @@ namespace Logic.Components
 {
     class MainPlayerComponent : SceneObjectBaseComponent
     {
+
         bool _isPressing;
         public override void OnAdd()
         {
