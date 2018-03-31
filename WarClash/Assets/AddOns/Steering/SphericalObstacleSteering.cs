@@ -92,7 +92,7 @@ using UnityEngine;
     {
             var avoidance = Vector3.zero;
         var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
-        bs.FixedQuadTreeForBuilding.Query(Self, FixedMath.One * 2, _neighbors);
+      //  bs.FixedQuadTreeForBuilding.Query(Self, FixedMath.One * 2, _neighbors);
         if (_neighbors.Count == 0) return ;
 
         /*

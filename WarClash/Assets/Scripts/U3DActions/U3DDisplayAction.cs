@@ -20,6 +20,8 @@ public abstract class U3DDisplayAction : IPool{
     public void Reset() { }
 
     public abstract void Stop();
+
+    public virtual void Update() { }
 }
 
 public class U3DDisplayActionManager

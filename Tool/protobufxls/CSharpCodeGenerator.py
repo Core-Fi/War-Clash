@@ -100,7 +100,9 @@ def CodeGenerate(sheetName, fieldTypeList, fieldNameList):
     text += "       var txt = AssetResources.LoadAssetImmediatly"+r'("'+sheetName.lower()+""".bytes" """+") as TextAsset;\n"
     text += "       Deserialize(txt.bytes);\n"
     text += "   }\n"
-    text += "   public static "+sheetName+" Get(int id)\n"
+    key = fieldTypeList[0]
+    keytype = getFieldType(key)
+    text += "   public static "+sheetName+" Get("+keytype+" id)\n"
     text += "   {"+"\n"
     text += "       "+sheetName+" conf;\n"
     text += "       if(Configs.TryGetValue(id, out conf))\n"
@@ -110,7 +112,7 @@ def CodeGenerate(sheetName, fieldTypeList, fieldNameList):
     text += "       Debug.LogError(id + "r'"'+ " Not Exsit In "+sheetName+r'"'+");\n"
     text += "       return null;\n"
     text += "   }"+"\n"
-    text +="    private static Dictionary<int, "+sheetName+"> Configs = new Dictionary<int, "+sheetName+">();\n"
+    text +="    private static Dictionary<"+keytype+", "+sheetName+"> Configs = new Dictionary<"+keytype+", "+sheetName+">();\n"
     text += "}\n"
     f = open("../../WarClash/Assets/Logic/Config/"+sheetName+'.cs', 'wb')
     f.write(text)

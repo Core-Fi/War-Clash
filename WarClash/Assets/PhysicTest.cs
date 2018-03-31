@@ -42,6 +42,9 @@ public class PhysicTest : MonoBehaviour {
             Vector2d b = a + new Vector2d(0, aabb.Height);
             Vector2d c = aabb.Extents;
             Vector2d d = a + new Vector2d(aabb.Width, 0);
+            var halfw = aabb.Width / 2;
+            var halfh = aabb.Height / 2;
+            var radius = FixedMath.Sqrt((halfw).Mul (halfw) + halfh.Mul(halfh));
             a = RotatePosi(a, angle);
             b = RotatePosi(b, angle);
             c = RotatePosi(c, angle);
@@ -52,10 +55,12 @@ public class PhysicTest : MonoBehaviour {
             vs[3] = d;
             Vector2d min = Vector2d.Min(vs) + center;
             Vector2d max = Vector2d.Max(vs) + center;
-            var outteraabb = new AABB(min, max);
+            DLog.Log(radius.ToFloat().ToString());
+            var outteraabb = new AABB(center, radius*2, radius*2);
             fp.AABB = aabb;
             fp.Fixture = new Transform2d(ref center, ref angle);
-            tree.AddProxy(ref outteraabb, fp);
+            int id = tree.AddProxy(ref outteraabb, fp);
+            tree.MoveProxy(id, ref outteraabb, Vector2d.zero);
             DrawFixtureProxy(fp);
             DrawAABB(outteraabb);
         }
@@ -80,11 +85,20 @@ public class PhysicTest : MonoBehaviour {
             RayCastInput input = new RayCastInput();
             input.Point1 = new Vector2d(Random.Range(0, 50) * FixedMath.One, Random.Range(0, 50) * FixedMath.One);
             input.Point2 = new Vector2d(Random.Range(50, 100) * FixedMath.One, Random.Range(50, 100) * FixedMath.One);
+            NewSphere(input.Point1.ToVector3(), "start");
+            NewSphere(input.Point2.ToVector3(), "end");
             input.MaxFraction = FixedMath.One;
             DrawLine(input);
             tree.RayCast(callBack, ref input);
         }
         Debug.Log(sw.ElapsedMilliseconds);
+    }
+    private void NewSphere(Vector3 p, string name)
+    {
+        var g = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        g.transform.position = p;
+        g.transform.localScale = Vector3.one / 2;
+        g.name = name;
     }
     public void DrawAABB(AABB aabb)
     {
@@ -141,21 +155,30 @@ public class PhysicTest : MonoBehaviour {
         RayCastOutput o;
         if(aabb.RayCast(out o, ref i))
         {
+            //Debug.Log(o.Fraction.ToFloat());
             var hitPosi = i.Point1 + (i.Point2 - i.Point1) * o.Fraction;
             hitPosi = RotatePosi(hitPosi, proxy.Fixture.angle) + center;
-            var g = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            g.transform.position = hitPosi.ToVector3();
-            g.transform.localScale = Vector3.one / 2;
-            Debug.Log("hit something at " + hitPosi);
-            return 0;
+            NewSphere(hitPosi.ToVector3(), "hit");
+            //Debug.Log("hit something at " + hitPosi);
+            return FixedMath.One;
         }
         else
         {
-            return FixedMath.One;
+            return i.MaxFraction;
         }
     }
     
     // Update is called once per frame
     void Update () {
     }
+}
+public class PhysicsOutput
+{
+    public HitInfo[] HitInfos = new HitInfo[10];
+    public int EndIndex;
+}
+public struct HitInfo
+{
+    public BodyType BodyType;
+    public Vector2d HitPosition;
 }

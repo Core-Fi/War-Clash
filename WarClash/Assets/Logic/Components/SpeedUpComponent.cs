@@ -8,7 +8,7 @@ namespace Logic.Components
 {
     class SpeedUpComponent : SceneObjectBaseComponent
     {
-        public Vector3d Acceleration;
+        public long Acceleration;
         private long maxSpeed;
         private long sqlMaxSpeed;
         private TransformComponent transformComp;
@@ -26,9 +26,9 @@ namespace Logic.Components
         }
         public override void OnFixedUpdate()
         {
-            var newV = transformComp.Velocity + Acceleration; 
-            if (newV.sqrMagnitude < sqlMaxSpeed)
-                transformComp.Velocity = newV;
+            var newV = transformComp.Velocity.x + Acceleration; 
+            if (newV.Mul(newV) <= sqlMaxSpeed)
+                transformComp.Velocity.x = newV;
             base.OnFixedUpdate();
         }
     }

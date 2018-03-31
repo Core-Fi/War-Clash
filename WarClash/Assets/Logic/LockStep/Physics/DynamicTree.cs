@@ -209,7 +209,27 @@ public class DynamicTree<T>
         InsertLeaf(proxyId);
         return true;
     }
+    public void DebugDraw()
+    {
+        _queryStack.Clear();
+        _queryStack.Push(_root);
 
+        while (_queryStack.Count > 0)
+        {
+            int nodeId = _queryStack.Pop();
+            if (nodeId == NullNode)
+            {
+                continue;
+            }
+
+            TreeNode<T> node = _nodes[nodeId];
+            node.AABB.DrawAABB();
+            var fp = (node.UserData as FixtureProxy);
+            fp.AABB.DrawAABB(fp.Fixture.angle, 1f);
+            _queryStack.Push(node.Child1);
+            _queryStack.Push(node.Child2);
+        }
+    }
     /// <summary>
     /// Get proxy user data.
     /// </summary>
@@ -221,7 +241,6 @@ public class DynamicTree<T>
         Debug.Assert(0 <= proxyId && proxyId < _nodeCapacity);
         return _nodes[proxyId].UserData;
     }
-
     /// <summary>
     /// Get the fat AABB for a proxy.
     /// </summary>
@@ -272,7 +291,6 @@ public class DynamicTree<T>
             }
         }
     }
-
     /// <summary>
     /// Ray-cast against the proxies in the tree. This relies on the callback
     /// to perform a exact ray-cast in the case were the proxy contains a Shape.
@@ -367,7 +385,6 @@ public class DynamicTree<T>
             }
         }
     }
-
     private int AllocateNode()
     {
         // Expand the node pool as needed.

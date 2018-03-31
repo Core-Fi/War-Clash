@@ -5,11 +5,13 @@ using UnityEngine;
 using Logic;
 using System;
 using Logic.Components;
+using Logic.Skill.Actions;
 
 public class U3DSceneObject : IUpdate {
 
     public SceneObject SceneObject;
     private List<U3DBaseComponent> _components = new List<U3DBaseComponent>();
+    private List<U3DDisplayAction> _displayActions = new List<U3DDisplayAction>();
     public U3DTransformComponent U3DTransformComponent
     {
         get
@@ -98,6 +100,9 @@ public class U3DSceneObject : IUpdate {
         }
         so.ListenEvent((int)SceneObject.SceneObjectEvent.OnAddComponent, OnSceneObjectAddComponent);
         so.ListenEvent((int)SceneObject.SceneObjectEvent.OnRemoveComponent, OnSceneObjectRemoveComponent);
+        so.ListenEvent((int)SceneObject.SceneObjectEvent.Executedisplayaction, PlayDisplayAction);
+        so.ListenEvent((int)SceneObject.SceneObjectEvent.Stopdisplayaction, StopDisplayAction);
+
     }
     private void OnSceneObjectAddComponent(object sender, EventMsg msg)
     {
@@ -111,8 +116,34 @@ public class U3DSceneObject : IUpdate {
         var e = msg as EventSingleArgs<SceneObjectBaseComponent>;
         RemoveComponent(e.value);
     }
+    private void PlayDisplayAction(object sender, EventMsg e)
+    {
+        var msg = e as EventSingleArgs<DisplayAction>;
+        Type t = U3DDisplayAction.LogicDisplayActions[msg.value.GetType()];
+        var u3dAction = Pool.SP.Get(t) as U3DDisplayAction;
+        u3dAction.Action = msg.value;
+        _displayActions.Add(u3dAction);
+        u3dAction.Execute(this, null, null);
+    }
+    private void StopDisplayAction(object sender, EventMsg e)
+    {
+        var msg = e as EventSingleArgs<DisplayAction>;
+        for (int i = 0; i < _displayActions.Count; i++)
+        {
+            if(_displayActions[i].Action == msg.value)
+            {
+                _displayActions[i].Stop();
+                _displayActions.RemoveAt(i);
+                break;
+            }
+        }
+    }
     public void Update(float deltaTime)
     {
+        for (int i = 0; i < _displayActions.Count; i++)
+        {
+            _displayActions[i].Update();
+        }
         for (int i = 0; i < _components.Count; i++)
         {
             _components[i].OnUpdate();
@@ -120,13 +151,12 @@ public class U3DSceneObject : IUpdate {
     }
     public void Destroy()
     {
-        OnDestroy();
+        SceneObject.DelEvent((int)SceneObject.SceneObjectEvent.OnAddComponent, OnSceneObjectAddComponent);
+        SceneObject.DelEvent((int)SceneObject.SceneObjectEvent.OnRemoveComponent, OnSceneObjectRemoveComponent);
+        SceneObject.DelEvent((int)SceneObject.SceneObjectEvent.Executedisplayaction, PlayDisplayAction);
+        SceneObject.DelEvent((int)SceneObject.SceneObjectEvent.Stopdisplayaction, StopDisplayAction);
     }
-    public virtual void OnDestroy()
-    {
-       // UnityEngine.Object.Destroy(Go);
-    }
-
+   
     public void HideMainGo()
     {
        // Go.SetActive(false);

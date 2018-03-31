@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 public struct AABB
 {
@@ -28,6 +29,7 @@ public struct AABB
         Center = Extents = Vector2d.zero;
         LowerBound = new Vector2d(Math.Min(min.x, max.x), Math.Min(min.y, max.y));
         UpperBound = new Vector2d(Math.Max(min.x, max.x), Math.Max(min.y, max.y));
+        verts = null;
         UpdateCenterAndExtents();
     }
     public void UpdateCenterAndExtents()
@@ -35,6 +37,24 @@ public struct AABB
         Center = (LowerBound + UpperBound) / 2;
         Extents = (UpperBound - LowerBound) / 2;
     }
+    private Vector2d[] verts;
+    public Vector2d[] Local2World(long angle)
+    {
+        if (verts == null)
+            verts = new Vector2d[4];
+        verts[0] = new Vector2d(-this.Extents.x, -this.Extents.y);
+        verts[1] = new Vector2d(this.Extents.x , -this.Extents.y );
+        verts[2] = new Vector2d(this.Extents.x , this.Extents.y );
+        verts[3] = new Vector2d(-this.Extents.x , this.Extents.y );
+        for (var i = 0; i < verts.Length; ++i)
+        {
+            var v = new Vector2d(verts[i].x, verts[i].y);
+            verts[i].x = v.x.Mul( FixedMath.Trig.CosDegree(angle)) + v.y.Mul(FixedMath.Trig.SinDegree(angle)) + this.Center.x;
+            verts[i].y = -v.x.Mul(FixedMath.Trig.SinDegree(angle)) + v.y.Mul(FixedMath.Trig.CosDegree(angle)) + this.Center.y;
+        }
+        return verts;
+    }
+
     public long Width {
         get {
             return UpperBound.x - LowerBound.x;
@@ -275,6 +295,61 @@ public struct AABB
         // Intersection.
         output.Fraction = tmin;
         output.Normal = normal;
+        return true;
+    }
+    public void DrawAABB(long angle = 0, float time = 0.1f)
+    {
+        Vector2d[] vers = Local2World(angle);
+        Debug.DrawLine(new Vector3(vers[0].x.ToFloat(), 0, vers[0].y.ToFloat()), new Vector3(vers[1].x.ToFloat(), 0, vers[1].y.ToFloat()), Color.blue, time);
+        Debug.DrawLine(new Vector3(vers[1].x.ToFloat(), 0, vers[1].y.ToFloat()), new Vector3(vers[2].x.ToFloat(), 0, vers[2].y.ToFloat()), Color.blue, time);
+        Debug.DrawLine(new Vector3(vers[2].x.ToFloat(), 0, vers[2].y.ToFloat()), new Vector3(vers[3].x.ToFloat(), 0, vers[3].y.ToFloat()), Color.blue, time);
+        Debug.DrawLine(new Vector3(vers[3].x.ToFloat(), 0, vers[3].y.ToFloat()), new Vector3(vers[0].x.ToFloat(), 0, vers[0].y.ToFloat()), Color.blue, time);
+    }
+    private static Vector2d[] axes = new Vector2d[4];
+
+    public static bool TestObb(AABB a, AABB b, long aangle, long bangle)
+    {
+        if(aangle ==0 && bangle == 0)
+        {
+            return TestOverlap(ref a, ref b);
+        }
+        // find axes
+        axes[0] = new Vector2d(FixedMath.Trig.CosDegree(aangle), -FixedMath.Trig.SinDegree(aangle));
+        axes[1] = new Vector2d(FixedMath.Trig.SinDegree(aangle), FixedMath.Trig.CosDegree(aangle));
+        axes[2] = new Vector2d(FixedMath.Trig.CosDegree(bangle), -FixedMath.Trig.SinDegree(bangle));
+        axes[3] = new Vector2d(FixedMath.Trig.SinDegree(bangle), FixedMath.Trig.CosDegree(bangle));
+        var verts1 = a.Local2World(aangle);
+       // DrawAABB(verts1);
+        var verts2 = b.Local2World(bangle);
+       // DrawAABB(verts2);
+        // project vertices to each axis
+        for (var i = 0; i < axes.Length; ++i)
+        {
+            // find max and min from o1
+            long min1 = long.MaxValue, max1 = long.MinValue, ret1;
+            for (var j = 0; j < verts1.Length; ++j)
+            {
+                ret1 = verts1[j].Dot(axes[i]);
+                min1 = min1 > ret1 ? ret1 : min1;
+                max1 = max1 < ret1 ? ret1 : max1;
+            }
+            // find max and min from o2
+            long min2 = long.MaxValue, max2 = long.MinValue, ret2;
+            for (var j = 0; j < verts2.Length; ++j)
+            {
+                ret2 = verts2[j].Dot(axes[i]);
+                min2 = min2 > ret2 ? ret2 : min2;
+                max2 = max2 < ret2 ? ret2 : max2;
+            }
+            // overlap check
+            var r1 = max1 - min1;
+            var r2 = max2 - min2;
+            var r = (max1 > max2 ? max1 : max2) - (min1 < min2 ? min1 : min2);
+            if (r1 + r2 <= r)
+            {
+                return false;
+            }
+        }
         return true;
     }
 }
