@@ -145,8 +145,9 @@ namespace RogueSharp
                     i = 0;
                 }
             }
-            List<Rectangle> rectslist = new List<Rectangle>();
+            List<Rectangle> boundsList = new List<Rectangle>();
             int rindex = 0;
+            Rectangle mostLeftBounds = null;
             foreach (var rl in rects)
             {
                 rindex++;
@@ -165,10 +166,38 @@ namespace RogueSharp
                     int b = Math.Max(rl[j].Bottom, rect.Bottom);
                     rect = new Rectangle(l, t, r-l, b-t);
                 }
+                if(mostLeftBounds == null || mostLeftBounds.Left > rect.Left)
+                {
+                    mostLeftBounds = rect;
+                }
                 Draw(rect, Color.blue);
-                rectslist.Add(rect);
+                boundsList.Add(rect);
+            }
+            List<Rectangle> connectedRect = new List<Rectangle>();
+            while (connectedRect.Count< boundsList.Count -1)
+            {
+                Rectangle nearestRect = null;
+                for (int j = 0; j < boundsList.Count; j++)
+                {
+                    var b = boundsList[j];
+                    if(!connectedRect.Contains(b)&& b!=mostLeftBounds)
+                    {
+                        if(nearestRect == null || Point.Distance(nearestRect.Center, mostLeftBounds.Center) > Point.Distance(b.Center, mostLeftBounds.Center))
+                        {
+                            nearestRect = b;
+                        }
+                    }
+                }
+                connectedRect.Add(mostLeftBounds);
+                mostLeftBounds = nearestRect;
+                if(connectedRect.Count == boundsList.Count - 1)
+                {
+                    connectedRect.Add(mostLeftBounds);
+                    break;
+                }
             }
 
+            
             DLog.Log("bounds count "+rects.Count);
             //for ( int r = 0; r < rooms.Count; r++ )
             //{

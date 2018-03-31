@@ -120,5 +120,11 @@ namespace RogueSharp
       {
          return string.Format( "{{X:{0} Y:{1}}}", X, Y );
       }
+        public static double Distance(Point a, Point b)
+        {
+            var x = a.X - b.X;
+            var y = a.Y - b.Y;
+            return Math.Sqrt(x*x + y*y);
+        }
    }
 }
