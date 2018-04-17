@@ -32,7 +32,7 @@ namespace Logic.LogicObject
             curTick++;
             if (wait == curTick)
             {
-                LogicCore.SP.SceneManager.SwitchScene( new BattleScene("scene01"));
+                LogicCore.SP.SceneManager.SwitchScene( new BattleScene("scene02"));
                 var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
                 //var mp = bs.CreateSceneObject<MainPlayer>();
             }

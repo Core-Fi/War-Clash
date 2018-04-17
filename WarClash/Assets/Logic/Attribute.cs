@@ -192,9 +192,10 @@ namespace Logic
             return _attributes.ContainsKey((int) at);
         }
 
-        public void New(AttributeType at, long value)
+        public CharacterAttribute New(AttributeType at, long value)
         {
             _attributes[(int) at] = new CharacterAttribute(value);
+            return _attributes[(int)at];
         }
 
         public void Remove(AttributeType at, AttributeMotifier am)
@@ -238,15 +239,22 @@ namespace Logic
 
         public void SetBase(AttributeType at, long value)
         {
-            var attr = _attributes[(int) at];
-            var oldValue = attr.FinalValue;
-            _attributes[(int) at].SetBase(value);
-            EventGroup.FireEvent((int)Event.OnAttributechange, this, EventGroup.NewArg<EventSingleArgs<AttributeMsg>, AttributeMsg>(new AttributeMsg()
+            CharacterAttribute attr;
+            if(_attributes.TryGetValue((int)at, out attr))
             {
-                At = at,
-                NewValue = attr.FinalValue,
-                OldValue = oldValue
-            }));
+                var oldValue = attr.FinalValue;
+                _attributes[(int)at].SetBase(value);
+                EventGroup.FireEvent((int)Event.OnAttributechange, this, EventGroup.NewArg<EventSingleArgs<AttributeMsg>, AttributeMsg>(new AttributeMsg()
+                {
+                    At = at,
+                    NewValue = attr.FinalValue,
+                    OldValue = oldValue
+                }));
+            }
+            else
+            {
+                attr = New(at, value);
+            }
         }
 
         public void Add(AttributeType at, AttributeMotifier am)

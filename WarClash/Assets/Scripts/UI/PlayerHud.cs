@@ -18,10 +18,7 @@ public class PlayerHud : UITemplate
     public PlayerHud(GameObject go, U3DSceneObject player) : base(go)
     {
         U3DSceneObject = player;
-    }
 
-    protected override void OnInit()
-    {
         #region AutoMaticAssign
         m_Hp_go = Go.transform.Find("m_Hp").gameObject;
         m_Hp_slider = m_Hp_go.GetComponent<Slider>();
@@ -32,6 +29,7 @@ public class PlayerHud : UITemplate
         U3DSceneObject.SceneObject.TransformComp.EventGroup.ListenEvent((int)TransformComponent.Event.OnPositionChange, OnAttributeChange);
         rt = Go.GetComponent<RectTransform>();
     }
+
 
     private void UpdateSlider()
     {

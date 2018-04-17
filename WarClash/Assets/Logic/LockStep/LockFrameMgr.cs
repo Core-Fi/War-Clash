@@ -36,8 +36,8 @@ namespace Logic
             CreateBuilding,
             StrategyCmd,
         }
-        public static readonly int FixedFrameRate = 15;
-        public static readonly long FixedFrameTime = FixedMath.One/15;
+        public static  int FixedFrameRate = 30;
+        public static  long FixedFrameTime = FixedMath.One/30;
         public int ServerFrameCount
         {
             get { return _serverFrameCount; }

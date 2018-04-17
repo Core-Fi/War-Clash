@@ -402,13 +402,16 @@ namespace Lockstep
 		{
 			return (int)((f1 + One - 1) >> SHIFT_AMOUNT);
 		}
-
-		/// <summary>
-		/// Convert to double.
-		/// </summary>
-		/// <returns>The double.</returns>
-		/// <param name="f1">f1.</param>
-		public static double ToDouble(this long f1)
+        public static int FloorToInt(this long f1)
+        {
+            return (int)((f1) >> SHIFT_AMOUNT);
+        }
+        /// <summary>
+        /// Convert to double.
+        /// </summary>
+        /// <returns>The double.</returns>
+        /// <param name="f1">f1.</param>
+        public static double ToDouble(this long f1)
 		{
 			return (f1 / OneD);
 		}

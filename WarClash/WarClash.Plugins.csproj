@@ -50,73 +50,73 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
-      <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Analytics">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.TestRunner">
-      <HintPath>Library\UnityAssemblies\UnityEngine.TestRunner.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>Library\UnityAssemblies\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+      <HintPath>E:/Program Files/Unity5.6.3p4/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+      <HintPath>E:/Program Files/Unity5.6.3p4/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>E:/Program Files/Unity5.6.3p4/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TestRunner">
+      <HintPath>E:/Program Files/Unity5.6.3p4/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>E:/Program Files/Unity5.6.3p4/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Analytics">
+      <HintPath>E:/Program Files/Unity5.6.3p4/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.HoloLens">
-      <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
+      <HintPath>E:/Program Files/Unity5.6.3p4/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VR">
-      <HintPath>Library\UnityAssemblies\UnityEngine.VR.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor">
-      <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+      <HintPath>E:/Program Files/Unity5.6.3p4/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
     </Reference>
     <Reference Include="Pathfinding.ClipperLib">
-      <HintPath>Assets\AddOns\AstarPathfindingProject\Plugins\Clipper\Pathfinding.ClipperLib.dll</HintPath>
+      <HintPath>Assets/AddOns/AstarPathfindingProject/Plugins/Clipper/Pathfinding.ClipperLib.dll</HintPath>
     </Reference>
     <Reference Include="Pathfinding.Ionic.Zip.Reduced">
-      <HintPath>Assets\AddOns\AstarPathfindingProject\Plugins\DotNetZip\Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
+      <HintPath>Assets/AddOns/AstarPathfindingProject/Plugins/DotNetZip/Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
     <Reference Include="Pathfinding.Poly2Tri">
-      <HintPath>Assets\AddOns\AstarPathfindingProject\Plugins\Poly2Tri\Pathfinding.Poly2Tri.dll</HintPath>
+      <HintPath>Assets/AddOns/AstarPathfindingProject/Plugins/Poly2Tri/Pathfinding.Poly2Tri.dll</HintPath>
     </Reference>
     <Reference Include="DemiLib">
-      <HintPath>Assets\Demigiant\DemiLib\DemiLib.dll</HintPath>
+      <HintPath>Assets/Demigiant/DemiLib/DemiLib.dll</HintPath>
     </Reference>
     <Reference Include="DOTween">
-      <HintPath>Assets\Demigiant\DOTween\DOTween.dll</HintPath>
+      <HintPath>Assets/Demigiant/DOTween/DOTween.dll</HintPath>
     </Reference>
     <Reference Include="DOTween43">
-      <HintPath>Assets\Demigiant\DOTween\DOTween43.dll</HintPath>
+      <HintPath>Assets/Demigiant/DOTween/DOTween43.dll</HintPath>
     </Reference>
     <Reference Include="DOTween46">
-      <HintPath>Assets\Demigiant\DOTween\DOTween46.dll</HintPath>
+      <HintPath>Assets/Demigiant/DOTween/DOTween46.dll</HintPath>
     </Reference>
     <Reference Include="DOTween50">
-      <HintPath>Assets\Demigiant\DOTween\DOTween50.dll</HintPath>
+      <HintPath>Assets/Demigiant/DOTween/DOTween50.dll</HintPath>
     </Reference>
     <Reference Include="DOTweenPro">
-      <HintPath>Assets\Demigiant\DOTweenPro\DOTweenPro.dll</HintPath>
+      <HintPath>Assets/Demigiant/DOTweenPro/DOTweenPro.dll</HintPath>
     </Reference>
     <Reference Include="Google.Protobuf">
-      <HintPath>Assets\Plugins\Google.Protobuf.dll</HintPath>
+      <HintPath>Assets/Plugins/Google.Protobuf.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>Assets\Plugins\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>Assets/Plugins/ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>Assets\Plugins\JsonNet\Newtonsoft.Json.dll</HintPath>
+      <HintPath>Assets/Plugins/JsonNet/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="protobuf-net">
-      <HintPath>Assets\Plugins\ProtoBuf\protobuf-net.dll</HintPath>
+      <HintPath>Assets/Plugins/ProtoBuf/protobuf-net.dll</HintPath>
     </Reference>
     <Reference Include="DisableLogging">
-      <HintPath>Assets\Plugins\Tiinoo\DisableLogging\Dlls\DisableLogging.dll</HintPath>
+      <HintPath>Assets/Plugins/Tiinoo/DisableLogging/Dlls/DisableLogging.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>E:/Program Files/Unity5.6.3p4/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -157,9 +157,6 @@
     <Compile Include="Assets\Plugins\Net\Utils\NetDataReader.cs" />
     <Compile Include="Assets\Plugins\Net\Utils\NetDataWriter.cs" />
     <Compile Include="Assets\Plugins\Net\Utils\NetSerializer.cs" />
-    <Compile Include="Assets\Plugins\PathologicalGames\PoolManager\PoolManager.cs" />
-    <Compile Include="Assets\Plugins\PathologicalGames\PoolManager\PreRuntimePoolItem.cs" />
-    <Compile Include="Assets\Plugins\PathologicalGames\PoolManager\SpawnPool.cs" />
     <Compile Include="Assets\Plugins\Quick\Engine\Classes\QColor.cs" />
     <Compile Include="Assets\Plugins\Quick\Engine\Classes\QColors.cs" />
     <Compile Include="Assets\Plugins\Quick\Engine\Classes\QResources.cs" />
@@ -216,10 +213,10 @@
     <None Include="Assets\Demigiant\DemiLib\DemiLib.xml" />
     <None Include="Assets\Demigiant\DemiLib\Editor\DemiEditor.XML" />
     <None Include="Assets\Demigiant\readme_DOTweenPro.txt" />
+    <None Include="Assets\Editor\MapEditor\GroundPainter\MultiTileVC.shader" />
     <None Include="Assets\Editor\MapEditor\GroundPainter\VC.shader" />
     <None Include="Assets\FingerGestures\Doc\Readme.txt" />
     <None Include="Assets\Plugins\Google.Protobuf.xml" />
-    <None Include="Assets\Plugins\PathologicalGames\readme.txt" />
     <None Include="Assets\Plugins\ProtoBuf\protobuf-net.xml" />
     <None Include="Assets\RequiredResources\Transparent.shader" />
     <None Include="Assets\Shader\CommonTransparent.shader" />

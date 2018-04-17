@@ -24,8 +24,8 @@ public class U3DTransformComponent : U3DBaseComponent
         {
             var logicPosi = transformComponent.Position.ToVector3();
             var logicForward = transformComponent.Forward.ToVector3();
-            OuterTransform.position = Vector3.Lerp(OuterTransform.position, logicPosi, Time.deltaTime * 6);
-            OuterTransform.forward = Vector3.Lerp(OuterTransform.forward, logicForward, Time.deltaTime * 6);
+            OuterTransform.position = logicPosi;// Vector3.Lerp(OuterTransform.position, logicPosi, Time.deltaTime * 6);
+            OuterTransform.forward = logicForward;// Vector3.Lerp(OuterTransform.forward, logicForward, Time.deltaTime * 6);
         }
     }
 }

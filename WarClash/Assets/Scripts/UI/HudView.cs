@@ -14,7 +14,6 @@ public class HudView:View
     {
         base.OnInit(go);
         _hudP = new HudP(go);
-        _hudP.Init();
         _hudP.m_template_player_go.SetActive(false);
         ListenEvent(UIEventList.DrawPlayerHud.ToInt(), DrawPlayerHud);
     }
@@ -35,7 +34,6 @@ public class HudView:View
             var newGo = CreateNew(_hudP.m_template_player_go);
             newGo.SetActive(true);
             var playerHud = new PlayerHud(newGo, u3DPlayer);
-            playerHud.Init();
             _playerHuds.Add(playerHud);
         }
         

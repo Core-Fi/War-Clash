@@ -46,7 +46,6 @@ public class UIBattle : View {
         {
             var newGo = CreateNew(m_template_cell_go);
             var army = new ArmyItem(newGo);
-            army.Init();
             _armyItems.Add(army);
         }
     }
@@ -98,17 +97,15 @@ public class UIBattle : View {
 public class ArmyItem : UITemplate
 {
     public ArmyItem(GameObject go) : base(go)
-    { }
-    public GameObject m_icon_go;
-    public UnityEngine.UI.Image m_icon_image;
-    private DragAndDropItem _dragAndDropItem;
-    protected override void OnInit()
     {
         m_icon_go = Go.transform.Find("bg/m_icon").gameObject;
         m_icon_image = m_icon_go.GetComponent<UnityEngine.UI.Image>();
         _dragAndDropItem = m_icon_go.GetComponent<DragAndDropItem>();
         _dragAndDropItem.OnItemDragEndEvent += OnDragEnd;
     }
+    public GameObject m_icon_go;
+    public UnityEngine.UI.Image m_icon_image;
+    private DragAndDropItem _dragAndDropItem;
 
     private bool CanDrag()
     {

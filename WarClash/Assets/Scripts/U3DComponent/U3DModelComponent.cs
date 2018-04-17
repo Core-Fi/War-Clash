@@ -27,6 +27,9 @@ class U3DModelComponent : U3DBaseComponent
         Go.transform.position = U3DSceneObject.SceneObject.Position.ToVector3();
         Transform = Go.transform;
         Transform.SetParent(u3dTransComp.OuterTransform);
+        Transform.localPosition = Vector3.zero;
+        Transform.localRotation = Quaternion.identity;
+        Transform.localScale = Vector3.one;
     }
     public override void OnUpdate()
     {

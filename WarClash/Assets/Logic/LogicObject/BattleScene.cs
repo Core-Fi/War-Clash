@@ -59,6 +59,11 @@ namespace Logic.LogicObject
             modelComp.RePath = "kachujin.prefab";
             so.AddComponent(modelComp);
             so.AddComponent<MainPlayerComponent>();
+            so.AddComponent<GravityComponent>();
+            so.AddComponent<StateMachine>();
+            so.AddComponent<AttributeManager>();
+            so.AttributeManager.SetBase(AttributeType.MaxSpeed, FixedMath.One*2);
+            so.Position = new Vector3d(FixedMath.One * 15, FixedMath.One * 15, 0);
             var aabb = new AABBComponent();
             aabb.AABB = new AABB(Vector2d.zero, FixedMath.One, FixedMath.One);
             so.AddComponent(aabb);
@@ -70,11 +75,11 @@ namespace Logic.LogicObject
             SceneObject so = new SceneObject();
             so.Id = id;
             so.Init(new CreateInfo());
+            so.ListenEvent((int)SceneObject.SceneObjectEvent.OnAddComponent, OnSceneObjectAddComponent);
+            so.ListenEvent((int)SceneObject.SceneObjectEvent.OnRemoveComponent, OnSceneObjectRemoveComponent);
             so.AddComponent<TransformComponent>();
             this.AddObject(so.Id, so);
             EventGroup.FireEvent(SceneEvent.AddSceneObject.ToInt(), this, EventGroup.NewArg<EventSingleArgs<SceneObject>, SceneObject>(so));
-            so.ListenEvent((int)SceneObject.SceneObjectEvent.OnAddComponent, OnSceneObjectAddComponent);
-            so.ListenEvent((int)SceneObject.SceneObjectEvent.OnRemoveComponent, OnSceneObjectRemoveComponent);
             return so;
         }
        

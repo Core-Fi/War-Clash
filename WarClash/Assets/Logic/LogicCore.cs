@@ -57,7 +57,10 @@ namespace Logic
         public void Update(float deltaTime)
         {
             SceneManager.Update();
-           // EventManager.Update(Time.deltaTime);
+            LockFrameMgr.FixedFrameRate = (int)(1f / deltaTime);
+            LockFrameMgr.FixedFrameTime = deltaTime.ToLong();
+            LockFrameMgr.FixedUpdate();
+            // EventManager.Update(Time.deltaTime);
         }
     
         public void FixedUpdate()
@@ -68,7 +71,7 @@ namespace Logic
                 return;
             }
             _fixedtime = _fixedtime - _timeStep;
-            LockFrameMgr.FixedUpdate();
+          //  LockFrameMgr.FixedUpdate();
         }
     }
 }

@@ -176,6 +176,7 @@ namespace Logic
         {
             var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
             var player = bs.GetObject(Sender);
+            player.TransformComp.Velocity = Vector3d.zero;
             var sm = player.GetComponent<StateMachine>();
             sm.Start<IdleState>();
         }
@@ -204,6 +205,7 @@ namespace Logic
             var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
             var player = bs.GetObject(Sender);
             player.Forward = Forward;
+            player.TransformComp.Velocity = Forward * 2;// player.GetAttributeValue(AttributeType.Speed);
            // player.Velocity = player.Forward * player.Speed;
         }
         public override void WriteToLog(StringBuilder writer)

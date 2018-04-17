@@ -1,5 +1,0 @@
-{
-  "$type": "System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[System.String, mscorlib]], mscorlib",
-  "1": "/Events/1.event",
-  "2": "/Events/2.event"
-}

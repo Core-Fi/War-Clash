@@ -25,11 +25,11 @@ public class CreateUIClassEditor : EditorWindow
     private StringBuilder classText;
     void OnGUI()
     {
-        GUILayout.BeginVertical();
-        GUILayout.BeginHorizontal();
-       // GUILayout.Label("路径");
+        EditorGUILayout.BeginVertical();
+        EditorGUILayout.BeginHorizontal();
+        // GUILayout.Label("路径");
         //Path = GUILayout.TextField(Path, GUILayout.MinWidth(100), GUILayout.MinHeight(30));
-        GUILayout.EndHorizontal();
+        EditorGUILayout.EndHorizontal();
         if (GUILayout.Button("Generate"))
         {
             CreateClass(out declaration, out assignValue, out classText);
@@ -47,23 +47,23 @@ public class CreateUIClassEditor : EditorWindow
         }
         if (declaration != null)
         {
-            GUILayout.TextField(declaration.ToString());
+            EditorGUILayout.TextField(declaration.ToString(), GUILayout.ExpandHeight(true));
             if (GUILayout.Button("复制"))
             {
                 EditorGUIUtility.systemCopyBuffer = declaration.ToString();
             }
-            GUILayout.TextField(assignValue.ToString());
+            EditorGUILayout.TextField(assignValue.ToString(), GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             if (GUILayout.Button("复制"))
             {
                 EditorGUIUtility.systemCopyBuffer = assignValue.ToString();
             }
-            GUILayout.TextField(classText.ToString());
+            EditorGUILayout.TextField(classText.ToString(), GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             if (GUILayout.Button("复制"))
             {
                 EditorGUIUtility.systemCopyBuffer = classText.ToString();
             }
         }
-        GUILayout.EndVertical();
+        EditorGUILayout.EndVertical();
     }
     public void CreateClass(out StringBuilder declaration, out StringBuilder assignValue, out StringBuilder sb)
     {
@@ -77,10 +77,11 @@ public class CreateUIClassEditor : EditorWindow
             GetChildren(go.transform, c_path, "");
             HashSet<string> types = new HashSet<string>();
             string className = System.IO.Path.GetFileNameWithoutExtension(Path);
-            types.Add(typeof(Text).FullName);
-            types.Add(typeof(Image).FullName);
+           
             types.Add(typeof(Button).FullName);
             types.Add(typeof(Toggle).FullName);
+            types.Add(typeof(Text).FullName);
+            types.Add(typeof(Image).FullName);
             types.Add(typeof(Slider).FullName);
             types.Add(typeof(HorizontalLayoutGroup).FullName);
             types.Add(typeof(VerticalLayoutGroup).FullName);

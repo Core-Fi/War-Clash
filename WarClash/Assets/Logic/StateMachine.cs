@@ -137,24 +137,25 @@ namespace Logic
                 posi.Mul(SceneObject.AttributeManager[AttributeType.Speed]);
                 posi = posi.Div(LockFrameMgr.FixedFrameRate);
                 var finalPosi = SceneObject.Position + posi;
-                //var fp = AstarPath.active.GetNearest(finalPosi);
-                //var b = (fp.node as MeshNode).ContainsPoint(Vector3d.ToInt3(finalPosi));
-                var b = true; //JPSAStar.active.IsWalkable(finalPosi);
-                if (LogicCore.SP.WriteToLog)
-                {
-                    LogicCore.SP.Writer.AppendLine(SceneObject.Position.ToStringRaw() + " " +
-                                                   SceneObject.Forward.ToStringRaw());
-                }
-                if (b)
-                {
-                    SceneObject.Position = finalPosi;
-                }
-                else
-                {
-                    //Character.Position = fp.constFixedClampedPosition;
-
-                }
+                SceneObject.Position = finalPosi;
             }
+        }
+    }
+    public class JumpState : State
+    {
+        public long InitSpeed;
+        protected override void OnStart()
+        {
+        }
+        protected override void OnStop()
+        {
+        }
+        protected override void OnReset()
+        {
+        }
+        protected override void OnFixedUpdate()
+        {
+
         }
     }
 }

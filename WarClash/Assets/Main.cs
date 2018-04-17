@@ -67,7 +67,6 @@ public class Main : MonoBehaviour
 #if UNITY_ANDROID
         FingerGestures.OnTap += CheckOpenLogWindow;
 #endif
-
     }
 #if UNITY_ANDROID
     void CheckOpenLogWindow(Vector2 fingerPos, int tapCount)

@@ -1,6 +1,9 @@
 ﻿using Lockstep;
+using Logic.LogicObject;
 using Newtonsoft.Json;
+using System;
 using System.Text;
+using UnityEngine;
 
 namespace Logic.Components
 {
@@ -18,9 +21,17 @@ namespace Logic.Components
             {
                 if (_position != value)
                 {
-                    //GridService.UnTagAsTaken(_position);
-                    //GridService.TagAsTaken(value);
-                    _position = value;
+                    bool hitx, hity;
+                    var p =  scene.MapConfig.GetProperPosi(_position, value, out hitx, out hity);
+                    if (hity)
+                    {
+                        Velocity.y = 0;
+                    }
+                    if(hitx)
+                    {
+                        Velocity.x = 0;
+                    }
+                    _position = p;
                     if (EventGroup != null)
                         EventGroup.FireEvent((int)Event.OnPositionChange, this, null);
                 }
@@ -39,10 +50,16 @@ namespace Logic.Components
         [JsonProperty]
         private Vector3d _forward = new Vector3d(UnityEngine.Vector3.forward);
         public  Vector3d Velocity;
+        private BattleScene scene;
+        public override void OnAdd()
+        {
+            base.OnAdd();
+            scene = (LogicCore.SP.SceneManager.CurrentScene as BattleScene);
+        }
         public override void OnFixedUpdate()
         {
             base.OnFixedUpdate();
-            Position += Velocity / 15;
+            Position += Velocity * LockFrameMgr.FixedFrameTime;
         }
 
     }

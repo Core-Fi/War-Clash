@@ -14,7 +14,7 @@ namespace Logic.Skill
         {
             return Application.dataPath + "/RequiredResources/TextConfigs/";
         }
-        public static JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+        public static JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, Formatting = Formatting.Indented};
         public static T GetTimelineGroupFullPath<T>(string path) where T : TimeLineGroup
         {
             string text = File.ReadAllText(path);

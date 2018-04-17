@@ -29,6 +29,7 @@ public class U3DBattleScene : ObjectCollection<int, U3DSceneObject>, IU3DScene
     {
         AsyncOperation asyn = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(_battleScene.Name);
         yield return asyn;
+        GenerateMap();
         _battleScene.EventGroup.FireEvent(BattleScene.SceneEvent.OnLoaded.ToInt(), _battleScene, null);
     }
     protected virtual void ListenEvents()
@@ -61,5 +62,17 @@ public class U3DBattleScene : ObjectCollection<int, U3DSceneObject>, IU3DScene
     public void Destroy()
     {
         
+    }
+
+    private void GenerateMap()
+    {
+        Main.SP.CameraParent.position = new Vector3(_battleScene.MapConfig.Width/2, _battleScene.MapConfig.Height / 2, -10);
+        for (int i = 0; i < this._battleScene.MapConfig.Data.Data.Count; i++)
+        {
+            var stageData = _battleScene.MapConfig.Data.Data[i];
+            var quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
+            quad.transform.localScale = Vector3.one;
+            quad.transform.position = new Vector3(stageData.X+0.5f, stageData.Y+0.5f, 0);
+        }
     }
 }
