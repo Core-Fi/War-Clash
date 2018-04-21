@@ -9,7 +9,7 @@ namespace Logic.Components
 {
     public class GravityComponent : SceneObjectBaseComponent
     {
-        private long gravity = FixedMath.One * 10;
+        private long gravity = FixedMath.One * 20;
         public override void OnAdd()
         {
             base.OnAdd();
@@ -19,6 +19,6 @@ namespace Logic.Components
             base.OnFixedUpdate();
             base.SceneObject.TransformComp.Velocity += Vector3d.down * gravity * LockFrameMgr.FixedFrameTime;
         }
-
+         
     }
 }

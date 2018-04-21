@@ -60,8 +60,9 @@ namespace Logic.LogicObject
             }
             T t = Activator.CreateInstance<T>();
             t.SceneObject = this;
-            t.OnAdd();
             _components.Add(t);
+            _components.Sort((a,b)=> a.ExecuteOrder - b.ExecuteOrder);
+            t.OnAdd();
             FireEvent((int)SceneObject.SceneObjectEvent.OnAddComponent, this, EventGroup.NewArg<EventSingleArgs<SceneObjectBaseComponent>, SceneObjectBaseComponent>(t));
             return t;
         }
@@ -73,8 +74,9 @@ namespace Logic.LogicObject
                     return;
             }
             t.SceneObject = this;
-            t.OnAdd();
             _components.Add(t);
+            _components.Sort((a, b) => a.ExecuteOrder - b.ExecuteOrder);
+            t.OnAdd();
             FireEvent((int)SceneObject.SceneObjectEvent.OnAddComponent, this, EventGroup.NewArg<EventSingleArgs<SceneObjectBaseComponent>, SceneObjectBaseComponent>(t));
         }
         public void RemoveComponent<T>() where T :  SceneObjectBaseComponent

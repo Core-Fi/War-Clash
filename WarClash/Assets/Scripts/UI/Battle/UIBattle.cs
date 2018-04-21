@@ -31,9 +31,9 @@ public class UIBattle : View {
         m_atk_button = m_atk_go.GetComponent<UnityEngine.UI.Button>();
         m_scrollRect_go = Go.transform.Find("m_scrollRect").gameObject;
         m_layout_go = Go.transform.Find("m_scrollRect/m_layout").gameObject;
+        m_layout_go.SetActive(false);
         m_layout_horizontallayoutgroup = m_layout_go.GetComponent<UnityEngine.UI.HorizontalLayoutGroup>();
         m_template_cell_go = Go.transform.Find("m_scrollRect/m_layout/m_template_cell").gameObject;
-
         m_template_cell_go.SetActive(false);
         m_atk_button.onClick.AddListener(OnAtkBtnClick);
     }

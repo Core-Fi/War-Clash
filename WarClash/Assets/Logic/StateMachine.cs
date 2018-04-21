@@ -13,7 +13,6 @@ namespace Logic
             StopState
         }
         public State State;
-        public SceneObject SceneObject;
         public void Start<T>() where T : State, IPool
         {
             if(this.State != null)
@@ -62,6 +61,7 @@ namespace Logic
         {
             OnStop();
             IsRunning = false;
+            Pool.SP.Recycle(this);
         }
         protected abstract void OnStart();
         protected abstract void OnFixedUpdate();
@@ -143,19 +143,27 @@ namespace Logic
     }
     public class JumpState : State
     {
-        public long InitSpeed;
+        public long InitSpeed = FixedMath.One * 15;
         protected override void OnStart()
         {
+            SceneObject.TransformComp.Velocity.y += InitSpeed;
+            SceneObject.TransformComp.EventGroup.ListenEvent((int)TransformComponent.Event.OnHitGround, OnHitGround);
         }
         protected override void OnStop()
         {
+
         }
         protected override void OnReset()
         {
+
         }
         protected override void OnFixedUpdate()
         {
-
+        }
+        private  void OnHitGround(object sender, EventMsg e)
+        {
+            var sm = SceneObject.GetComponent<StateMachine>();
+            sm.Start<IdleState>();
         }
     }
 }

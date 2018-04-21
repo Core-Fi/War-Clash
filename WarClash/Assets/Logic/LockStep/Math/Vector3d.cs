@@ -254,7 +254,7 @@ namespace Lockstep
 
         public override string ToString()
         {
-            return string.Format("({0}, {1}, {2})", x.ToFormattedDouble(),y.ToFormattedDouble(),z.ToFloat());
+            return string.Format("({0}, {1}, {2})", x.ToFormattedDouble().ToString("0.0000"),y.ToFormattedDouble().ToString("0.0000"), z.ToFormattedDouble());
         }
 
         public string ToStringRaw()

@@ -5,7 +5,8 @@ namespace Logic.Components
 {
     public abstract class BaseComponent : IEventDispatcher
     {
-        public EventGroup EventGroup { get; set; }
+        public EventGroup EventGroup = new EventGroup();
+        
         public void ListenEvent(int id, EventMsgHandler e)
         {
             EventGroup.ListenEvent(id, e);
@@ -24,8 +25,15 @@ namespace Logic.Components
     }
     public abstract class SceneObjectBaseComponent : BaseComponent
     {
+        public ExecuteOrder ExecuteOrder;
         public SceneObject SceneObject;
         public virtual void OnFixedUpdate() { }
  
+    }
+    public enum ExecuteOrder
+    {
+        Priority,
+        Secondary,
+        Late
     }
 }

@@ -45,10 +45,19 @@ namespace Logic.LogicObject
             _hasInited = false;
             EventGroup = new EventGroup();
             MapConfig = Logic.Map.Map.Deserialize(Name);
-            EventGroup.ListenEvent(SceneEvent.OnLoaded.ToInt(), OnLoded);
             FixedQuadTree = new FixedQuadTree<SceneObject>();
-            FixedQuadTree.SetBounds(new Utility.FixedRect(-FixedMath.One * 50, -FixedMath.One * 50, FixedMath.One * 100, FixedMath.One * 100));
+            FixedQuadTree.SetBounds(new Utility.FixedRect(-FixedMath.One * MapConfig.Width/2, -FixedMath.One * MapConfig.Height / 2, FixedMath.One * MapConfig.Width, FixedMath.One * MapConfig.Height));
             PhysicsTree = new DynamicTree<FixtureProxy>();
+            for (int i = 0; i < MapConfig.Data.Data.Count; i++)
+            {
+                var stageData = MapConfig.Data.Data[i];
+                var aabb = new AABB(new Vector2d(stageData.X * FixedMath.One + FixedMath.Half, stageData.Y * FixedMath.One + FixedMath.Half), FixedMath.One, FixedMath.One);
+                var fp = new FixtureProxy();
+                fp.AABB = aabb;
+                fp.Fixture = new Transform2d() { p = aabb.Center, angle = 0 };
+                var nodeid = PhysicsTree.AddProxy(ref aabb, fp);
+            }
+            EventGroup.ListenEvent(SceneEvent.OnLoaded.ToInt(), OnLoded);
         }
         private void OnLoded(object sender, EventMsg msg)
         {
@@ -56,16 +65,16 @@ namespace Logic.LogicObject
             EventGroup.DelEvent(SceneEvent.OnLoaded.ToInt(), OnLoded);
             var so = CreateSceneObject();
             var modelComp = new ModelComponent();
-            modelComp.RePath = "kachujin.prefab";
+            modelComp.RePath = "cube.prefab";
             so.AddComponent(modelComp);
             so.AddComponent<MainPlayerComponent>();
             so.AddComponent<GravityComponent>();
             so.AddComponent<StateMachine>();
             so.AddComponent<AttributeManager>();
             so.AttributeManager.SetBase(AttributeType.MaxSpeed, FixedMath.One*2);
-            so.Position = new Vector3d(FixedMath.One * 15, FixedMath.One * 15, 0);
+            so.Position = new Vector3d(FixedMath.Create(16.5f), FixedMath.One * 12, 0);
             var aabb = new AABBComponent();
-            aabb.AABB = new AABB(Vector2d.zero, FixedMath.One, FixedMath.One);
+            aabb.AABB = new AABB(new Vector2d(FixedMath.One * 15, FixedMath.One * 15+FixedMath.Half), FixedMath.One, FixedMath.One);
             so.AddComponent(aabb);
 
         }
@@ -106,6 +115,7 @@ namespace Logic.LogicObject
         public override void OnUpdate(float deltaTime)
         {
             base.OnUpdate(deltaTime);
+       //     PhysicsTree.DebugDraw();
             if (Main.SP.ShowDebug)
             {
                 FixedQuadTree.DebugDraw();
@@ -114,13 +124,17 @@ namespace Logic.LogicObject
 
         public override void OnFixedUpdate(long deltaTime)
         {
-            PhysicsTree.DebugDraw();
+           // PhysicsTree.DebugDraw();
             base.OnFixedUpdate(deltaTime);
         }
         public PhysicsOutput ObbTest(AABB aabb, long angle)
         {
             var halfw = aabb.Width / 2;
             var halfh = aabb.Height / 2;
+            if (angle == 0)
+            {
+                return ObbTest(aabb, 0, aabb);
+            }
             var radius = FixedMath.Sqrt((halfw).Mul(halfw) + halfh.Mul(halfh));
             var outterAABB = new AABB(aabb.Center, radius * 2, radius * 2);
             return ObbTest(aabb, angle, outterAABB);
@@ -138,18 +152,18 @@ namespace Logic.LogicObject
         private bool ObbTestCallback(int id)
         {
             var f = PhysicsTree.GetUserData(id);
+            f.AABB.DrawAABB(Color.red, 0, 0.01f);
             var hit = AABB.TestObb(f.AABB, _toTestAABB, f.Fixture.angle, _toTestAABBAngle);
             if (hit)
             {
                 var hitPosi = (f.AABB.Center + _toTestAABB.Center) / 2;
                 output.HitInfos[output.EndIndex] = new HitInfo() {
                     BodyType = f.BodyType,
-                    HitPosition = hitPosi
+                    Proxy = f
                 };
                 output.EndIndex++;
-                DLog.Log("hit aabb test " + hitPosi);
             }
-            return hit;
+            return true;
         }
         public PhysicsOutput RayCast(RayCastInput input)
         {
@@ -180,7 +194,7 @@ namespace Logic.LogicObject
                     hitPosi.Rotate(proxy.Fixture.angle);
                 hitPosi = hitPosi + center;
                 output.HitInfos[output.EndIndex].BodyType = proxy.BodyType;
-                output.HitInfos[output.EndIndex].HitPosition = hitPosi;
+                output.HitInfos[output.EndIndex].Proxy = proxy;
                 output.EndIndex++;
                 //NewSphere(hitPosi.ToVector3(), "hit");
                 Debug.Log("hit something at " + hitPosi);

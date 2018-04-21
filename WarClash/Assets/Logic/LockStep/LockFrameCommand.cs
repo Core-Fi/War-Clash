@@ -138,7 +138,36 @@ namespace Logic
             Id = 0;
         }
     }
+    public class JumpCommand : PlayerOperateCommand
+    {
+        public override void OnExecute()
+        {
+            var bs = LogicCore.SP.SceneManager.CurrentScene as BattleScene;
+            var player = bs.GetObject(Sender);
+            var sm = player.GetComponent<StateMachine>();
+            sm.Start<JumpState>();
+        }
 
+        public override void WriteToLog(StringBuilder writer)
+        {
+            base.WriteToLog(writer);
+        }
+
+        public override void Serialize(NetDataWriter writer)
+        {
+            var msgid = (int)LockFrameMgr.LockFrameEvent.PlayerJumpMsg;
+            writer.Put((short)msgid);
+            base.Serialize(writer);
+        }
+
+        public override void Deserialize(NetDataReader reader)
+        {
+            base.Deserialize(reader);
+        }
+        public override void OnReset()
+        {
+        }
+    }
     public class MoveCommand : PlayerOperateCommand
     {
         public override void OnExecute()

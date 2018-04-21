@@ -10,7 +10,8 @@ namespace Logic.Components
     public class TransformComponent : SceneObjectBaseComponent
     {
         public enum Event {
-            OnPositionChange
+            OnPositionChange,
+            OnHitGround
         }
         [JsonProperty]
         public string ResPath;
@@ -21,19 +22,21 @@ namespace Logic.Components
             {
                 if (_position != value)
                 {
-                    bool hitx, hity;
-                    var p =  scene.MapConfig.GetProperPosi(_position, value, out hitx, out hity);
-                    if (hity)
-                    {
-                        Velocity.y = 0;
-                    }
-                    if(hitx)
-                    {
-                        Velocity.x = 0;
-                    }
-                    _position = p;
+                    //bool hitx, hity;
+                    //var p = scene.MapConfig.GetProperPosi(_position, value, out hitx, out hity);
+                    //if (hity)
+                    //{
+                    //    Velocity.y = 0;
+                    //    EventGroup.FireEvent((int)Event.OnHitGround, this, null);
+                    //}
+                    //if (hitx)
+                    //{
+                    //    Velocity.x = 0;
+                    //}
+                    var oldPosi = _position;
+                    _position = value;
                     if (EventGroup != null)
-                        EventGroup.FireEvent((int)Event.OnPositionChange, this, null);
+                        EventGroup.FireEvent((int)Event.OnPositionChange, this, EventGroup.NewArg<EventTwoArgs<Vector3d, Vector3d>, Vector3d, Vector3d>(_position, oldPosi));
                 }
             }
         }

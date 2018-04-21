@@ -548,6 +548,7 @@
     <Compile Include="Assets\Scripts\GroundPainter\GroundPainter.cs" />
     <Compile Include="Assets\Scripts\HpHud.cs" />
     <Compile Include="Assets\Scripts\Managers\GameNetManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\InputManager.cs" />
     <Compile Include="Assets\Scripts\Managers\SceneLoadManager.cs" />
     <Compile Include="Assets\Scripts\Managers\TerrainManager.cs" />
     <Compile Include="Assets\Scripts\MapEdit.cs" />

@@ -186,7 +186,6 @@ namespace Logic
                 return 0;
             }
         }
-
         public bool HasAttribute(AttributeType at)
         {
             return _attributes.ContainsKey((int) at);
@@ -299,6 +298,7 @@ namespace Logic
         public override string ToString()
         {
             var sb = new StringBuilder();
+            sb.Append(this.GetType());
             foreach (var attribute in _attributes)
             {
                 sb.Append(attribute.Key);

@@ -297,13 +297,21 @@ public struct AABB
         output.Normal = normal;
         return true;
     }
+    public void DrawAABB(Color color, long angle = 0, float time = 0.1f )
+    {
+        Vector2d[] vers = Local2World(angle);
+        Debug.DrawLine(new Vector3(vers[0].x.ToFloat(), vers[0].y.ToFloat(), 0), new Vector3(vers[1].x.ToFloat(), vers[1].y.ToFloat(), 0), color, time);
+        Debug.DrawLine(new Vector3(vers[1].x.ToFloat(), vers[1].y.ToFloat(), 0), new Vector3(vers[2].x.ToFloat(), vers[2].y.ToFloat(), 0), color, time);
+        Debug.DrawLine(new Vector3(vers[2].x.ToFloat(), vers[2].y.ToFloat(), 0), new Vector3(vers[3].x.ToFloat(), vers[3].y.ToFloat(), 0), color, time);
+        Debug.DrawLine(new Vector3(vers[3].x.ToFloat(), vers[3].y.ToFloat(), 0), new Vector3(vers[0].x.ToFloat(), vers[0].y.ToFloat(), 0), color, time);
+    }
     public void DrawAABB(long angle = 0, float time = 0.1f)
     {
         Vector2d[] vers = Local2World(angle);
-        Debug.DrawLine(new Vector3(vers[0].x.ToFloat(), 0, vers[0].y.ToFloat()), new Vector3(vers[1].x.ToFloat(), 0, vers[1].y.ToFloat()), Color.blue, time);
-        Debug.DrawLine(new Vector3(vers[1].x.ToFloat(), 0, vers[1].y.ToFloat()), new Vector3(vers[2].x.ToFloat(), 0, vers[2].y.ToFloat()), Color.blue, time);
-        Debug.DrawLine(new Vector3(vers[2].x.ToFloat(), 0, vers[2].y.ToFloat()), new Vector3(vers[3].x.ToFloat(), 0, vers[3].y.ToFloat()), Color.blue, time);
-        Debug.DrawLine(new Vector3(vers[3].x.ToFloat(), 0, vers[3].y.ToFloat()), new Vector3(vers[0].x.ToFloat(), 0, vers[0].y.ToFloat()), Color.blue, time);
+        Debug.DrawLine(new Vector3(vers[0].x.ToFloat(),  vers[0].y.ToFloat(), 0), new Vector3(vers[1].x.ToFloat(),  vers[1].y.ToFloat(), 0), Color.blue, time);
+        Debug.DrawLine(new Vector3(vers[1].x.ToFloat(),  vers[1].y.ToFloat(), 0), new Vector3(vers[2].x.ToFloat(),  vers[2].y.ToFloat(), 0), Color.blue, time);
+        Debug.DrawLine(new Vector3(vers[2].x.ToFloat(),  vers[2].y.ToFloat(), 0), new Vector3(vers[3].x.ToFloat(),  vers[3].y.ToFloat(), 0), Color.blue, time);
+        Debug.DrawLine(new Vector3(vers[3].x.ToFloat(),  vers[3].y.ToFloat(), 0), new Vector3(vers[0].x.ToFloat(),  vers[0].y.ToFloat(), 0), Color.blue, time);
     }
     private static Vector2d[] axes = new Vector2d[4];
 
@@ -350,6 +358,32 @@ public struct AABB
                 return false;
             }
         }
+        return true;
+    }
+    public static bool TestTriangle(Vector2d v0, Vector2d v1, Vector2d v2, AABB b, long angle)
+    {
+        long p0, p1, p2, r;
+        // Compute box center and extents (if not already given in that format)
+        Vector2d c = (b.LowerBound + b.UpperBound) /2;
+        long e0 = (b.UpperBound.x - b.LowerBound.x) / 2;
+        long e1 = (b.UpperBound.y - b.LowerBound.y) / 2;
+        // Translate triangle as conceptually moving AABB to origin
+        v0 = v0 - c;
+        v1 = v1 - c;
+        v2 = v2 - c;
+        Vector2d f0 = v1 - v0, f1 = v2 - v1, f2 = v0 - v2;
+        // Test axes a00..a22 (category 3)
+        // Test axis a00
+        p0 = v0.x * v1.y - v0.y * v1.x;
+        p2 = v2.x * (v1.y - v0.y) - v2.x * (v1.x - v0.x);
+        r = e1 .Mul(Math.Abs(f0.x)) + e0.Mul(Math.Abs(f0.y));
+        if (Math.Max(-Math.Max(p0, p2), Math.Min(p0, p2)) > r) return false; // Axis is a separating axis
+
+        if (Mathf.Max(v0.x, v1.x, v2.x) < -e0 || Mathf.Min(v0.x, v1.x, v2.x) > e0) return false;
+        // ... [-e1, e1] and [min(v0.y,v1.y,v2.y), max(v0.y,v1.y,v2.y)] do not overlap
+        if (Mathf.Max(v0.y, v1.y, v2.y) < -e1 || Mathf.Min(v0.y, v1.y, v2.y) > e1) return false;
+        // ... [-e2, e2] and [min(v0.z,v1.z,v2.z), max(v0.z,v1.z,v2.z)] do not overlap
+        // Test separating axis corresponding to triangle face normal (category 2)
         return true;
     }
 }

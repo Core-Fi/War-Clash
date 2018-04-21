@@ -27,6 +27,7 @@ namespace Logic
             BattleStart,
             PlayerMoveMsg,
             PlayerStopMsg,
+            PlayerJumpMsg,
             PlayerRotateMsg,
             CreateMainPlayer,
             CreatePlayer,
@@ -58,6 +59,7 @@ namespace Logic
         {
             EventDispatcher.ListenEvent((int)NetEventList.LockStepMsg, OnGetLockstepMsg);
             _lockstepCommandDic.Add((int)LockFrameEvent.BattleStart, OnBattleStart);
+            _lockstepCommandDic.Add((int)LockFrameEvent.PlayerJumpMsg, OnGetReceiveLockstepMsg<JumpCommand>);
             _lockstepCommandDic.Add((int)LockFrameEvent.PlayerMoveMsg, OnGetReceiveLockstepMsg<MoveCommand>);
             _lockstepCommandDic.Add((int)LockFrameEvent.ReleaseSkill, OnGetReceiveLockstepMsg<ReleaseSkillCommand>);
             _lockstepCommandDic.Add((int)LockFrameEvent.CreateMainPlayer, OnGetReceiveLockstepMsg<CreateMainPlayerCommand>);

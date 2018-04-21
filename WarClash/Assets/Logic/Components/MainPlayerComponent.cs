@@ -10,7 +10,7 @@ namespace Logic.Components
     class MainPlayerComponent : SceneObjectBaseComponent
     {
 
-        bool _isPressing;
+        public bool IsPressing;
         public override void OnAdd()
         {
             base.OnAdd();
@@ -20,7 +20,7 @@ namespace Logic.Components
         }
         private void OnJoystickEnd(object sender, EventMsg e)
         {
-            _isPressing = false;
+            IsPressing = false;
             var cmd = Pool.SP.Get<StopCommand>();
             cmd.Sender = SceneObject.Id;
             LogicCore.SP.LockFrameMgr.SendCommand(cmd);
@@ -41,11 +41,12 @@ namespace Logic.Components
                 cmd.Forward = forward;
                 LogicCore.SP.LockFrameMgr.SendCommand(cmd);
             }
+
         }
 
         private void OnJoystickStart(object sender, EventMsg e)
         {
-            _isPressing = true;
+            IsPressing = true;
             var cmd = Pool.SP.Get<MoveCommand>();
             cmd.Sender = SceneObject.Id;
             LogicCore.SP.LockFrameMgr.SendCommand(cmd);

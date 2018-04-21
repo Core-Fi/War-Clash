@@ -4,12 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PhysicTest : MonoBehaviour {
-
+    public GameObject[] points;
     DynamicTree<FixtureProxy> tree = new DynamicTree<FixtureProxy>();
     System.Func<RayCastInput, int, long> func;
+    private void OnEnable()
+    {
+      
+    }
     // Use this for initialization
     void Start ()
     {
+
+
+        return;
+
         func = callBack;
         //int count = 0;
         //for (int i = 0; i < 100; i++)
@@ -170,6 +178,15 @@ public class PhysicTest : MonoBehaviour {
     
     // Update is called once per frame
     void Update () {
+        var aabb = new AABB(new Vector2d(FixedMath.Create(points[3].transform.position.x), FixedMath.Create(points[3].transform.position.y)), FixedMath.One, FixedMath.One);
+        aabb.DrawAABB(0, 0.01f);
+        bool rst = AABB.TestTriangle(new Vector2d(FixedMath.Create(points[0].transform.position.x), FixedMath.Create(points[0].transform.position.y)),
+            new Vector2d(FixedMath.Create(points[1].transform.position.x), FixedMath.Create(points[1].transform.position.y)),
+            new Vector2d(FixedMath.Create(points[2].transform.position.x), FixedMath.Create(points[2].transform.position.y)),
+            aabb,
+            0
+            );
+        DLog.Log(rst.ToString());
     }
 }
 public class PhysicsOutput
@@ -180,5 +197,5 @@ public class PhysicsOutput
 public struct HitInfo
 {
     public BodyType BodyType;
-    public Vector2d HitPosition;
+    public FixtureProxy Proxy;
 }

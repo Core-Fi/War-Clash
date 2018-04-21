@@ -127,10 +127,12 @@ public class DynamicTree<T>
     /// <returns>Index of the created proxy</returns>
     public int AddProxy(ref AABB aabb, T userData)
     {
+        if(aabb.Center.x.RoundToInt() == 15)
+            DLog.Log(aabb.Center.ToString());
         int proxyId = AllocateNode();
 
         // Fatten the AABB.
-        Vector2d r = new Vector2d(FixedMath.One/10, FixedMath.One / 10);
+        Vector2d r = Vector2d.zero;// new Vector2d(FixedMath.One/10, FixedMath.One / 10);
         _nodes[proxyId].AABB.LowerBound = aabb.LowerBound - r;
         _nodes[proxyId].AABB.UpperBound = aabb.UpperBound + r;
         _nodes[proxyId].AABB.UpdateCenterAndExtents();
@@ -221,11 +223,13 @@ public class DynamicTree<T>
             {
                 continue;
             }
-
             TreeNode<T> node = _nodes[nodeId];
-            node.AABB.DrawAABB();
-            var fp = (node.UserData as FixtureProxy);
-            fp.AABB.DrawAABB(fp.Fixture.angle, 1f);
+            if (node.UserData != null)
+            {
+                node.AABB.DrawAABB();
+                var fp = (node.UserData as FixtureProxy);
+                //fp.AABB.DrawAABB(fp.Fixture.angle, 1f);
+            }
             _queryStack.Push(node.Child1);
             _queryStack.Push(node.Child2);
         }
@@ -262,7 +266,6 @@ public class DynamicTree<T>
     {
         _queryStack.Clear();
         _queryStack.Push(_root);
-
         while (_queryStack.Count > 0)
         {
             int nodeId = _queryStack.Pop();
@@ -272,9 +275,9 @@ public class DynamicTree<T>
             }
 
             TreeNode<T> node = _nodes[nodeId];
-
             if (AABB.TestOverlap(ref node.AABB, ref aabb))
             {
+                node.AABB.DrawAABB(Color.cyan, 0, 0.01f);
                 if (node.IsLeaf())
                 {
                     bool proceed = callback(nodeId);

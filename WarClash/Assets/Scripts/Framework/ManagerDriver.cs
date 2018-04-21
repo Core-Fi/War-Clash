@@ -9,9 +9,9 @@ class ManagerDriver
     public List<IManager> managers = new List<IManager>()
     {
         new ViewManager(),
-        new TerrainManager(),
         new SceneLoadManager(),
         new GameNetManager(),
+        new InputManager()
     };
 
     public void Update()
