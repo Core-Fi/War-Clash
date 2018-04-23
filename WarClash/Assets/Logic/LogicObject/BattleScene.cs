@@ -65,7 +65,7 @@ namespace Logic.LogicObject
             EventGroup.DelEvent(SceneEvent.OnLoaded.ToInt(), OnLoded);
             var so = CreateSceneObject();
             var modelComp = new ModelComponent();
-            modelComp.RePath = "cube.prefab";
+            modelComp.RePath = "kachujin.prefab";
             so.AddComponent(modelComp);
             so.AddComponent<MainPlayerComponent>();
             so.AddComponent<GravityComponent>();

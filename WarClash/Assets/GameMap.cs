@@ -25,55 +25,7 @@ class GameMap
             }
             else
             {
-                int count = 0;
-                while (true)
-                {
-                    var dir = UnityEngine.Random.Range((int)Direction.Up, (int)Direction.Null);
-                    var eDir = (Direction)dir;
-                    if (eDir == Direction.Left)
-                        continue;
-                    Direction lastToCurDirection = Direction.Null;
-                    for (int j = 0; j < curRoom.LastRoom.NextRooms.Count; j++)
-                    {
-                        if (curRoom.LastRoom.NextRooms[j].t1 == curRoom)
-                        {
-                            lastToCurDirection = curRoom.LastRoom.NextRooms[j].t2;
-                            break;
-                        }
-                    }
-                    if(GetReverseDirection(eDir) == lastToCurDirection)
-                    {
-                        continue;
-                    }
-                    if (curRoom.NextRooms.Count > 0)
-                    {
-                        bool isVaild = true;
-                        for (int j = 0; j < curRoom.NextRooms.Count; j++)
-                        {
-                            var nextRoom = curRoom.NextRooms[j];
-                            if (nextRoom.t2 == eDir)
-                            {
-                                isVaild = false;
-                                break;
-                            }
-                        }
-                        if(isVaild)
-                            exitDir = eDir;
-                    }
-                    else
-                    {
-                        exitDir = eDir;
-                    }
-                    if(exitDir!= Direction.Null)
-                    {
-                        break;
-                    }
-                    count++;
-                    if (count > 10)
-                    {
-                        break;
-                    }
-                }
+                exitDir = RandomNextDir(curRoom);
             }
             var room = new Room() { RoomType = roomType,IsInMainChain = true};
             curRoom.NextRooms.Add(new Tuple<Room, Direction>(room, exitDir));
@@ -81,11 +33,117 @@ class GameMap
             room.Position = curRoom.Position + GetOffset(exitDir);
             curRoom = room;
         }
+        curRoom = Root;
+        int probability = config.BranchRoomProbability;
+        while (true)
+        {
+            if(curRoom.RoomType==RoomType.InitialRoom)
+            {
+                curRoom = curRoom.NextRooms[0].t1;
+            }
+            else if(curRoom.RoomType == RoomType.Boss)
+            {
+                break;
+            }
+            else
+            {
+                var nextRoom = curRoom.NextRooms[0].t1;
+                var randomList = GetPossibleDirections(curRoom);
+                for (int i = 0; i < randomList.Count; i++)
+                {
+                  //  var dir = randomList[i];
+                    var v = UnityEngine.Random.Range(0, 100);
+                    if (v < probability)
+                    {
+                        probability -= config.BranchRoomProbabilityCountDown;
+                        Room branchRoom = curRoom;
+                        var branchRoomProbability = config.BranchRoomProbability;
+                        while (true)
+                        {
+                            var bdir = RandomNextDir(branchRoom);
+                            if (bdir != Direction.Null)
+                            {
+                                var br = new Room() { RoomType = RoomType.Common, IsInMainChain = false };
+                                branchRoom.NextRooms.Add(new Tuple<Room, Direction>(br, bdir));
+                                br.LastRoom = branchRoom;
+                                br.Position = branchRoom.Position + GetOffset(bdir);
+                                branchRoom = br;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                            var bv = UnityEngine.Random.Range(0, 100);
+                            if (bv < branchRoomProbability)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        probability += config.BranchRoomProbabilityCountUp;
+                    }
+                }
+                curRoom = nextRoom;
+            }
+        }
+        curRoom = Root;
         DrawRoom(Root);
+    }
+    List<Direction> GetPossibleDirections(Room curRoom)
+    {
+        Direction lastToCurDirection = Direction.Null;
+        for (int j = 0; j < curRoom.LastRoom.NextRooms.Count; j++)
+        {
+            if (curRoom.LastRoom.NextRooms[j].t1 == curRoom)
+            {
+                lastToCurDirection = curRoom.LastRoom.NextRooms[j].t2;
+                break;
+            }
+        }
+        List<Direction> canRandomList = new List<Direction>() { Direction.Up, Direction.Down, Direction.Left, Direction.Right };
+        canRandomList.Remove(GetReverseDirection(lastToCurDirection));
+        for (int j = 0; j < curRoom.NextRooms.Count; j++)
+        {
+            var nextRoom = curRoom.NextRooms[j];
+            canRandomList.Remove(nextRoom.t2);
+        }
+        for (int i = 0; i < canRandomList.Count; i++)
+        {
+            var offset = GetOffset(canRandomList[i]);
+
+            if (CheckOverLap(offset + curRoom.Position, Root))
+            {
+                canRandomList.RemoveAt(i);
+                i--;
+            }
+        }
+        return canRandomList;
+    }
+    Direction RandomNextDir(Room room)
+    {
+        Direction exitDir = Direction.Null;
+        var canRandomList = GetPossibleDirections(room);
+        if (canRandomList.Count > 0)
+        {
+            exitDir = canRandomList[UnityEngine.Random.Range(0, canRandomList.Count)];
+        }
+        return exitDir;
     }
     public void DrawRoom(Room room)
     {
-        var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        GameObject go = null;
+        if(room.IsInMainChain)
+            go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        else
+        {
+            go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        }
         go.transform.position = room.Position;
         for (int i = 0; i < room.NextRooms.Count; i++)
         {
@@ -173,6 +231,10 @@ class Room
 class MapRandomConfig
 {
     public Tuple<int, int> MainRoomCountRange;
+    public int BranchRoomProbability = 50;
+    public int BranchRoomProbabilityCountUp = 10;
+    public int BranchRoomProbabilityCountDown = 10;
+    public int NextBranchRoomProbability = 40;
     public int MaxCommonRoom;
     public int MaxEliteRoom;
     public int MaxShopRoom;

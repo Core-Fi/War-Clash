@@ -7,7 +7,7 @@ public class MapTest : MonoBehaviour {
     GameMap gm = new GameMap();
 	// Use this for initialization
 	void Start () {
-        gm.CreateMap(new MapRandomConfig() { MainRoomCountRange = new Tuple<int, int>(8, 13) });
+        gm.CreateMap(new MapRandomConfig() { MainRoomCountRange = new Tuple<int, int>(12, 13) });
 	}
 	
 	// Update is called once per frame
